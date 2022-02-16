@@ -1,5 +1,6 @@
 <%@ page import="java.util.*" %>
 <%@ page import="java.io.PrintStream" %>
+<%@ page import="com.webserver.Utils" %>
 
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false" %>
 <!DOCTYPE html>
@@ -13,7 +14,7 @@
 
 <br/>
 <h2>
-    <%= com.example.webserver.FunUtils.findDate() %>
+    <%= Utils.findDate() %>
 </h2>
 
 <br/>
