@@ -9,18 +9,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Refactor packages for clarity in structure">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/header.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsp/footer.jsp" afterDir="false" />
+    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Add header &amp; footer">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/javax_servlet_jsp_api.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/jsp/form.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/HelloWorldJar.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/HelloWorldJar.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsp/footer.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/jsp/footer.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/classes/com/example/webserver/HelloServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/header.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/example/webserver/HelloServlet.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/jsp/footer.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/jsp/footer.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +87,7 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.37356323" />
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.CommitDialog" />
@@ -207,6 +210,7 @@
       <workItem from="1645015321780" duration="133000" />
       <workItem from="1645015471110" duration="415000" />
       <workItem from="1645015932229" duration="10936000" />
+      <workItem from="1645446389016" duration="12871000" />
     </task>
     <task id="LOCAL-00002" summary="Refactor external JARs to WEB-INF/lib &amp; Edit configurations">
       <created>1645024865876</created>
@@ -222,7 +226,21 @@
       <option name="project" value="LOCAL" />
       <updated>1645025360439</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Refactor packages for clarity in structure">
+      <created>1645446440393</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1645446440393</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Add header &amp; footer">
+      <created>1645446669508</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1645446669508</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -275,6 +293,7 @@
     <MESSAGE value="init" />
     <MESSAGE value="Refactor external JARs to WEB-INF/lib &amp; Edit configurations" />
     <MESSAGE value="Refactor packages for clarity in structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor packages for clarity in structure" />
+    <MESSAGE value="Add header &amp; footer" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add header &amp; footer" />
   </component>
 </project>
