@@ -5,20 +5,22 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false" %>
 <!DOCTYPE html>
 <html>
-<head>
-    <title>JSP - Hello World</title>
-</head>
-<body>
-<h1><%= "Hello World!" %>
-</h1>
 
-<br/>
+<head>
+    <title>PPI Webservices</title>
+</head>
+
+<body>
+
+<jsp:include page="html/header.html" />
+
 <h2>
-    <%= Utils.findDate() %>
+    <a href="front-page">Hello Servlet.
+    </a>
 </h2>
 
-<br/>
-<a href="hello-servlet">Hello Servlet.
-</a>
+<jsp:include page="jsp/footer.jsp" />
+
 </body>
+
 </html>
