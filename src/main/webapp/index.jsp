@@ -1,6 +1,8 @@
 <%--<%@ page import="java.util.*" %>--%>
 <%--<%@ page import="java.io.PrintStream" %>--%>
 <%--<%@ page import="com.webserver.Utils" %>--%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false" %>
 
 <!DOCTYPE html>
@@ -11,7 +13,8 @@
 <body>
 <jsp:include page="html/header.html" />
 
-<h3><form action="jsp/example_form.jsp" >
+
+<form action="jsp/example_form.jsp" >
 <%--    Make a form--%>
     <p><label for="firstname">First name: </label><input type="text" id="firstname" name="firstName" /><br/>
 
@@ -23,15 +26,26 @@
     </select></p>
 
 <%--    Make Radio buttons or Checkboxes--%>
-    <h4><p>PPI Network Options<br>
+    <h4>PPI Network Options<br>
         <label for="STRINGWeight"><input type="checkbox" name="PPIOptions" id="STRINGWeight" value="Add STRING weights"> Add STRING weights</label><br>
         <label for="UniProtAcc"><input type="checkbox" name="PPIOptions" id="UniProtAcc" value="Update UniProt accessions"> Update UniProt accessions</label><br>
         <label for="LocalDDI"><input type="checkbox" name="PPIOptions" id="LocalDDI" value="Only local DDI data"> Only local DDI data</label><br>
-        <label for="ELMData"><input type="checkbox" name="PPIOptions" id="ELMData" value="Include ELM data"> Include ELM data</label></p></h4>
+        <label for="ELMData"><input type="checkbox" name="PPIOptions" id="ELMData" value="Include ELM data"> Include ELM data</label></h4>
 
     <input type="submit" value="Submit info">
     </form>
-</h3>
+
+<%--Test jslt core tags--%>
+<% String[] arrays = {"a", "b", "c"};
+    pageContext.setAttribute("alphabets", arrays);
+%>
+<c:forEach var="temp" items="${alphabets}">
+    ${temp}<br>
+</c:forEach>
+
+<%--Test jslt function tags --%>
+<c:set var="username" value="tomcat" />
+Length of ${username} is ${fn:length(username)}
 
 
 <jsp:include page="jsp/footer.jsp" />
