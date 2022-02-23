@@ -5,6 +5,7 @@
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jakarta.el-api-4.0.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jakarta.servlet.jsp.jstl-api-2.0.0.jar!/" />
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jakarta.activation-2.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/jakarta.servlet-api-4.0.2.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

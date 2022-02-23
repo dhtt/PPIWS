@@ -23,6 +23,7 @@
         <option>Female</option>
         <option>Male</option>
         <option>Other</option>
+        <option>Cookie</option>
     </select></p>
 
 <%--    Make Radio buttons or Checkboxes--%>

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="jakarta.servlet.http.Cookie" %>
 <html>
 <body>
 <h3>
@@ -13,6 +14,7 @@
             String[] PPI_options = request.getParameterValues("PPIOptions");
             for (String i:PPI_options){
                 out.println("<li>" + i + "</li>");
+                out.println("...");
             }
         %>
     </ul><br>
