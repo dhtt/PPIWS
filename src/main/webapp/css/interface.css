@@ -67,7 +67,6 @@ footer{
 .upload:hover{
     border-color: #95d0aa;
 }
-
 .submit{
     font-weight: bold;
     margin: 0;
@@ -78,25 +77,20 @@ footer{
     height: 2.5em;
     border-radius:1em;
 }
-
 .submit:hover{
     background-color: #95d0aa;
     color: #433C39;
     font-size: medium;
 }
-
 .try{
     background-color: white;
     color: #95d0aa;
     text-decoration: underline;
 }
-
 .try:hover{
     color: #433C39;
     font-size: medium;
 }
-
-
 .help{
     width: 20px;
     height: 20px;
@@ -109,7 +103,6 @@ footer{
     font-size:small;
     font-weight:bold;
 }
-
 .help:hover{
     border-color: #95d0aa;
     background-color: #95d0aa;
@@ -159,7 +152,6 @@ input[type="checkbox"]{
     bottom: 1px;
     margin-left: 1em; margin-right: 1em;
 }
-
 input[type="text"]{
     vertical-align: middle;
     position: relative;

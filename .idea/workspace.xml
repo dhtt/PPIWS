@@ -9,15 +9,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Web interface: Update styles &amp; Add right menu">
+    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Web interface: Change CSS sheets name">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/result.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/result-tab.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/page-format.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/page-format.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/page-setting.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/page-setting.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/html/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/header.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/page-format.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/page-format.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/page-setting.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/page-setting.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/page-format.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/page-setting.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/examples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/examples.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/header.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
     </list>
@@ -34,6 +38,7 @@
         <option value="Tag Library Descriptor" />
         <option value="Jsp File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -95,11 +100,11 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/js" />
       <recent name="$PROJECT_DIR$/src/main/webapp/css" />
       <recent name="$PROJECT_DIR$/src/main/webapp" />
       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
       <recent name="$PROJECT_DIR$/src/main/webapp/html" />
-      <recent name="$PROJECT_DIR$/src/main/resources/css" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.webserver" />
@@ -128,6 +133,9 @@
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
+    </configuration>
+    <configuration name="result-tab.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/main/webapp/js/result-tab.js" working-dir="$PROJECT_DIR$/src/main/webapp/js">
+      <method v="2" />
     </configuration>
     <configuration name="Tomcat 10.0.16" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.0.16" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="17" nameIsGenerated="true">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/Webserver" />
@@ -222,9 +230,11 @@
       <item itemvalue="Application.PPIXpress" />
       <item itemvalue="Application.Utils" />
       <item itemvalue="Tomcat Server.Tomcat 10.0.16" />
+      <item itemvalue="Node.js.result-tab.js" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.result-tab.js" />
         <item itemvalue="Application.Utils" />
       </list>
     </recent_temporary>
@@ -317,7 +327,21 @@
       <option name="project" value="LOCAL" />
       <updated>1646150788322</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Web interface: Refactor menu CSS &amp; adjust margin/padding">
+      <created>1646223413060</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1646223413060</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Web interface: Change CSS sheets name">
+      <created>1646223495489</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1646223495489</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,6 +400,8 @@
     <MESSAGE value="Refactor exmaple files" />
     <MESSAGE value="Fix javax and jakarta class clashes" />
     <MESSAGE value="Web interface: Add left menu panel" />
-    <option name="LAST_COMMIT_MESSAGE" value="Web interface: Add left menu panel" />
+    <MESSAGE value="Web interface: Refactor menu CSS &amp; adjust margin/padding" />
+    <MESSAGE value="Web interface: Change CSS sheets name" />
+    <option name="LAST_COMMIT_MESSAGE" value="Web interface: Change CSS sheets name" />
   </component>
 </project>

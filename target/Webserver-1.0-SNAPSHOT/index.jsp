@@ -5,8 +5,10 @@
 <html>
 <head>
     <title>PPIXpress</title>
-    <link rel="stylesheet" href="css/page-format.css">
-    <link rel="stylesheet" href="css/page-setting.css">
+    <link rel="stylesheet" href="css/header-and-panel.css">
+    <link rel="stylesheet" href="css/interface.css">
+    <link rel="stylesheet" href="css/result.css">
+    </script>
 </head>
 <body>
 <jsp:include page="html/header.html" />
@@ -62,7 +64,17 @@
         </div>
     </div>
 
-    <div class="middle" style="flex: 1; background-color: #433C39; border-radius: 2em">
+    <div class="middle" style="flex: 1">
+        <div class="tabs">
+            <button class="button-tab active" type="button" name="Display" value="Running Progress">Running Progress</button>
+            <button class="button-tab" type="button" name="Display" value="Result Summary">Result Summary</button>
+            <button class="button-tab" type="button" name="Display" value="Network Visualization">Running Progress</button>
+        </div>
+        <div style="background-color: #EDF2F4; margin: 0; min-height: 100vh; border-radius: 0 0 1em 1em">
+            <div name="Display1" id="Display1" style="font-size: large">Page 1</div>
+            <div class="non-display" name="Display2" id="Display2" style="font-size: medium">Page 2</div>
+            <div class="non-display" name="Display3" id="Display3" style="font-size: small">Page 3</div>
+        </div>
     </div>
 </div>
 
