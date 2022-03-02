@@ -5,8 +5,8 @@
 <html>
 <head>
     <title>PPIXpress</title>
-    <link rel="stylesheet" href="css/page-format.css">
-    <link rel="stylesheet" href="css/page-setting.css">
+    <link rel="stylesheet" href="css/header-and-panel.css">
+    <link rel="stylesheet" href="css/interface.css">
 </head>
 <body>
 <jsp:include page="html/header.html" />
