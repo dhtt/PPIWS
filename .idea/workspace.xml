@@ -9,23 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Fix javax and jakarta class clashes">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/page-format.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/page-setting.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/examples.jsp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/footer.html" afterDir="false" />
+    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Web interface: Add left menu panel">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpress.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/page-format.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/page-format.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/page-setting.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/page-setting.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/html/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/header.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsp/footer.jsp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT.war" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/header.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/jsp/example_result.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/jsp/example_result.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/jsp/footer.jsp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -436,7 +425,8 @@
       <workItem from="1645495397681" duration="2775000" />
       <workItem from="1645522858030" duration="7731000" />
       <workItem from="1645695676682" duration="12330000" />
-      <workItem from="1646123408742" duration="22903000" />
+      <workItem from="1646123408742" duration="23305000" />
+      <workItem from="1646175249880" duration="14734000" />
     </task>
     <task id="LOCAL-00002" summary="Refactor external JARs to WEB-INF/lib &amp; Edit configurations">
       <created>1645024865876</created>
@@ -494,7 +484,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645627477757</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Web interface: Add left menu panel">
+      <created>1646150788322</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1646150788322</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -552,6 +549,7 @@
     <MESSAGE value="Test JSTL core &amp; functions tags" />
     <MESSAGE value="Refactor exmaple files" />
     <MESSAGE value="Fix javax and jakarta class clashes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix javax and jakarta class clashes" />
+    <MESSAGE value="Web interface: Add left menu panel" />
+    <option name="LAST_COMMIT_MESSAGE" value="Web interface: Add left menu panel" />
   </component>
 </project>

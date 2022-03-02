@@ -7,7 +7,6 @@ menu, nav, output, ruby, section, summary, time, mark, audio, video {
 /*    margin: 20;*/
     padding: 10px;
     border: 0;
-    /*font-size: 100%;*/
     font-family: sans-serif;
     vertical-align: baseline;
 }
@@ -17,7 +16,13 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     display: block;
 }
 body {
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
     line-height: 1;
+    font-size: small;
+    font-family: 'Roboto Light', sans-serif;
+    color: #433C39;
 }
 ol, ul {
     list-style: none;
@@ -31,78 +36,105 @@ table {
 }
 
 h1, h2 {
-    text-align: left;
-    color:#95d0aa;
     overflow: hidden;
     white-space: nowrap;
+    margin: 0;
 }
 
 footer{
     text-align: center;
-    font-size: 90%;
+    font-size: x-small;
 }
 
-.submit-button, .upload-button{
-    font-family: 'Roboto Light', sans-serif;
-    font-size: medium;
-    /*font-weight: bold;*/
-    display:inline-block;
-    padding:0.3em 1.2em;
-    margin:0 0.1em 0.1em 0;
-    border:0.16em solid rgba(255,255,255,0);
+.button{
+    font-weight: bold;
+    display: inline-block;
+    padding: 0.3em 1.5em;
+    margin: 0 0.1em 0.1em 0;
+    border: #433C39;
     border-radius:2em;
     box-sizing: border-box;
     text-decoration:none;
-    color: #433C39;
-    background: white;
-    text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
     text-align:center;
     transition: all 0.2s;
 }
 
-.submit-button:hover{
-    border-color: #95d0aa;
+.upload{
+    color: #433C39;
+    border: 0.16em solid white;
+    background: white;
 }
-.upload-button:hover{
+.upload:hover{
     border-color: #95d0aa;
 }
 
-.help-button{
+.submit{
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    background-color: #433C39;
+    color: #95d0aa;
+    width: 280px;
+    height: 2.5em;
+    border-radius:1em;
+}
+
+.submit:hover{
+    background-color: #95d0aa;
+    color: #433C39;
+    font-size: medium;
+}
+
+.try{
+    background-color: white;
+    color: #95d0aa;
+    text-decoration: underline;
+}
+
+.try:hover{
+    color: #433C39;
+    text-decoration: underline;
+}
+
+
+.help{
     width: 20px;
     height: 20px;
-    line-height:20px;
+    line-height: 20px;
     border-radius: 50%;
     border: none;
     margin:0 0.1em 0.1em 0;
     color: #433C39;
     background: white;
-    text-align:center;
     font-size:small;
     font-weight:bold;
 }
-.help-button:hover{
+
+.help:hover{
     border-color: #95d0aa;
     background-color: #95d0aa;
 }
 
 @media all and (max-width:30em){
-    .submit-button{
-        display:block;
-        margin:0.2em auto;
-        }
-    .upload-button{
+    .button{
         display:block;
         margin:0.2em auto;
     }
 }
 
+
+.menu-outer{
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
 .menu-header{
     font-size: medium;
-    font-weight: bold;
     text-align: center;
+    font-weight: bold;
     background: #95d0aa;
     border-radius: 1em 1em 0 0;
-    width: 320px;
+    width: 280px;
     margin-bottom: 0;
 }
 
@@ -110,14 +142,14 @@ footer{
     background-color: #EDF2F4;
     border-radius: 0 0 1em 1em;
     display: block;
-    width: 320px;
+    width: 280px;
     margin-top: 0;
 }
 
 .menu-subsection-text{
-    font-size: medium;
+    font-size: small;
     font-weight: bold;
-    margin: 0 0 0.5em 0;
+    margin: 0 0 0.25em 0;
 }
 
 input[type="checkbox"]{
@@ -126,6 +158,7 @@ input[type="checkbox"]{
     bottom: 1px;
     margin-right: 1em;
 }
+
 input[type="text"]{
     vertical-align: middle;
     position: relative;
