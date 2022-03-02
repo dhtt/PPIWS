@@ -1,0 +1,2 @@
+//TODO: A tab is active until another tab is clicked > remove active status for this.tab > include active for another.tab
+//TODO: A content page is active until another tab is clicked > include non-display for this.content > remove non-display for another.content
