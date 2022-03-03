@@ -7,13 +7,12 @@
     <title>PPIXpress</title>
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/interface.css">
-    <link rel="stylesheet" href="css/result.css">
 </head>
 <body>
 <jsp:include page="html/header.html" />
 
 <div class="container-body">
-    <div style="flex: 0 0 280px;">
+    <div style="flex: 0 0 280px; margin-left: 1em">
         <div>
             <p class="menu header">Load Protein Interaction Data</p>
             <div class="menu panel">
@@ -55,22 +54,20 @@
             </div>
         </div>
 
-        <div>
-            <div class="menu panel" style="background-color: white; text-align: center">
-                <input type="submit" name="submit" value="Run PPIXpress" class="button submit">
-                <input type="submit" name="submit" value="or Try with example data!" class="button try">
-            </div>
+        <div style="text-align: center">
+            <input type="submit" name="submit" value="Run PPIXpress" class="button submit" style="margin: 0">
+            <input type="submit" name="submit" value="or Try with example data!" class="button try">
         </div>
     </div>
 
-    <div class="middle" style="flex: 1">
-        <div class="tabs">
-            <button class="button-tab active" type="button" name="Display" value="Running Progress">Running Progress</button>
-            <button class="button-tab" type="button" name="Display" value="Result Summary">Result Summary</button>
-            <button class="button-tab" type="button" name="Display" value="Network Visualization">Running Progress</button>
+    <div class="middle-under" style="flex: 1; display: flex; flex-flow: column;">
+        <div class="tabs" style="flex: 0 1 auto">
+            <button class="header button-tab active" type="button" name="Display" value="Running Progress">Running Progress</button>
+            <button class="header button-tab" type="button" name="Display" value="Result Summary">Result Summary</button>
+            <button class="header button-tab" type="button" name="Display" value="Network Visualization">Network Visualization</button>
         </div>
-        <div style="background-color: #EDF2F4; margin: 0; min-height: 100vh; border-radius: 0 0 1em 1em">
-            <div name="Display1" id="Display1" style="font-size: large">Page 1</div>
+        <div class="display" style="flex: 1 1 auto">
+            <div name="Display1" id="Display1" style="font-size: large">Page 1<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>PagePagePage<br>Page<br>Page<br>Page<br>PagePage<br>Page<br>Page<br>Page<br>Page<br>Page<br>Pagefdfasfa</div>
             <div class="non-display" name="Display2" id="Display2" style="font-size: medium">Page 2</div>
             <div class="non-display" name="Display3" id="Display3" style="font-size: small">Page 3</div>
         </div>

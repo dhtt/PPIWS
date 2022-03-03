@@ -1,11 +1,18 @@
-.vcenter {
-    height: 70px;
-    line-height: 70px;
-    padding: 0;
-    margin-top: 0
+.container-header, .container-body{
+    display: flex;
+    align-content: center;
+    margin-top: 0; margin-bottom: 0;
+    padding-top: 0; padding-bottom: 0
 }
 
-.left, .middle, .right{
+.vcenter {
+    height: 1.5em;
+    line-height: 1.5em;
+    padding: 0;
+    margin: 0;
+}
+
+.left, .middle, .middle-under, .right{
     font-family: 'Roboto Light', sans-serif;
 }
 .left {
@@ -16,40 +23,73 @@
     text-shadow: 0 0.1em 0.15em rgba(0, 0, 0, 0.4);
     border: none;
 }
-
-.middle{
+.middle, .middle-under {
     background-color: white;
-    color: #729F82;
-    font-size: medium;
+    color: #433C39;
+    font-size: large;
     font-weight: normal;
     margin: 1em 1em 0 1em;
+    line-height: 1em;
+    height: 3em;
 }
-
+.middle-under{
+    margin: 0 1em 0 1em;
+    min-height: calc(100vh - 6em);
+}
 .right {
     background-color: white;
     color: #729F82;
-    font-size: x-small;
     font-weight: lighter;
     text-align: right;
     margin: 1em 1em 0 0;
 }
 
-.container-header, .container-body{
-    display: flex;
-    align-content: center;
-    margin-top: 0; margin-bottom: 0;
-    padding-top: 0; padding-bottom: 0
+.display{
+    background-color: #EDF2F4;
+    border-radius: 0 0 1em 1em;
+    margin: 0 0 1em 0;
+    padding: 1em;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
+
 
 a:link{
     text-decoration: none;
     color: #729F82;
-    font-size: x-small;
-    font-weight: bold;
+    font-size: small;
+    font-weight: lighter;
 }
-
 a:hover{
     color: #433C39;
-    font-size: small;
+    font-weight: bold;
     cursor: default;
+}
+
+.tabs{
+    display: flex;
+}
+.button-tab{
+    flex: 1;
+    line-height: 1;
+    background-color: white;
+    color: #433C39;
+    border: none;
+    margin: 1em 0 0 0;
+    overflow: hidden;
+}
+
+.button-tab:hover {
+    background-color: #b4e8c6;
+}
+.button-tab:focus {
+    color: white;
+    background-color: #433C39;
+}
+.active{
+    color: white;
+    background-color: #433C39;
+}
+.non-display{
+    display: none;
 }
