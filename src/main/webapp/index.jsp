@@ -5,8 +5,9 @@
 <html>
 <head>
     <title>PPIXpress</title>
-    <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/interface.css">
+    <link rel="stylesheet" href="css/header-and-panel.css">
+    <script src="js/result-tab.js"></script>
 </head>
 <body>
 <jsp:include page="html/header.html" />
@@ -62,14 +63,14 @@
 
     <div class="middle-under" style="flex: 1; display: flex; flex-flow: column;">
         <div class="tabs" style="flex: 0 1 auto">
-            <button class="header button-tab active" type="button" name="Display" value="Running Progress">Running Progress</button>
-            <button class="header button-tab" type="button" name="Display" value="Result Summary">Result Summary</button>
-            <button class="header button-tab" type="button" name="Display" value="Network Visualization">Network Visualization</button>
+            <button class="header button-tab active" type="button" name="Display" id="RunningProgress" onclick="getContent('RunningProgress')">Running Progress</button>
+            <button class="header button-tab" type="button" name="Display" id="ResultSummary" onclick="getContent('ResultSummary')">Result Summary</button>
+            <button class="header button-tab" type="button" name="Display" id="NetworkVisualization" onclick="getContent('NetworkVisualization')">Network Visualization</button>
         </div>
         <div class="display" style="flex: 1 1 auto">
-            <div name="Display1" id="Display1" style="font-size: large">Page 1<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>Page<br>PagePagePage<br>Page<br>Page<br>Page<br>PagePage<br>Page<br>Page<br>Page<br>Page<br>Page<br>Pagefdfasfa</div>
-            <div class="non-display" name="Display2" id="Display2" style="font-size: medium">Page 2</div>
-            <div class="non-display" name="Display3" id="Display3" style="font-size: small">Page 3</div>
+            <div class="display-content" name="RunningProgress" id="RunningProgress_c" style="font-size: large">Page 1</div>
+            <div class="display-content non-display" name="ResultSummary" id="ResultSummary_c" style="font-size: medium">Page 2</div>
+            <div class="display-content non-display" name="NetworkVisualization" id="NetworkVisualization_c" style="font-size: small">Page 3</div>
         </div>
     </div>
 </div>

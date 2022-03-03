@@ -46,6 +46,7 @@ footer{
     font-size: small;
 }
 
+/*Generic button*/
 .button{
     font-weight: bold;
     display: inline-block;
@@ -108,13 +109,7 @@ footer{
     background-color: #95d0aa;
 }
 
-@media all and (max-width:30em){
-    .button{
-        display:block;
-        margin:0.2em auto;
-    }
-}
-
+/*Menu bar skeleton*/
 .menu{
     display: block;
     width: 280px;

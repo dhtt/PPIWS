@@ -1,3 +1,4 @@
+/*Container and panel content*/
 .container-header, .container-body{
     display: flex;
     align-content: center;
@@ -44,6 +45,7 @@
     margin: 1em 1em 0 0;
 }
 
+/*Display section*/
 .display{
     background-color: #EDF2F4;
     border-radius: 0 0 1em 1em;
@@ -52,8 +54,33 @@
     overflow-x: hidden;
     overflow-y: auto;
 }
+.tabs{
+    display: flex;
+}
+.button-tab{
+    flex: 1;
+    line-height: 1;
+    background-color: #EDF2F4;
+    color: #433C39;
+    border: none;
+    margin: 1em 0 0 0;
+    overflow: hidden;
+}
+.button-tab:hover {
+    background-color: #b4e8c6;
+}
+.button-tab:focus, .button-tab.active {
+    color: #EDF2F4;
+    background-color: #433C39;
+}
 
-
+.display-content{
+    display: block;
+}
+.display-content.non-display{
+    display: none;
+}
+/*Other*/
 a:link{
     text-decoration: none;
     color: #729F82;
@@ -66,30 +93,3 @@ a:hover{
     cursor: default;
 }
 
-.tabs{
-    display: flex;
-}
-.button-tab{
-    flex: 1;
-    line-height: 1;
-    background-color: white;
-    color: #433C39;
-    border: none;
-    margin: 1em 0 0 0;
-    overflow: hidden;
-}
-
-.button-tab:hover {
-    background-color: #b4e8c6;
-}
-.button-tab:focus {
-    color: white;
-    background-color: #433C39;
-}
-.active{
-    color: white;
-    background-color: #433C39;
-}
-.non-display{
-    display: none;
-}
