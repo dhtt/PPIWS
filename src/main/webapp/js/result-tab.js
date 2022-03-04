@@ -1,8 +1,28 @@
-//TODO: A tab is active until another tab is clicked > remove active status for this.tab > include active for another.tab
-//TODO: A content page is active until another tab is clicked > include non-display for this.content > remove non-display for another.content
+jQuery(document).ready(function() {
+    $("#ClickMe").click(function() {
+        alert("In js file");
+    });
+    $("#form").submit(function (){
+        // const form = $("form");
+        // const data = new FormData(form);
+        var data = $("#form").serialize();
+        $.ajax({
+            url: "PPIXpress",
+            method: "POST",
+            // enctype: 'multipart/form-data',
+            data: data,
+            // processData : false,
+            // contentType : false,
+            success: function (resultText) {
+                $('#RunningProgressContent').html(resultText)
+            }
+        })
+        return false;
+    })
+});
 
 function toggle1(name, displayTabs, chosenTab, chosenTab_contents){
-    for (var i=0; i < displayTabs.length; i++){
+    for (let i=0; i < displayTabs.length; i++){
         // Set tab as active
         displayTabs[i].classList.remove("active")
 
@@ -18,9 +38,10 @@ function toggle1(name, displayTabs, chosenTab, chosenTab_contents){
 }
 
 function getContent(name){
-    var displayTabs, chosenTab, chosenTab_contents;
+    let displayTabs, chosenTab, chosenTab_contents;
     displayTabs = document.getElementsByClassName("button-tab");
     chosenTab = document.getElementById(name);
     chosenTab_contents = document.getElementsByClassName("display-content");
     toggle1(name, displayTabs, chosenTab, chosenTab_contents);
 }
+
