@@ -9,11 +9,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Web interface: Add button active state &amp; Display for each tab">
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Set up Ajax handler for submitted form">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/result-tab.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/result-tab.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
@@ -256,7 +255,7 @@
       <workItem from="1645695676682" duration="12330000" />
       <workItem from="1646123408742" duration="23305000" />
       <workItem from="1646175249880" duration="14734000" />
-      <workItem from="1646298576093" duration="25123000" />
+      <workItem from="1646298576093" duration="29486000" />
     </task>
     <task id="LOCAL-00002" summary="Refactor external JARs to WEB-INF/lib &amp; Edit configurations">
       <created>1645024865876</created>
@@ -370,7 +369,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646271873934</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Set up Ajax handler for submitted form">
+      <created>1646407544018</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1646407544018</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -434,7 +440,8 @@
     <MESSAGE value="Web interface: Add display tabs" />
     <MESSAGE value="Web interface: Add display screen" />
     <MESSAGE value="Web interface: Add button active state &amp; Display for each tab" />
-    <option name="LAST_COMMIT_MESSAGE" value="Web interface: Add button active state &amp; Display for each tab" />
+    <MESSAGE value="Set up Ajax handler for submitted form" />
+    <option name="LAST_COMMIT_MESSAGE" value="Set up Ajax handler for submitted form" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

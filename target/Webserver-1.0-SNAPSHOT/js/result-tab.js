@@ -3,16 +3,15 @@ jQuery(document).ready(function() {
         alert("In js file");
     });
     $("#form").submit(function (){
-        // const form = $("form");
-        // const data = new FormData(form);
-        var data = $("#form").serialize();
+        const form = $("form")[0];
+        const data = new FormData(form);
         $.ajax({
             url: "PPIXpress",
             method: "POST",
-            // enctype: 'multipart/form-data',
+            enctype: 'multipart/form-data',
             data: data,
-            // processData : false,
-            // contentType : false,
+            processData : false,
+            contentType : false,
             success: function (resultText) {
                 $('#RunningProgressContent').html(resultText)
             }
@@ -20,6 +19,7 @@ jQuery(document).ready(function() {
         return false;
     })
 });
+
 
 function toggle1(name, displayTabs, chosenTab, chosenTab_contents){
     for (let i=0; i < displayTabs.length; i++){
