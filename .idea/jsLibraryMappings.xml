@@ -2,6 +2,6 @@
 <project version="4">
   <component name="JavaScriptLibraryMappings">
     <file url="file://$PROJECT_DIR$" libraries="{bootstrap, jquery}" />
-    <file url="PROJECT" libraries="{@types/jquery}" />
+    <file url="PROJECT" libraries="{cytoscape, jquery}" />
   </component>
 </project>

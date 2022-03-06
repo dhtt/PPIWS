@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
     <script src="js/result-tab.js"></script>
 </head>
 <body>
@@ -21,7 +22,7 @@
                 <div class="menu panel">
                     <p style="text-align: center; margin: 0">
                         <label for="protein_network_file" class="button upload">From file</label>
-                        <input type="file" required name="protein_network_file" id="protein_network_file" style="display: none" >
+                        <input type="file" name="protein_network_file" id="protein_network_file" style="display: none" >
                         &nbsp;or&nbsp;
                         <label for="protein_network_web" class="button upload">From web</label>
                         <input type="file" name="protein_network_web" id="protein_network_web" style="display: none">
@@ -44,7 +45,7 @@
                 <div class="menu panel">
                     <p style="text-align: center; margin: 0">
                         <label for="expression_file" class="button upload">Upload file(s)</label>
-                        <input type="file" name="expression_file" id="expression_file" style="display: none" multiple required>
+                        <input type="file" name="expression_file" id="expression_file" style="display: none" multiple>
                         <button type="button" name="expression_example" id="expression_example" class="help">?</button>
                     </p>
                     <p class="subsection-text">Options</p>
@@ -91,9 +92,10 @@
             <div id="ResultSummaryContent" name="ResultSummary" class="display-content non-display">
                 Page 2
             </div>
-            <div id="NetworkVisualizationContent" name="NetworkVisualization" class="display-content non-display">
-                Page 3
+            <div id="NetworkVisualizationContent" name="NetworkVisualization" class="display-content non-display" style="width: 50%; height: 300px; overflow: hidden;">
+                Example network
             </div>
+<%--            <div id="cy" style="width: 90%; height: 300px; display: block; overflow: hidden;"></div>--%>
         </div>
     </div>
 </div>

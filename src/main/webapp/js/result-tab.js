@@ -2,6 +2,37 @@ jQuery(document).ready(function() {
     $("#ClickMe").click(function() {
         alert("In js file");
     });
+    // const graph = cytoscape({
+    //     container: $('#cy'),
+    //     elements: [
+    //         {data: {id: 'a'}},
+    //         {data: {id: 'b'}},
+    //         {data: {id: 'ab', source: 'a', target: 'b'}}
+    //     ],
+    //     style: [
+    //         {
+    //             selector: 'node',
+    //             style: {
+    //                 'background-color': '#EDF2F4',
+    //                 'label': 'data(id)'
+    //             }
+    //         },
+    //         {
+    //             selector: 'edge',
+    //             style: {
+    //                 'width': 3,
+    //                 'line-color': '#ccc',
+    //                 'target-arrow-color': '#ccc',
+    //                 'target-arrow-shape': 'triangle',
+    //                 'curve-style': 'bezier'
+    //             }
+    //         }
+    //     ],
+    //     layout: {
+    //         name: 'grid',
+    //         rows: 1
+    //     }
+    // });
     $("#form").submit(function (){
         const form = $("form")[0];
         const data = new FormData(form);
@@ -19,6 +50,7 @@ jQuery(document).ready(function() {
         return false;
     })
 });
+
 
 
 function toggle1(name, displayTabs, chosenTab, chosenTab_contents){
