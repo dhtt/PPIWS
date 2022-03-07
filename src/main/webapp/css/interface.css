@@ -21,8 +21,6 @@ body {
     margin: 0;
     line-height: 1;
     font-size: small;
-    font-family: 'Roboto Light', sans-serif;
-    color: #433C39;
 }
 ol, ul {
     list-style: none;
@@ -57,7 +55,7 @@ footer{
     box-sizing: border-box;
     text-decoration:none;
     text-align:center;
-    transition: all 0.2s;
+    transition: all ease-in-out 0.2s;
 }
 
 .upload{
@@ -68,6 +66,7 @@ footer{
 .upload:hover{
     border-color: #95d0aa;
 }
+
 .submit{
     font-weight: bold;
     margin: 0;
@@ -140,7 +139,12 @@ footer{
     font-weight: bold;
     margin: 1em 0 0.5em 1em;
 }
-
+.description-text{
+    font-size: x-small;
+    color: darkgrey;
+    text-align: center;
+    margin: 0.5em 0 0 0;
+}
 input[type="checkbox"]{
     vertical-align: middle;
     position: relative;
@@ -158,3 +162,4 @@ input[type="text"]{
     color: grey;
     text-align: center;
 }
+

@@ -1,38 +1,16 @@
+// TODO: Show ResultSummary + NetworkViualization only after Running Progress is done
+// TODO: Check if progress shown while running
+
 jQuery(document).ready(function() {
-    $("#ClickMe").click(function() {
-        alert("In js file");
-    });
-    // const graph = cytoscape({
-    //     container: $('#cy'),
-    //     elements: [
-    //         {data: {id: 'a'}},
-    //         {data: {id: 'b'}},
-    //         {data: {id: 'ab', source: 'a', target: 'b'}}
-    //     ],
-    //     style: [
-    //         {
-    //             selector: 'node',
-    //             style: {
-    //                 'background-color': '#EDF2F4',
-    //                 'label': 'data(id)'
-    //             }
-    //         },
-    //         {
-    //             selector: 'edge',
-    //             style: {
-    //                 'width': 3,
-    //                 'line-color': '#ccc',
-    //                 'target-arrow-color': '#ccc',
-    //                 'target-arrow-shape': 'triangle',
-    //                 'curve-style': 'bezier'
-    //             }
-    //         }
-    //     ],
-    //     layout: {
-    //         name: 'grid',
-    //         rows: 1
-    //     }
-    // });
+    $('#protein_network_file').on("change", function(){
+        $('#protein_network_file_lab').html("Change file")
+        $('#protein_network_description').html("Protein interaction data: " + this.files.length + " file(s) selected")
+    })
+    $('#expression_file').on("change", function(){
+        $('#expression_file_lab').html("Change file(s)")
+        $('#expression_description').html("Expression data: " + this.files.length + " file(s) selected")
+    })
+
     $("#form").submit(function (){
         const form = $("form")[0];
         const data = new FormData(form);
@@ -45,13 +23,12 @@ jQuery(document).ready(function() {
             contentType : false,
             success: function (resultText) {
                 $('#RunningProgressContent').html(resultText)
+                $('#NetworkVisualizationContent').html("<h1>A network<h1>")
             }
         })
         return false;
     })
 });
-
-
 
 function toggle1(name, displayTabs, chosenTab, chosenTab_contents){
     for (let i=0; i < displayTabs.length; i++){
@@ -76,4 +53,8 @@ function getContent(name){
     chosenTab_contents = document.getElementsByClassName("display-content");
     toggle1(name, displayTabs, chosenTab, chosenTab_contents);
 }
-
+//
+// function changeText(){
+//     var fileName = document.getElementById("protein_network_file").value;
+//     document.getElementById("protein_network_file_lab").innerHTML = fileName;
+// }

@@ -5,6 +5,7 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.*;
+import java.util.Objects;
 
 @WebServlet(name = "PPIXpress", value = "/PPIXpress")
 @MultipartConfig()
@@ -14,12 +15,18 @@ public class PPIXpress extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 
+    protected void printList(PrintWriter out, String[] list){
+        for (String i : list){
+            if (!Objects.equals(i, "null")) out.println(i + "<br>");
+        }
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
 
-        out.println("<h4>Data submitted!<br><br>Uploaded files:</h4><br>");
+        out.println("<h4>Data submitted!<br><br>Uploaded files:</h4>");
 //        Show uploaded files
         for (Part part : request.getParts()) {
             if (part.getSubmittedFileName() != null) {
@@ -30,19 +37,15 @@ public class PPIXpress extends HttpServlet {
 //        Show run options
         String[] PPI_Options = request.getParameterValues("PPIOptions");
         out.println("<br><h4> PPI Options </h4>");
-        for (String i : PPI_Options) {
-            out.println(i + "<br>");
-        }
+        printList(out, PPI_Options);
+
         String[] Exp_Options = request.getParameterValues("ExpOptions");
         out.println("<br><h4> Exp Options </h4>");
-        for (String i : Exp_Options) {
-            out.println(i + "<br>");
-        }
+        printList(out, Exp_Options);
+
         String[] Run_Options = request.getParameterValues("RunOptions");
         out.println("<br><h4> Run Options </h4>");
-        for (String i : Run_Options) {
-            out.println(i + "<br>");
-        }
+        printList(out, Run_Options);
 
 //        Show run options
         out.println("<br><h4>Begin PPIXpress from Servlet...</h4><br>");

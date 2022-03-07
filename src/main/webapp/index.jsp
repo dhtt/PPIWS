@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="css/header-and-panel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
-    <script src="js/result-tab.js"></script>
+    <script src="js/functionality.js"></script>
+    <script src="js/network_maker.js"></script>
 </head>
 <body>
 <jsp:include page="html/header.html" />
@@ -21,22 +22,34 @@
                 <p class="menu header">Load Protein Interaction Data</p>
                 <div class="menu panel">
                     <p style="text-align: center; margin: 0">
-                        <label for="protein_network_file" class="button upload">From file</label>
-                        <input type="file" name="protein_network_file" id="protein_network_file" style="display: none" >
+                        <label id="protein_network_file_lab" class="button upload" title="Upload a protein network">From file
+                            <input type="file" name="protein_network_file" id="protein_network_file" style="display: none">
+                        </label>
                         &nbsp;or&nbsp;
-                        <label for="protein_network_web" class="button upload">From web</label>
-                        <input type="file" name="protein_network_web" id="protein_network_web" style="display: none">
-                        <button type="button" name="protein_network_example" id="protein_network_example" class="help">?</button>
+                        <label class="button upload" title="Use protein interaction network from Mentha or IntAct">From web
+                            <input type="file" name="protein_network_web" id="protein_network_web" style="display: none">
+                        </label>
+                        <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
                     </p>
+                    <p id="protein_network_description" class="description-text">&emsp;</p>
                     <p class="subsection-text">Options</p>
-                    <input type="checkbox" name="PPIOptions" id="STRINGWeight" value="Add STRING weights">
-                    <label for="STRINGWeight">Add STRING weights</label><br>
-                    <input type="checkbox" name="PPIOptions" id="UniProtAcc" value="Update UniProt accessions">
-                    <label for="UniProtAcc">Update UniProt accessions</label><br>
-                    <input type="checkbox" name="PPIOptions" id="LocalDDI" value="Only local DDI data">
-                    <label for="LocalDDI">Only local DDI data</label><br>
-                    <input type="checkbox" name="PPIOptions" id="ELMData" value="Include ELM data">
-                    <label for="ELMData">Include ELM data</label>
+                    <label>
+                        <input type="checkbox" name="PPIOptions" id="STRINGWeight" value="Add STRING weights">Add STRING weights
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="PPIOptions" id="UniProtAcc" value="Update UniProt accessions">Update UniProt accessions
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="PPIOptions" id="LocalDDI" value="Only local DDI data">Only local DDI data
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="PPIOptions" id="ELMData" value="Include ELM data">Include ELM data
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="PPIOptions" style="display: none" value=null checked>
+                    </label>
+
+
                 </div>
             </div>
 
@@ -44,31 +57,45 @@
                 <p class="menu header">Load Processed Expression Data</p>
                 <div class="menu panel">
                     <p style="text-align: center; margin: 0">
-                        <label for="expression_file" class="button upload">Upload file(s)</label>
+                        <label id="expression_file_lab" for="expression_file" class="button upload" title="Upload one or more expression datasets">Upload file(s)</label>
                         <input type="file" name="expression_file" id="expression_file" style="display: none" multiple>
-                        <button type="button" name="expression_example" id="expression_example" class="help">?</button>
+                        <button type="button" name="expression_example" id="expression_example" class="help" title="Example input">?</button>
                     </p>
+                    <p id="expression_description" class="description-text">&emsp;</p>
                     <p class="subsection-text">Options</p>
-                    <input type="checkbox" name="ExpOptions" id="GeneLevelOnly" value="Gene-level only">
-                    <label for="GeneLevelOnly">Gene-level only</label><br>
-                    <input type="checkbox" name="ExpOptions" id="PercentileBased" value="Percentile-based">
-                    <label for="PercentileBased">Percentile-based</label><br>
-                    <label for="ExpressionLevelThreshold" style="margin-left: 1em">Expression Level Threshold</label>
-                    <input type="text" value="1.0" id="ExpressionLevelThreshold">
+                    <label>
+                        <input type="checkbox" name="ExpOptions" id="GeneLevelOnly" value="Gene-level only">Gene-level only
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="ExpOptions" id="PercentileBased" value="Percentile-based">Percentile-based
+                    </label><br>
+                    <label style="margin-left: 1em">Expression Level Threshold
+                        <input type="text" value="1.0" id="ExpressionLevelThreshold"><br>
+                    </label>
+                    <label>
+                        <input type="checkbox" name="ExpOptions" style="display: none" value=null checked>
+                    </label>
                 </div>
             </div>
 
             <div name="LeftPanel3" id="LeftPanel3">
                 <p class="menu header">Run Options</p>
                 <div class="menu panel">
-                    <input type="checkbox" name="RunOptions" id="OutputReferenceNetwork" value="Output reference network">
-                    <label for="OutputReferenceNetwork">Output reference network</label><br>
-                    <input type="checkbox" name="RunOptions" id="OutputDDINs" value="Output DDINs">
-                    <label for="OutputDDINs">Output DDINs</label><br>
-                    <input type="checkbox" name="RunOptions" id="OutputMajorTranscripts" value="Output major transcripts">
-                    <label for="OutputMajorTranscripts">Output major transcripts</label><br>
-                    <input type="checkbox" name="RunOptions" id="CompressOutput" value="Compress output">
-                    <label for="CompressOutput">Compress output</label>
+                    <label>
+                        <input type="checkbox" name="RunOptions" id="OutputReferenceNetwork" value="Output reference network">Output reference network
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="RunOptions" id="OutputDDINs" value="Output DDINs">Output DDINs
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="RunOptions" id="OutputMajorTranscripts" value="Output major transcripts">Output major transcripts
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="RunOptions" id="CompressOutput" value="Compress output">Compress output
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="RunOptions" style="display: none" value=null checked>
+                    </label>
                 </div>
             </div>
 
@@ -87,15 +114,16 @@
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto">
             <div id="RunningProgressContent" name="RunningProgress" class="display-content">
-                Page 1
+<%--                Page 1--%>
             </div>
             <div id="ResultSummaryContent" name="ResultSummary" class="display-content non-display">
-                Page 2
+<%--                Page 2--%>
             </div>
             <div id="NetworkVisualizationContent" name="NetworkVisualization" class="display-content non-display" style="width: 50%; height: 300px; overflow: hidden;">
-                Example network
+<%--                Example network--%>
             </div>
-<%--            <div id="cy" style="width: 90%; height: 300px; display: block; overflow: hidden;"></div>--%>
+<%--            <button type="button" name="ClickMe" id="ClickMe" value="Show network" class="button submit">Click Me!</button>--%>
+<%--            <div id="cy" style="width: 90%; height: 300px; color: white; display: block; overflow: scroll;"></div>--%>
         </div>
     </div>
 </div>

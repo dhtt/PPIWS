@@ -9,15 +9,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Refactor">
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Add descriptive texts to buttons &amp; Allow unchecked checkboxes">
+      <change afterPath="$PROJECT_DIR$/src/data/data.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpress.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/result-tab.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/result-tab.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/result-tab.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/header-and-panel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/result-tab.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/result-tab.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/result-tab.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +50,14 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
     <option name="UPDATE_TYPE" value="REBASE" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -127,7 +140,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="result-tab.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/main/webapp/js/result-tab.js" working-dir="$PROJECT_DIR$/src/main/webapp/js">
+    <configuration name="functionality.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/main/webapp/js/functionality.js" working-dir="$PROJECT_DIR$/src/main/webapp/js">
       <method v="2" />
     </configuration>
     <configuration name="Tomcat 10.0.16" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.0.16" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="17" nameIsGenerated="true">
@@ -222,12 +235,12 @@
     <list>
       <item itemvalue="Application.PPIXpress" />
       <item itemvalue="Application.Utils" />
-      <item itemvalue="Node.js.result-tab.js" />
       <item itemvalue="Tomcat Server.Tomcat 10.0.16" />
+      <item itemvalue="Node.js.functionality.js" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Node.js.result-tab.js" />
+        <item itemvalue="Node.js.functionality.js" />
         <item itemvalue="Application.Utils" />
       </list>
     </recent_temporary>
@@ -257,7 +270,8 @@
       <workItem from="1646123408742" duration="23305000" />
       <workItem from="1646175249880" duration="14734000" />
       <workItem from="1646298576093" duration="29486000" />
-      <workItem from="1646609074943" duration="706000" />
+      <workItem from="1646609074943" duration="968000" />
+      <workItem from="1646643296612" duration="14562000" />
     </task>
     <task id="LOCAL-00002" summary="Refactor external JARs to WEB-INF/lib &amp; Edit configurations">
       <created>1645024865876</created>
@@ -378,7 +392,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646407544018</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="Web interface: Add network graph component">
+      <created>1646610023285</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1646610023285</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -443,7 +464,9 @@
     <MESSAGE value="Web interface: Add display screen" />
     <MESSAGE value="Web interface: Add button active state &amp; Display for each tab" />
     <MESSAGE value="Set up Ajax handler for submitted form" />
-    <option name="LAST_COMMIT_MESSAGE" value="Set up Ajax handler for submitted form" />
+    <MESSAGE value="Web interface: Add network graph component" />
+    <MESSAGE value="Add descriptive texts to buttons &amp; Allow unchecked checkboxes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add descriptive texts to buttons &amp; Allow unchecked checkboxes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
