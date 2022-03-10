@@ -92,8 +92,8 @@ footer{
     font-size: medium;
 }
 .help{
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     line-height: 20px;
     border-radius: 50%;
     border: none;
@@ -102,12 +102,12 @@ footer{
     background: white;
     font-size:small;
     font-weight:bold;
+    text-align: center;
 }
 .help:hover{
     border-color: #95d0aa;
     background-color: #95d0aa;
 }
-
 /*Menu bar skeleton*/
 .menu{
     display: block;
