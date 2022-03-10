@@ -32,18 +32,20 @@
                         <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
                     </p>
                     <p id="protein_network_description" class="description-text">&emsp;</p>
-                    <p class="subsection-text">Options</p>
+                    <span style="display:flex; width: 280px">
+                        <span class="subsection-text" style="flex:1;">Options</span><span name="Reset" id="ResetPPIOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
+                    </span>
                     <label>
-                        <input type="checkbox" name="PPIOptions" id="STRINGWeight" value="Add STRING weights">Add STRING weights
+                        <input type="checkbox" name="PPIOptions" id="STRING_weights" value="-w">Add STRING weights
                     </label><br>
                     <label>
-                        <input type="checkbox" name="PPIOptions" id="UniProtAcc" value="Update UniProt accessions">Update UniProt accessions
+                        <input type="checkbox" name="PPIOptions" id="update_UniProt" value="-u">Update UniProt accessions
                     </label><br>
                     <label>
-                        <input type="checkbox" name="PPIOptions" id="LocalDDI" value="Only local DDI data">Only local DDI data
+                        <input type="checkbox" name="PPIOptions" id="up2date_DDIs" value="-l">Only local DDI data
                     </label><br>
                     <label>
-                        <input type="checkbox" name="PPIOptions" id="ELMData" value="Include ELM data">Include ELM data
+                        <input type="checkbox" name="PPIOptions" id="include_ELM" value="-elm">Include ELM data
                     </label><br>
                     <label>
                         <input type="checkbox" name="PPIOptions" style="display: none" value=null checked>
@@ -62,15 +64,20 @@
                         <button type="button" name="expression_example" id="expression_example" class="help" title="Example input">?</button>
                     </p>
                     <p id="expression_description" class="description-text">&emsp;</p>
-                    <p class="subsection-text">Options</p>
+                    <span style="display:flex; width: 280px">
+                        <span class="subsection-text" style="flex:1;">Options</span><span name="Reset" id="ResetExpOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
+                    </span>
                     <label>
-                        <input type="checkbox" name="ExpOptions" id="GeneLevelOnly" value="Gene-level only">Gene-level only
+                        <input type="checkbox" name="ExpOptions" id="gene_level_only" value="-g">Gene-level only
                     </label><br>
                     <label>
-                        <input type="checkbox" name="ExpOptions" id="PercentileBased" value="Percentile-based">Percentile-based
+                        <input type="checkbox" name="ExpOptions" id="percentile" value="-tp">Percentile-based
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="ExpOptions" id="norm_transcripts" value="-n">Normalize transcripts
                     </label><br>
                     <label style="margin-left: 1em">Expression Level Threshold
-                        <input type="text" value="1.0" id="ExpressionLevelThreshold"><br>
+                        <input type="number" name="ExpOptions" id="threshold" value="1.00" min="0" max="1.0" step="0.01"><br>
                     </label>
                     <label>
                         <input type="checkbox" name="ExpOptions" style="display: none" value=null checked>
@@ -81,17 +88,26 @@
             <div name="LeftPanel3" id="LeftPanel3">
                 <p class="menu header">Run Options</p>
                 <div class="menu panel">
+                    <span style="display:flex; width: 280px">
+                        <span class="subsection-text" style="flex:1;">Options</span><span name="Reset" id="ResetRunOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
+                    </span>
                     <label>
-                        <input type="checkbox" name="RunOptions" id="OutputReferenceNetwork" value="Output reference network">Output reference network
+                        <input type="checkbox" name="RunOptions" id="remove_decay_transcripts" value="-x">Remove decay transcripts
                     </label><br>
                     <label>
-                        <input type="checkbox" name="RunOptions" id="OutputDDINs" value="Output DDINs">Output DDINs
+                        <input type="checkbox" name="RunOptions" id="report_reference" value="reference">Output reference network
                     </label><br>
                     <label>
-                        <input type="checkbox" name="RunOptions" id="OutputMajorTranscripts" value="Output major transcripts">Output major transcripts
+                        <input type="checkbox" name="RunOptions" id="output_DDINs" value="-d">Output DDINs
                     </label><br>
                     <label>
-                        <input type="checkbox" name="RunOptions" id="CompressOutput" value="Compress output">Compress output
+                        <input type="checkbox" name="RunOptions" id="output_major_transcripts" value="-m">Output major transcripts
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="RunOptions" id="report_gene_abundance" value="-mg">Report gene abundance
+                    </label><br>
+                    <label>
+                        <input type="checkbox" name="RunOptions" id="compress_output" value="-c">Compress output
                     </label><br>
                     <label>
                         <input type="checkbox" name="RunOptions" style="display: none" value=null checked>
@@ -122,19 +138,11 @@
             <div id="NetworkVisualizationContent" name="NetworkVisualization" class="display-content non-display" style="width: 50%; height: 300px; overflow: hidden;">
 <%--                Example network--%>
             </div>
-<%--            <button type="button" name="ClickMe" id="ClickMe" value="Show network" class="button submit">Click Me!</button>--%>
-<%--            <div id="cy" style="width: 90%; height: 300px; color: white; display: block; overflow: scroll;"></div>--%>
         </div>
     </div>
 </div>
 
 <jsp:include page="html/footer.html" />
-<%--<script>--%>
-<%--    $("#ClickMe").click(function() {--%>
-<%--        alert("Okay");--%>
-<%--        // const submit_val = $("#ClickMe").val();--%>
-<%--    });--%>
-<%--</script>--%>
 </body>
 </html>
 
