@@ -42,6 +42,10 @@ jQuery(document).ready(function() {
         $('#expression_description').html("Expression data: " + this.files.length + " file(s) selected")
     })
 
+    // Run example data and options
+
+
+    // Ajax Handler
     $("#form").submit(function (){
         const form = $("form")[0];
         const data = new FormData(form);
@@ -118,8 +122,3 @@ function getContent(name){
     chosenTab_contents = document.getElementsByClassName("display-content");
     toggle1(name, displayTabs, chosenTab, chosenTab_contents);
 }
-//
-// function changeText(){
-//     var fileName = document.getElementById("protein_network_file").value;
-//     document.getElementById("protein_network_file_lab").innerHTML = fileName;
-// }
