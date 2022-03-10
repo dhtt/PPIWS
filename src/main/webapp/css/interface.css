@@ -137,7 +137,7 @@ footer{
 .subsection-text{
     font-size: small;
     font-weight: bold;
-    margin: 1em 0 0.5em 1em;
+    margin: 0 1em 0.5em 1em;
 }
 .description-text{
     font-size: x-small;
@@ -151,15 +151,23 @@ input[type="checkbox"]{
     bottom: 1px;
     margin-left: 1em; margin-right: 1em;
 }
-input[type="text"]{
+input[type="number"]{
     vertical-align: middle;
     position: relative;
     bottom: 1px;
     margin-right: 1em; margin-left: 1em;
-    width: 3em;
+    width: 5em;
     border-radius: 0.5em;
     border: 1px;
     color: grey;
     text-align: center;
 }
-
+input[type=number]::-webkit-inner-spin-button {
+     opacity: 1
+ }
+.disabled{
+    color: grey;
+}
+.highlight{
+    color: red;
+}
