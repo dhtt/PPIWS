@@ -42,13 +42,15 @@ jQuery(document).ready(function() {
         $('#expression_description').html("Expression data: " + this.files.length + " file(s) selected")
     })
 
-    // Run example data and options
-
-
     // Ajax Handler
-    $("#form").submit(function (){
+    $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
+        data.get('ExpOptions')
+        data.append('submitType', submit_type_);
+        data.append('threshold', "-t=" + $('#threshold').val());
+        // TODO: Add percentile adjustment
+        // data.append('percentile', "-tp=" + $('#percentile').val());
         $.ajax({
             url: "PPIXpress",
             method: "POST",
@@ -61,8 +63,16 @@ jQuery(document).ready(function() {
                 $('#NetworkVisualizationContent').html("<h1>A network<h1>")
             }
         })
+    }
+    $('#RunNormal').on('click', function (){
+        $.fn.submit_form("RunNormal")
         return false;
     })
+    $('#RunExample').on('click', function (){
+        $.fn.submit_form("RunExample")
+        return false;
+    })
+
 });
 
 

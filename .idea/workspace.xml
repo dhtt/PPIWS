@@ -9,13 +9,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Add descriptive texts to buttons &amp; Allow unchecked checkboxes">
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Minor changes">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressRun.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpress.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/html/header.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/header.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,12 +33,12 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
-        <option value="HTML File" />
         <option value="Tag Library Descriptor" />
         <option value="Jsp File" />
         <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="HTML File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -85,26 +93,30 @@
     <property name="Repository.Attach.Sources" value="false" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="ToolWindowDuplicates.ShowToolbar" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/data" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.5" />
-    <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.General" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/data" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/data" />
       <recent name="$PROJECT_DIR$/src/main/webapp/js" />
       <recent name="$PROJECT_DIR$/src/main/webapp/css" />
       <recent name="$PROJECT_DIR$/src/main/webapp" />
       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/html" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.webserver" />
@@ -117,6 +129,19 @@
     <configuration name="PPIXpress" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.webserver.PPIXpress" />
       <module name="Webserver" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PPIXpressRun" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.webserver.PPIXpressRun" />
+      <module name="Webserver" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.webserver.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -231,9 +256,11 @@
       <item itemvalue="Application.Utils" />
       <item itemvalue="Node.js.functionality.js" />
       <item itemvalue="Tomcat Server.Tomcat 10.0.16" />
+      <item itemvalue="Application.PPIXpressRun" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.PPIXpressRun" />
         <item itemvalue="Node.js.functionality.js" />
         <item itemvalue="Application.Utils" />
       </list>
@@ -266,7 +293,8 @@
       <workItem from="1646298576093" duration="29486000" />
       <workItem from="1646609074943" duration="968000" />
       <workItem from="1646643296612" duration="19104000" />
-      <workItem from="1646903651639" duration="17406000" />
+      <workItem from="1646903651639" duration="39610000" />
+      <workItem from="1647180258314" duration="12503000" />
     </task>
     <task id="LOCAL-00002" summary="Refactor external JARs to WEB-INF/lib &amp; Edit configurations">
       <created>1645024865876</created>
@@ -401,7 +429,49 @@
       <option name="project" value="LOCAL" />
       <updated>1646668343562</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Rename run options to match with PPIXpress.PPIXpress">
+      <created>1646927098272</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1646927098272</updated>
+    </task>
+    <task id="LOCAL-00022" summary="PPIXpress pipeline in servlet">
+      <created>1646927188493</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1646927188493</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Make help button round and centered">
+      <created>1646927249648</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1646927249648</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Set range and type for Threshold input">
+      <created>1646927301103</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1646927301103</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Set pipeline default options, Add reset button &amp; Make report_gene_abundance induce output_major_transcripts">
+      <created>1646927398018</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1646927398018</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Minor changes">
+      <created>1646927414869</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1646927414869</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -468,7 +538,13 @@
     <MESSAGE value="Set up Ajax handler for submitted form" />
     <MESSAGE value="Web interface: Add network graph component" />
     <MESSAGE value="Add descriptive texts to buttons &amp; Allow unchecked checkboxes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add descriptive texts to buttons &amp; Allow unchecked checkboxes" />
+    <MESSAGE value="Rename run options to match with PPIXpress.PPIXpress" />
+    <MESSAGE value="PPIXpress pipeline in servlet" />
+    <MESSAGE value="Make help button round and centered" />
+    <MESSAGE value="Set range and type for Threshold input" />
+    <MESSAGE value="Set pipeline default options, Add reset button &amp; Make report_gene_abundance induce output_major_transcripts" />
+    <MESSAGE value="Minor changes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Minor changes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

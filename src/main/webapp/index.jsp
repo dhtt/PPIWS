@@ -79,6 +79,7 @@
                     <label style="margin-left: 1em">Expression Level Threshold
                         <input type="number" name="ExpOptions" id="threshold" value="1.00" min="0" max="1.0" step="0.01"><br>
                     </label>
+<%--                    TODO: Add percentile adjustment--%>
                     <label>
                         <input type="checkbox" name="ExpOptions" style="display: none" value=null checked>
                     </label>
@@ -116,8 +117,9 @@
             </div>
 
             <div name="LeftPanel4" id="LeftPanel4" style="text-align: center">
-                <button type="submit" name="Submit" id="Run" value="Run normal" class="button submit">Run PPIXPress</button>
-                <button type="submit" name="Submit" id="RunExample" value="Run example" class="button try">or Try with example data!</button>
+                <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit">Run PPIXPress</button>
+                <button type="submit" name="Submit" id="RunExample" value="null" class="button try">or Try with example data!</button>
+<%--                <button type="button" name="SubmitExample" id="RunExample" value="Run example" class="button try">or Try with example data!</button>--%>
             </div>
         </form>
     </div>
