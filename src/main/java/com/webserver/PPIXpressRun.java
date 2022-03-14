@@ -5,6 +5,7 @@ import framework.NetworkBuilder;
 import framework.PPIN;
 
 import java.io.PrintWriter;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -125,21 +126,39 @@ public class PPIXpressRun {
         return argList.stream().filter(s -> (s != null && s.length() > 0)).toArray(String[]::new);
     }
 
-    public void runAnalysis(){
+    public void runAnalysis(PrintWriter out){
+//        TODO: Configure SQL for Tomcat
         //gathering even more data if necessary
-        System.out.println("Switch Server GRCh37 ...<br>");
-        DataQuery.switchServerGRCh37();
-        System.out.println("Retrieving UCSC mapping-data ...");
-        DataQuery.getUCSChg19toTranscriptMap();
-
-        System.out.println("Reading network (may take some time if ID conversion is necessary) ...<br>");
-        PPIN original_network = new PPIN("/Users/trangdo/Documents/BIOINFO/PPIXpress/example_data/human_ppin.sif.gz");
-        System.out.println("Complete network: " + original_network.getSizesStr() + "<br>");
-
-        // gathering data that will always be needed
-        String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
-        String ensembl_version = organism_database.split("_")[organism_database.split("_").length-2];
+//        System.out.println("Switch Server GRCh37 ...<br>");
+//        DataQuery.switchServerGRCh37();
+//        System.out.println("Retrieving UCSC mapping-data ...");
+//        DataQuery.getUCSChg19toTranscriptMap();
 //
+//        System.out.println("Reading network (may take some time if ID conversion is necessary) ...<br>");
+//        PPIN original_network = new PPIN("/Users/trangdo/Documents/BIOINFO/PPIXpress/example_data/human_ppin.sif.gz");
+//        System.out.println("Complete network: " + original_network.getSizesStr() + "<br>");
+//
+//        // gathering data that will always be needed
+//        String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
+//        String ensembl_version = organism_database.split("_")[organism_database.split("_").length-2];
+        Connection connection = null;
+        try {
+            try {
+                Class.forName("com.mysql.cj.jdbc.Driver");
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+                out.println("EXCEPTION OCCURRED");
+            }
+            connection = DriverManager.getConnection("jdbc:mysql://ensembldb.ensembl.org:3337/homo_sapiens_core_99_37?autoReconnect=true&useSSL=false", "anonymous", "");
+            Statement st = connection.createStatement();
+            st.setQueryTimeout(10);
+            out.println("DONE");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            out.println("EXCEPTION OCCURRED");
+        }
+
+
 //        System.out.print("Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes) ...<br>");
 //        DataQuery.getGenesTranscriptsProteins(organism_database);
 //        System.out.print("50% ... ");
@@ -165,6 +184,6 @@ public class PPIXpressRun {
         new_pipeline.parseArgs(new String[]{"-g"});
         System.out.println(Arrays.toString(new_pipeline.getArgs()));
 
-        new_pipeline.runAnalysis();
+//        new_pipeline.runAnalysis();
     }
 }

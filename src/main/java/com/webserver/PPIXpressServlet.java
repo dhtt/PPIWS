@@ -18,9 +18,7 @@ public class PPIXpressServlet extends HttpServlet {
     }
 
     protected void printList(PrintWriter out, String[] list){
-        for (String i : list){
-            if (!Objects.equals(i, "null")) out.println(i + "<br>");
-        }
+        for (String i : list) out.println(i + "<br>");
     }
 
     @Override
@@ -39,7 +37,7 @@ public class PPIXpressServlet extends HttpServlet {
             pipeline.parseArgs(args);
             printList(out, pipeline.getArgs());
             out.println("<br><h4>| Executing PPIXpress... </h4>");
-            pipeline.runAnalysis();
+            pipeline.runAnalysis(out);
         }
         else if (submit_type.equals("RunNormal")){
             out.println("<h4>Data submitted!<br><br>Uploaded files:</h4>");
@@ -49,14 +47,17 @@ public class PPIXpressServlet extends HttpServlet {
                     out.println(part.getName() + ": " + part.getSubmittedFileName() + "<br>");
                 }
             }
+
 //            Show run options
             String[] PPI_Options = request.getParameterValues("PPIOptions");
             String[] Exp_Options = request.getParameterValues("ExpOptions");
             String[] Run_Options = request.getParameterValues("RunOptions");
-            String[] numericInput = {request.getParameter("threshold")}; //TODO: Add percentile adjustment
+            String[] numericInput = {request.getParameter("threshold")};
+            //TODO: Add percentile adjustment
             out.println("<br><h4>| Parsing PPIXpress options... </h4>");
             pipeline.parseArgs(PPI_Options, Exp_Options, Run_Options, numericInput);
             printList(out, pipeline.getArgs());
+
             out.println("<br><h4>| Executing PPIXpress... </h4>");
         }
     }
