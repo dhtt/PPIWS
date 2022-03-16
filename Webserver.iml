@@ -37,6 +37,11 @@
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="cytoscape" level="application" />
     <orderEntry type="library" name="mysql.connector.java" level="project" />
+    <orderEntry type="library" name="apache.tomcat.jdbc" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jdbc:9.0.30" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-juli:9.0.30" level="project" />
+    <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.21" level="project" />
+    <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
     <orderEntry type="library" name="Maven: jakarta.servlet:jakarta.servlet-api:5.0.0" level="project" />
     <orderEntry type="library" name="Maven: jakarta.servlet.jsp:jakarta.servlet.jsp-api:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.apache.cxf:cxf-rt-frontend-jaxws:3.4.5" level="project" />

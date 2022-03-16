@@ -11,6 +11,9 @@ import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
 
+import org.apache.tomcat.jdbc.pool.DataSource;
+import org.apache.tomcat.jdbc.pool.PoolProperties;
+
 public class PPIXpressRun {
     private boolean gene_level_only = false;
     private boolean output_DDINs = false;
@@ -129,51 +132,52 @@ public class PPIXpressRun {
     public void runAnalysis(PrintWriter out){
 //        TODO: Configure SQL for Tomcat
         //gathering even more data if necessary
-//        System.out.println("Switch Server GRCh37 ...<br>");
-//        DataQuery.switchServerGRCh37();
-//        System.out.println("Retrieving UCSC mapping-data ...");
-//        DataQuery.getUCSChg19toTranscriptMap();
-//
-//        System.out.println("Reading network (may take some time if ID conversion is necessary) ...<br>");
-//        PPIN original_network = new PPIN("/Users/trangdo/Documents/BIOINFO/PPIXpress/example_data/human_ppin.sif.gz");
-//        System.out.println("Complete network: " + original_network.getSizesStr() + "<br>");
-//
-//        // gathering data that will always be needed
-//        String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
-//        String ensembl_version = organism_database.split("_")[organism_database.split("_").length-2];
+        out.println("Switch Server GRCh37 ...<br>");
+        DataQuery.switchServerGRCh37();
+
+        out.println("Retrieving UCSC mapping-data ...");
+        DataQuery.getUCSChg19toTranscriptMap();
+
+        out.println("Reading network (may take some time if ID conversion is necessary) ...<br>");
+        PPIN original_network = new PPIN("/Users/trangdo/Documents/BIOINFO/PPIXpress/example_data/human_ppin.sif.gz");
+        out.println("Complete network: " + original_network.getSizesStr() + "<br>");
+
+        // gathering data that will always be needed
+        String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
+        String ensembl_version = organism_database.split("_")[organism_database.split("_").length-2];
+        out.print("Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes) ...<br>");
+        DataQuery.getGenesTranscriptsProteins(organism_database);
+        DataQuery.getIsoformProteinDomainMap(organism_database);
+
+        // start preprocessing
+        out.println("Initializing PPIXpress with original network ... <br>");
+        NetworkBuilder builder = new NetworkBuilder(original_network, true, false);
+        out.println(Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +"% of proteins could be annotated with at least one non-artificial domain," );
+        out.println(Math.round(builder.getMappingPercentage() * 10000)/100.0 +"% of protein interactions could be associated with at least one non-artificial domain interaction." );
+        out.flush();
+
+//        Testing Pool connection
+       /* PoolProperties p = new PoolProperties();
+        p.setUrl("jdbc:mysql://localhost:3306/javatest");
+        p.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        p.setUsername("root");
+        p.setPassword("Cats4Life!");
+        p.setLogAbandoned(true);
+        p.setRemoveAbandoned(true);
+        DataSource datasource = new DataSource();
+        datasource.setPoolProperties(p);
+
         Connection connection = null;
         try {
-            try {
-                Class.forName("com.mysql.cj.jdbc.Driver");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-                out.println("EXCEPTION OCCURRED");
-            }
-            connection = DriverManager.getConnection("jdbc:mysql://ensembldb.ensembl.org:3337/homo_sapiens_core_99_37?autoReconnect=true&useSSL=false", "anonymous", "");
+            out.println("datasource is being used");
+            connection = datasource.getConnection();
             Statement st = connection.createStatement();
             st.setQueryTimeout(10);
             out.println("DONE");
         } catch (SQLException e) {
             e.printStackTrace();
             out.println("EXCEPTION OCCURRED");
-        }
-
-
-//        System.out.print("Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes) ...<br>");
-//        DataQuery.getGenesTranscriptsProteins(organism_database);
-//        System.out.print("50% ... ");
-//        System.out.flush();
-//        DataQuery.getIsoformProteinDomainMap(organism_database);
-//        System.out.println("100%.<br>");
-//        System.out.flush();
-//
-//        // start preprocessing
-//        System.out.println("Initializing PPIXpress with original network ... ");
-//        System.out.flush();
-//        NetworkBuilder builder = new NetworkBuilder(original_network, true, false);
-//        System.out.println(Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +"% of proteins could be annotated with at least one non-artificial domain," );
-//        System.out.println(Math.round(builder.getMappingPercentage() * 10000)/100.0 +"% of protein interactions could be associated with at least one non-artificial domain interaction." );
-//        System.out.flush();
+        }*/
     }
     public static void main(String[] args) {
         System.out.println("Initialize");

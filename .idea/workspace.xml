@@ -9,21 +9,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Parse and print arguments by PPIXpressRun">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
+    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Set up DriverManager SQL for Tomcat">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_protobuf_protobuf_java_3_11_4.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_8_0_21.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_jdbc_9_0_30.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_juli_9_0_30.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/apache_tomcat_jdbc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/mysql_connector_java.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Webserver_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Webserver_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0b7ff4db-748a-440a-b99d-a4928fbdf71c.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0b7ff4db-748a-440a-b99d-a4928fbdf71c/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0b7ff4db-748a-440a-b99d-a4928fbdf71c/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0b7ff4db-748a-440a-b99d-a4928fbdf71c/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0b7ff4db-748a-440a-b99d-a4928fbdf71c/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressRun.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressRun.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/examples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/examples.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/web.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/examples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/examples.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +91,8 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
-    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Downloaded.Files.Path" value="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib" />
+    <property name="Downloaded.Files.Path.Enabled" value="true" />
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="true" />
     <property name="Repository.Attach.Sources" value="false" />
@@ -100,26 +104,27 @@
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect" value="MySQL" />
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="PLAIN_TEXT" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/data" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.5" />
+    <property name="project.structure.side.proportion" value="0.4611872" />
     <property name="settings.editor.selected.configurable" value="database.main" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib" />
       <recent name="$PROJECT_DIR$/src/data" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
       <recent name="$PROJECT_DIR$/src/main/webapp/data" />
       <recent name="$PROJECT_DIR$/src/main/webapp/js" />
       <recent name="$PROJECT_DIR$/src/main/webapp/css" />
       <recent name="$PROJECT_DIR$/src/main/webapp" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.example.webserver" />
@@ -297,7 +302,8 @@
       <workItem from="1646609074943" duration="968000" />
       <workItem from="1646643296612" duration="19104000" />
       <workItem from="1646903651639" duration="39610000" />
-      <workItem from="1647180258314" duration="32723000" />
+      <workItem from="1647180258314" duration="35039000" />
+      <workItem from="1647322205597" duration="7386000" />
     </task>
     <task id="LOCAL-00002" summary="Refactor external JARs to WEB-INF/lib &amp; Edit configurations">
       <created>1645024865876</created>
@@ -481,7 +487,14 @@
       <option name="project" value="LOCAL" />
       <updated>1647214208281</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Set up DriverManager SQL for Tomcat">
+      <created>1647276434253</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1647276434253</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -555,7 +568,18 @@
     <MESSAGE value="Set pipeline default options, Add reset button &amp; Make report_gene_abundance induce output_major_transcripts" />
     <MESSAGE value="Minor changes" />
     <MESSAGE value="Parse and print arguments by PPIXpressRun" />
-    <option name="LAST_COMMIT_MESSAGE" value="Parse and print arguments by PPIXpressRun" />
+    <MESSAGE value="Set up DriverManager SQL for Tomcat" />
+    <option name="LAST_COMMIT_MESSAGE" value="Set up DriverManager SQL for Tomcat" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.sql.SQLException" package="java.sql" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
