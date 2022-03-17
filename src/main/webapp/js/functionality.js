@@ -59,11 +59,45 @@ jQuery(document).ready(function() {
             processData : false,
             contentType : false,
             success: function (resultText) {
-                $('#RunningProgressContent').html(resultText)
-                $('#NetworkVisualizationContent').html("<h1>A network<h1>")
+                $.fn.updateLongRunningStatus(resultText)
+            },
+            error: function (){
+                alert("An error occurred, checked console log!")
             }
         })
     }
+
+    let i = 0;
+    $.fn.updateLongRunningStatus = function(resultText) {
+        console.log(i)
+        if (i !== 5) { //until 50 is reached
+            $.post('ProgressReporter', function(data) {
+                $('#RunningProgressContent').html(data)  // update the progress bar
+                setTimeout($.fn.updateLongRunningStatus, 1000);
+            });
+        }
+        else {
+            alert("Time out")
+        }
+        i++;
+    }
+
+    // setTimeout(function(){
+    //     if (i!== 3){
+    //         $.fn.updateLongRunningStatus = function(resultText){
+    //             console.log(i)
+    //             $.post('ProgressReporter', function(data) {
+    //                 $('#RunningProgressContent').html(data)  // update the progress bar
+    //                 setTimeout($.fn.updateLongRunningStatus, 1000);
+    //             })
+    //         }
+    //     }
+    //     i++
+    // }, 1000)
+
+
+
+
     $('#RunNormal').on('click', function (){
         $.fn.submit_form("RunNormal")
         return false;
@@ -75,41 +109,7 @@ jQuery(document).ready(function() {
 
 });
 
-
-// $.ajax({
-//     xhr: function () {
-//         var xhr = new window.XMLHttpRequest();
-//         xhr.upload.addEventListener("progress", function (evt) {
-//             if (evt.lengthComputable) {
-//                 var percentComplete = evt.loaded / evt.total;
-//                 console.log(percentComplete);
-//                 $('.progress').css({
-//                     width: percentComplete * 100 + '%'
-//                 });
-//                 if (percentComplete === 1) {
-//                     $('.progress').addClass('hide');
-//                 }
-//             }
-//         }, false);
-//         xhr.addEventListener("progress", function (evt) {
-//             if (evt.lengthComputable) {
-//                 var percentComplete = evt.loaded / evt.total;
-//                 console.log(percentComplete);
-//                 $('.progress').css({
-//                     width: percentComplete * 100 + '%'
-//                 });
-//             }
-//         }, false);
-//         return xhr;
-//     },
-//     type: 'POST',
-//     url: "/echo/html",
-//     data: data,
-//     success: function (data) {}
-// });
-
-
-function toggle1(name, displayTabs, chosenTab, chosenTab_contents){
+function toggle_tab(name, displayTabs, chosenTab, chosenTab_contents){
     for (let i=0; i < displayTabs.length; i++){
         // Set tab as active
         displayTabs[i].classList.remove("active")
@@ -130,5 +130,5 @@ function getContent(name){
     displayTabs = document.getElementsByClassName("button-tab");
     chosenTab = document.getElementById(name);
     chosenTab_contents = document.getElementsByClassName("display-content");
-    toggle1(name, displayTabs, chosenTab, chosenTab_contents);
+    toggle_tab(name, displayTabs, chosenTab, chosenTab_contents);
 }
