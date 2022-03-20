@@ -14,22 +14,13 @@ import java.util.stream.Stream;
 @MultipartConfig()
 
 public class PPIXpressServlet extends HttpServlet {
-
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    }
-
     public static void printList(PrintWriter out, String[] list){
         for (String i : list) out.println(i + "<br>");
     }
 
-//    public static class LongRunningProcess extends Thread {
-//
-//    }
-
     static class LongRunningProcess implements Runnable{
         private final AtomicInteger percentComplete;
-        private final AtomicReference message;
+        private final AtomicReference<String> message;
         private final PPIXpressRun parsedPipeline;
         private volatile boolean stop;
 
@@ -42,15 +33,15 @@ public class PPIXpressServlet extends HttpServlet {
         @Override
         public void run() {
             while (!stop){
-                parsedPipeline.runAnalysis(percentComplete, message);
 //                try {
 //                    Thread.sleep(1000);
 //                } catch (InterruptedException e) {
 //                    e.printStackTrace();
 //                }
-//                if (percentComplete.get() == 5){
-//                    setStop(true);
-//                }
+                parsedPipeline.runAnalysis(percentComplete, message);
+                if (percentComplete.get() == 6){
+                    setStop(true);
+                }
 //                else {
 //                    percentComplete.incrementAndGet();
 //                }
@@ -89,13 +80,16 @@ public class PPIXpressServlet extends HttpServlet {
 //            out.println("<br><h4>| Executing PPIXpress... </h4>");
 //            Try Ajax progress bar
             AtomicInteger percentComplete = new AtomicInteger(0);
-            AtomicReference<String> runMessage = new AtomicReference<String>();
+            AtomicReference<String> runMessage = new AtomicReference<String>("");
             request.getSession().setAttribute("LONG_RUNNING_PROCESS_STATUS", percentComplete);
             request.getSession().setAttribute("LONG_RUNNING_PROCESS_MESSAGE", runMessage);
 
             LongRunningProcess myThreads = new LongRunningProcess(pipeline, percentComplete, runMessage);
+            Map<Thread, StackTraceElement[]> threads = Thread.getAllStackTraces();
+            System.out.println(threads);
             Thread lrp = new Thread(myThreads);
             lrp.start();
+            System.out.println(threads);
         }
             /*
 //            pipeline.runAnalysis(out);

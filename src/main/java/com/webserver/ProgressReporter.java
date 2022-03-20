@@ -15,7 +15,7 @@ public class ProgressReporter extends HttpServlet {
     public static void printList(PrintWriter out, String[] list){
         for (String i : list) out.println(i + "<br>");
     }
-
+//    class String[] DTO for messages + jackson faster xml -> serialize into json
     public void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
@@ -28,10 +28,7 @@ public class ProgressReporter extends HttpServlet {
         if (parsedArgs != null){
             printList(out, parsedArgs);
         }
-
-        out.println("<br><h4>| Executing PPIXpress... </h4>");
-//        out.println(request.getSession().getAttribute("LONG_RUNNING_PROCESS_STATUS"));
+        out.println("<br><h4>| Executing PPIXpress... </h4>Step " + request.getSession().getAttribute("LONG_RUNNING_PROCESS_STATUS") +"/6<br>");
         out.println(request.getSession().getAttribute("LONG_RUNNING_PROCESS_MESSAGE"));
-
     }
 }

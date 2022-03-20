@@ -135,46 +135,48 @@ public class PPIXpressRun {
 //        Test database connection
         //gathering even more data if necessary
 //        out.println("Switch Server GRCh37 ...<br>");
-        message.set(message.get() + "...Switch Server GRCh37<br>");
+        message.set("... Switch Server GRCh37<br>");
         DataQuery.switchServerGRCh37();
-        progressByPercent.incrementAndGet();
+        progressByPercent.incrementAndGet(); //1
 
 //        out.println("Retrieving UCSC mapping-data ...");
-        message.set(message.get() + "...Retrieving UCSC mapping-data<br>");
-        DataQuery.getUCSChg19toTranscriptMap();
-        progressByPercent.incrementAndGet();
+        message.getAndSet(message.get() + "... Retrieving UCSC mapping-data<br>");
+//        message.set(message.get() + "... Retrieving UCSC mapping-data<br>");
+//        DataQuery.getUCSChg19toTranscriptMap();
+        progressByPercent.incrementAndGet(); //2
 
 //        out.println("Reading network (may take some time if ID conversion is necessary) ...<br>");
-        message.set(message.get() + "...Reading network (may take some time if ID conversion is necessary)<br>");
+        message.getAndSet(message.get() + "... Reading network (may take some time if ID conversion is necessary)<br>");
         PPIN original_network = new PPIN("/Users/trangdo/Documents/BIOINFO/PPIXpress/example_data/human_ppin.sif.gz");
 //        out.println("Complete network: " + original_network.getSizesStr() + "<br>");
-        message.set(message.get() + "......Complete network: " + original_network.getSizesStr() + "<br>");
-        progressByPercent.incrementAndGet();
+        message.getAndSet(message.get() + "...... Complete network: " + original_network.getSizesStr() + "<br>");
+        progressByPercent.incrementAndGet(); //3
 
-      /*  // gathering data that will always be needed
+        // gathering data that will always be needed
 //        out.println("Get Ensembl Organism Database From Proteins<br>");
-        message.set(message.get() + "...Get Ensembl organism database from proteins<br>");
+        message.getAndSet(message.get() + "... Get Ensembl organism database from proteins<br>");
         String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
         String ensembl_version = organism_database.split("_")[organism_database.split("_").length-2];
+        progressByPercent.incrementAndGet(); //4
 
 //        out.print("Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes) ...<br>");
-        message.set(message.get() + "...Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
-        message.set(message.get() + "......Get genes transcripts proteins<br>");
+        message.getAndSet(message.get() + "... Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
+        message.getAndSet(message.get() + "...... Get genes transcripts proteins<br>");
         DataQuery.getGenesTranscriptsProteins(organism_database);
-        progressByPercent.incrementAndGet();
-        message.set(message.get() + "......Get isoform protein domain map<br>");
+        message.getAndSet(message.get() + "...... Get isoform protein domain map<br>");
         DataQuery.getIsoformProteinDomainMap(organism_database);
-        progressByPercent.incrementAndGet();
+        progressByPercent.incrementAndGet(); //5
 
         // start preprocessing
 //        out.println("Initializing PPIXpress with original network ... <br>");
-        message.set(message.get() + "...Initializing PPIXpress with original network<br>");
+        message.getAndSet(message.get() + "... Initializing PPIXpress with original network<br>");
         NetworkBuilder builder = new NetworkBuilder(original_network, true, false);
-        message.set(message.get() + "<h4>PPIXpress pipeline finished!</h4>");
-//        out.println(Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +"% of proteins could be annotated with at least one non-artificial domain," );
-//        out.println(Math.round(builder.getMappingPercentage() * 10000)/100.0 +"% of protein interactions could be associated with at least one non-artificial domain interaction." );
+//        message.getAndSet(message.get() + Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +"% of proteins could be annotated with at least one non-artificial domain," );
+//        message.getAndSet(message.get() + Math.round(builder.getMappingPercentage() * 10000)/100.0 +"% of protein interactions could be associated with at least one non-artificial domain interaction.<br>" );
 //        out.flush();
-*/
+        message.getAndSet(message.get() + "<h4>PPIXpress pipeline finished!</h4>");
+        progressByPercent.incrementAndGet(); //6
+
 //        Testing Pool connection
        /* PoolProperties p = new PoolProperties();
         p.setUrl("jdbc:mysql://localhost:3306/javatest");

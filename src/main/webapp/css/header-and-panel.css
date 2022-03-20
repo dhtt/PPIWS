@@ -75,6 +75,8 @@
 
 .display-content{
     display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .display-content.non-display{
     display: none;
@@ -92,3 +94,4 @@ a:hover{
     cursor: default;
 }
 
+/*TODO: cursor over Reset button*/

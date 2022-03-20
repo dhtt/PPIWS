@@ -33,13 +33,10 @@
     <orderEntry type="library" name="lib" level="project" />
     <orderEntry type="library" name="jakarta.xml.bind-api-3.0.0" level="project" />
     <orderEntry type="library" name="bootstrap" level="application" />
-    <orderEntry type="library" name="@types/jquery" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
     <orderEntry type="library" name="cytoscape" level="application" />
-    <orderEntry type="library" name="mysql.connector.java" level="project" />
-    <orderEntry type="library" name="apache.tomcat.jdbc" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-jdbc:9.0.30" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.tomcat:tomcat-juli:9.0.30" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat:tomcat-jdbc:9.0.30" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="Maven: org.apache.tomcat:tomcat-juli:9.0.30" level="project" />
     <orderEntry type="library" name="Maven: mysql:mysql-connector-java:8.0.21" level="project" />
     <orderEntry type="library" name="Maven: com.google.protobuf:protobuf-java:3.11.4" level="project" />
     <orderEntry type="library" name="Maven: jakarta.servlet:jakarta.servlet-api:5.0.0" level="project" />
@@ -79,5 +76,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.8.2" level="project" />
+    <orderEntry type="library" name="apache.tomcat.jdbc" level="project" />
   </component>
 </module>

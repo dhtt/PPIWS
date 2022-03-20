@@ -67,20 +67,37 @@ jQuery(document).ready(function() {
         })
     }
 
-    let i = 0;
+    // let i = 0;
+    // $.fn.updateLongRunningStatus = function(resultText) {
+    //     console.log(i)
+    //     if (i !== 120) { //until 120 is reached
+    //         $.post('ProgressReporter', function(data) {
+    //             console.log(data)
+    //             $('#RunningProgressContent').html(data)  // update the progress bar
+    //             setTimeout($.fn.updateLongRunningStatus, 1000);
+    //         });
+    //     }
+    //     else {
+    //         alert("Time out")
+    //     }
+    //     i++;
+    // }
+
     $.fn.updateLongRunningStatus = function(resultText) {
-        console.log(i)
-        if (i !== 5) { //until 50 is reached
+        var i = 0;
+        var interval = setInterval(function() {
+            i++;
             $.post('ProgressReporter', function(data) {
+                console.log("i:", i)
+                console.log(data)
+                if (i === 150) {
+                    clearInterval(interval);
+                }
                 $('#RunningProgressContent').html(data)  // update the progress bar
-                setTimeout($.fn.updateLongRunningStatus, 1000);
             });
-        }
-        else {
-            alert("Time out")
-        }
-        i++;
+        }, 1000);
     }
+
 
     // setTimeout(function(){
     //     if (i!== 3){
