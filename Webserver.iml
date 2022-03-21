@@ -77,5 +77,6 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.8.2" level="project" />
     <orderEntry type="library" name="apache.tomcat.jdbc" level="project" />
+    <orderEntry type="library" name="json" level="project" />
   </component>
 </module>

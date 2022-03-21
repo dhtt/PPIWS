@@ -3,32 +3,24 @@ package com.webserver;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.*;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Dictionary;
-import java.util.HashMap;
-import java.util.Map;
 
 @WebServlet(name = "ProgressReporter", value = "/ProgressReporter")
 public class ProgressReporter extends HttpServlet {
-    public static void printList(PrintWriter out, String[] list){
-        for (String i : list) out.println(i + "<br>");
-    }
-//    class String[] DTO for messages + jackson faster xml -> serialize into json
     public void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
+        response.setContentType("application/json");
         PrintWriter out = response.getWriter();
+        String settingMessage = request.getSession().getAttribute("STATIC_PROGRESS_MESSAGE").toString();
+        Boolean stopSignal = Boolean.valueOf(request.getSession().getAttribute("LONG_PROCESS_SIGNAL").toString());
+        String runProgress = request.getSession().getAttribute("LONG_PROCESS_MESSAGE").toString();
+        JSONObject POSTData = new JSONObject();
 
-        out.println("<h4>| Running PPIXpress with example data...</h4>");
-        out.println("<a href='header.html'>Inspect/Download example data</a><br><br>");
-
-        out.println("<h4>| Parsing PPIXpress options... </h4>");
-        String[] parsedArgs = (String[]) request.getSession().getAttribute("PARSED_ARGS");
-        if (parsedArgs != null){
-            printList(out, parsedArgs);
-        }
-        out.println("<br><h4>| Executing PPIXpress... </h4>Step " + request.getSession().getAttribute("LONG_RUNNING_PROCESS_STATUS") +"/6<br>");
-        out.println(request.getSession().getAttribute("LONG_RUNNING_PROCESS_MESSAGE"));
+        POSTData.put("UPDATE_STATIC_PROGRESS_MESSAGE", settingMessage);
+        POSTData.put("UPDATE_LONG_PROCESS_SIGNAL", stopSignal);
+        POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", runProgress);
+        out.println(POSTData);
     }
 }

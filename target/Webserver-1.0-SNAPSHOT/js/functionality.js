@@ -67,53 +67,26 @@ jQuery(document).ready(function() {
         })
     }
 
-    // let i = 0;
-    // $.fn.updateLongRunningStatus = function(resultText) {
-    //     console.log(i)
-    //     if (i !== 120) { //until 120 is reached
-    //         $.post('ProgressReporter', function(data) {
-    //             console.log(data)
-    //             $('#RunningProgressContent').html(data)  // update the progress bar
-    //             setTimeout($.fn.updateLongRunningStatus, 1000);
-    //         });
-    //     }
-    //     else {
-    //         alert("Time out")
-    //     }
-    //     i++;
-    // }
-
     $.fn.updateLongRunningStatus = function(resultText) {
-        var i = 0;
-        var interval = setInterval(function() {
-            i++;
-            $.post('ProgressReporter', function(data) {
-                console.log("i:", i)
-                console.log(data)
-                if (i === 150) {
-                    clearInterval(interval);
+        var interval = setInterval(function(data){
+            $.ajax({
+                    type: "POST",
+                    url: 'ProgressReporter',
+                    cache: false,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (data) {
+                        // console.log(data)
+                        if (data.UPDATE_LONG_PROCESS_SIGNAL === true) {
+                            alert("PPIXpress pipeline is finished!")
+                            clearInterval(interval)
+                        }
+                        $('#RunningProgressContent').html(data.UPDATE_STATIC_PROGRESS_MESSAGE + data.UPDATE_LONG_PROCESS_MESSAGE)
+                    }
                 }
-                $('#RunningProgressContent').html(data)  // update the progress bar
-            });
+            );
         }, 1000);
     }
-
-
-    // setTimeout(function(){
-    //     if (i!== 3){
-    //         $.fn.updateLongRunningStatus = function(resultText){
-    //             console.log(i)
-    //             $.post('ProgressReporter', function(data) {
-    //                 $('#RunningProgressContent').html(data)  // update the progress bar
-    //                 setTimeout($.fn.updateLongRunningStatus, 1000);
-    //             })
-    //         }
-    //     }
-    //     i++
-    // }, 1000)
-
-
-
 
     $('#RunNormal').on('click', function (){
         $.fn.submit_form("RunNormal")

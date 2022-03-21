@@ -6,9 +6,12 @@ import jakarta.servlet.annotation.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
+
+import static com.webserver.PPIXpressRun.updateAtomicString;
 
 @WebServlet(name = "PPIXpress", value = "/PPIXpress")
 @MultipartConfig()
@@ -19,13 +22,13 @@ public class PPIXpressServlet extends HttpServlet {
     }
 
     static class LongRunningProcess implements Runnable{
-        private final AtomicInteger percentComplete;
+        private final AtomicBoolean updatingStop;
         private final AtomicReference<String> message;
         private final PPIXpressRun parsedPipeline;
         private volatile boolean stop;
 
-        public LongRunningProcess(PPIXpressRun parsedPipeline, AtomicInteger percentComplete, AtomicReference<String> message) {
-            this.percentComplete = percentComplete;
+        public LongRunningProcess(PPIXpressRun parsedPipeline, AtomicBoolean updatingStop, AtomicReference<String> message) {
+            this.updatingStop = updatingStop;
             this.parsedPipeline = parsedPipeline;
             this.message = message;
         }
@@ -33,18 +36,10 @@ public class PPIXpressServlet extends HttpServlet {
         @Override
         public void run() {
             while (!stop){
-//                try {
-//                    Thread.sleep(1000);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-                parsedPipeline.runAnalysis(percentComplete, message);
-                if (percentComplete.get() == 6){
+                parsedPipeline.runAnalysis(updatingStop, message);
+                if (updatingStop.get()){
                     setStop(true);
                 }
-//                else {
-//                    percentComplete.incrementAndGet();
-//                }
             }
         }
 
@@ -61,35 +56,35 @@ public class PPIXpressServlet extends HttpServlet {
 //        Main pipeline
         PPIXpressRun pipeline = new PPIXpressRun();
         response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
         String submit_type = request.getParameter("submitType");
+
         if (submit_type.equals("RunExample")) {
+            AtomicReference<String> staticProgress = new AtomicReference<String>("");
+            request.getSession().setAttribute("STATIC_PROGRESS_MESSAGE", staticProgress);
+
 //            SHOW EXAMPLE DATA
-//            out.println("<h4>| Running PPIXpress with example data...</h4>");
-//            out.println("<a href='header.html'>Inspect/Download example data</a><br><br>");
+            staticProgress.set(
+                    "<h3 style=\"color: #605248\">PLEASE DO NOT CLOSE THIS WINDOW</h3><br>" +
+                    "<h4>| Running PPIXpress with example data...</h4>"+
+                    "<a href='header.html'>Inspect/Download example data</a><br><br>");
 
 //            PARSE OPTIONS
-//            out.println("<h4>| Parsing PPIXpress options... </h4>");
+            updateAtomicString(staticProgress, "<h4>| Parsing PPIXpress options...</h4>");
             String[] args = {"-w", "-u", "-t=0.3"};
             pipeline.parseArgs(args);
             String[] parsedArgs = pipeline.getArgs();
-            request.getSession().setAttribute("PARSED_ARGS", parsedArgs);
-//            printList(out, parsedArgs);
+            if (parsedArgs != null) updateAtomicString(staticProgress, String.join("<br>", parsedArgs));
 
 //            EXECUTE PIPELINE
-//            out.println("<br><h4>| Executing PPIXpress... </h4>");
-//            Try Ajax progress bar
-            AtomicInteger percentComplete = new AtomicInteger(0);
+            updateAtomicString(staticProgress, "<br><br><h4>| Executing PPIXpress... </h4>");
+            AtomicBoolean updatingStop = new AtomicBoolean(false);
             AtomicReference<String> runMessage = new AtomicReference<String>("");
-            request.getSession().setAttribute("LONG_RUNNING_PROCESS_STATUS", percentComplete);
-            request.getSession().setAttribute("LONG_RUNNING_PROCESS_MESSAGE", runMessage);
+            request.getSession().setAttribute("LONG_PROCESS_SIGNAL", updatingStop);
+            request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runMessage);
 
-            LongRunningProcess myThreads = new LongRunningProcess(pipeline, percentComplete, runMessage);
-            Map<Thread, StackTraceElement[]> threads = Thread.getAllStackTraces();
-            System.out.println(threads);
+            LongRunningProcess myThreads = new LongRunningProcess(pipeline, updatingStop, runMessage);
             Thread lrp = new Thread(myThreads);
             lrp.start();
-            System.out.println(threads);
         }
             /*
 //            pipeline.runAnalysis(out);

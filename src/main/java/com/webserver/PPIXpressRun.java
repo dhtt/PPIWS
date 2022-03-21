@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -131,74 +132,40 @@ public class PPIXpressRun {
         return argList.stream().filter(s -> (s != null && s.length() > 0)).toArray(String[]::new);
     }
 
-    public void runAnalysis(AtomicInteger progressByPercent, AtomicReference<String> message){
-//        Test database connection
+    public static void updateAtomicString(AtomicReference<String> runMessage_, String newMessage_){
+        runMessage_.getAndSet(runMessage_.get() + newMessage_);
+    }
+
+    public void runAnalysis(AtomicBoolean updatingStop, AtomicReference<String> runMessage) {
         //gathering even more data if necessary
-//        out.println("Switch Server GRCh37 ...<br>");
-        message.set("... Switch Server GRCh37<br>");
+        runMessage.set("... Switch Server GRCh37<br>");
         DataQuery.switchServerGRCh37();
-        progressByPercent.incrementAndGet(); //1
 
-//        out.println("Retrieving UCSC mapping-data ...");
-        message.getAndSet(message.get() + "... Retrieving UCSC mapping-data<br>");
-//        message.set(message.get() + "... Retrieving UCSC mapping-data<br>");
-//        DataQuery.getUCSChg19toTranscriptMap();
-        progressByPercent.incrementAndGet(); //2
+        updateAtomicString(runMessage, "... Retrieving UCSC mapping-data<br>");
+        DataQuery.getUCSChg19toTranscriptMap();
 
-//        out.println("Reading network (may take some time if ID conversion is necessary) ...<br>");
-        message.getAndSet(message.get() + "... Reading network (may take some time if ID conversion is necessary)<br>");
+        updateAtomicString(runMessage, "... Reading network (may take some time if ID conversion is necessary)<br>");
         PPIN original_network = new PPIN("/Users/trangdo/Documents/BIOINFO/PPIXpress/example_data/human_ppin.sif.gz");
-//        out.println("Complete network: " + original_network.getSizesStr() + "<br>");
-        message.getAndSet(message.get() + "...... Complete network: " + original_network.getSizesStr() + "<br>");
-        progressByPercent.incrementAndGet(); //3
+        updateAtomicString(runMessage, "...... Complete network: " + original_network.getSizesStr() + "<br>");
 
         // gathering data that will always be needed
-//        out.println("Get Ensembl Organism Database From Proteins<br>");
-        message.getAndSet(message.get() + "... Get Ensembl organism database from proteins<br>");
+        updateAtomicString(runMessage, "... Get Ensembl organism database from proteins<br>");
         String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
         String ensembl_version = organism_database.split("_")[organism_database.split("_").length-2];
-        progressByPercent.incrementAndGet(); //4
 
-//        out.print("Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes) ...<br>");
-        message.getAndSet(message.get() + "... Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
-        message.getAndSet(message.get() + "...... Get genes transcripts proteins<br>");
+        updateAtomicString(runMessage, "... Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
+        updateAtomicString(runMessage, "...... Get genes transcripts proteins<br>");
         DataQuery.getGenesTranscriptsProteins(organism_database);
-        message.getAndSet(message.get() + "...... Get isoform protein domain map<br>");
+        updateAtomicString(runMessage, "...... Get isoform protein domain map<br>");
         DataQuery.getIsoformProteinDomainMap(organism_database);
-        progressByPercent.incrementAndGet(); //5
 
         // start preprocessing
-//        out.println("Initializing PPIXpress with original network ... <br>");
-        message.getAndSet(message.get() + "... Initializing PPIXpress with original network<br>");
+        updateAtomicString(runMessage,"... Initializing PPIXpress with original network<br>");
         NetworkBuilder builder = new NetworkBuilder(original_network, true, false);
-//        message.getAndSet(message.get() + Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +"% of proteins could be annotated with at least one non-artificial domain," );
-//        message.getAndSet(message.get() + Math.round(builder.getMappingPercentage() * 10000)/100.0 +"% of protein interactions could be associated with at least one non-artificial domain interaction.<br>" );
-//        out.flush();
-        message.getAndSet(message.get() + "<h4>PPIXpress pipeline finished!</h4>");
-        progressByPercent.incrementAndGet(); //6
-
-//        Testing Pool connection
-       /* PoolProperties p = new PoolProperties();
-        p.setUrl("jdbc:mysql://localhost:3306/javatest");
-        p.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        p.setUsername("root");
-        p.setPassword("Cats4Life!");
-        p.setLogAbandoned(true);
-        p.setRemoveAbandoned(true);
-        DataSource datasource = new DataSource();
-        datasource.setPoolProperties(p);
-
-        Connection connection = null;
-        try {
-            out.println("datasource is being used");
-            connection = datasource.getConnection();
-            Statement st = connection.createStatement();
-            st.setQueryTimeout(10);
-            out.println("DONE");
-        } catch (SQLException e) {
-            e.printStackTrace();
-            out.println("EXCEPTION OCCURRED");
-        }*/
+//        updateRunMessage(runMessage,Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +"% of proteins could be annotated with at least one non-artificial domain," );
+//        updateRunMessage(runMessage,Math.round(builder.getMappingPercentage() * 10000)/100.0 +"% of protein interactions could be associated with at least one non-artificial domain interaction.<br>" );
+        updateAtomicString(runMessage,"<br><h4>PPIXpress pipeline is finished!</h4>");
+        updatingStop.set(true);
     }
     public static void main(String[] args) {
         System.out.println("Initialize");
