@@ -42,6 +42,11 @@ jQuery(document).ready(function() {
         $('#expression_description').html("Expression data: " + this.files.length + " file(s) selected")
     })
 
+    var loading = $('#LoadingProgressIcon')
+    var loading_wait = setInterval(function(){
+        if ((loading.innerHTML += ".").length === 4) loading.innerHTML = '';
+    }, 1000)
+
     // Ajax Handler
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
@@ -67,26 +72,32 @@ jQuery(document).ready(function() {
         })
     }
 
+    var allPanel = $('#AllPanels')
     $.fn.updateLongRunningStatus = function(resultText) {
         var interval = setInterval(function(data){
             $.ajax({
-                    type: "POST",
-                    url: 'ProgressReporter',
-                    cache: false,
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (data) {
-                        // console.log(data)
-                        if (data.UPDATE_LONG_PROCESS_SIGNAL === true) {
-                            alert("PPIXpress pipeline is finished!")
-                            clearInterval(interval)
-                        }
-                        $('#RunningProgressContent').html(data.UPDATE_STATIC_PROGRESS_MESSAGE + data.UPDATE_LONG_PROCESS_MESSAGE)
+                type: "POST",
+                url: 'ProgressReporter',
+                cache: false,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (data) {
+                    // console.log(data)
+                    allPanel.css({'cursor':'progress'})
+                    if (data.UPDATE_LONG_PROCESS_SIGNAL === true) {
+                        alert("PPIXpress pipeline is finished!")
+                        clearInterval(interval)
+                        allPanel.css({'cursor':'default'})
                     }
+                    $('#RunningProgressContent').html(
+                        data.UPDATE_STATIC_PROGRESS_MESSAGE +
+                        data.UPDATE_LONG_PROCESS_MESSAGE)
                 }
+            }
             );
-        }, 1000);
+        }, 3000);
     }
+
 
     $('#RunNormal').on('click', function (){
         $.fn.submit_form("RunNormal")
@@ -96,8 +107,8 @@ jQuery(document).ready(function() {
         $.fn.submit_form("RunExample")
         return false;
     })
+})
 
-});
 
 function toggle_tab(name, displayTabs, chosenTab, chosenTab_contents){
     for (let i=0; i < displayTabs.length; i++){

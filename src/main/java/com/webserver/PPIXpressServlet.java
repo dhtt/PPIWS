@@ -64,7 +64,6 @@ public class PPIXpressServlet extends HttpServlet {
 
 //            SHOW EXAMPLE DATA
             staticProgress.set(
-                    "<h3 style=\"color: #605248\">PLEASE DO NOT CLOSE THIS WINDOW</h3><br>" +
                     "<h4>| Running PPIXpress with example data...</h4>"+
                     "<a href='header.html'>Inspect/Download example data</a><br><br>");
 

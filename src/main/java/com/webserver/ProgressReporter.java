@@ -14,13 +14,13 @@ public class ProgressReporter extends HttpServlet {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
         String settingMessage = request.getSession().getAttribute("STATIC_PROGRESS_MESSAGE").toString();
-        Boolean stopSignal = Boolean.valueOf(request.getSession().getAttribute("LONG_PROCESS_SIGNAL").toString());
         String runProgress = request.getSession().getAttribute("LONG_PROCESS_MESSAGE").toString();
+        Boolean stopSignal = Boolean.valueOf(request.getSession().getAttribute("LONG_PROCESS_SIGNAL").toString());
         JSONObject POSTData = new JSONObject();
 
         POSTData.put("UPDATE_STATIC_PROGRESS_MESSAGE", settingMessage);
-        POSTData.put("UPDATE_LONG_PROCESS_SIGNAL", stopSignal);
         POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", runProgress);
+        POSTData.put("UPDATE_LONG_PROCESS_SIGNAL", stopSignal);
         out.println(POSTData);
     }
 }

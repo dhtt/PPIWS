@@ -15,7 +15,7 @@
 <body>
 <jsp:include page="html/header.html" />
 
-<div class="container-body">
+<div id="AllPanels" class="container-body">
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
@@ -132,6 +132,7 @@
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto">
             <div id="RunningProgressContent" name="RunningProgress" class="display-content">
+                <h3 id="LoadingProgressIcon" name="Loading"></h3>
 <%--                Page 1--%>
             </div>
             <div id="ResultSummaryContent" name="ResultSummary" class="display-content non-display">

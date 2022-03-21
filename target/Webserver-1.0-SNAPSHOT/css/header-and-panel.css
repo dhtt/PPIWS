@@ -94,3 +94,9 @@ a:hover{
     cursor: default;
 }
 
+.ajaxLoading {
+    cursor: progress !important;
+}
+
+
+/*TODO: cursor over Reset button*/
