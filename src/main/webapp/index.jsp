@@ -1,8 +1,9 @@
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false" %>
 
-<html>
+<html lang="en">
 <head>
     <title>PPIXpress</title>
     <link rel="stylesheet" href="css/interface.css">
@@ -11,6 +12,7 @@
 <%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>--%>
     <script src="js/functionality.js"></script>
     <script src="js/network_maker.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <jsp:include page="html/header.html" />
@@ -132,8 +134,12 @@
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto">
             <div id="RunningProgressContent" name="RunningProgress" class="display-content">
-                <h3 id="LoadingProgressIcon" name="Loading"></h3>
 <%--                Page 1--%>
+            </div>
+            <div id="AfterRunOptions" name="AfterRunOptions" style="display: none; text-align: center">
+                <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
+                <button type="button" name="transit" id="toResultSummary" value="null" class="button download">To Result Summary</button><br>
+                <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">To Network Visualization</button><br>
             </div>
             <div id="ResultSummaryContent" name="ResultSummary" class="display-content non-display">
 <%--                Page 2--%>

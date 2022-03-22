@@ -64,18 +64,18 @@ public class PPIXpressServlet extends HttpServlet {
 
 //            SHOW EXAMPLE DATA
             staticProgress.set(
-                    "<h4>| Running PPIXpress with example data...</h4>"+
+                    "<h3>| Running PPIXpress with example data...</h3>"+
                     "<a href='header.html'>Inspect/Download example data</a><br><br>");
 
 //            PARSE OPTIONS
-            updateAtomicString(staticProgress, "<h4>| Parsing PPIXpress options...</h4>");
+            updateAtomicString(staticProgress, "<h3>| Parsing PPIXpress options...</h3>");
             String[] args = {"-w", "-u", "-t=0.3"};
             pipeline.parseArgs(args);
             String[] parsedArgs = pipeline.getArgs();
             if (parsedArgs != null) updateAtomicString(staticProgress, String.join("<br>", parsedArgs));
 
 //            EXECUTE PIPELINE
-            updateAtomicString(staticProgress, "<br><br><h4>| Executing PPIXpress... </h4>");
+            updateAtomicString(staticProgress, "<br><br><h3>| Executing PPIXpress... </h3>");
             AtomicBoolean updatingStop = new AtomicBoolean(false);
             AtomicReference<String> runMessage = new AtomicReference<String>("");
             request.getSession().setAttribute("LONG_PROCESS_SIGNAL", updatingStop);
@@ -89,7 +89,7 @@ public class PPIXpressServlet extends HttpServlet {
 //            pipeline.runAnalysis(out);
         }
         else if (submit_type.equals("RunNormal")){
-            out.println("<h4>Data submitted!<br><br>Uploaded files:</h4>");
+            out.println("<h3>Data submitted!<br><br>Uploaded files:</h3>");
 //        Show uploaded files
             for (Part part : request.getParts()) {
                 if (part.getSubmittedFileName() != null) {
@@ -103,11 +103,11 @@ public class PPIXpressServlet extends HttpServlet {
             String[] Run_Options = request.getParameterValues("RunOptions");
             String[] numericInput = {request.getParameter("threshold")};
             //TODO: Add percentile adjustment
-            out.println("<br><h4>| Parsing PPIXpress options... </h4>");
+            out.println("<br><h3>| Parsing PPIXpress options... </h3>");
             pipeline.parseArgs(PPI_Options, Exp_Options, Run_Options, numericInput);
             printList(out, pipeline.getArgs());
 
-            out.println("<br><h4>| Executing PPIXpress... </h4>");
+            out.println("<br><h3>| Executing PPIXpress... </h3>");
         }*/
     }
     public static void main(String[] args){

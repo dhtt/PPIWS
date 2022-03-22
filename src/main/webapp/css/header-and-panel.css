@@ -49,7 +49,7 @@
     font-size: small;
     border-radius: 0 0 1em 1em;
     margin: 0 0 1em 0;
-    padding: 1em;
+    padding: 1em 2em 1em 2em;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -93,10 +93,3 @@ a:hover{
     font-weight: bold;
     cursor: default;
 }
-
-.ajaxLoading {
-    cursor: progress !important;
-}
-
-
-/*TODO: cursor over Reset button*/

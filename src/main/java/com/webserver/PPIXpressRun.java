@@ -153,18 +153,20 @@ public class PPIXpressRun {
         String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
         String ensembl_version = organism_database.split("_")[organism_database.split("_").length-2];
 
-        updateAtomicString(runMessage, "... Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
-        updateAtomicString(runMessage, "...... Get genes transcripts proteins<br>");
-        DataQuery.getGenesTranscriptsProteins(organism_database);
-        updateAtomicString(runMessage, "...... Get isoform protein domain map<br>");
-        DataQuery.getIsoformProteinDomainMap(organism_database);
-
-        // start preprocessing
-        updateAtomicString(runMessage,"... Initializing PPIXpress with original network<br>");
-        NetworkBuilder builder = new NetworkBuilder(original_network, true, false);
+//        updateAtomicString(runMessage, "... Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
+//        updateAtomicString(runMessage, "...... Get genes transcripts proteins<br>");
+//        DataQuery.getGenesTranscriptsProteins(organism_database);
+//        updateAtomicString(runMessage, "...... Get isoform protein domain map<br>");
+//        DataQuery.getIsoformProteinDomainMap(organism_database);
+//
+//        // start preprocessing
+//        updateAtomicString(runMessage,"... Initializing PPIXpress with original network<br>");
+//        NetworkBuilder builder = new NetworkBuilder(original_network, true, false);
 //        updateRunMessage(runMessage,Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +"% of proteins could be annotated with at least one non-artificial domain," );
 //        updateRunMessage(runMessage,Math.round(builder.getMappingPercentage() * 10000)/100.0 +"% of protein interactions could be associated with at least one non-artificial domain interaction.<br>" );
-        updateAtomicString(runMessage,"<br><h4>PPIXpress pipeline is finished!</h4>");
+        updateAtomicString(runMessage, "<h3 style='text-align: center'><br><br>" +
+                "- - - ".repeat(35) + "<br>PPIXpress pipeline is finished!<br>" +
+                "- - - ".repeat(35) + "</h3><br>");
         updatingStop.set(true);
     }
     public static void main(String[] args) {
