@@ -44,13 +44,14 @@
 
 /*Display section*/
 .display{
-    background-color: #EDF2F4;
+    background-color: #f7fafc;
     color: #433C39;
     font-size: small;
     border-radius: 0 0 1em 1em;
-    margin: 0 0 1em 0;
-    padding: 1em 2em 1em 2em;
-    overflow-x: hidden;
+    margin: 0;
+    padding: 1em;
+    /*padding: 1em 2em 1em 2em;*/
+    /*overflow-x: hidden;*/
     overflow-y: auto;
 }
 .tabs{
@@ -74,9 +75,12 @@
 }
 
 .display-content{
+    margin: 0;
+    padding: 0;
     display: block;
-    overflow: hidden;
+    overflow: scroll;
     text-overflow: ellipsis;
+    position: absolute;
 }
 .display-content.non-display{
     display: none;

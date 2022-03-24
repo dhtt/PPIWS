@@ -72,7 +72,6 @@ jQuery(document).ready(function() {
             }
         })
     }
-
     let updateLongRunningStatus = function (resultText, loadingText, updateInterval) {
         const interval = setInterval(function (json) {
             $.ajax({
@@ -100,7 +99,6 @@ jQuery(document).ready(function() {
         }, updateInterval);
     }
 
-
     $('#RunNormal').on('click', function (){
         $.fn.submit_form("RunNormal")
         return false;
@@ -109,6 +107,48 @@ jQuery(document).ready(function() {
         $.fn.submit_form("RunExample")
         return false;
     })
+
+    // Show graph
+    fetch('js/data2.json', {mode: 'no-cors'})
+        .then(function(res) {
+            return res.json()
+        })
+        .then(function(data) {
+            var graph = cytoscape({
+                container: $('#NetworkVisualizationContent'),
+                elements: data,
+                boxSelectionEnabled: false,
+                autounselectify: true,
+
+                layout: {
+                    name: 'circle'
+                },
+
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'label': 'data(id)', //Show gene id
+                            'height': 20, //Adjust node size
+                            'width': 20,
+                            'background-color' : 'black'
+                            // 'background-color': 'mapData(rank, 0, 207, #95d0aa, #e8067f)',
+                        }
+                    },
+
+                    {
+                        selector: 'edge',
+                        style: {
+                            'curve-style': 'haystack',
+                            'haystack-radius': 1,
+                            'width': 5,
+                            'opacity': 0.5,
+                            'line-color': '#95d0aa'
+                        }
+                    }
+                ]
+            });
+        })
 })
 
 

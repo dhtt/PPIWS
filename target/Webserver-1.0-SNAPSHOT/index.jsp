@@ -1,16 +1,18 @@
+<!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" session="false" %>
 
-<html>
+<html lang="en">
 <head>
     <title>PPIXpress</title>
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<%--    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>--%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
     <script src="js/functionality.js"></script>
-    <script src="js/network_maker.js"></script>
+<%--    <script src="js/network_maker.js"></script>--%>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <jsp:include page="html/header.html" />
@@ -130,15 +132,22 @@
             <button type="button" name="Display" id="ResultSummary" class="header button-tab" onclick="getContent('ResultSummary')">Result Summary</button>
             <button type="button" name="Display" id="NetworkVisualization" class="header button-tab" onclick="getContent('NetworkVisualization')">Network Visualization</button>
         </div>
-        <div id="Display" class="display" style="flex: 1 1 auto">
+        <div id="Display" class="display" style="flex: 1 1 auto; position: relative;">
             <div id="RunningProgressContent" name="RunningProgress" class="display-content">
-                <h3 id="LoadingProgressIcon" name="Loading"></h3>
 <%--                Page 1--%>
+                <div id="cy"></div>
             </div>
+<%--            <div id="AfterRunOptions" name="AfterRunOptions" style="display: none; text-align: center">--%>
+<%--                <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>--%>
+<%--                <button type="button" name="transit" id="toResultSummary" value="null" class="button download">To Result Summary</button><br>--%>
+<%--                <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">To Network Visualization</button><br>--%>
+<%--            </div>--%>
+
             <div id="ResultSummaryContent" name="ResultSummary" class="display-content non-display">
 <%--                Page 2--%>
+
             </div>
-            <div id="NetworkVisualizationContent" name="NetworkVisualization" class="display-content non-display" style="width: 50%; height: 300px; overflow: hidden;">
+            <div id="NetworkVisualizationContent" name="NetworkVisualization" class="display-content non-display">
 <%--                Example network--%>
             </div>
         </div>

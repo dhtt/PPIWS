@@ -1,35 +1,35 @@
-// TODO: Show ResultSummary + NetworkViualization only after Running Progress is done
-// TODO: Check if progress shown while running
+// TODO: Show ResultSummary + NetworkVisualization only after Running Progress is done
+
 jQuery(document).ready(function() {
     // Set default
-    $.fn.set_default = function(){
+    let set_default = function () {
         $('#remove_decay_transcripts').prop('checked', true)
         $('#threshold').val(1.0)
     }
-    $.fn.set_default()
+    set_default()
 
     // Make output_major_transcripts true when report_gene_abundance
-    $.fn.make_all_checked = function(source_, target_){
+    let make_all_checked = function (source_, target_) {
         const parent = $('#' + source_)
         const children = $('#' + target_)
-        if (parent.is(':checked') === true){
+        if (parent.is(':checked') === true) {
             children.prop("checked", true)
         } else {
             children.prop("checked", false)
         }
     }
     $('#report_gene_abundance').on('click', function(){
-        $.fn.make_all_checked('report_gene_abundance','output_major_transcripts')
+        make_all_checked('report_gene_abundance','output_major_transcripts')
     })
 
     // Reset button
-    $.fn.make_none_checked = function (name){
-        $('[name="'+name+'"]').prop('checked', false)
+    let make_none_checked = function (name) {
+        $('[name="' + name + '"]').prop('checked', false)
     }
     $('.reset').on('click', function(){
         const name = $(this).attr('id').split('Reset').join("");
-        $.fn.make_none_checked(name)
-        $.fn.set_default()
+        make_none_checked(name)
+        set_default()
     })
 
     // Show number of uploaded files
@@ -42,12 +42,10 @@ jQuery(document).ready(function() {
         $('#expression_description').html("Expression data: " + this.files.length + " file(s) selected")
     })
 
-    var loading = $('#LoadingProgressIcon')
-    var loading_wait = setInterval(function(){
-        if ((loading.innerHTML += ".").length === 4) loading.innerHTML = '';
-    }, 1000)
-
     // Ajax Handler
+    const allPanel = $('#AllPanels');
+    const runningProgressContent = $('#RunningProgressContent');
+    const afterRunOptions = $('#AfterRunOptions');
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
@@ -64,44 +62,42 @@ jQuery(document).ready(function() {
             processData : false,
             contentType : false,
             success: function (resultText) {
-                $.fn.updateLongRunningStatus(resultText)
+                var loadingText = setInterval(function(){
+                    runningProgressContent.append(".")
+                }, 250)
+                updateLongRunningStatus(resultText, loadingText, 4000)
             },
             error: function (){
                 alert("An error occurred, checked console log!")
             }
         })
     }
-
-    $.fn.updateLongRunningStatus = function(resultText) {
-        var interval = setInterval(function(data){
+    let updateLongRunningStatus = function (resultText, loadingText, updateInterval) {
+        const interval = setInterval(function (json) {
             $.ajax({
-                type: "POST",
-                url: 'ProgressReporter',
-                cache: false,
-                contentType: "application/json",
-                dataType: "json",
-                before: function(){
-                    $('#AllPanels').css({'cursor':'progress'})
-                },
-                always: function(){
-                    $('#AllPanels').css({'cursor':'progress'})
-                },
-                success: function (data) {
-                    // console.log(data)
-                    if (data.UPDATE_LONG_PROCESS_SIGNAL === true) {
-                        alert("PPIXpress pipeline is finished!")
-                        clearInterval(interval)
-                        $('#AllPanels').css({'cursor':'default'})
+                    type: "POST",
+                    url: 'ProgressReporter',
+                    cache: false,
+                    contentType: "application/json",
+                    dataType: "json",
+                    success: function (json) {
+                        // console.log(data)
+                        allPanel.css({'cursor': 'progress'})
+                        if (json.UPDATE_LONG_PROCESS_SIGNAL === true) {
+                            clearInterval(interval)
+                            clearInterval(loadingText)
+                            allPanel.css({'cursor': 'default'})
+                            afterRunOptions.css({'display': 'block'})
+                        }
+                        runningProgressContent.html(
+                            json.UPDATE_STATIC_PROGRESS_MESSAGE +
+                            json.UPDATE_LONG_PROCESS_MESSAGE
+                        )
                     }
-                    $('#RunningProgressContent').html(
-                        data.UPDATE_STATIC_PROGRESS_MESSAGE +
-                        data.UPDATE_LONG_PROCESS_MESSAGE)
                 }
-            }
             );
-        }, 3000);
+        }, updateInterval);
     }
-
 
     $('#RunNormal').on('click', function (){
         $.fn.submit_form("RunNormal")
@@ -111,6 +107,48 @@ jQuery(document).ready(function() {
         $.fn.submit_form("RunExample")
         return false;
     })
+
+    // Show graph
+    fetch('js/data2.json', {mode: 'no-cors'})
+        .then(function(res) {
+            return res.json()
+        })
+        .then(function(data) {
+            var graph = cytoscape({
+                container: $('#NetworkVisualizationContent'),
+                elements: data,
+                boxSelectionEnabled: false,
+                autounselectify: true,
+
+                layout: {
+                    name: 'circle'
+                },
+
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'label': 'data(id)', //Show gene id
+                            'height': 20, //Adjust node size
+                            'width': 20,
+                            'background-color' : 'black'
+                            // 'background-color': 'mapData(rank, 0, 207, #95d0aa, #e8067f)',
+                        }
+                    },
+
+                    {
+                        selector: 'edge',
+                        style: {
+                            'curve-style': 'haystack',
+                            'haystack-radius': 1,
+                            'width': 5,
+                            'opacity': 0.5,
+                            'line-color': '#95d0aa'
+                        }
+                    }
+                ]
+            });
+        })
 })
 
 

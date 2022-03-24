@@ -1,5 +1,6 @@
 package com.webserver;
 
+import framework.ConstructedNetworks;
 import framework.DataQuery;
 import framework.NetworkBuilder;
 import framework.PPIN;
@@ -153,22 +154,42 @@ public class PPIXpressRun {
         String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
         String ensembl_version = organism_database.split("_")[organism_database.split("_").length-2];
 
-//        updateAtomicString(runMessage, "... Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
-//        updateAtomicString(runMessage, "...... Get genes transcripts proteins<br>");
-//        DataQuery.getGenesTranscriptsProteins(organism_database);
-//        updateAtomicString(runMessage, "...... Get isoform protein domain map<br>");
-//        DataQuery.getIsoformProteinDomainMap(organism_database);
-//
-//        // start preprocessing
-//        updateAtomicString(runMessage,"... Initializing PPIXpress with original network<br>");
-//        NetworkBuilder builder = new NetworkBuilder(original_network, true, false);
-//        updateRunMessage(runMessage,Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +"% of proteins could be annotated with at least one non-artificial domain," );
-//        updateRunMessage(runMessage,Math.round(builder.getMappingPercentage() * 10000)/100.0 +"% of protein interactions could be associated with at least one non-artificial domain interaction.<br>" );
+        updateAtomicString(runMessage, "... Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
+        updateAtomicString(runMessage, "...... Get genes transcripts proteins<br>");
+        DataQuery.getGenesTranscriptsProteins(organism_database);
+        updateAtomicString(runMessage, "...... Get isoform protein domain map<br>");
+        DataQuery.getIsoformProteinDomainMap(organism_database);
+
+        // start preprocessing
+        updateAtomicString(runMessage,"... Initializing PPIXpress with original network<br>");
+        NetworkBuilder builder = new NetworkBuilder(original_network, true, false);
+        updateAtomicString(runMessage,"...... " + Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +"% of proteins could be annotated with at least one non-artificial domain, " );
+        updateAtomicString(runMessage,Math.round(builder.getMappingPercentage() * 10000)/100.0 +"% of protein interactions could be associated with at least one non-artificial domain interaction.<br>" );
+
+//        construct isoform network
+        updateAtomicString(runMessage,"... Constructing associated isoform networks<br>");
+        ConstructedNetworks constr = NetworkBuilder.constructAssociatedIsoformNetworks(original_network);
+
+//        write output files
+        updateAtomicString(runMessage, "... Building output data for reference network ");
+        String file_suffix = "_ppin.txt";
+        constr.getPPIN().writePPIN("example" + file_suffix);
+
+        updateAtomicString(runMessage, "-> " + constr.getPPIN().getSizesStr());
+
+        file_suffix = "_ddin.txt";
+        constr.getDDIN().writeDDIN("example" + file_suffix);
+
+        file_suffix = "_major-transcripts.txt";
+        constr.writeProteinToAssumedTranscriptMap( "example" + file_suffix);
+
+
         updateAtomicString(runMessage, "<h3 style='text-align: center'><br><br>" +
-                "- - - ".repeat(35) + "<br>PPIXpress pipeline is finished!<br>" +
-                "- - - ".repeat(35) + "</h3><br>");
+                "------".repeat(30) + "<br>PPIXpress pipeline is finished!<br>" +
+                "------".repeat(30) + "</h3><br>");
         updatingStop.set(true);
     }
+
     public static void main(String[] args) {
         System.out.println("Initialize");
         PPIXpressRun new_pipeline = new PPIXpressRun();
