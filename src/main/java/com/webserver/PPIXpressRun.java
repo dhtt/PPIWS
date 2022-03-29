@@ -153,7 +153,7 @@ public class PPIXpressRun {
         updateAtomicString(runMessage, "... Get Ensembl organism database from proteins<br>");
         String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
         String ensembl_version = organism_database.split("_")[organism_database.split("_").length-2];
-
+/*
         updateAtomicString(runMessage, "... Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
         updateAtomicString(runMessage, "...... Get genes transcripts proteins<br>");
         DataQuery.getGenesTranscriptsProteins(organism_database);
@@ -182,7 +182,7 @@ public class PPIXpressRun {
 
         file_suffix = "_major-transcripts.txt";
         constr.writeProteinToAssumedTranscriptMap( "example" + file_suffix);
-
+        */
 
         updateAtomicString(runMessage, "<h3 style='text-align: center'><br><br>" +
                 "------".repeat(30) + "<br>PPIXpress pipeline is finished!<br>" +

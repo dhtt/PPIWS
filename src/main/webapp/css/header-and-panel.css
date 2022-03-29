@@ -80,7 +80,7 @@
     display: block;
     overflow: scroll;
     text-overflow: ellipsis;
-    position: absolute;
+    position: relative;
 }
 .display-content.non-display{
     display: none;

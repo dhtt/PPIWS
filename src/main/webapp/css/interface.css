@@ -202,3 +202,11 @@ input[type=number]::-webkit-inner-spin-button {
     height: 100%;
     position: relative;
 }
+
+#Loader {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    background: url("Ellipsis-1s-200px.gif");
+    background-size: 30px;
+}

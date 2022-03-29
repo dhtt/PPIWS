@@ -13,9 +13,10 @@ public class ProgressReporter extends HttpServlet {
     public void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();
-        String settingMessage = request.getSession().getAttribute("STATIC_PROGRESS_MESSAGE").toString();
-        String runProgress = request.getSession().getAttribute("LONG_PROCESS_MESSAGE").toString();
-        Boolean stopSignal = Boolean.valueOf(request.getSession().getAttribute("LONG_PROCESS_SIGNAL").toString());
+        HttpSession session = request.getSession();
+        String settingMessage = session.getAttribute("STATIC_PROGRESS_MESSAGE").toString();
+        String runProgress = session.getAttribute("LONG_PROCESS_MESSAGE").toString();
+        Boolean stopSignal = Boolean.valueOf(session.getAttribute("LONG_PROCESS_SIGNAL").toString());
         JSONObject POSTData = new JSONObject();
 
         POSTData.put("UPDATE_STATIC_PROGRESS_MESSAGE", settingMessage);

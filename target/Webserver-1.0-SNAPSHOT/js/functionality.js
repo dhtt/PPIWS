@@ -46,6 +46,7 @@ jQuery(document).ready(function() {
     const allPanel = $('#AllPanels');
     const runningProgressContent = $('#RunningProgressContent');
     const afterRunOptions = $('#AfterRunOptions');
+    const loader = $('#Loader');
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
@@ -62,17 +63,14 @@ jQuery(document).ready(function() {
             processData : false,
             contentType : false,
             success: function (resultText) {
-                var loadingText = setInterval(function(){
-                    runningProgressContent.append(".")
-                }, 250)
-                updateLongRunningStatus(resultText, loadingText, 4000)
+                updateLongRunningStatus(resultText, 1000)
             },
             error: function (){
                 alert("An error occurred, checked console log!")
             }
         })
     }
-    let updateLongRunningStatus = function (resultText, loadingText, updateInterval) {
+    let updateLongRunningStatus = function (resultText, updateInterval) {
         const interval = setInterval(function (json) {
             $.ajax({
                     type: "POST",
@@ -85,8 +83,8 @@ jQuery(document).ready(function() {
                         allPanel.css({'cursor': 'progress'})
                         if (json.UPDATE_LONG_PROCESS_SIGNAL === true) {
                             clearInterval(interval)
-                            clearInterval(loadingText)
                             allPanel.css({'cursor': 'default'})
+                            loader.css({'display': 'none'})
                             afterRunOptions.css({'display': 'block'})
                         }
                         runningProgressContent.html(
@@ -104,12 +102,13 @@ jQuery(document).ready(function() {
         return false;
     })
     $('#RunExample').on('click', function (){
+        loader.css({'display': 'block'})
         $.fn.submit_form("RunExample")
         return false;
     })
 
     // Show graph
-    fetch('js/data2.json', {mode: 'no-cors'})
+    fetch('js/data.json', {mode: 'no-cors'})
         .then(function(res) {
             return res.json()
         })
@@ -131,7 +130,7 @@ jQuery(document).ready(function() {
                             'label': 'data(id)', //Show gene id
                             'height': 20, //Adjust node size
                             'width': 20,
-                            'background-color' : 'black'
+                            'background-color' : '#433C39'
                             // 'background-color': 'mapData(rank, 0, 207, #95d0aa, #e8067f)',
                         }
                     },

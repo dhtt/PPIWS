@@ -135,13 +135,13 @@
         <div id="Display" class="display" style="flex: 1 1 auto; position: relative;">
             <div id="RunningProgressContent" name="RunningProgress" class="display-content">
 <%--                Page 1--%>
-                <div id="cy"></div>
             </div>
-<%--            <div id="AfterRunOptions" name="AfterRunOptions" style="display: none; text-align: center">--%>
-<%--                <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>--%>
-<%--                <button type="button" name="transit" id="toResultSummary" value="null" class="button download">To Result Summary</button><br>--%>
-<%--                <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">To Network Visualization</button><br>--%>
-<%--            </div>--%>
+            <div id="Loader" style="display: none"></div>
+            <div id="AfterRunOptions" name="AfterRunOptions" style="display: none; text-align: center">
+                <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
+                <button type="button" name="transit" id="toResultSummary" value="null" class="button download">To Result Summary</button><br>
+                <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">To Network Visualization</button><br>
+            </div>
 
             <div id="ResultSummaryContent" name="ResultSummary" class="display-content non-display">
 <%--                Page 2--%>
