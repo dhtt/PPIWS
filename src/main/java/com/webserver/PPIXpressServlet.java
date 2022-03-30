@@ -64,18 +64,18 @@ public class PPIXpressServlet extends HttpServlet {
 
 //            SHOW EXAMPLE DATA
             staticProgress.set(
-                    "<h3>| Running PPIXpress with example data...</h3>"+
+                    "<h3>Running PPIXpress with example data...</h3>"+
                     "<a href='header.html'>Inspect/Download example data</a><br><br>");
 
 //            PARSE OPTIONS
-            updateAtomicString(staticProgress, "<h3>| Parsing PPIXpress options...</h3>");
+            updateAtomicString(staticProgress, "<h3>Parsing PPIXpress options...</h3>");
             String[] args = {"-w", "-u", "-t=0.3"};
             pipeline.parseArgs(args);
             String[] parsedArgs = pipeline.getArgs();
             if (parsedArgs != null) updateAtomicString(staticProgress, String.join("<br>", parsedArgs));
 
 //            EXECUTE PIPELINE
-            updateAtomicString(staticProgress, "<br><br><h3>| Executing PPIXpress... </h3>");
+            updateAtomicString(staticProgress, "<br><br><h3>Executing PPIXpress... </h3>");
             AtomicBoolean updatingStop = new AtomicBoolean(false);
             AtomicReference<String> runMessage = new AtomicReference<String>("");
             request.getSession().setAttribute("LONG_PROCESS_SIGNAL", updatingStop);

@@ -15,7 +15,7 @@ public class ProgressReporter extends HttpServlet {
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
         String settingMessage = session.getAttribute("STATIC_PROGRESS_MESSAGE").toString();
-        String runProgress = session.getAttribute("LONG_PROCESS_MESSAGE").toString();
+        String runProgress = "<ul>" + session.getAttribute("LONG_PROCESS_MESSAGE").toString() + "</ul>";
         Boolean stopSignal = Boolean.valueOf(session.getAttribute("LONG_PROCESS_SIGNAL").toString());
         JSONObject POSTData = new JSONObject();
 

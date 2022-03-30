@@ -133,14 +133,27 @@
             <button type="button" name="Display" id="NetworkVisualization" class="header button-tab" onclick="getContent('NetworkVisualization')">Network Visualization</button>
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto; position: relative;">
-            <div id="RunningProgressContent" name="RunningProgress" class="display-content">
-<%--                Page 1--%>
-            </div>
-            <div id="Loader" style="display: none"></div>
-            <div id="AfterRunOptions" name="AfterRunOptions" style="display: none; text-align: center">
-                <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
-                <button type="button" name="transit" id="toResultSummary" value="null" class="button download">To Result Summary</button><br>
-                <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">To Network Visualization</button><br>
+            <div id="RunningProgressContent" name="RunningProgress" class="display-content" style="display: flex; flex-direction: row">
+                <div id="LeftDisplay" style="flex-grow: 1; flex-basis: 50%; padding: 0 1em">
+                    <div id="RPContent" name="RunningProgress"></div>
+                    <div id="Loader" name="RunningProgress" style="display: none; position: relative;"></div>
+                    <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 66%; margin: 1em auto; border-radius: 1em">
+                        <p class="header" style="background: #68d3aa; color: white; text-shadow: var(--textshadow)"> PPIXpress pipeline is finished! </p>
+                        <div class="panel" style="background: white; text-align: center">
+                            <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
+                            <button type="button" name="transit" id="toResultSummary" value="null" class="button download">To Result Summary</button><br>
+                            <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">To Network Visualization</button><br>
+                        </div>
+
+<%--                        <br><h3> PPIXpress pipeline is finished! </h3><br>--%>
+<%--                        <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>--%>
+<%--                        <button type="button" name="transit" id="toResultSummary" value="null" class="button download">To Result Summary</button><br>--%>
+<%--                        <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">To Network Visualization</button><br>--%>
+<%--                        <br>--%>
+                    </div>
+                </div>
+                <div id="RightDisplay" style="flex-grow: 1; flex-basis: 50%; background-color: #729F82; padding: 0 1em">
+                </div>
             </div>
 
             <div id="ResultSummaryContent" name="ResultSummary" class="display-content non-display">

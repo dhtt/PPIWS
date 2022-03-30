@@ -44,7 +44,7 @@ jQuery(document).ready(function() {
 
     // Ajax Handler
     const allPanel = $('#AllPanels');
-    const runningProgressContent = $('#RunningProgressContent');
+    const runningProgressContent = $('#RPContent');
     const afterRunOptions = $('#AfterRunOptions');
     const loader = $('#Loader');
     $.fn.submit_form = function(submit_type_){
@@ -79,7 +79,6 @@ jQuery(document).ready(function() {
                     contentType: "application/json",
                     dataType: "json",
                     success: function (json) {
-                        // console.log(data)
                         allPanel.css({'cursor': 'progress'})
                         if (json.UPDATE_LONG_PROCESS_SIGNAL === true) {
                             clearInterval(interval)

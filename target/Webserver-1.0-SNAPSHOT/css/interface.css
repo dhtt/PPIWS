@@ -1,3 +1,16 @@
+/*TODO set focus for elements*/
+:root{
+    --mint: #b4e8c6;
+    --darkmint: #729F82;
+    --choco: #433C39;
+    --lightmintgrey: #EDF2F4;
+    --intensemint: #68d3aa;
+    --darkintensemint: #1f9b71;
+    --ultradarkmint: #003924;
+    --shadow: rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px;
+    --textshadow: 1px 1px 4px var(--darkintensemint);
+}
+
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
@@ -21,9 +34,7 @@ body {
     margin: 0;
     line-height: 1;
     font-size: small;
-}
-ol, ul {
-    list-style: none;
+    color: var(--choco);
 }
 blockquote, q {
     quotes: none;
@@ -50,7 +61,7 @@ footer{
     display: inline-block;
     padding: 0.3em 1.5em;
     margin: 0 0.1em 0.1em 0;
-    border: #433C39;
+    border: var(--choco);
     border-radius:2em;
     box-sizing: border-box;
     text-decoration:none;
@@ -59,50 +70,57 @@ footer{
 }
 
 .upload{
-    color: #433C39;
+    color: var(--choco);
     border: 0.16em solid white;
     background: white;
 }
 .upload:hover{
-    border-color: #95d0aa;
+    border-color: var(--mint);
 }
 
 .download{
-    font-weight: bold;
     margin: 0;
     padding: 0;
-    color: #433C39;
-    width: 280px;
+    color: var(--choco);
+    border: white 2px solid;
+    min-width: 80%;
+    overflow: hidden;
     height: 2.5em;
-    border-radius: 1em;
-    background: rgba(255, 255, 255, 0);
-}
+    background-size: 400% 100% !important;
+    background: linear-gradient(to left, white 25%, white 25%, var(--mint) 50%) right;
+    position: relative;
+    transition: all ease-in-out 0.5s;
+ }
+
 .download:hover{
-    background: white;
+    color: var(--ultradarkmint);
+    box-shadow: 0 1px 5px var(--mint);
+    z-index: 10;
+    background-position: left;
 }
 
 .submit{
     font-weight: bold;
     margin: 0;
     padding: 0;
-    background-color: #433C39;
-    color: #95d0aa;
+    background-color: var(--choco);
+    color: var(--mint);
     width: 280px;
     height: 2.5em;
     border-radius:1em;
 }
 .submit:hover{
-    background-color: #95d0aa;
-    color: #433C39;
+    background-color: var(--mint);
+    color: var(--choco);
     font-size: medium;
 }
 .try{
     background-color: white;
-    color: #95d0aa;
+    color: var(--intensemint);
     text-decoration: underline;
 }
 .try:hover{
-    color: #433C39;
+    color: var(--choco);
     font-size: medium;
 }
 .help{
@@ -112,15 +130,15 @@ footer{
     border-radius: 50%;
     border: none;
     margin:0 0.1em 0.1em 0;
-    color: #433C39;
+    color: var(--choco);
     background: white;
     font-size:small;
     font-weight:bold;
     text-align: center;
 }
 .help:hover{
-    border-color: #95d0aa;
-    background-color: #95d0aa;
+    border-color: var(--mint);
+    background-color: var(--mint);
 }
 /*Menu bar skeleton*/
 .menu{
@@ -135,7 +153,7 @@ footer{
     font-size: medium;
     text-align: center;
     font-weight: bold;
-    background: #95d0aa;
+    background: var(--mint);
     border-radius: 1em 1em 0 0;
     padding: 0.5em 0;
     margin-bottom: 0;
@@ -143,7 +161,7 @@ footer{
 .panel{
     font-size: small;
     text-align: left;
-    background: #EDF2F4;
+    background: var(--lightmintgrey);
     border-radius: 0 0 1em 1em;
     padding: 1em 0;
     margin-top: 0;
@@ -162,11 +180,11 @@ footer{
 .reset{
     text-align: right;
     font-weight: normal;
-    color: #729F82;
+    color: var(--darkmint);
 }
 .reset:hover{
     font-weight: bold;
-    color: #433C39;
+    color: var(--choco);
     cursor: pointer;
 }
 input[type="checkbox"]{
@@ -195,6 +213,9 @@ input[type=number]::-webkit-inner-spin-button {
 .highlight{
     color: red;
 }
+.shadow {
+     box-shadow: var(--shadow);
+ }
 #NetworkVisualizationContent {
     border-radius: 1em;
     background-color: white;
@@ -202,3 +223,29 @@ input[type=number]::-webkit-inner-spin-button {
     height: 100%;
     position: relative;
 }
+
+#Loader {
+    position: fixed;
+    width: 30px;
+    height: 30px;
+    background-image: url("loader2.gif");
+    background-size: 30px;
+}
+
+ol, ul, li {
+    list-style-position: inside;
+    margin-left: 1em;
+    text-indent: -2em;
+}
+li::marker{
+    content: '●   ';
+    position: relative;
+    margin-right: 2em;
+    padding-right: 2em;
+    color: var(--intensemint);
+    font-weight: bolder;
+}
+li li::marker {
+    color: #46b088;
+}
+

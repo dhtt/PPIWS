@@ -23,19 +23,20 @@
 }
 .right {
     background-color: white;
-    color: #729F82;
+    color: var(--darkmint);
     font-weight: lighter;
     text-align: right;
     margin: 1em 1em 0 0;
 }
 .middle, .middle-under {
     background-color: white;
-    color: #433C39;
+    color: var(--choco);
     font-size: large;
     font-weight: normal;
     margin: 1em 1em 0 1em;
     line-height: 1em;
     height: 3em;
+    min-width: 80vh;
 }
 .middle-under{
     margin: 0 1em 0 1em;
@@ -45,13 +46,11 @@
 /*Display section*/
 .display{
     background-color: #f7fafc;
-    color: #433C39;
+    color: var(--choco);
     font-size: small;
     border-radius: 0 0 1em 1em;
     margin: 0;
     padding: 1em;
-    /*padding: 1em 2em 1em 2em;*/
-    /*overflow-x: hidden;*/
     overflow-y: auto;
 }
 .tabs{
@@ -61,7 +60,7 @@
     flex: 1;
     line-height: 1;
     background-color: #EDF2F4;
-    color: #433C39;
+    color: var(--choco);
     border: none;
     margin: 1em 0 0 0;
     overflow: hidden;
@@ -71,7 +70,7 @@
 }
 .button-tab:focus, .button-tab.active {
     color: #EDF2F4;
-    background-color: #433C39;
+    background-color: var(--choco);
 }
 
 .display-content{
@@ -83,17 +82,17 @@
     position: relative;
 }
 .display-content.non-display{
-    display: none;
+    display: none !important;
 }
 /*Other*/
 a:link{
     text-decoration: none;
-    color: #729F82;
+    color: var(--darkintensemint);
     font-size: small;
     font-weight: lighter;
 }
 a:hover{
-    color: #433C39;
+    color: var(--choco);
     font-weight: bold;
     cursor: default;
 }

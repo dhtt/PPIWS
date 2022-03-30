@@ -139,54 +139,55 @@ public class PPIXpressRun {
 
     public void runAnalysis(AtomicBoolean updatingStop, AtomicReference<String> runMessage) {
         //gathering even more data if necessary
-        runMessage.set("... Switch Server GRCh37<br>");
+        runMessage.set("<li>Switch Server GRCh37</li>");
         DataQuery.switchServerGRCh37();
 
-        updateAtomicString(runMessage, "... Retrieving UCSC mapping-data<br>");
+        updateAtomicString(runMessage, "<li>Retrieving UCSC mapping-data</li>");
         DataQuery.getUCSChg19toTranscriptMap();
 
-        updateAtomicString(runMessage, "... Reading network (may take some time if ID conversion is necessary)<br>");
+        updateAtomicString(runMessage, "<li>Reading network (may take some time if ID conversion is necessary)");
         PPIN original_network = new PPIN("/Users/trangdo/Documents/BIOINFO/PPIXpress/example_data/human_ppin.sif.gz");
-        updateAtomicString(runMessage, "...... Complete network: " + original_network.getSizesStr() + "<br>");
+        updateAtomicString(runMessage, "<ul><li>Complete network: " +
+                original_network.getSizesStr() + "</li></ul></li>");
 
         // gathering data that will always be needed
-        updateAtomicString(runMessage, "... Get Ensembl organism database from proteins<br>");
+        updateAtomicString(runMessage, "<li>Get Ensembl organism database from proteins</li>");
         String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
         String ensembl_version = organism_database.split("_")[organism_database.split("_").length-2];
-/*
-        updateAtomicString(runMessage, "... Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
-        updateAtomicString(runMessage, "...... Get genes transcripts proteins<br>");
+
+        updateAtomicString(runMessage, "<li>Retrieving ENSEMBL " + ensembl_version + " data from database " + organism_database + " (may take some minutes)<br>");
+        updateAtomicString(runMessage, "<ul><li>Get genes transcripts proteins</li>");
         DataQuery.getGenesTranscriptsProteins(organism_database);
-        updateAtomicString(runMessage, "...... Get isoform protein domain map<br>");
+        updateAtomicString(runMessage, "<li>Get isoform protein domain map</li></ul>");
         DataQuery.getIsoformProteinDomainMap(organism_database);
 
         // start preprocessing
-        updateAtomicString(runMessage,"... Initializing PPIXpress with original network<br>");
+        updateAtomicString(runMessage,"<li>Initializing PPIXpress with original network</li>");
         NetworkBuilder builder = new NetworkBuilder(original_network, true, false);
-        updateAtomicString(runMessage,"...... " + Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +"% of proteins could be annotated with at least one non-artificial domain, " );
-        updateAtomicString(runMessage,Math.round(builder.getMappingPercentage() * 10000)/100.0 +"% of protein interactions could be associated with at least one non-artificial domain interaction.<br>" );
+        updateAtomicString(runMessage,"<ul><li>" + Math.round(builder.getMappingDomainPercentage() * 10000)/100.0 +
+                "% of proteins could be annotated with at least one non-artificial domain</li>" );
+        updateAtomicString(runMessage, "<li>" + Math.round(builder.getMappingPercentage() * 10000)/100.0 +
+                "% of protein interactions could be associated with at least one non-artificial domain interaction.</li></ul>" );
 
 //        construct isoform network
-        updateAtomicString(runMessage,"... Constructing associated isoform networks<br>");
-        ConstructedNetworks constr = NetworkBuilder.constructAssociatedIsoformNetworks(original_network);
+        updateAtomicString(runMessage,"<li>Constructing associated isoform networks</li>");
+//        ConstructedNetworks constr = NetworkBuilder.constructAssociatedIsoformNetworks(original_network);
 
 //        write output files
-        updateAtomicString(runMessage, "... Building output data for reference network ");
-        String file_suffix = "_ppin.txt";
-        constr.getPPIN().writePPIN("example" + file_suffix);
+//        updateAtomicString(runMessage, "... Building output data for reference network ");
+//        String file_suffix = "_ppin.txt";
+//        constr.getPPIN().writePPIN("example" + file_suffix);
+//
+//        updateAtomicString(runMessage, "-> " + constr.getPPIN().getSizesStr());
+//
+//        file_suffix = "_ddin.txt";
+//        constr.getDDIN().writeDDIN("example" + file_suffix);
+//
+//        file_suffix = "_major-transcripts.txt";
+//        constr.writeProteinToAssumedTranscriptMap( "example" + file_suffix);
 
-        updateAtomicString(runMessage, "-> " + constr.getPPIN().getSizesStr());
 
-        file_suffix = "_ddin.txt";
-        constr.getDDIN().writeDDIN("example" + file_suffix);
-
-        file_suffix = "_major-transcripts.txt";
-        constr.writeProteinToAssumedTranscriptMap( "example" + file_suffix);
-        */
-
-        updateAtomicString(runMessage, "<h3 style='text-align: center'><br><br>" +
-                "------".repeat(30) + "<br>PPIXpress pipeline is finished!<br>" +
-                "------".repeat(30) + "</h3><br>");
+        updateAtomicString(runMessage, "<br>");
         updatingStop.set(true);
     }
 
