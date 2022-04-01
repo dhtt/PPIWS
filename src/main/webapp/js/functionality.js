@@ -47,6 +47,8 @@ jQuery(document).ready(function() {
     const runningProgressContent = $('#RPContent');
     const afterRunOptions = $('#AfterRunOptions');
     const loader = $('#Loader');
+    const leftDisplay = $('#LeftDisplay');
+    const ScrollTop_LeftDisplay = $('#ScrollTop_LeftDisplay');
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
@@ -85,16 +87,23 @@ jQuery(document).ready(function() {
                             allPanel.css({'cursor': 'default'})
                             loader.css({'display': 'none'})
                             afterRunOptions.css({'display': 'block'})
+                            ScrollTop_LeftDisplay.css({'display': 'block'})
                         }
                         runningProgressContent.html(
                             json.UPDATE_STATIC_PROGRESS_MESSAGE +
                             json.UPDATE_LONG_PROCESS_MESSAGE
                         )
+                        leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
+                        console.log(leftDisplay[0].scrollTop, leftDisplay[0].scrollHeight)
                     }
                 }
             );
         }, updateInterval);
     }
+
+    ScrollTop_LeftDisplay.on('click', function(){
+        leftDisplay[0].scrollTop = 0
+    })
 
     $('#RunNormal').on('click', function (){
         $.fn.submit_form("RunNormal")

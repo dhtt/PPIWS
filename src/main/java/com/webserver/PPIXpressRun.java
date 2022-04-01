@@ -139,6 +139,7 @@ public class PPIXpressRun {
 
     public void runAnalysis(AtomicBoolean updatingStop, AtomicReference<String> runMessage) {
         //gathering even more data if necessary
+        /*
         runMessage.set("<li>Switch Server GRCh37</li>");
         DataQuery.switchServerGRCh37();
 
@@ -171,10 +172,12 @@ public class PPIXpressRun {
 
 //        construct isoform network
         updateAtomicString(runMessage,"<li>Constructing associated isoform networks</li>");
-//        ConstructedNetworks constr = NetworkBuilder.constructAssociatedIsoformNetworks(original_network);
+//        ConstructedNetworks constr = NetworkBuilder.constructAssociatedIsoformNetworks(original_network);*/
 
 //        write output files
-//        updateAtomicString(runMessage, "... Building output data for reference network ");
+        updateAtomicString(runMessage, "... Building output data for reference network ");
+        updateAtomicString(runMessage, "a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>" +
+                "a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>");
 //        String file_suffix = "_ppin.txt";
 //        constr.getPPIN().writePPIN("example" + file_suffix);
 //

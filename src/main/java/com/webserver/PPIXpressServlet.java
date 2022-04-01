@@ -72,7 +72,8 @@ public class PPIXpressServlet extends HttpServlet {
             String[] args = {"-w", "-u", "-t=0.3"};
             pipeline.parseArgs(args);
             String[] parsedArgs = pipeline.getArgs();
-            if (parsedArgs != null) updateAtomicString(staticProgress, String.join("<br>", parsedArgs));
+            if (parsedArgs != null) updateAtomicString(staticProgress,
+                    "<ul><li>" + String.join("</li><li>", parsedArgs) + "</li></ul>");
 
 //            EXECUTE PIPELINE
             updateAtomicString(staticProgress, "<br><br><h3>Executing PPIXpress... </h3>");

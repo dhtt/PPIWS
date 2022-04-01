@@ -51,8 +51,9 @@ h1, h2 {
 }
 
 footer{
+    margin-top: -1em;
     text-align: center;
-    font-size: small;
+    font-size: smaller;
 }
 
 /*Generic button*/
