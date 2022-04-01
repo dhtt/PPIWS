@@ -9,8 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Make LeftDisplay scroll to bottom when progress is updated">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/test_table.html" afterDir="false" />
+    <list default="true" id="25f588f6-1e58-4fb6-a0b6-d3b6d1493a6b" name="Changes" comment="Add table for number of protein and interaction for each file">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
@@ -18,7 +17,6 @@
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/header-and-panel.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/footer.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" afterDir="false" />
     </list>
@@ -313,7 +311,7 @@
       <workItem from="1648543334914" duration="624000" />
       <workItem from="1648545865244" duration="344000" />
       <workItem from="1648546215383" duration="4512000" />
-      <workItem from="1648737133884" duration="20206000" />
+      <workItem from="1648737133884" duration="21936000" />
     </task>
     <task id="LOCAL-00002" summary="Refactor external JARs to WEB-INF/lib &amp; Edit configurations">
       <created>1645024865876</created>
@@ -560,7 +558,14 @@
       <option name="project" value="LOCAL" />
       <updated>1648812739656</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Add table for number of protein and interaction for each file">
+      <created>1648820396705</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1648820396705</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -610,7 +615,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Web interface: Add left menu panel" />
     <MESSAGE value="Web interface: Refactor menu CSS &amp; adjust margin/padding" />
     <MESSAGE value="Web interface: Change CSS sheets name" />
     <MESSAGE value="Web interface: Add display tabs" />
@@ -635,7 +639,8 @@
     <MESSAGE value="Adding Cytoscape graph in Network Visualization panel" />
     <MESSAGE value="Styling" />
     <MESSAGE value="Make LeftDisplay scroll to bottom when progress is updated" />
-    <option name="LAST_COMMIT_MESSAGE" value="Make LeftDisplay scroll to bottom when progress is updated" />
+    <MESSAGE value="Add table for number of protein and interaction for each file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add table for number of protein and interaction for each file" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

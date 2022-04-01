@@ -88,6 +88,7 @@ jQuery(document).ready(function() {
                             loader.css({'display': 'none'})
                             afterRunOptions.css({'display': 'block'})
                             ScrollTop_LeftDisplay.css({'display': 'block'})
+                            $('#RightDisplay').css({'display': 'block'})
                         }
                         runningProgressContent.html(
                             json.UPDATE_STATIC_PROGRESS_MESSAGE +
@@ -120,13 +121,13 @@ jQuery(document).ready(function() {
     })
 
     // Show graph
-   /* fetch('js/data.json', {mode: 'no-cors'})
+   fetch('js/data.json', {mode: 'no-cors'})
         .then(function(res) {
             return res.json()
         })
         .then(function(data) {
             var graph = cytoscape({
-                container: $('#NetworkVisualizationContent'),
+                container: $('#NVContent'),
                 elements: data,
                 boxSelectionEnabled: false,
                 autounselectify: true,
@@ -159,7 +160,7 @@ jQuery(document).ready(function() {
                     }
                 ]
             });
-        })*/
+        })
 })
 
 

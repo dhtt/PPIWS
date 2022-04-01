@@ -137,7 +137,7 @@
                 <div id="LeftDisplay" class="display-part" style="flex-basis: 70%">
                     <div id="RPContent" name="RunningProgress"></div>
                     <div id="Loader" name="RunningProgress" style="display: none; position: relative;"></div>
-                    <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 66%; margin: 1em auto; border-radius: 1em">
+                    <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 50%; margin: 1em auto; border-radius: 1em">
                         <p class="header" style="background: #68d3aa; color: white; text-shadow: var(--textshadow)"> PPIXpress pipeline is finished! </p>
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
@@ -147,7 +147,7 @@
                     </div>
                     <p id="ScrollTop_LeftDisplay" class="reset" style="display: none; text-align: center">Scroll to top</p>
                 </div>
-                <div id="RightDisplay" class="display-part" style="flex-basis: 30%; text-align: center">
+                <div id="RightDisplay" class="display-part" style="display: none; flex-basis: 30%; text-align: center">
                     <p class="subsection-text" style="margin: 0; font-size: smaller">Number of proteins and interactions<br>in each expression data</p>
                     <jsp:include page="html/test_table.html"/>
                     <p id="ScrollTop_RightDisplay" class="reset" style="text-align: center">Scroll to top</p>
@@ -160,6 +160,23 @@
 
             </div>
             <div id="NetworkVisualizationContent" name="NetworkVisualization" class="display-content non-display">
+                <div id="NetworkMenu" style="display: flex; flex-direction: row">
+                    <div id="NetworkMenu_Show" class="display-part" style="font-weight: bold">Show network for:
+                        <label for="NetworkSelection">
+                            <select id="NetworkSelection" name="NetworkSelection" class="button upload" style="margin: 0; padding: 0; font-weight: normal">
+                                <option value="exp1">Expression file 1</option>
+                                <option value="exp2">Expression file 2</option>
+                                <option value="exp3">Expression file 3</option>
+                                <option value="exp4">Expression file 4</option>
+                            </select>
+                        </label>
+                    </div><br>
+                    <div id="NetworkMenu_NodesNumber" class="display-part" style="font-weight: bold">Number of displayed nodes:
+                        <input type="range" id="NodesNumber" value="1.00" min="0" max="1.0" step="0.01"><br>
+                    </div>
+                </div>
+
+                <div id="NVContent"></div>
 <%--                Example network--%>
             </div>
         </div>
