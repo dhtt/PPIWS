@@ -134,7 +134,7 @@
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto; position: relative">
             <div id="RunningProgressContent" name="RunningProgress" class="display-content" style="display: flex; flex-direction: row">
-                <div id="LeftDisplay" class="display-part">
+                <div id="LeftDisplay" class="display-part" style="flex-basis: 70%">
                     <div id="RPContent" name="RunningProgress"></div>
                     <div id="Loader" name="RunningProgress" style="display: none; position: relative;"></div>
                     <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 66%; margin: 1em auto; border-radius: 1em">
@@ -147,15 +147,18 @@
                     </div>
                     <p id="ScrollTop_LeftDisplay" class="reset" style="display: none; text-align: center">Scroll to top</p>
                 </div>
-                <div id="RightDisplay" class="display-part" style="background-color: white">
-                <p>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>"</p>
+                <div id="RightDisplay" class="display-part" style="flex-basis: 30%; text-align: center">
+                    <p class="subsection-text" style="margin: 0; font-size: smaller">Number of proteins and interactions<br>in each expression data</p>
+                    <jsp:include page="html/test_table.html"/>
+                    <p id="ScrollTop_RightDisplay" class="reset" style="text-align: center">Scroll to top</p>
+                        <%--                <p>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>"</p>--%>
                 </div>
             </div>
 
-<%--            <div id="ResultSummaryContent" name="ResultSummary" class="display-content non-display">--%>
-<%--&lt;%&ndash;                Page 2&ndash;%&gt;--%>
+            <div id="ResultSummaryContent" name="ResultSummary" class="display-content non-display">
+<%--                Page 2--%>
 
-<%--            </div>--%>
+            </div>
             <div id="NetworkVisualizationContent" name="NetworkVisualization" class="display-content non-display">
 <%--                Example network--%>
             </div>

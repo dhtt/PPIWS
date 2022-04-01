@@ -21,6 +21,7 @@ menu, nav, output, ruby, section, summary, time, mark, audio, video {
     padding: 0;
     border: 0;
     font-family: 'Roboto Light', sans-serif;
+    font-weight: normal;
     vertical-align: baseline;
 }
 
@@ -39,11 +40,57 @@ body {
 blockquote, q {
     quotes: none;
 }
-table {
+
+/*Styling table*/
+table{
+    width: 100%;
+    table-layout: fixed;
+    border-radius: 1em;
+    overflow: hidden;
     border-collapse: collapse;
-    border-spacing: 0;
+    position: relative;
+}
+thead{
+    height: 2em;
+    text-align: center;
+}
+tr{
+    height: 1.5em;
+}
+table th, table td{
+    overflow: scroll;
+    white-space: break-spaces;
+}
+/*table td{*/
+/*    overflow: scroll;*/
+/*}*/
+table td:first-child, table th:first-child{
+    padding-left: 1em;
+}
+table th:first-child{
+    text-align: left;
+}
+table td:last-child, table th:last-child{
+    padding-right: 1em;
+}
+td, th{
+    font-size: smaller;
+    vertical-align: middle;
+    padding: 0 0.5em;
+}
+td{
+    font-weight: bold;
+    text-align: center;
+    background: var(--mint);
+}
+/*td+td { !*Make first column 150px, devide width equally to the rest*!*/
+/*    width: auto;*/
+/*}*/
+th{
+    background: white;
 }
 
+/*Header and footer*/
 h1, h2 {
     overflow: hidden;
     white-space: nowrap;

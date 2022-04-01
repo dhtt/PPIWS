@@ -101,8 +101,12 @@ jQuery(document).ready(function() {
         }, updateInterval);
     }
 
+    // Scroll to top
     ScrollTop_LeftDisplay.on('click', function(){
         leftDisplay[0].scrollTop = 0
+    })
+    $('#ScrollTop_RightDisplay').on('click', function(){
+        $('#RightDisplay')[0].scrollTop = 0
     })
 
     $('#RunNormal').on('click', function (){
@@ -116,7 +120,7 @@ jQuery(document).ready(function() {
     })
 
     // Show graph
-    fetch('js/data.json', {mode: 'no-cors'})
+   /* fetch('js/data.json', {mode: 'no-cors'})
         .then(function(res) {
             return res.json()
         })
@@ -155,7 +159,7 @@ jQuery(document).ready(function() {
                     }
                 ]
             });
-        })
+        })*/
 })
 
 
