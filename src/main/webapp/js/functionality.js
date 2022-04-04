@@ -37,7 +37,9 @@ jQuery(document).ready(function() {
         $('#protein_network_file_lab').html("Change file")
         $('#protein_network_description').html("Protein interaction data: " + this.files.length + " file(s) selected")
     })
+    let no_expression_file = 0;
     $('#expression_file').on("change", function(){
+        no_expression_file = this.files.length
         $('#expression_file_lab').html("Change file(s)")
         $('#expression_description').html("Expression data: " + this.files.length + " file(s) selected")
     })
@@ -95,7 +97,6 @@ jQuery(document).ready(function() {
                             json.UPDATE_LONG_PROCESS_MESSAGE
                         )
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
-                        console.log(leftDisplay[0].scrollTop, leftDisplay[0].scrollHeight)
                     }
                 }
             );
@@ -104,65 +105,41 @@ jQuery(document).ready(function() {
 
     // Scroll to top
     ScrollTop_LeftDisplay.on('click', function(){
-        leftDisplay[0].scrollTop = 0
+        scrollToTop(leftDisplay)
     })
     $('#ScrollTop_RightDisplay').on('click', function(){
-        $('#RightDisplay')[0].scrollTop = 0
+        scrollToTop($('#RightDisplay'))
     })
 
+    // Submit
     $('#RunNormal').on('click', function (){
         $.fn.submit_form("RunNormal")
         return false;
     })
     $('#RunExample').on('click', function (){
-        loader.css({'display': 'block'})
-        $.fn.submit_form("RunExample")
+        addNetworkSelection(no_expression_file);
+        loader.css({'display': 'block'});
+        $.fn.submit_form("RunExample");
         return false;
     })
-
-    // Show graph
-   fetch('js/data.json', {mode: 'no-cors'})
-        .then(function(res) {
-            return res.json()
-        })
-        .then(function(data) {
-            var graph = cytoscape({
-                container: $('#NVContent'),
-                elements: data,
-                boxSelectionEnabled: false,
-                autounselectify: true,
-
-                layout: {
-                    name: 'circle'
-                },
-
-                style: [
-                    {
-                        selector: 'node',
-                        style: {
-                            'label': 'data(id)', //Show gene id
-                            'height': 20, //Adjust node size
-                            'width': 20,
-                            'background-color' : '#433C39'
-                            // 'background-color': 'mapData(rank, 0, 207, #95d0aa, #e8067f)',
-                        }
-                    },
-
-                    {
-                        selector: 'edge',
-                        style: {
-                            'curve-style': 'haystack',
-                            'haystack-radius': 1,
-                            'width': 5,
-                            'opacity': 0.5,
-                            'line-color': '#95d0aa'
-                        }
-                    }
-                ]
-            });
-        })
 })
 
+/**
+ * Add network showing options to NetworkSelection
+ * based on the number of uploaded expression files
+ * */
+function addNetworkSelection(no_expression_file_){
+    const NetworkSelection = document.getElementById('NetworkSelection');
+    for (let i = 1; i <= no_expression_file_; i++){
+        const opt = document.createElement('option');
+        opt.value = "exp_" + i;
+        opt.innerHTML = "Expression file " + i;
+        NetworkSelection.appendChild(opt);
+    }
+}
+function scrollToTop(div){
+    div[0].scrollTop = 0
+}
 
 function toggle_tab(name, displayTabs, chosenTab, chosenTab_contents){
     for (let i=0; i < displayTabs.length; i++){

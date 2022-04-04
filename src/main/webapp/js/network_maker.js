@@ -1,37 +1,44 @@
-const graph = cytoscape({
-    container: $('#cy'),
-    elements: [
-        {data: {id: 'a'}},
-        {data: {id: 'b'}},
-        {data: {id: 'ab', source: 'a', target: 'b'}}
-    ],
-    style: [
-        {
-            selector: 'node',
-            style: {
-                'background-color': 'white',
-                'label': 'data(id)'
-            }
-        },
-        {
-            selector: 'edge',
-            style: {
-                'width': 3,
-                'line-color': '#ccc',
-                'target-arrow-color': '#ccc',
-                'target-arrow-shape': 'triangle',
-                'curve-style': 'bezier'
-            }
-        }
-    ],
-    layout: {
-        name: 'grid',
-        rows: 1
-    }
-});
-// $("#ClickMe").click(function() {
-//     $('#cy').toggle()
-// });
-// jQuery(document).ready(function() {
-//
-// })
+jQuery(document).ready(function() {
+    // Show graph
+
+    fetch('output/graph/exp_1.json', {mode: 'no-cors'})
+        .then(function(res) {
+            return res.json()
+        })
+        .then(function(data) {
+            var graph = cytoscape({
+                container: $('#NVContent'),
+                elements: data,
+                boxSelectionEnabled: false,
+                autounselectify: true,
+
+                layout: {
+                    name: 'circle'
+                },
+
+                style: [
+                    {
+                        selector: 'node',
+                        style: {
+                            'label': 'data(id)', //Show gene id
+                            'height': 20, //Adjust node size
+                            'width': 20,
+                            'background-color' : '#433C39'
+                            // 'background-color': 'mapData(rank, 0, 207, #95d0aa, #e8067f)',
+                        }
+                    },
+
+                    {
+                        selector: 'edge',
+                        style: {
+                            'curve-style': 'haystack',
+                            'haystack-radius': 1,
+                            'width': 5,
+                            'opacity': 0.5,
+                            'line-color': '#95d0aa'
+                        }
+                    }
+                ]
+            });
+        })
+})

@@ -29,6 +29,9 @@ menu, nav, output, ruby, section, summary, time, mark, audio, video {
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
     display: block;
 }
+html{
+    scroll-behavior: smooth;
+}
 body {
     min-height: 100vh;
     padding: 0.5em;
@@ -83,7 +86,7 @@ td{
     text-align: center;
     background: var(--mint);
 }
-/*td+td { !*Make first column 150px, devide width equally to the rest*!*/
+/*td+td { !*Make first column 150px, divide width equally to the rest*!*/
 /*    width: auto;*/
 /*}*/
 th{
