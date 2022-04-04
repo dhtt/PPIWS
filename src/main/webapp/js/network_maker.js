@@ -5,10 +5,6 @@ jQuery(document).ready(function() {
         let graphFile = "output/graph/" + $(this).val() + ".json"
         makePlot(graphFile)
     })
-    //
-    // function makePlot(graphFile_){
-    //
-    // }
 })
 
 export function makePlot(graphFile_){

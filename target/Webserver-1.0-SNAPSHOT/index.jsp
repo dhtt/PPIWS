@@ -147,12 +147,12 @@
                             <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">To Network Visualization</button><br>
                         </div>
                     </div>
-                    <p id="ScrollTop_LeftDisplay" class="reset" style="display: none; text-align: center">Scroll to top</p>
+                    <p name="ScrollToTop" class="reset" style="display: none; text-align: center">Scroll to top</p>
                 </div>
                 <div id="RightDisplay" class="display-part" style="display: none; flex-basis: 30%; text-align: center">
                     <p class="subsection-text" style="margin: 0; font-size: smaller">Number of proteins and interactions<br>in each expression data</p>
                     <jsp:include page="html/test_table.html"/>
-                    <p id="ScrollTop_RightDisplay" class="reset" style="text-align: center">Scroll to top</p>
+                    <p name="ScrollToTop" class="reset" style="text-align: center">Scroll to top</p>
                         <%--                <p>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>"</p>--%>
                 </div>
             </div>

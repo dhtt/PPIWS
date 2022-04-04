@@ -37,7 +37,7 @@ jQuery(document).ready(function() {
     let make_none_checked = function (name) {
         $('[name="' + name + '"]').prop('checked', false)
     }
-    $('.reset').on('click', function(){
+    $("[name='Reset']").on('click', function(){
         const name = $(this).attr('id').split('Reset').join("");
         make_none_checked(name)
         set_default()
@@ -58,10 +58,8 @@ jQuery(document).ready(function() {
     // Ajax Handler
     const allPanel = $('#AllPanels');
     const runningProgressContent = $('#RPContent');
-    const afterRunOptions = $('#AfterRunOptions');
     const loader = $('#Loader');
     const leftDisplay = $('#LeftDisplay');
-    const ScrollTop_LeftDisplay = $('#ScrollTop_LeftDisplay');
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
@@ -105,9 +103,8 @@ jQuery(document).ready(function() {
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.css({'display': 'none'})
-                            afterRunOptions.css({'display': 'block'})
-                            ScrollTop_LeftDisplay.css({'display': 'block'})
-                            $('#RightDisplay').css({'display': 'block'})
+                            $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
+                            $("[name='ScrollToTop']").css({'display': 'block'})
                             makePlot("output/graph/exp_1.json")
                         }
                         runningProgressContent.html(
@@ -121,16 +118,17 @@ jQuery(document).ready(function() {
         }, updateInterval);
     }
 
-    // Scroll to top
-    ScrollTop_LeftDisplay.on('click', function(){
-        scrollToTop(leftDisplay)
-    })
-    $('#ScrollTop_RightDisplay').on('click', function(){
-        scrollToTop($('#RightDisplay'))
+    /**
+     * Scroll to top of a div
+     * */
+    $("[name='ScrollToTop']").on('click', function(){
+        $(this).parent()[0].scrollTop = 0
     })
 
     // Submit
     $('#RunNormal').on('click', function (){
+        addNetworkSelection(no_expression_file);
+        loader.css({'display': 'block'});
         $.fn.submit_form("RunNormal")
         return false;
     })
@@ -153,36 +151,6 @@ jQuery(document).ready(function() {
 })
 
 /**
- * Toggle tab active and display
- * @param name
- * @param displayTabs
- * @param chosenTab
- * @param chosenTab_contents
- */
-function toggle_tab(name, displayTabs, chosenTab, chosenTab_contents){
-    for (let i=0; i < displayTabs.length; i++){
-        // Set tab as active
-        displayTabs[i].classList.remove("active")
-
-        // Show content for tab
-        if (chosenTab_contents[i].getAttribute('name') !== name){
-            chosenTab_contents[i].classList.add("non-display")
-        }
-        else {
-            chosenTab_contents[i].classList.remove("non-display")
-        }
-    }
-    chosenTab.classList.add("active")
-}
-
-function getContent(name){
-    let displayTabs, chosenTab, chosenTab_contents;
-    displayTabs = document.getElementsByClassName("button-tab");
-    chosenTab = document.getElementById(name);
-    chosenTab_contents = document.getElementsByClassName("display-content");
-    toggle_tab(name, displayTabs, chosenTab, chosenTab_contents);
-}
-/**
  * Add network showing options to NetworkSelection
  * based on the number of uploaded expression files
  * @param no_expression_file_ Number of expression file
@@ -197,10 +165,4 @@ function addNetworkSelection(no_expression_file_){
     }
 }
 
-/**
- * Scroll to top of a div
- * */
-function scrollToTop(div){
-    div[0].scrollTop = 0
-    alert('scrolled')
-}
+

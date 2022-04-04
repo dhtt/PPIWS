@@ -9,7 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Show NetworkSelection options based on number of uploaded expression files">
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Toggle tab and tab content by jQuery">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
@@ -290,7 +290,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1649083256675</updated>
-      <workItem from="1649083261746" duration="14445000" />
+      <workItem from="1649083261746" duration="17191000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -299,7 +299,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649093228602</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Toggle tab and tab content by jQuery">
+      <created>1649102573516</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1649102573516</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -318,7 +325,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Show NetworkSelection options based on number of uploaded expression files" />
-    <option name="LAST_COMMIT_MESSAGE" value="Show NetworkSelection options based on number of uploaded expression files" />
+    <MESSAGE value="Toggle tab and tab content by jQuery" />
+    <option name="LAST_COMMIT_MESSAGE" value="Toggle tab and tab content by jQuery" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
