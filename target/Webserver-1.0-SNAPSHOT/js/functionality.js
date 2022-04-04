@@ -1,14 +1,22 @@
 // TODO: Show ResultSummary + NetworkVisualization only after Running Progress is done
+import {makePlot} from './network_maker.js'
+// makePlot = require('network_maker');
 
 jQuery(document).ready(function() {
-    // Set default
+    /**
+     * Set options to default
+     */
     let set_default = function () {
         $('#remove_decay_transcripts').prop('checked', true)
         $('#threshold').val(1.0)
     }
     set_default()
 
-    // Make output_major_transcripts true when report_gene_abundance
+    /**
+     * Make output_major_transcripts true when report_gene_abundance
+     * @param source_
+     * @param target_
+     */
     let make_all_checked = function (source_, target_) {
         const parent = $('#' + source_)
         const children = $('#' + target_)
@@ -22,7 +30,10 @@ jQuery(document).ready(function() {
         make_all_checked('report_gene_abundance','output_major_transcripts')
     })
 
-    // Reset button
+    /**
+     * Make none of the options checked
+     * @param name
+     */
     let make_none_checked = function (name) {
         $('[name="' + name + '"]').prop('checked', false)
     }
@@ -33,11 +44,11 @@ jQuery(document).ready(function() {
     })
 
     // Show number of uploaded files
+    let no_expression_file = 0;
     $('#protein_network_file').on("change", function(){
         $('#protein_network_file_lab').html("Change file")
         $('#protein_network_description').html("Protein interaction data: " + this.files.length + " file(s) selected")
     })
-    let no_expression_file = 0;
     $('#expression_file').on("change", function(){
         no_expression_file = this.files.length
         $('#expression_file_lab').html("Change file(s)")
@@ -74,6 +85,12 @@ jQuery(document).ready(function() {
             }
         })
     }
+
+    /**
+     * Dynamically print PPIXpress progress run in PPIXpressServlet to RPContent
+     * @param resultText Messages from PPIXpressServlet
+     * @param updateInterval Update interval in millisecond
+     */
     let updateLongRunningStatus = function (resultText, updateInterval) {
         const interval = setInterval(function (json) {
             $.ajax({
@@ -91,6 +108,7 @@ jQuery(document).ready(function() {
                             afterRunOptions.css({'display': 'block'})
                             ScrollTop_LeftDisplay.css({'display': 'block'})
                             $('#RightDisplay').css({'display': 'block'})
+                            makePlot("output/graph/exp_1.json")
                         }
                         runningProgressContent.html(
                             json.UPDATE_STATIC_PROGRESS_MESSAGE +
@@ -105,10 +123,10 @@ jQuery(document).ready(function() {
 
     // Scroll to top
     ScrollTop_LeftDisplay.on('click', function(){
-        scroll_top(leftDisplay)
+        scrollToTop(leftDisplay)
     })
     $('#ScrollTop_RightDisplay').on('click', function(){
-        scroll_top($('#RightDisplay'))
+        scrollToTop($('#RightDisplay'))
     })
 
     // Submit
@@ -116,27 +134,45 @@ jQuery(document).ready(function() {
         $.fn.submit_form("RunNormal")
         return false;
     })
-    var select = document.getElementById('NetworkSelection');
     $('#RunExample').on('click', function (){
-        for (let i = 1; i <= no_expression_file; i++){
-            console.log(i)
-            const opt = document.createElement('option');
-            opt.value = "exp_" + i;
-            opt.innerHTML = "Expression file " + i;
-            select.appendChild(opt);
-        }
-        // select.css({'display': 'block'})
-        loader.css({'display': 'block'})
-        $.fn.submit_form("RunExample")
+        addNetworkSelection(no_expression_file);
+        loader.css({'display': 'block'});
+        $.fn.submit_form("RunExample");
         return false;
     })
 
+    // Show tab
+    $("[name='DisplayTab']").on('click', function(){
+        const tabName = $(this).val()
+        $("[name='Display']").addClass("non-display")
+        $('#' + tabName + "Content").removeClass("non-display")
+
+        $("[name='DisplayTab']").removeClass("active")
+        $(tabName).addClass("active")
+    })
+
+    // $('#RunningProgress').on('click', function(){
+    //     $("[name='Display']").addClass("non-display")
+    //     $('#RunningProgressContent').removeClass("non-display")
+    // })
+    // $('#NetworkVisualization').on('click', function(){
+    //     $("[name='Display']").addClass("non-display")
+    //     $('#NetworkVisualizationContent').removeClass("non-display")
+    // })
 })
+// function toggleDisplay(contentDiv){
+//     $("[name='Display']").addClass("non-display")
+//
+//     $( + "Content").removeClass("non-display")
+// }
 
-function scroll_top(div){
-    div[0].scrollTop = 0
-}
-
+/**
+ * Toggle tab active and display
+ * @param name
+ * @param displayTabs
+ * @param chosenTab
+ * @param chosenTab_contents
+ */
 function toggle_tab(name, displayTabs, chosenTab, chosenTab_contents){
     for (let i=0; i < displayTabs.length; i++){
         // Set tab as active
@@ -159,4 +195,26 @@ function getContent(name){
     chosenTab = document.getElementById(name);
     chosenTab_contents = document.getElementsByClassName("display-content");
     toggle_tab(name, displayTabs, chosenTab, chosenTab_contents);
+}
+/**
+ * Add network showing options to NetworkSelection
+ * based on the number of uploaded expression files
+ * @param no_expression_file_ Number of expression file
+ */
+function addNetworkSelection(no_expression_file_){
+    const NetworkSelection = document.getElementById('NetworkSelection');
+    for (let i = 1; i <= no_expression_file_; i++){
+        const opt = document.createElement('option');
+        opt.value = "exp_" + i;
+        opt.innerHTML = "Expression file " + i;
+        NetworkSelection.appendChild(opt);
+    }
+}
+
+/**
+ * Scroll to top of a div
+ * */
+function scrollToTop(div){
+    div[0].scrollTop = 0
+    alert('scrolled')
 }

@@ -12,8 +12,8 @@
     <link rel="stylesheet" href="css/header-and-panel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
-    <script src="js/functionality.js"></script>
-    <script src="js/network_maker.js"></script>
+    <script type="module" src="js/functionality.js"></script>
+    <script type="module" src="js/network_maker.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -130,12 +130,12 @@
 
     <div id="RightPanel" class="middle-under" style="flex: 1; display: flex; flex-flow: column;">
         <div id="DisplayTabs" class="tabs" style="flex: 0 1 auto">
-            <button type="button" name="Display" id="RunningProgress" class="header button-tab active" onclick="getContent('RunningProgress')">Running Progress</button>
-            <button type="button" name="Display" id="ResultSummary" class="header button-tab" onclick="getContent('ResultSummary')">Result Summary</button>
-            <button type="button" name="Display" id="NetworkVisualization" class="header button-tab" onclick="getContent('NetworkVisualization')">Network Visualization</button>
+            <button type="button" name="DisplayTab" value="RunningProgress" class="header button-tab active" >Running Progress</button>
+            <button type="button" name="DisplayTab" value="ResultSummary" class="header button-tab">Result Summary</button>
+            <button type="button" name="DisplayTab" value="NetworkVisualization" class="header button-tab">Network Visualization</button>
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto; position: relative">
-            <div id="RunningProgressContent" name="RunningProgress" class="display-content" style="display: flex; flex-direction: row">
+            <div id="RunningProgressContent" name="Display" class="display-content" style="display: flex; flex-direction: row">
                 <div id="LeftDisplay" class="display-part" style="flex-basis: 70%">
                     <div id="RPContent" name="RunningProgress"></div>
                     <div id="Loader" name="RunningProgress" style="display: none; position: relative;"></div>
@@ -157,22 +157,16 @@
                 </div>
             </div>
 
-            <div id="ResultSummaryContent" name="ResultSummary" class="display-content non-display">
+            <div id="ResultSummaryContent" name="Display" class="display-content non-display">
 <%--                Page 2--%>
 
             </div>
-            <div id="NetworkVisualizationContent" name="NetworkVisualization" class="display-content non-display">
+            <div id="NetworkVisualizationContent" name="Display" class="display-content non-display">
 
                 <div id="NetworkMenu" style="display: flex; flex-direction: row">
                     <div id="NetworkMenu_Show" class="display-part" style="font-weight: bold">Show network for:
                         <label for="NetworkSelection">
-<%--                            script check number of network in output/network, show options accordingly--%>
-                            <select id="NetworkSelection" name="NetworkSelection" class="button upload" style="margin: 0; padding: 0; font-weight: normal">
-<%--                                <option value="exp1">Expression file 1</option>--%>
-<%--                                <option value="exp2">Expression file 2</option>--%>
-<%--                                <option value="exp3">Expression file 3</option>--%>
-<%--                                <option value="exp4">Expression file 4</option>--%>
-                            </select>
+                            <select id="NetworkSelection" name="NetworkSelection" class="button upload" style="margin: 0; padding: 0; font-weight: normal"></select>
                         </label>
                     </div><br>
                     <div id="NetworkMenu_NodesNumber" class="display-part" style="font-weight: bold">Number of displayed nodes:

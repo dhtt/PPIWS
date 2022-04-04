@@ -1,7 +1,18 @@
 jQuery(document).ready(function() {
     // Show graph
+    const NetworkSelection = $('#NetworkSelection')
+    NetworkSelection.on('change', function () {
+        let graphFile = "output/graph/" + $(this).val() + ".json"
+        makePlot(graphFile)
+    })
+    //
+    // function makePlot(graphFile_){
+    //
+    // }
+})
 
-    fetch('output/graph/exp_1.json', {mode: 'no-cors'})
+export function makePlot(graphFile_){
+    fetch(graphFile_, {mode: 'no-cors'})
         .then(function(res) {
             return res.json()
         })
@@ -41,4 +52,4 @@ jQuery(document).ready(function() {
                 ]
             });
         })
-})
+}
