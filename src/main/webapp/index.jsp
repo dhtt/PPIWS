@@ -26,13 +26,11 @@
                 <p class="menu header">Load Protein Interaction Data</p>
                 <div class="menu panel">
                     <p style="text-align: center; margin: 0">
-                        <label id="protein_network_file_lab" class="button upload" title="Upload a protein network">From file
-                            <input type="file" name="protein_network_file" id="protein_network_file" style="display: none">
-                        </label>
+                        <label id="protein_network_file_lab" for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
+                        <input type="file" name="protein_network_file" id="protein_network_file" style="display: none">
                         &nbsp;or&nbsp;
-                        <label class="button upload" title="Use protein interaction network from Mentha or IntAct">From web
-                            <input type="file" name="protein_network_web" id="protein_network_web" style="display: none">
-                        </label>
+                        <label class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
+                        <input type="file" name="protein_network_web" id="protein_network_web" style="display: none">
                         <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
                     </p>
                     <p id="protein_network_description" class="description-text">&emsp;</p>
@@ -151,7 +149,8 @@
                 </div>
                 <div id="RightDisplay" class="display-part" style="display: none; flex-basis: 30%; text-align: center">
                     <p class="subsection-text" style="margin: 0; font-size: smaller">Number of proteins and interactions<br>in each expression data</p>
-                    <jsp:include page="html/test_table.html"/>
+                    <jsp:include page="output/test_table.html"/>
+                    <a href="header.html">Download this table</a><br><br>
                     <p name="ScrollToTop" class="reset" style="text-align: center">Scroll to top</p>
                         <%--                <p>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>"</p>--%>
                 </div>
@@ -169,12 +168,31 @@
                             <select id="NetworkSelection" name="NetworkSelection" class="button upload" style="margin: 0; padding: 0; font-weight: normal"></select>
                         </label>
                     </div><br>
+<%--                    <div id="CustomizeNetwork" class="display-part"style="font-weight: bold">Customize this network</div>--%>
                     <div id="NetworkMenu_NodesNumber" class="display-part" style="font-weight: bold">Number of displayed nodes:
                         <label for="NodesNumber"></label><input type="range" id="NodesNumber" value="1.00" min="0" max="1.0" step="0.01"><br>
-                    </div>
+                    </div><br>
+                    <div id="NetworkMenu_Color" class="display-part" style="font-weight: bold">Change color theme:
+                        <label for="ColorTheme">
+                            <select id="ColorTheme" class="button upload" style="margin: 0; padding: 0; font-weight: normal">
+                                <option value="default">Default</option>
+                                <option value="theme1">#1</option>
+                                <option value="theme2">#2</option>
+                                <option value="theme3">#3</option>
+                                <option value="theme4">#4</option>
+                            </select>
+                        </label>
+                    </div><br>
+                    <div id="NetworkMenu_Metrics" class="display-part"style="font-weight: bold">Display network properties</div>
                 </div>
 
-                <div id="NVContent"></div>
+                <div id="NVContent">
+                    <div id="NVContent_Graph"></div>
+                    <div id="NVContent_Metrics" style="display:none; position: absolute; width:15%; right: 0; padding: 1em; text-align: center">
+                        <jsp:include page="output/network_table.html"/><br>
+                        <a href="header.html">Download this table</a><br>
+                    </div>
+                </div>
 <%--                Example network--%>
             </div>
         </div>

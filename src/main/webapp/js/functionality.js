@@ -105,7 +105,7 @@ jQuery(document).ready(function() {
                             loader.css({'display': 'none'})
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
-                            makePlot("output/graph/exp_1.json")
+                            makePlot("output/graph/exp_1.json", '#433C39', '#14cb9a')
                         }
                         runningProgressContent.html(
                             json.UPDATE_STATIC_PROGRESS_MESSAGE +
@@ -147,6 +147,10 @@ jQuery(document).ready(function() {
 
         $("[name='DisplayTab']").removeClass("active")
         $(tabName).addClass("active")
+    })
+
+    $('#NetworkMenu_Metrics').on('click', function () {
+        $('#NVContent_Metrics').toggle()
     })
 })
 

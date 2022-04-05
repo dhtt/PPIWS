@@ -38,7 +38,6 @@ jQuery(document).ready(function() {
         $('[name="' + name + '"]').prop('checked', false)
     }
     $("[name='Reset']").on('click', function(){
-        alert($(this).text())
         const name = $(this).attr('id').split('Reset').join("");
         make_none_checked(name)
         set_default()
@@ -106,8 +105,9 @@ jQuery(document).ready(function() {
                             loader.css({'display': 'none'})
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
-                            makePlot("output/graph/exp_1.json")
+                            makePlot("output/graph/exp_1.json", '#433C39', '#14cb9a')
                         }
+                        console.log(json.UPDATE_STATIC_PROGRESS_MESSAGE)
                         runningProgressContent.html(
                             json.UPDATE_STATIC_PROGRESS_MESSAGE +
                             json.UPDATE_LONG_PROCESS_MESSAGE
@@ -128,6 +128,8 @@ jQuery(document).ready(function() {
 
     // Submit
     $('#RunNormal').on('click', function (){
+        addNetworkSelection(no_expression_file);
+        loader.css({'display': 'block'});
         $.fn.submit_form("RunNormal")
         return false;
     })
@@ -146,6 +148,10 @@ jQuery(document).ready(function() {
 
         $("[name='DisplayTab']").removeClass("active")
         $(tabName).addClass("active")
+    })
+
+    $('#NetworkMenu_Metrics').on('click', function () {
+        $('#NVContent_Metrics').toggle()
     })
 })
 

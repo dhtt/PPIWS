@@ -139,10 +139,11 @@ public class PPIXpressRun {
 
     public void runAnalysis(AtomicBoolean updatingStop, AtomicReference<String> runMessage) {
         //gathering even more data if necessary
-        /*
-        runMessage.set("<li>Switch Server GRCh37</li>");
-        DataQuery.switchServerGRCh37();
 
+        runMessage.set("<li>Switch Server GRCh37</li>");
+//        DataQuery.switchServerGRCh37();
+
+        /*
         updateAtomicString(runMessage, "<li>Retrieving UCSC mapping-data</li>");
         DataQuery.getUCSChg19toTranscriptMap();
 
@@ -176,8 +177,8 @@ public class PPIXpressRun {
 
 //        write output files
         updateAtomicString(runMessage, "... Building output data for reference network ");
-        updateAtomicString(runMessage, "a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>" +
-                "a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>");
+//        updateAtomicString(runMessage, "a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>" +
+//                "a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>a<br>");
 //        String file_suffix = "_ppin.txt";
 //        constr.getPPIN().writePPIN("example" + file_suffix);
 //

@@ -9,9 +9,12 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.webserver.PPIXpressRun.updateAtomicString;
+import static org.apache.commons.lang3.StringUtils.capitalize;
+import static org.apache.commons.lang3.StringUtils.join;
 
 @WebServlet(name = "PPIXpress", value = "/PPIXpress")
 @MultipartConfig()
@@ -51,17 +54,43 @@ public class PPIXpressServlet extends HttpServlet {
         }
     }
 
+    /**
+     * Create HTML element
+     * @param Tag a HTML tag starts and closes without <>
+     * @param Content Content
+     * @return HTML element
+     */
+    static String createElement(String Tag, String Content){
+        return ("<" + Tag + ">" + Content + "</" + Tag + ">");
+    }
+
+    /**
+     * Add inner text to HTML section
+     * @param Element a String starts and ends with <tag></tag>
+     * @param Content To be added Content
+     * @return Modified content
+     */
+    static String addInnerText(String Element, String Content){
+        String[] splitElement = Element.split("(?=<)|(?<=>)");
+        return(splitElement[0] + splitElement[1] + Content + splitElement[2]);
+    }
+
+    static String makeList(List<String> l){
+        StringBuilder stringList = new StringBuilder();
+        if (l.size() != 0) l.forEach(s -> stringList.append(s.equals("") ? "" : createElement("li", s)));
+        return(createElement("ul", String.valueOf(stringList)));
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Main pipeline
         PPIXpressRun pipeline = new PPIXpressRun();
         response.setContentType("text/html");
         String submit_type = request.getParameter("submitType");
+        AtomicReference<String> staticProgress = new AtomicReference<String>("");
+        request.getSession().setAttribute("STATIC_PROGRESS_MESSAGE", staticProgress);
 
         if (submit_type.equals("RunExample")) {
-            AtomicReference<String> staticProgress = new AtomicReference<String>("");
-            request.getSession().setAttribute("STATIC_PROGRESS_MESSAGE", staticProgress);
-
 //            SHOW EXAMPLE DATA
             staticProgress.set(
                     "<h3>Running PPIXpress with example data...</h3>"+
@@ -86,17 +115,21 @@ public class PPIXpressServlet extends HttpServlet {
             Thread lrp = new Thread(myThreads);
             lrp.start();
         }
-            /*
-//            pipeline.runAnalysis(out);
-        }
-        else if (submit_type.equals("RunNormal")){
-            out.println("<h3>Data submitted!<br><br>Uploaded files:</h3>");
+        else if (submit_type.equals("RunNormal")) {
+            staticProgress.set(createElement("h3", "Data submitted!<br><br>Uploaded files:"));
+
 //        Show uploaded files
-            for (Part part : request.getParts()) {
-                if (part.getSubmittedFileName() != null) {
-                    out.println(part.getName() + ": " + part.getSubmittedFileName() + "<br>");
-                }
+            Map<String, ArrayList<String>> uploadedFiles = new HashMap<>();
+            for (Part part : request.getParts()){
+                String fileName = part.getSubmittedFileName();
+                if (fileName != null)
+                    uploadedFiles.computeIfAbsent(part.getName(), k -> new ArrayList<>()).add(fileName);
             }
+            List<String> uploadedFilesHTML = uploadedFiles.entrySet()
+                    .stream()
+                    .map(entry ->String.join(" ", entry.getKey().split("_")) + makeList(entry.getValue()))
+                    .collect(Collectors.toList());
+            updateAtomicString(staticProgress, makeList(uploadedFilesHTML) + "<br>");
 
 //            Show run options
             String[] PPI_Options = request.getParameterValues("PPIOptions");
@@ -104,12 +137,21 @@ public class PPIXpressServlet extends HttpServlet {
             String[] Run_Options = request.getParameterValues("RunOptions");
             String[] numericInput = {request.getParameter("threshold")};
             //TODO: Add percentile adjustment
-            out.println("<br><h3>| Parsing PPIXpress options... </h3>");
+            updateAtomicString(staticProgress, createElement("h3", "Parsing PPIXpress options..."));
             pipeline.parseArgs(PPI_Options, Exp_Options, Run_Options, numericInput);
-            printList(out, pipeline.getArgs());
+            List<String> parsedArgs = List.of(pipeline.getArgs());
+            updateAtomicString(staticProgress, makeList(parsedArgs) + "<br>");
 
-            out.println("<br><h3>| Executing PPIXpress... </h3>");
-        }*/
+            updateAtomicString(staticProgress, createElement("h3", "Executing PPIXpress..."));
+            AtomicBoolean updatingStop = new AtomicBoolean(false);
+            AtomicReference<String> runMessage = new AtomicReference<String>("");
+            request.getSession().setAttribute("LONG_PROCESS_SIGNAL", updatingStop);
+            request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runMessage);
+
+            LongRunningProcess myThreads = new LongRunningProcess(pipeline, updatingStop, runMessage);
+            Thread lrp = new Thread(myThreads);
+            lrp.start();
+        }
     }
     public static void main(String[] args){
     }
