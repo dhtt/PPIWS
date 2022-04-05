@@ -25,15 +25,25 @@
             <div name="LeftPanel1" id="LeftPanel1">
                 <p class="menu header">Load Protein Interaction Data</p>
                 <div class="menu panel">
-                    <p style="text-align: center; margin: 0">
-                        <label id="protein_network_file_lab" for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
-                        <input type="file" name="protein_network_file" id="protein_network_file" style="display: none">
+                    <div style="text-align: center; margin: 0">
+                        <label for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
+                        <input type="file" name="protein_network_file" id="protein_network_file"  style="display: none">
                         &nbsp;or&nbsp;
-                        <label class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
-                        <input type="file" name="protein_network_web" id="protein_network_web" style="display: none">
+                        <label for="protein_network_web" class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
                         <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
-                    </p>
-                    <p id="protein_network_description" class="description-text">&emsp;</p>
+                        <div id="protein_network_web_popup" class="popup center-pop" style="display: none">
+                            <div class="menu header" style="width: 300px; font-size: small">
+                                <button type="button" name="close" class="help close">x</button>
+                                Retrieve a network<br>from Mentha or IntAct database
+                            </div>
+                            <p class="menu panel shadow" style="text-align: center; width: 300px">
+                                Please input an organism taxon.<br>e.g. Type 9606 for a human network.<br><br>
+                                <input type="text" id="protein_network_web" class="input" style="height: 1.5em"><br><br>
+                                <button type="button" id="protein_network_web_confirm" name="confirm" class="button upload" style="width: fit-content;">Enter</button>
+                            </p>
+                        </div>
+                    </div>
+                    <p id="protein_network_file_description" class="description-text">&emsp;</p>
                     <span style="display:flex; width: 280px">
                         <span class="subsection-text" style="flex:1;">Options</span><span name="Reset" id="ResetPPIOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
                     </span>
@@ -61,11 +71,11 @@
                 <p class="menu header">Load Processed Expression Data</p>
                 <div class="menu panel">
                     <p style="text-align: center; margin: 0">
-                        <label id="expression_file_lab" for="expression_file" class="button upload" title="Upload one or more expression datasets">Upload file(s)</label>
-                        <input type="file" name="expression_file" id="expression_file" style="display: none" multiple>
+                        <label for="expression_file" class="button upload" title="Upload one or more expression datasets">Upload file(s)</label>
+                        <input type="file" name="expression_file" id="expression_file" accept=".gzip,.txt" style="display: none" multiple>
                         <button type="button" name="expression_example" id="expression_example" class="help" title="Example input">?</button>
                     </p>
-                    <p id="expression_description" class="description-text">&emsp;</p>
+                    <p id="expression_file_description" class="description-text">&emsp;</p>
                     <span style="display:flex; width: 280px">
                         <span class="subsection-text" style="flex:1;">Options</span><span name="Reset" id="ResetExpOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
                     </span>
@@ -163,16 +173,16 @@
             <div id="NetworkVisualizationContent" name="Display" class="display-content non-display">
 
                 <div id="NetworkMenu" style="display: flex; flex-direction: row">
-                    <div id="NetworkMenu_Show" class="display-part" style="font-weight: bold">Show network for:
+                    <div id="NetworkMenu_Show" class="display-part" style="font-weight: bold; text-align: center">Show network for:
                         <label for="NetworkSelection">
                             <select id="NetworkSelection" name="NetworkSelection" class="button upload" style="margin: 0; padding: 0; font-weight: normal"></select>
                         </label>
                     </div><br>
 <%--                    <div id="CustomizeNetwork" class="display-part"style="font-weight: bold">Customize this network</div>--%>
-                    <div id="NetworkMenu_NodesNumber" class="display-part" style="font-weight: bold">Number of displayed nodes:
+                    <div id="NetworkMenu_NodesNumber" class="display-part" style="font-weight: bold; text-align: center">Number of displayed nodes:
                         <label for="NodesNumber"></label><input type="range" id="NodesNumber" value="1.00" min="0" max="1.0" step="0.01"><br>
                     </div><br>
-                    <div id="NetworkMenu_Color" class="display-part" style="font-weight: bold">Change color theme:
+                    <div id="NetworkMenu_Color" class="display-part" style="font-weight: bold; text-align: center">Change color theme:
                         <label for="ColorTheme">
                             <select id="ColorTheme" class="button upload" style="margin: 0; padding: 0; font-weight: normal">
                                 <option value="default">Default</option>
@@ -183,12 +193,13 @@
                             </select>
                         </label>
                     </div><br>
-                    <div id="NetworkMenu_Metrics" class="display-part"style="font-weight: bold">Display network properties</div>
+                    <div id="NetworkMenu_Metrics" class="display-part"style="font-weight: bold; text-align: right">Display network properties</div>
                 </div>
 
                 <div id="NVContent">
                     <div id="NVContent_Graph"></div>
-                    <div id="NVContent_Metrics" style="display:none; position: absolute; width:15%; right: 0; padding: 1em; text-align: center">
+                    <div id="NVContent_Metrics" class="popup" style="display:none; position: absolute; width:15%; right: 0">
+                        <button type="button" name="close" class="help close">x</button>
                         <jsp:include page="output/network_table.html"/><br>
                         <a href="header.html">Download this table</a><br>
                     </div>

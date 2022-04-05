@@ -9,6 +9,7 @@
     --ultradarkmint: #003924;
     --shadow: rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px;
     --textshadow: 1px 1px 4px var(--darkintensemint);
+    --warning: #ff003b;
     --nodecolor: #2a036b;
     --edgecolor: #a4268f;
 }
@@ -121,6 +122,9 @@ h1, h2 {
     white-space: nowrap;
     margin: 0;
 }
+h3 {
+    font-weight: bold;
+}
 
 footer{
     margin-top: -1em;
@@ -196,7 +200,7 @@ footer{
     color: var(--choco);
     font-size: medium;
 }
-.help{
+.help, .close{
     width: 24px;
     height: 24px;
     line-height: 20px;
@@ -212,6 +216,18 @@ footer{
 .help:hover{
     border-color: var(--mint);
     background-color: var(--mint);
+}
+.close{
+    display: inline-block;
+    background: white;
+    float: right;
+    margin-right: 0.5em;
+    margin-bottom: 0.5em;
+}
+.close:hover{
+    border-color: var(--warning);
+    background-color: var(--warning);
+    color: white;
 }
 /*Menu bar skeleton*/
 .menu{
@@ -266,7 +282,7 @@ input[type="checkbox"]{
     bottom: 1px;
     margin-left: 1em; margin-right: 1em;
 }
-input[type="number"]{
+input[type="number"], input[type="text"]{
     vertical-align: middle;
     position: relative;
     bottom: 1px;
@@ -284,19 +300,12 @@ input[type=number]::-webkit-inner-spin-button {
     color: grey;
 }
 .highlight{
-    color: red;
+    color: var(--warning);
 }
 .shadow {
      box-shadow: var(--shadow);
  }
 
-/*#NetworkVisualizationContent {*/
-/*    border-radius: 1em;*/
-/*    background-color: white;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    position: relative;*/
-/*}*/
 #NVContent {
     border-radius: 1em;
     background-color: white;
@@ -335,3 +344,6 @@ li li::marker {
     color: #46b088;
 }
 
+.input{
+
+}

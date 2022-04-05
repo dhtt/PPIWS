@@ -44,16 +44,47 @@ jQuery(document).ready(function() {
     })
 
     // Show number of uploaded files
+    var protein_network_web = $('#protein_network_web')
+    var protein_network_file = $('#protein_network_file')
     let no_expression_file = 0;
-    $('#protein_network_file').on("change", function(){
-        $('#protein_network_file_lab').html("Change file")
-        $('#protein_network_description').html("Protein interaction data: " + this.files.length + " file(s) selected")
+    /**
+     * Confirm the use of taxon for protein network retrieval. After confirming,
+     * filepath for protein_network_file is set to null.
+     */
+    $('#protein_network_web_confirm').on("click", function (){
+        $('#protein_network_file_description').html("Selected taxon: " +
+            $(this).parent().children('.input').val())
+        $(".popup").hide()
+        alert("Use retrieved protein network from database.")
+        protein_network_file.val(null)
     })
+    protein_network_file.on("change", function(){
+        showNoChosenFiles('protein_network_file', 1)
+        alert("Use user-uploaded network file.")
+        protein_network_web.val(null)
+    })
+
     $('#expression_file').on("change", function(){
         no_expression_file = this.files.length
-        $('#expression_file_lab').html("Change file(s)")
-        $('#expression_description').html("Expression data: " + this.files.length + " file(s) selected")
+        showNoChosenFiles('expression_file', no_expression_file)
     })
+    function showNoChosenFiles(inputType, noFiles){
+        $("label[for='"+ inputType + "']").html("Change file")
+        $('#' + inputType + "_description").html(noFiles + " file(s) selected")
+    }
+
+    $("label[for='protein_network_web']").on("click", function(){
+        $('#protein_network_web_popup').toggle()
+    })
+
+
+
+    //Close buttons
+    $("[name='close']").on("click", function(){
+        $(".popup").hide()
+    })
+
+    // Confirm button
 
     // Ajax Handler
     const allPanel = $('#AllPanels');
@@ -161,6 +192,7 @@ jQuery(document).ready(function() {
  */
 function addNetworkSelection(no_expression_file_){
     const NetworkSelection = document.getElementById('NetworkSelection');
+    NetworkSelection.innerHTML = '';
     for (let i = 1; i <= no_expression_file_; i++){
         const opt = document.createElement('option');
         opt.value = "exp_" + i;

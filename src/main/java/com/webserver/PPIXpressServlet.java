@@ -116,15 +116,18 @@ public class PPIXpressServlet extends HttpServlet {
             lrp.start();
         }
         else if (submit_type.equals("RunNormal")) {
-            staticProgress.set(createElement("h3", "Data submitted!<br><br>Uploaded files:"));
+            staticProgress.set(createElement("h3", "Data submitted! Running PPIXpress... <br><br>"));
 
 //        Show uploaded files
+            updateAtomicString(staticProgress, createElement("h3", "Uploaded files:"));
             Map<String, ArrayList<String>> uploadedFiles = new HashMap<>();
             for (Part part : request.getParts()){
+                System.out.println(part.getName());
                 String fileName = part.getSubmittedFileName();
                 if (fileName != null)
                     uploadedFiles.computeIfAbsent(part.getName(), k -> new ArrayList<>()).add(fileName);
             }
+            System.out.println(uploadedFiles);
             List<String> uploadedFilesHTML = uploadedFiles.entrySet()
                     .stream()
                     .map(entry ->String.join(" ", entry.getKey().split("_")) + makeList(entry.getValue()))
