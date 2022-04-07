@@ -31,21 +31,25 @@ jQuery(document).ready(function() {
     })
 
     /**
-     * Make none of the options checked
-     * @param name
+     * Set checkboxes and input values to default
      */
-    let make_none_checked = function (name) {
-        $('[name="' + name + '"]').prop('checked', false)
-    }
     $("[name='Reset']").on('click', function(){
-        const name = $(this).attr('id').split('Reset').join("");
-        make_none_checked(name)
-        set_default()
+        const placeholder = $(this).closest(".menu");
+        placeholder.find("input[type='checkbox']").prop('checked', false)
+        placeholder.find('.hidden-checkbox').prop("checked", true)
+        placeholder.find("input[type='file']").val("")
+        placeholder.find('.description-text').html("&emsp;")
+
+        // Specific settings for each datatype-panel
+        placeholder.find("#threshold").val(1.00)
+        placeholder.find("#protein_network_web").val("")
+        placeholder.find("#remove_decay_transcripts").prop('checked', true)
     })
 
     // Show number of uploaded files
     var protein_network_web = $('#protein_network_web')
     var protein_network_file = $('#protein_network_file')
+    var expression_file = $('#expression_file')
     let no_expression_file = 0;
     /**
      * Confirm the use of taxon for protein network retrieval. After confirming,
@@ -56,20 +60,19 @@ jQuery(document).ready(function() {
             $(this).parent().children('.input').val())
         $(".popup").hide()
         alert("Use retrieved protein network from database.")
-        protein_network_file.val(null)
+        protein_network_file.val("")
     })
     protein_network_file.on("change", function(){
         showNoChosenFiles('protein_network_file', 1)
         alert("Use user-uploaded network file.")
-        protein_network_web.val(null)
+        protein_network_web.val("")
     })
 
-    $('#expression_file').on("change", function(){
+    expression_file.on("change", function(){
         no_expression_file = this.files.length
         showNoChosenFiles('expression_file', no_expression_file)
     })
     function showNoChosenFiles(inputType, noFiles){
-        $("label[for='"+ inputType + "']").html("Change file")
         $('#' + inputType + "_description").html(noFiles + " file(s) selected")
     }
 
@@ -158,6 +161,11 @@ jQuery(document).ready(function() {
 
     // Submit
     $('#RunNormal').on('click', function (){
+
+        if ((protein_network_web.val() === "" && protein_network_file.val() === "") || expression_file.val() === ""){
+            alert('Missing input file(s). Please check if protein interaction data is uploaded/chosen and if expression data is uploaded.');
+            return false;
+        }
         addNetworkSelection(no_expression_file);
         loader.css({'display': 'block'});
         $.fn.submit_form("RunNormal")

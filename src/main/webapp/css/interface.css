@@ -282,6 +282,8 @@ input[type="checkbox"]{
     bottom: 1px;
     margin-left: 1em; margin-right: 1em;
 }
+.hidden-checkbox{
+}
 input[type="number"], input[type="text"]{
     vertical-align: middle;
     position: relative;

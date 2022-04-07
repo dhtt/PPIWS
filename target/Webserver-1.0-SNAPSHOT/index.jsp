@@ -27,7 +27,7 @@
                 <div class="menu panel">
                     <div style="text-align: center; margin: 0">
                         <label for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
-                        <input type="file" name="protein_network_file" id="protein_network_file"  style="display: none">
+                        <input type="file" name="protein_network_file" id="protein_network_file" style="display: none">
                         &nbsp;or&nbsp;
                         <label for="protein_network_web" class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
                         <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
@@ -60,7 +60,7 @@
                         <input type="checkbox" name="PPIOptions" id="include_ELM" value="-elm">Include ELM data
                     </label><br>
                     <label>
-                        <input type="checkbox" name="PPIOptions" style="display: none" value=null checked>
+                        <input type="checkbox" name="PPIOptions" class="hidden-checkbox" style="display: none" value=null checked>
                     </label>
 
 
@@ -89,7 +89,7 @@
                         <input type="checkbox" name="ExpOptions" id="norm_transcripts" value="-n">Normalize transcripts
                     </label><br>
                     <label style="margin-left: 1em">Expression Level Threshold
-                        <input type="number" name="ExpOptions" id="threshold" value="1.00" min="0" max="1.0" step="0.01"><br>
+                        <input type="number" name="ExpOptions" class="hidden-checkbox" id="threshold" value="1.00" min="0" max="1.0" step="0.01"><br>
                     </label>
 <%--                    TODO: Add percentile adjustment--%>
                     <label>
@@ -123,7 +123,7 @@
                         <input type="checkbox" name="RunOptions" id="compress_output" value="-c">Compress output
                     </label><br>
                     <label>
-                        <input type="checkbox" name="RunOptions" style="display: none" value=null checked>
+                        <input type="checkbox" name="RunOptions" class="hidden-checkbox" style="display: none" value=null checked>
                     </label>
                 </div>
             </div>
@@ -193,7 +193,7 @@
                             </select>
                         </label>
                     </div><br>
-                    <div id="NetworkMenu_Metrics" class="display-part"style="font-weight: bold; text-align: center">Display network properties</div>
+                    <div id="NetworkMenu_Metrics" class="display-part"style="font-weight: bold; text-align: right">Display network properties</div>
                 </div>
 
                 <div id="NVContent">
