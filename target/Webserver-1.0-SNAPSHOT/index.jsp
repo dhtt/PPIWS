@@ -89,11 +89,11 @@
                         <input type="checkbox" name="ExpOptions" id="norm_transcripts" value="-n">Normalize transcripts
                     </label><br>
                     <label style="margin-left: 1em">Expression Level Threshold
-                        <input type="number" name="ExpOptions" class="hidden-checkbox" id="threshold" value="1.00" min="0" max="1.0" step="0.01"><br>
+                        <input type="number" name="ExpOptions" id="threshold" value="1.00" min="0" max="1.0" step="0.01"><br>
                     </label>
 <%--                    TODO: Add percentile adjustment--%>
                     <label>
-                        <input type="checkbox" name="ExpOptions" style="display: none" value=null checked>
+                        <input type="checkbox" name="ExpOptions" class="hidden-checkbox" style="display: none" value=null checked>
                     </label>
                 </div>
             </div>
@@ -167,41 +167,44 @@
             </div>
 
             <div id="ResultSummaryContent" name="Display" class="display-content non-display">
-<%--                Page 2--%>
-
+<%--                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>--%>
             </div>
-            <div id="NetworkVisualizationContent" name="Display" class="display-content non-display">
 
-                <div id="NetworkMenu" style="display: flex; flex-direction: row">
-                    <div id="NetworkMenu_Show" class="display-part" style="font-weight: bold; text-align: center">Show network for:
-                        <label for="NetworkSelection">
-                            <select id="NetworkSelection" name="NetworkSelection" class="button upload" style="margin: 0; padding: 0; font-weight: normal"></select>
-                        </label>
-                    </div><br>
-<%--                    <div id="CustomizeNetwork" class="display-part"style="font-weight: bold">Customize this network</div>--%>
-                    <div id="NetworkMenu_NodesNumber" class="display-part" style="font-weight: bold; text-align: center">Number of displayed nodes:
-                        <label for="NodesNumber"></label><input type="range" id="NodesNumber" value="1.00" min="0" max="1.0" step="0.01"><br>
-                    </div><br>
-                    <div id="NetworkMenu_Color" class="display-part" style="font-weight: bold; text-align: center">Change color theme:
-                        <label for="ColorTheme">
-                            <select id="ColorTheme" class="button upload" style="margin: 0; padding: 0; font-weight: normal">
+            <div id="NetworkVisualizationContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
+<%--                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>--%>
+<%--                <div id="NetworkMenu" class="non-display" style="display: flex; flex-direction: row; flex: 1 1 auto">--%>
+<%--                 --%>
+<%--                </div>--%>
+
+                <div id="NVContent" class="non-display" style="display: flex; flex-direction: column; flex: 1 1 auto">
+                    <div id="NVContent_Graph" style="flex: 1 1 auto"></div>
+
+                    <div id="NVContent_Metrics" class="align_box_right" style="flex: 1 1 auto; text-align: center">
+                        <div class="network-option panel" style="text-align: center; border-radius: 1em">
+                            <label for="NetworkSelection" style="font-weight: bold">Show network for</label>
+                            <select id="NetworkSelection" name="NetworkOptions" class="button upload" style="margin-top: 0.5em"></select>
+                        </div>
+
+                        <div class="network-option panel" style="text-align: center; border-radius: 1em">
+                            <label for="NodesNumber" style="font-weight: bold">Number of displayed nodes</label>
+                            <input type="range" id="NodesNumber" name="NetworkOptions" value="1.00" min="0" max="1.0" step="0.01" style="display:none; width: 80%; margin-top: 0.5em">
+                        </div>
+
+                        <div class="network-option panel" style="text-align: center; border-radius: 1em">
+                            <label for="NVContentMetricsTable" style="font-weight: bold">Display network properties</label>
+                            <div id="NVContentMetricsTable" name="NetworkOptions" class="popup" style="display:none">
+                                <jsp:include page="output/network_table.html"/><br>
+                                <a href="header.html">Download this table</a>
+                            </div>
+                        </div>
+
+                        <div class="network-option panel" style="text-align: center; border-radius: 1em">
+                            <label for="ColorTheme" style="font-weight: bold">Customize graph color</label>
+                            <select id="ColorTheme" name="NetworkOptions" class="button upload" style="display:none; margin-top: 0.5em">
                                 <option value="default">Default</option>
-                                <option value="theme1">#1</option>
-                                <option value="theme2">#2</option>
-                                <option value="theme3">#3</option>
-                                <option value="theme4">#4</option>
                             </select>
-                        </label>
-                    </div><br>
-                    <div id="NetworkMenu_Metrics" class="display-part"style="font-weight: bold; text-align: right">Display network properties</div>
-                </div>
+                        </div>
 
-                <div id="NVContent">
-                    <div id="NVContent_Graph"></div>
-                    <div id="NVContent_Metrics" class="popup" style="display:none; position: absolute; width:15%; right: 0">
-                        <button type="button" name="close" class="help close">x</button>
-                        <jsp:include page="output/network_table.html"/><br>
-                        <a href="header.html">Download this table</a><br>
                     </div>
                 </div>
 <%--                Example network--%>

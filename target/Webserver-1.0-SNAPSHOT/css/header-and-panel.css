@@ -82,7 +82,7 @@
     position: relative;
     height: 100%;
 }
-.display-content.non-display{
+.non-display{
     display: none !important;
 }
 .display-part{

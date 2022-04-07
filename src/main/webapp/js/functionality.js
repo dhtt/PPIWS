@@ -1,6 +1,4 @@
-// TODO: Show ResultSummary + NetworkVisualization only after Running Progress is done
 import {makePlot} from './network_maker.js'
-// makePlot = require('network_maker');
 
 jQuery(document).ready(function() {
     /**
@@ -139,7 +137,7 @@ jQuery(document).ready(function() {
                             loader.css({'display': 'none'})
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
-                            makePlot("output/graph/exp_1.json", '#433C39', '#14cb9a')
+                            makePlot("output/graph/exp_1.json", '#ff00ae', '#14cb9a')
                         }
                         runningProgressContent.html(
                             json.UPDATE_STATIC_PROGRESS_MESSAGE +
@@ -160,6 +158,7 @@ jQuery(document).ready(function() {
     })
 
     // Submit
+    const NVContent = $('#NVContent');
     $('#RunNormal').on('click', function (){
 
         if ((protein_network_web.val() === "" && protein_network_file.val() === "") || expression_file.val() === ""){
@@ -169,12 +168,14 @@ jQuery(document).ready(function() {
         addNetworkSelection(no_expression_file);
         loader.css({'display': 'block'});
         $.fn.submit_form("RunNormal")
+        NVContent.removeClass("non-display")
         return false;
     })
     $('#RunExample').on('click', function (){
         addNetworkSelection(no_expression_file);
         loader.css({'display': 'block'});
         $.fn.submit_form("RunExample");
+        NVContent.removeClass("non-display")
         return false;
     })
 
@@ -188,9 +189,12 @@ jQuery(document).ready(function() {
         $(tabName).addClass("active")
     })
 
-    $('#NetworkMenu_Metrics').on('click', function () {
-        $('#NVContent_Metrics').toggle()
+    $("label").on("click", function (){
+        var NetworkOptions = $('#' + $(this).attr('for'))
+        if (NetworkOptions.attr("name") === "NetworkOptions")
+            NetworkOptions.toggle()
     })
+
 })
 
 /**

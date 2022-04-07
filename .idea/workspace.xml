@@ -9,12 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Add popup window and close button">
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Reimplement Reset buttons">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/header-and-panel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" afterDir="false" />
     </list>
@@ -299,7 +301,7 @@
       <updated>1649083256675</updated>
       <workItem from="1649083261746" duration="23704000" />
       <workItem from="1649149233348" duration="30771000" />
-      <workItem from="1649343600833" duration="5200000" />
+      <workItem from="1649343600833" duration="19123000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -343,7 +345,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649184663942</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Reimplement Reset buttons">
+      <created>1649349636385</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1649349636385</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -367,7 +376,8 @@
     <MESSAGE value="Clean up Display" />
     <MESSAGE value="Update resources files" />
     <MESSAGE value="Add popup window &amp; close button, Make protein network usage (uploaded vs database) exclusive" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add popup window &amp; close button, Make protein network usage (uploaded vs database) exclusive" />
+    <MESSAGE value="Reimplement Reset buttons" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reimplement Reset buttons" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
