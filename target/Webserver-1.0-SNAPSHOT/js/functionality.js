@@ -7,6 +7,7 @@ jQuery(document).ready(function() {
     let set_default = function () {
         $('#remove_decay_transcripts').prop('checked', true)
         $('#threshold').val(1.0)
+        $('#percentile').val(0.0)
     }
     set_default()
 
@@ -40,6 +41,7 @@ jQuery(document).ready(function() {
 
         // Specific settings for each datatype-panel
         placeholder.find("#threshold").val(1.00)
+        placeholder.find("#percentile").val(0.00)
         placeholder.find("#protein_network_web").val("")
         placeholder.find("#remove_decay_transcripts").prop('checked', true)
     })
@@ -57,12 +59,12 @@ jQuery(document).ready(function() {
         $('#protein_network_file_description').html("Selected taxon: " +
             $(this).parent().children('.input').val())
         $(".popup").hide()
-        alert("Use retrieved protein network from database.")
+        // alert("Use retrieved protein network from database.")
         protein_network_file.val("")
     })
     protein_network_file.on("change", function(){
         showNoChosenFiles('protein_network_file', 1)
-        alert("Use user-uploaded network file.")
+        // alert("Use user-uploaded network file.")
         protein_network_web.val("")
     })
 
@@ -85,7 +87,13 @@ jQuery(document).ready(function() {
         $(".popup").hide()
     })
 
-    // Confirm button
+
+    $('#ExpressionLevelOption').on("change", function (){
+        $('label[for="threshold"]').toggle()
+        $('#threshold').toggle()
+        $('label[for="percentile"]').toggle()
+        $('#percentile').toggle()
+    })
 
     // Ajax Handler
     const allPanel = $('#AllPanels');
@@ -98,8 +106,7 @@ jQuery(document).ready(function() {
         data.get('ExpOptions')
         data.append('submitType', submit_type_);
         data.append('threshold', "-t=" + $('#threshold').val());
-        // TODO: Add percentile adjustment
-        // data.append('percentile', "-tp=" + $('#percentile').val());
+        data.append('percentile', "-tp=" + $('#percentile').val());
         $.ajax({
             url: "PPIXpress",
             method: "POST",
@@ -111,7 +118,7 @@ jQuery(document).ready(function() {
                 updateLongRunningStatus(resultText, 1000)
             },
             error: function (){
-                alert("An error occurred, checked console log!")
+                alert("An error occurred, check console log!")
             }
         })
     }
