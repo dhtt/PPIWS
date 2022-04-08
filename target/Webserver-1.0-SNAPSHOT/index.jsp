@@ -27,7 +27,8 @@
                 <div class="menu panel">
                     <div style="text-align: center; margin: 0">
                         <label for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
-                        <input type="file" name="protein_network_file" id="protein_network_file" style="display: none">
+                        <input type="file" name="protein_network_file" id="protein_network_file" accept=".sif" style="display: none">
+<%--                        TODO: Make input accept gzip --%>
                         &nbsp;or&nbsp;
                         <label for="protein_network_web" class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
                         <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
@@ -72,7 +73,7 @@
                 <div class="menu panel">
                     <p style="text-align: center; margin: 0">
                         <label for="expression_file" class="button upload" title="Upload one or more expression datasets">Upload file(s)</label>
-                        <input type="file" name="expression_file" id="expression_file" accept=".gzip,.txt" style="display: none" multiple>
+                        <input type="file" name="expression_file" id="expression_file" accept=".txt" style="display: none" multiple>
                         <button type="button" name="expression_example" id="expression_example" class="help" title="Example input">?</button>
                     </p>
                     <p id="expression_file_description" class="description-text">&emsp;</p>
@@ -83,18 +84,26 @@
                         <input type="checkbox" name="ExpOptions" id="gene_level_only" value="-g">Gene-level only
                     </label><br>
                     <label>
-                        <input type="checkbox" name="ExpOptions" id="percentile" value="-tp">Percentile-based
-                    </label><br>
-                    <label>
                         <input type="checkbox" name="ExpOptions" id="norm_transcripts" value="-n">Normalize transcripts
                     </label><br>
-                    <label style="margin-left: 1em">Expression Level Threshold
-                        <input type="number" name="ExpOptions" id="threshold" value="1.00" min="0" max="1.0" step="0.01"><br>
-                    </label>
-<%--                    TODO: Add percentile adjustment--%>
-                    <label>
-                        <input type="checkbox" name="ExpOptions" class="hidden-checkbox" style="display: none" value=null checked>
-                    </label>
+
+                    <span class="subsection-text" style="flex:1;">Expression level
+                    <select name="ExpOptions" id="ExpressionLevelOption" style="width: fit-content; background: white; padding: 0 0.5em; margin: 1em; border: 0">
+                        <option value="threshold">Use threshold</option>
+                        <option value="percentile">Use percentile</option>
+                    </select>
+                    </span>
+                    <span class="subsection-text" style="flex:1; text-align: center">
+                        <label for="threshold">Threshold</label>
+                        <input type="number" name="ExpOptions" id="threshold" value="1.00" min="0" max="1.0" step="0.01">
+                        <label for="percentile" style="display: none">Percentile</label>
+                        <input type="number" name="ExpOptions" id="percentile" value="0.00" min="0" max="1.0" step="0.01" style="display: none">
+                    </span>
+
+
+                    <label></label>
+                    <input type="checkbox" name="ExpOptions" class="hidden-checkbox" style="display: none" value=null checked>
+
                 </div>
             </div>
 

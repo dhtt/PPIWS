@@ -16,11 +16,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static com.webserver.PPIXpressRun.createElement;
-import static com.webserver.PPIXpressRun.updateAtomicString;
-import static org.apache.commons.lang3.StringUtils.capitalize;
-import static org.apache.commons.lang3.StringUtils.join;
-import static org.apache.juli.FileHandler.DEFAULT_BUFFER_SIZE;
+import standalone_tools.PPIXpress_Tomcat;
+import static standalone_tools.PPIXpress_Tomcat.createElement;
+import static standalone_tools.PPIXpress_Tomcat.updateAtomicString;
 
 @WebServlet(name = "PPIXpress", value = "/PPIXpress")
 @MultipartConfig()
@@ -33,10 +31,10 @@ public class PPIXpressServlet extends HttpServlet {
     static class LongRunningProcess implements Runnable{
         private final AtomicBoolean updatingStop;
         private final AtomicReference<String> message;
-        private final PPIXpressRun parsedPipeline;
+        private final PPIXpress_Tomcat parsedPipeline;
         private volatile boolean stop;
 
-        public LongRunningProcess(PPIXpressRun parsedPipeline, AtomicBoolean updatingStop, AtomicReference<String> message) {
+        public LongRunningProcess(PPIXpress_Tomcat parsedPipeline, AtomicBoolean updatingStop, AtomicReference<String> message) {
             this.updatingStop = updatingStop;
             this.parsedPipeline = parsedPipeline;
             this.message = message;
@@ -64,22 +62,34 @@ public class PPIXpressServlet extends HttpServlet {
      * Add inner text to HTML section
      * @param Element a String starts and ends with <tag></tag>
      * @param Content To be added Content
-     * @return Modified content
+     * @return Modified HTML content
      */
     static String addInnerText(String Element, String Content){
         String[] splitElement = Element.split("(?=<)|(?<=>)");
         return(splitElement[0] + splitElement[1] + Content + splitElement[2]);
     }
 
+
+    /**
+     * Make a HTML list
+     * @param l A list of items
+     * @return HTML formatted list
+     */
     static String makeList(List<String> l){
         StringBuilder stringList = new StringBuilder();
         if (l.size() != 0) l.forEach(s -> stringList.append(s.equals("") ? "" : createElement("li", s)));
         return(createElement("ul", String.valueOf(stringList)));
     }
 
-    static void writeOutputStream(Part filePart, String filePath){
-        try (InputStream in = filePart.getInputStream();
-             OutputStream out = Files.newOutputStream(Paths.get(filePath))) {
+
+    /**
+     * Write a file part from JSP request to a local file
+     * @param filePart_ file part from request
+     * @param filePath_ path to store file
+     */
+    static void writeOutputStream(Part filePart_, String filePath_){
+        try (InputStream in = filePart_.getInputStream();
+             OutputStream out = Files.newOutputStream(Paths.get(filePath_))) {
             long length = in.transferTo(out);
         } catch (IOException ex) {
             ex.printStackTrace();
@@ -92,12 +102,16 @@ public class PPIXpressServlet extends HttpServlet {
         String SOURCE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/";
         String INPUT_PATH = SOURCE_PATH + "input/";
         String OUTPUT_PATH = SOURCE_PATH + "output/";
-        String FILENAME_PPI = "ppi_network.txt";
+        String FILENAME_PPI = "ppi_data.sif";
+        String ORIGINAL_NETWORK_PATH = INPUT_PATH + FILENAME_PPI;
+        List<String> INPUT_PATHS = new LinkedList<String>();
         String FILENAME_EXP = "exp_";
+//        TODO: Make input accept gzip
 
-        PPIXpressRun pipeline = new PPIXpressRun();
         response.setContentType("text/html");
         String submit_type = request.getParameter("submitType");
+
+        PPIXpress_Tomcat pipeline = new PPIXpress_Tomcat();
         AtomicReference<String> staticProgress = new AtomicReference<String>("");
         request.getSession().setAttribute("STATIC_PROGRESS_MESSAGE", staticProgress);
 
@@ -110,7 +124,7 @@ public class PPIXpressServlet extends HttpServlet {
 //            PARSE OPTIONS
             updateAtomicString(staticProgress, "<h3>Parsing PPIXpress options...</h3>");
             String[] args = {"-w", "-u", "-t=0.3"};
-            pipeline.parseArgs(args);
+            pipeline.parseInput(args);
             String[] parsedArgs = pipeline.getArgs();
             if (parsedArgs != null) updateAtomicString(staticProgress,
                     "<ul><li>" + String.join("</li><li>", parsedArgs) + "</li></ul>");
@@ -127,47 +141,51 @@ public class PPIXpressServlet extends HttpServlet {
             lrp.start();
         }
         else if (submit_type.equals("RunNormal")) {
-//            File uploaded_protein_network_file = new File("ppi.sif");
+
+//            Start PPIPipeline
             staticProgress.set(createElement("h3", "Data submitted! Running PPIXpress... <br><br>"));
 
-            Part proteinPart = request.getPart("protein_network_file");
-            writeOutputStream(proteinPart, INPUT_PATH + FILENAME_PPI);
 
+//            Store and show to screen uploaded files
+//            Map<String, ArrayList<String>> uploadedFiles = new HashMap<>();
 
-            updateAtomicString(staticProgress, createElement("h3", "Uploaded files:"));
-            Map<String, ArrayList<String>> uploadedFiles = new HashMap<>();
             int expression_file_count = 0;
             for (Part part : request.getParts()){
+
                 String fileType = part.getName();
-                if (fileType.equals("protein_network_file")){
-                    writeOutputStream(part, INPUT_PATH + FILENAME_PPI);
-                }
+                if (fileType.equals("protein_network_file"))
+                    writeOutputStream(part, ORIGINAL_NETWORK_PATH);
+
                 else if (fileType.equals("expression_file")){
-                    writeOutputStream(part, INPUT_PATH + FILENAME_EXP + expression_file_count + ".txt");
+                    String input_files_path = INPUT_PATH + FILENAME_EXP + expression_file_count + "_data.txt";
+                    writeOutputStream(part, input_files_path);
+                    INPUT_PATHS.add(input_files_path);
                     expression_file_count += 1;
                 }
 
-                String fileName = part.getSubmittedFileName();
-                if (fileName != null)
-                    uploadedFiles.computeIfAbsent(part.getName(), k -> new ArrayList<>()).add(fileName);
+//                String fileName = part.getSubmittedFileName();
+//                if (fileName != null)
+//                    uploadedFiles.computeIfAbsent(part.getName(), k -> new ArrayList<>()).add(fileName);
             }
-            System.out.println(uploadedFiles);
-            List<String> uploadedFilesHTML = uploadedFiles.entrySet()
-                    .stream()
-                    .map(entry ->String.join(" ", entry.getKey().split("_")) + makeList(entry.getValue()))
-                    .collect(Collectors.toList());
-            updateAtomicString(staticProgress, makeList(uploadedFilesHTML) + "<br>");
+//            List<String> uploadedFilesHTML = uploadedFiles.entrySet()
+//                    .stream()
+//                    .map(entry ->String.join(" ", entry.getKey().split("_")) + makeList(entry.getValue()))
+//                    .collect(Collectors.toList());
 
-//            Show run options
+
+//            Store and show to screen uploaded files
             String[] PPI_Options = request.getParameterValues("PPIOptions");
             String[] Exp_Options = request.getParameterValues("ExpOptions");
             String[] Run_Options = request.getParameterValues("RunOptions");
-            String[] numericInput = {request.getParameter("threshold")};
+            String[] Exp_threshold = {request.getParameter("threshold").toString()};
+            String[] Exp_percentile = {request.getParameter("percentile".toString())};
+
             //TODO: Add percentile adjustment
             updateAtomicString(staticProgress, createElement("h3", "Parsing PPIXpress options..."));
-            pipeline.parseArgs(PPI_Options, Exp_Options, Run_Options, numericInput);
-            List<String> parsedArgs = List.of(pipeline.getArgs());
-            updateAtomicString(staticProgress, makeList(parsedArgs) + "<br>");
+//            pipeline.parseInput(PPI_Options, Exp_Options, Run_Options, numericInput,
+//                    ORIGINAL_NETWORK_PATH, OUTPUT_PATH, INPUT_PATHS);
+//            List<String> parsedArgs = List.of(pipeline.getArgs());
+//            updateAtomicString(staticProgress, makeList(parsedArgs) + "<br>");
 
             updateAtomicString(staticProgress, createElement("h3", "Executing PPIXpress..."));
             AtomicBoolean updatingStop = new AtomicBoolean(false);
@@ -181,5 +199,12 @@ public class PPIXpressServlet extends HttpServlet {
         }
     }
     public static void main(String[] args){
+//        String SOURCE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/";
+//        String INPUT_PATH = SOURCE_PATH + "input/";
+//        String OUTPUT_PATH = SOURCE_PATH + "output/";
+//        String FILENAME_PPI = "ppi_network.txt";
+//        String FILENAME_EXP = "exp_";
+        PPIXpress_Tomcat pipeline = new PPIXpress_Tomcat();
+        System.out.println(pipeline.gene_level_only);
     }
 }

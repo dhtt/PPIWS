@@ -18,6 +18,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.apache.tomcat.jdbc.pool.PoolProperties;
 
+import static standalone_tools.PPIXpress_Tomcat.*;
+
 public class PPIXpressRun {
     private boolean gene_level_only = false;
     private boolean output_DDINs = false;
@@ -65,8 +67,10 @@ public class PPIXpressRun {
     }
 
 
-    public void parseArgs(String[]... arg_lists_){
+    public void parseInput(String[]... arg_lists_){
+
         for (String[] arg_list_ : arg_lists_){
+
             for (String arg:arg_list_) {
                 if (arg.startsWith("-t=") || arg.startsWith("-tp=")){
                     // set manual threshold
@@ -215,7 +219,7 @@ public class PPIXpressRun {
         System.out.println("Initial args");
         System.out.println(Arrays.toString(new_pipeline.getArgs()));
         System.out.println("After parsing");
-        new_pipeline.parseArgs(new String[]{"-g"});
+        new_pipeline.parseInput(new String[]{"-g"});
         System.out.println(Arrays.toString(new_pipeline.getArgs()));
 
 //        new_pipeline.runAnalysis();

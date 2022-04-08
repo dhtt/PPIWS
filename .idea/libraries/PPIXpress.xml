@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="PPIXpress">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/PPIXpress.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/src" />
+    </SOURCES>
+  </library>
+</component>
