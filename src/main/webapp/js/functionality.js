@@ -57,12 +57,12 @@ jQuery(document).ready(function() {
         $('#protein_network_file_description').html("Selected taxon: " +
             $(this).parent().children('.input').val())
         $(".popup").hide()
-        alert("Use retrieved protein network from database.")
+        // alert("Use retrieved protein network from database.")
         protein_network_file.val("")
     })
     protein_network_file.on("change", function(){
         showNoChosenFiles('protein_network_file', 1)
-        alert("Use user-uploaded network file.")
+        // alert("Use user-uploaded network file.")
         protein_network_web.val("")
     })
 

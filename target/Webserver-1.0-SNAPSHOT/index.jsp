@@ -179,7 +179,7 @@
                 <div id="NVContent" class="non-display" style="display: flex; flex-direction: column; flex: 1 1 auto">
                     <div id="NVContent_Graph" style="flex: 1 1 auto"></div>
 
-                    <div id="NVContent_Metrics" class="align_box_right" style="flex: 1 1 auto; text-align: center">
+                    <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
                         <div class="network-option panel" style="text-align: center; border-radius: 1em">
                             <label for="NetworkSelection" style="font-weight: bold">Show network for</label>
                             <select id="NetworkSelection" name="NetworkOptions" class="button upload" style="margin-top: 0.5em"></select>

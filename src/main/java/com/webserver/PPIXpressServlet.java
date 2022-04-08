@@ -1,10 +1,14 @@
 package com.webserver;
 
+import com.ibm.wsdl.util.IOUtils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -12,9 +16,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static com.webserver.PPIXpressRun.createElement;
 import static com.webserver.PPIXpressRun.updateAtomicString;
 import static org.apache.commons.lang3.StringUtils.capitalize;
 import static org.apache.commons.lang3.StringUtils.join;
+import static org.apache.juli.FileHandler.DEFAULT_BUFFER_SIZE;
 
 @WebServlet(name = "PPIXpress", value = "/PPIXpress")
 @MultipartConfig()
@@ -55,16 +61,6 @@ public class PPIXpressServlet extends HttpServlet {
     }
 
     /**
-     * Create HTML element
-     * @param Tag a HTML tag starts and closes without <>
-     * @param Content Content
-     * @return HTML element
-     */
-    static String createElement(String Tag, String Content){
-        return ("<" + Tag + ">" + Content + "</" + Tag + ">");
-    }
-
-    /**
      * Add inner text to HTML section
      * @param Element a String starts and ends with <tag></tag>
      * @param Content To be added Content
@@ -81,9 +77,24 @@ public class PPIXpressServlet extends HttpServlet {
         return(createElement("ul", String.valueOf(stringList)));
     }
 
+    static void writeOutputStream(Part filePart, String filePath){
+        try (InputStream in = filePart.getInputStream();
+             OutputStream out = Files.newOutputStream(Paths.get(filePath))) {
+            long length = in.transferTo(out);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Main pipeline
+        String SOURCE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/";
+        String INPUT_PATH = SOURCE_PATH + "input/";
+        String OUTPUT_PATH = SOURCE_PATH + "output/";
+        String FILENAME_PPI = "ppi_network.txt";
+        String FILENAME_EXP = "exp_";
+
         PPIXpressRun pipeline = new PPIXpressRun();
         response.setContentType("text/html");
         String submit_type = request.getParameter("submitType");
@@ -116,13 +127,26 @@ public class PPIXpressServlet extends HttpServlet {
             lrp.start();
         }
         else if (submit_type.equals("RunNormal")) {
+//            File uploaded_protein_network_file = new File("ppi.sif");
             staticProgress.set(createElement("h3", "Data submitted! Running PPIXpress... <br><br>"));
 
-//        Show uploaded files
+            Part proteinPart = request.getPart("protein_network_file");
+            writeOutputStream(proteinPart, INPUT_PATH + FILENAME_PPI);
+
+
             updateAtomicString(staticProgress, createElement("h3", "Uploaded files:"));
             Map<String, ArrayList<String>> uploadedFiles = new HashMap<>();
+            int expression_file_count = 0;
             for (Part part : request.getParts()){
-                System.out.println(part.getName());
+                String fileType = part.getName();
+                if (fileType.equals("protein_network_file")){
+                    writeOutputStream(part, INPUT_PATH + FILENAME_PPI);
+                }
+                else if (fileType.equals("expression_file")){
+                    writeOutputStream(part, INPUT_PATH + FILENAME_EXP + expression_file_count + ".txt");
+                    expression_file_count += 1;
+                }
+
                 String fileName = part.getSubmittedFileName();
                 if (fileName != null)
                     uploadedFiles.computeIfAbsent(part.getName(), k -> new ArrayList<>()).add(fileName);

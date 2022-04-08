@@ -52,6 +52,19 @@ public class PPIXpressRun {
         arg_to_name.put("-t", "Threshold");
         arg_to_name.put("-tp", "Percentile");
     }
+
+
+    /**
+     * Create HTML element
+     * @param Tag a HTML tag starts and closes without <>
+     * @param Content Content
+     * @return HTML element
+     */
+    static String createElement(String Tag, String Content){
+        return ("<" + Tag + ">" + Content + "</" + Tag + ">");
+    }
+
+
     public void parseArgs(String[]... arg_lists_){
         for (String[] arg_list_ : arg_lists_){
             for (String arg:arg_list_) {
@@ -140,18 +153,19 @@ public class PPIXpressRun {
     public void runAnalysis(AtomicBoolean updatingStop, AtomicReference<String> runMessage) {
         //gathering even more data if necessary
 
-        runMessage.set("<li>Switch Server GRCh37</li>");
-//        DataQuery.switchServerGRCh37();
+        runMessage.set(createElement("li", "Switch Server GRCh37"));
+        DataQuery.switchServerGRCh37();
 
-        /*
-        updateAtomicString(runMessage, "<li>Retrieving UCSC mapping-data</li>");
+
+        updateAtomicString(runMessage, createElement("li", "Retrieving UCSC mapping-data"));
         DataQuery.getUCSChg19toTranscriptMap();
 
         updateAtomicString(runMessage, "<li>Reading network (may take some time if ID conversion is necessary)");
-        PPIN original_network = new PPIN("/Users/trangdo/Documents/BIOINFO/PPIXpress/example_data/human_ppin.sif.gz");
-        updateAtomicString(runMessage, "<ul><li>Complete network: " +
-                original_network.getSizesStr() + "</li></ul></li>");
-
+        PPIN original_network = new PPIN("/Users/trangdo/IdeaProjects/Webserver/src/main/resources/input/human_ppin.sif.gz");
+        updateAtomicString(runMessage, "<ul>" +
+                createElement("li", "Complete network: " + original_network.getSizesStr()) +
+                "</ul></li>");
+/*
         // gathering data that will always be needed
         updateAtomicString(runMessage, "<li>Get Ensembl organism database from proteins</li>");
         String organism_database = DataQuery.getEnsemblOrganismDatabaseFromProteins(original_network.getProteins());
