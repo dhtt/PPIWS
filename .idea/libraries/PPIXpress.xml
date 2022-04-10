@@ -2,10 +2,9 @@
   <library name="PPIXpress">
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/PPIXpress.jar!/" />
+      <root url="jar://$USER_HOME$/Documents/BIOINFO/PPI-pipeline/out/artifacts/PPIXpress_Tomcat_jar/PPIXpress.jar!/" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES>
-      <root url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib/src" />
-    </SOURCES>
+    <SOURCES />
   </library>
 </component>

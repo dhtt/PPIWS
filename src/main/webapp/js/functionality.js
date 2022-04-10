@@ -109,10 +109,10 @@ jQuery(document).ready(function() {
         // If threshold is chosen, do not send percentile value and vice versa
         if ($('#ExpressionLevelOption').val() === "threshold"){
             data.append('threshold', "-t=" + $('#threshold').val());
-            data.append('percentile', "-tp=''");
+            data.append('percentile', "-tp=-1");
         }
         else {
-            data.append('threshold', "-t=''");
+            data.append('threshold', "-t=1.0");
             data.append('percentile', "-tp=" + $('#percentile').val());
         }
 

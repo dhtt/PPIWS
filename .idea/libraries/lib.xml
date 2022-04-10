@@ -4,7 +4,9 @@
       <root url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib" />
     </CLASSES>
     <JAVADOC />
-    <SOURCES />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/Documents/BIOINFO/PPI-pipeline/out/artifacts/PPIXpress_Tomcat_jar/PPIXpress.jar!/" />
+    </SOURCES>
     <jarDirectory url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/lib" recursive="false" />
   </library>
 </component>

@@ -107,10 +107,14 @@ jQuery(document).ready(function() {
         data.append('submitType', submit_type_);
 
         // If threshold is chosen, do not send percentile value and vice versa
-        if ($('#ExpressionLevelOption').val() === "threshold")
+        if ($('#ExpressionLevelOption').val() === "threshold"){
             data.append('threshold', "-t=" + $('#threshold').val());
-        else
+            data.append('percentile', "-tp=-1");
+        }
+        else {
+            data.append('threshold', "-t=1.0");
             data.append('percentile', "-tp=" + $('#percentile').val());
+        }
 
         $.ajax({
             url: "PPIXpress",
