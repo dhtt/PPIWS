@@ -9,9 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Use PPIXpress_Tomcat from jdaco package instead of Servlet package">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/PPIXpress.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/PPIXpress.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Change to storing arguments in list of strings &amp; Accept .gz ending">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
@@ -326,7 +324,10 @@
       <workItem from="1649343600833" duration="21799000" />
       <workItem from="1649406291750" duration="13697000" />
       <workItem from="1649427429495" duration="7252000" />
-      <workItem from="1649614043767" duration="9071000" />
+      <workItem from="1649614043767" duration="13008000" />
+      <workItem from="1649664181872" duration="609000" />
+      <workItem from="1649676076857" duration="11148000" />
+      <workItem from="1649771084064" duration="2892000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -405,7 +406,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649434660854</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="Change to storing arguments in list of strings &amp; Accept .gz ending">
+      <created>1649624860161</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1649624860161</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -434,7 +442,8 @@
     <MESSAGE value="Write uploaded files to local files" />
     <MESSAGE value="Add percentile option as alternative to expression level threshold" />
     <MESSAGE value="Use PPIXpress_Tomcat from jdaco package instead of Servlet package" />
-    <option name="LAST_COMMIT_MESSAGE" value="Use PPIXpress_Tomcat from jdaco package instead of Servlet package" />
+    <MESSAGE value="Change to storing arguments in list of strings &amp; Accept .gz ending" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change to storing arguments in list of strings &amp; Accept .gz ending" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

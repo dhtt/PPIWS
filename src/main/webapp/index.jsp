@@ -39,7 +39,7 @@
                             </div>
                             <p class="menu panel shadow" style="text-align: center; width: 300px">
                                 Please input an organism taxon.<br>e.g. Type 9606 for a human network.<br><br>
-                                <input type="text" id="protein_network_web" class="input" style="height: 1.5em"><br><br>
+                                <input type="text" name="protein_network_web" id="protein_network_web" class="input" style="height: 1.5em"><br><br>
                                 <button type="button" id="protein_network_web_confirm" name="confirm" class="button upload" style="width: fit-content;">Enter</button>
                             </p>
                         </div>

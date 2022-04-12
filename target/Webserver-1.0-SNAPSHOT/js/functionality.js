@@ -60,12 +60,16 @@ jQuery(document).ready(function() {
             $(this).parent().children('.input').val())
         $(".popup").hide()
         // alert("Use retrieved protein network from database.")
-        protein_network_file.val("")
+        protein_network_file.val("null")
     })
+    /**
+     * Use user-uploaded network file instead of retrieve by taxon. Upon being selected, taxon and
+     * protein_network_web (if chosen) will be invalidated
+     */
     protein_network_file.on("change", function(){
         showNoChosenFiles('protein_network_file', 1)
         // alert("Use user-uploaded network file.")
-        protein_network_web.val("")
+        protein_network_web.val("null")
     })
 
     expression_file.on("change", function(){
@@ -95,6 +99,7 @@ jQuery(document).ready(function() {
         $('#percentile').toggle()
     })
 
+
     // Ajax Handler
     const allPanel = $('#AllPanels');
     const runningProgressContent = $('#RPContent');
@@ -115,6 +120,10 @@ jQuery(document).ready(function() {
             data.append('threshold', "-t=1.0");
             data.append('percentile', "-tp=" + $('#percentile').val());
         }
+
+        // Reset display message (clear message from the previous run)
+        $("#AfterRunOptions, #RightDisplay").css({'display': 'none'})
+        runningProgressContent.html("")
 
         $.ajax({
             url: "PPIXpress",

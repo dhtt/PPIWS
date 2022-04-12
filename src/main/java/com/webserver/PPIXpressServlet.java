@@ -29,13 +29,13 @@ public class PPIXpressServlet extends HttpServlet {
     }
 
     static class LongRunningProcess implements Runnable{
-        private final AtomicBoolean updatingStop;
+        private final AtomicBoolean stopSignal;
         private final AtomicReference<String> message;
         private final PPIXpress_Tomcat parsedPipeline;
         private volatile boolean stop;
 
-        public LongRunningProcess(PPIXpress_Tomcat parsedPipeline, AtomicBoolean updatingStop, AtomicReference<String> message) {
-            this.updatingStop = updatingStop;
+        public LongRunningProcess(PPIXpress_Tomcat parsedPipeline, AtomicBoolean stopSignal, AtomicReference<String> message) {
+            this.stopSignal = stopSignal;
             this.parsedPipeline = parsedPipeline;
             this.message = message;
         }
@@ -43,8 +43,8 @@ public class PPIXpressServlet extends HttpServlet {
         @Override
         public void run() {
             while (!stop){
-//                parsedPipeline.runAnalysis(updatingStop, message);
-                if (updatingStop.get()){
+                parsedPipeline.runAnalysis2(stopSignal, message);
+                if (stopSignal.get()){
                     setStop(true);
                 }
             }
@@ -103,19 +103,14 @@ public class PPIXpressServlet extends HttpServlet {
         String INPUT_PATH = SOURCE_PATH + "input/";
         String OUTPUT_PATH = SOURCE_PATH + "output/";
         String FILENAME_PPI = "ppi_data.sif";
-        String ORIGINAL_NETWORK_PATH = INPUT_PATH + FILENAME_PPI;
-        String FILENAME_EXP = "exp_data_";
         List<String> allArgs = new ArrayList<>();
-        allArgs.add(ORIGINAL_NETWORK_PATH);
-        allArgs.add(OUTPUT_PATH);
-//        TODO: Make input accept gzip
 
         response.setContentType("text/html");
         String submit_type = request.getParameter("submitType");
-
         PPIXpress_Tomcat pipeline = new PPIXpress_Tomcat();
         AtomicReference<String> staticProgress = new AtomicReference<String>("");
         request.getSession().setAttribute("STATIC_PROGRESS_MESSAGE", staticProgress);
+
 
         if (submit_type.equals("RunExample")) {
 //            SHOW EXAMPLE DATA
@@ -133,72 +128,85 @@ public class PPIXpressServlet extends HttpServlet {
 
 //            EXECUTE PIPELINE
             updateAtomicString(staticProgress, "<br><br><h3>Executing PPIXpress... </h3>");
-            AtomicBoolean updatingStop = new AtomicBoolean(false);
-            AtomicReference<String> runMessage = new AtomicReference<String>("");
-            request.getSession().setAttribute("LONG_PROCESS_SIGNAL", updatingStop);
-            request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runMessage);
+            AtomicBoolean stopSignal = new AtomicBoolean(false);
+            AtomicReference<String> runProgress = new AtomicReference<String>("");
+            request.getSession().setAttribute("LONG_PROCESS_SIGNAL", stopSignal);
+            request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runProgress);
 
-            LongRunningProcess myThreads = new LongRunningProcess(pipeline, updatingStop, runMessage);
+            LongRunningProcess myThreads = new LongRunningProcess(pipeline, stopSignal, runProgress);
             Thread lrp = new Thread(myThreads);
             lrp.start();
         }
         else if (submit_type.equals("RunNormal")) {
 
+
 //            Start PPIPipeline
             staticProgress.set(createElement("h3", "Data submitted! Running PPIXpress... <br><br>"));
 
 
-//            Store and show to screen uploaded files
-//            Map<String, ArrayList<String>> uploadedFiles = new HashMap<>();
+//            Add path to protein network to arguments set. If taxon = null, use a predefined path to store input PPI
+//            network on server, else use taxon to retrieve network from Mentha/IntAct
+            String taxon_id = request.getParameter("protein_network_web");
+            String ORIGINAL_NETWORK_PATH = taxon_id.equals("null") ? INPUT_PATH + FILENAME_PPI : "taxon:" + taxon_id;
+            allArgs.add(ORIGINAL_NETWORK_PATH);
+
+
+//            Add output path to arguments set
+            allArgs.add(OUTPUT_PATH);
+
+
+//            Add paths to expression data to argument list. Meanwhile, store user's PPI network (if uploaded) and
+//            expression data to a local storage on server
             int expression_file_count = 0;
             for (Part part : request.getParts()){
-
                 String fileType = part.getName();
                 String fileName = part.getSubmittedFileName();
-                if (fileName != null){
+
+
+                if (fileName != null && !fileName.equals("")){
+
+
                     if (fileType.equals("protein_network_file"))
                         writeOutputStream(part, ORIGINAL_NETWORK_PATH);
 
+
                     else if (fileType.equals("expression_file")){
-                        String fileExtension = fileName.substring(fileName.length() - 3).equals(".gz") ? ".gz" : ".txt";
-                        String input_files_path = INPUT_PATH + FILENAME_EXP + expression_file_count + fileExtension;
+                        String fileExtension = fileName.endsWith(".gz") ? ".gz" : ".txt";
+                        String input_files_path = INPUT_PATH + "exp_data_" + expression_file_count + fileExtension;
                         writeOutputStream(part, input_files_path);
-                        System.out.println(input_files_path);
                         allArgs.add(input_files_path);
 
                         expression_file_count += 1;
                     }
-//                    uploadedFiles.computeIfAbsent(part.getName(), k -> new ArrayList<>()).add(fileName);
                 }
             }
-//            allArgs.add("/Users/trangdo/Documents/BIOINFO/PPI-pipeline/example_data/BRCA_tumor.normalized_RSEM.gz");
-//            List<String> uploadedFilesHTML = uploadedFiles.entrySet()
-//                    .stream()
-//                    .map(entry ->String.join(" ", entry.getKey().split("_")) + makeList(entry.getValue()))
-//                    .collect(Collectors.toList());
 
 
 //            Store and show to screen uploaded files
             allArgs.addAll(List.of(request.getParameterValues("PPIOptions")));
             allArgs.addAll(List.of(request.getParameterValues("ExpOptions")));
             allArgs.addAll(List.of(request.getParameterValues("RunOptions")));
-            allArgs.add(request.getParameterValues("threshold")[0]);
-            allArgs.add(request.getParameterValues("percentile")[0]);
+            allArgs.add(request.getParameter("threshold"));
+            allArgs.add(request.getParameter("percentile"));
             allArgs.removeIf(n -> (n.equals("null")));
+            System.out.println(allArgs);
 
-            //TODO: Add percentile adjustment
+
+//            Parse list of arguments and display on screen
             updateAtomicString(staticProgress, createElement("h3", "Parsing PPIXpress options..."));
             pipeline.parseInput(allArgs);
             List<String> parsedArgs = List.of(pipeline.getArgs());
             updateAtomicString(staticProgress, makeList(parsedArgs) + "<br>");
 
-            updateAtomicString(staticProgress, createElement("h3", "Executing PPIXpress..."));
-            AtomicBoolean updatingStop = new AtomicBoolean(false);
-            AtomicReference<String> runMessage = new AtomicReference<String>("");
-            request.getSession().setAttribute("LONG_PROCESS_SIGNAL", updatingStop);
-            request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runMessage);
 
-            LongRunningProcess myThreads = new LongRunningProcess(pipeline, updatingStop, runMessage);
+//            Execute PPIXpress and update progress periodically to screen
+            updateAtomicString(staticProgress, createElement("h3", "Executing PPIXpress..."));
+            AtomicBoolean stopSignal = new AtomicBoolean(false);
+            AtomicReference<String> runProgress = new AtomicReference<String>("");
+            request.getSession().setAttribute("LONG_PROCESS_SIGNAL", stopSignal);
+            request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runProgress);
+
+            LongRunningProcess myThreads = new LongRunningProcess(pipeline, stopSignal, runProgress);
             Thread lrp = new Thread(myThreads);
             lrp.start();
         }
