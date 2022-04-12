@@ -164,10 +164,7 @@ jQuery(document).ready(function() {
                             $("[name='ScrollToTop']").css({'display': 'block'})
                             makePlot("output/graph/exp_1.json", '#ff00ae', '#14cb9a')
                         }
-                        runningProgressContent.html(
-                            json.UPDATE_STATIC_PROGRESS_MESSAGE +
-                            json.UPDATE_LONG_PROCESS_MESSAGE
-                        )
+                        runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
                     }
                 }

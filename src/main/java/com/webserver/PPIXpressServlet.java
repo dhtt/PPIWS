@@ -31,19 +31,20 @@ public class PPIXpressServlet extends HttpServlet {
     static class LongRunningProcess implements Runnable{
         private final AtomicBoolean stopSignal;
         private final AtomicReference<String> message;
-        private final PPIXpress_Tomcat parsedPipeline;
+        private final PPIXpress_Tomcat pipeline = new PPIXpress_Tomcat();
         private volatile boolean stop;
+        private List<String> argList;
 
-        public LongRunningProcess(PPIXpress_Tomcat parsedPipeline, AtomicBoolean stopSignal, AtomicReference<String> message) {
+        public LongRunningProcess(List<String> allArgs, AtomicBoolean stopSignal, AtomicReference<String> message) {
             this.stopSignal = stopSignal;
-            this.parsedPipeline = parsedPipeline;
             this.message = message;
+            this.argList = allArgs;
         }
 
         @Override
         public void run() {
             while (!stop){
-                parsedPipeline.runAnalysis2(stopSignal, message);
+                pipeline.runAnalysis2(this.argList, stopSignal, message);
                 if (stopSignal.get()){
                     setStop(true);
                 }
@@ -67,18 +68,6 @@ public class PPIXpressServlet extends HttpServlet {
     static String addInnerText(String Element, String Content){
         String[] splitElement = Element.split("(?=<)|(?<=>)");
         return(splitElement[0] + splitElement[1] + Content + splitElement[2]);
-    }
-
-
-    /**
-     * Make a HTML list
-     * @param l A list of items
-     * @return HTML formatted list
-     */
-    static String makeList(List<String> l){
-        StringBuilder stringList = new StringBuilder();
-        if (l.size() != 0) l.forEach(s -> stringList.append(s.equals("") ? "" : createElement("li", s)));
-        return(createElement("ul", String.valueOf(stringList)));
     }
 
 
@@ -107,43 +96,34 @@ public class PPIXpressServlet extends HttpServlet {
 
         response.setContentType("text/html");
         String submit_type = request.getParameter("submitType");
-        PPIXpress_Tomcat pipeline = new PPIXpress_Tomcat();
-        AtomicReference<String> staticProgress = new AtomicReference<String>("");
-        request.getSession().setAttribute("STATIC_PROGRESS_MESSAGE", staticProgress);
 
 
         if (submit_type.equals("RunExample")) {
-//            SHOW EXAMPLE DATA
-            staticProgress.set(
-                    "<h3>Running PPIXpress with example data...</h3>"+
-                    "<a href='header.html'>Inspect/Download example data</a><br><br>");
-
-//            PARSE OPTIONS
-            updateAtomicString(staticProgress, "<h3>Parsing PPIXpress options...</h3>");
-            String[] args = {"-w", "-u", "-t=0.3"};
-//            pipeline.parseInput(args);
-            String[] parsedArgs = pipeline.getArgs();
-            if (parsedArgs != null) updateAtomicString(staticProgress,
-                    "<ul><li>" + String.join("</li><li>", parsedArgs) + "</li></ul>");
-
-//            EXECUTE PIPELINE
-            updateAtomicString(staticProgress, "<br><br><h3>Executing PPIXpress... </h3>");
-            AtomicBoolean stopSignal = new AtomicBoolean(false);
-            AtomicReference<String> runProgress = new AtomicReference<String>("");
-            request.getSession().setAttribute("LONG_PROCESS_SIGNAL", stopSignal);
-            request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runProgress);
-
-            LongRunningProcess myThreads = new LongRunningProcess(pipeline, stopSignal, runProgress);
-            Thread lrp = new Thread(myThreads);
-            lrp.start();
+////            SHOW EXAMPLE DATA
+//            staticProgress.set(
+//                    "<h3>Running PPIXpress with example data...</h3>"+
+//                    "<a href='header.html'>Inspect/Download example data</a><br><br>");
+//
+////            PARSE OPTIONS
+//            updateAtomicString(staticProgress, "<h3>Parsing PPIXpress options...</h3>");
+//            String[] args = {"-w", "-u", "-t=0.3"};
+////            pipeline.parseInput(args);
+//            String[] parsedArgs = pipeline.getArgs();
+//            if (parsedArgs != null) updateAtomicString(staticProgress,
+//                    "<ul><li>" + String.join("</li><li>", parsedArgs) + "</li></ul>");
+//
+////            EXECUTE PIPELINE
+//            updateAtomicString(staticProgress, "<br><br><h3>Executing PPIXpress... </h3>");
+//            AtomicBoolean stopSignal = new AtomicBoolean(false);
+//            AtomicReference<String> runProgress = new AtomicReference<String>("");
+//            request.getSession().setAttribute("LONG_PROCESS_SIGNAL", stopSignal);
+//            request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runProgress);
+//
+//            LongRunningProcess myThreads = new LongRunningProcess(pipeline, stopSignal, runProgress);
+//            Thread lrp = new Thread(myThreads);
+//            lrp.start();
         }
         else if (submit_type.equals("RunNormal")) {
-
-
-//            Start PPIPipeline
-            staticProgress.set(createElement("h3", "Data submitted! Running PPIXpress... <br><br>"));
-
-
 //            Add path to protein network to arguments set. If taxon = null, use a predefined path to store input PPI
 //            network on server, else use taxon to retrieve network from Mentha/IntAct
             String taxon_id = request.getParameter("protein_network_web");
@@ -189,24 +169,16 @@ public class PPIXpressServlet extends HttpServlet {
             allArgs.add(request.getParameter("threshold"));
             allArgs.add(request.getParameter("percentile"));
             allArgs.removeIf(n -> (n.equals("null")));
-            System.out.println(allArgs);
+//            System.out.println(allArgs);
 
 
-//            Parse list of arguments and display on screen
-            updateAtomicString(staticProgress, createElement("h3", "Parsing PPIXpress options..."));
-            pipeline.parseInput(allArgs);
-            List<String> parsedArgs = List.of(pipeline.getArgs());
-            updateAtomicString(staticProgress, makeList(parsedArgs) + "<br>");
-
-
-//            Execute PPIXpress and update progress periodically to screen
-            updateAtomicString(staticProgress, createElement("h3", "Executing PPIXpress..."));
+//            Create and execute PPIXpress and update progress periodically to screen
             AtomicBoolean stopSignal = new AtomicBoolean(false);
             AtomicReference<String> runProgress = new AtomicReference<String>("");
             request.getSession().setAttribute("LONG_PROCESS_SIGNAL", stopSignal);
             request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runProgress);
 
-            LongRunningProcess myThreads = new LongRunningProcess(pipeline, stopSignal, runProgress);
+            LongRunningProcess myThreads = new LongRunningProcess(allArgs, stopSignal, runProgress);
             Thread lrp = new Thread(myThreads);
             lrp.start();
         }
