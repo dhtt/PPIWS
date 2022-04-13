@@ -85,7 +85,6 @@ jQuery(document).ready(function() {
     })
 
 
-
     //Close buttons
     $("[name='close']").on("click", function(){
         $(".popup").hide()

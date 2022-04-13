@@ -350,11 +350,17 @@ select, input[type="range"]{
     background-size: 30px;
 }
 
+/*list styling*/
 ol, ul, li {
     list-style-position: inside;
     margin-left: 1em;
     text-indent: -2em;
 }
+
+ul {
+    margin-bottom: 0.5em;
+}
+
 li::marker{
     content: '●   ';
     position: relative;

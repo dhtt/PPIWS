@@ -1,33 +1,27 @@
 package com.webserver;
 
-import com.ibm.wsdl.util.IOUtils;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import standalone_tools.PPIXpress_Tomcat;
-import static standalone_tools.PPIXpress_Tomcat.createElement;
-import static standalone_tools.PPIXpress_Tomcat.updateAtomicString;
 
 @WebServlet(name = "PPIXpress", value = "/PPIXpress")
 @MultipartConfig()
 
 public class PPIXpressServlet extends HttpServlet {
-    public static void printList(PrintWriter out, String[] list){
-        for (String i : list) out.println(i + "<br>");
-    }
 
+    /**
+     * TODO: Write documentation
+     */
     static class LongRunningProcess implements Runnable{
         private final AtomicBoolean stopSignal;
         private final AtomicReference<String> message;
@@ -44,7 +38,7 @@ public class PPIXpressServlet extends HttpServlet {
         @Override
         public void run() {
             while (!stop){
-                pipeline.runAnalysis2(this.argList, stopSignal, message);
+                pipeline.runAnalysis(this.argList, stopSignal, message);
                 if (stopSignal.get()){
                     setStop(true);
                 }
@@ -59,20 +53,9 @@ public class PPIXpressServlet extends HttpServlet {
         }
     }
 
-    /**
-     * Add inner text to HTML section
-     * @param Element a String starts and ends with <tag></tag>
-     * @param Content To be added Content
-     * @return Modified HTML content
-     */
-    static String addInnerText(String Element, String Content){
-        String[] splitElement = Element.split("(?=<)|(?<=>)");
-        return(splitElement[0] + splitElement[1] + Content + splitElement[2]);
-    }
-
 
     /**
-     * Write a file part from JSP request to a local file
+     * Write a file part from JSP request to a local file to store on server
      * @param filePart_ file part from request
      * @param filePath_ path to store file
      */
@@ -102,34 +85,12 @@ public class PPIXpressServlet extends HttpServlet {
 
 
         if (submit_type.equals("RunExample")) {
-////            SHOW EXAMPLE DATA
-//            staticProgress.set(
-//                    "<h3>Running PPIXpress with example data...</h3>"+
-//                    "<a href='header.html'>Inspect/Download example data</a><br><br>");
-//
-////            PARSE OPTIONS
-//            updateAtomicString(staticProgress, "<h3>Parsing PPIXpress options...</h3>");
-//            String[] args = {"-w", "-u", "-t=0.3"};
-////            pipeline.parseInput(args);
-//            String[] parsedArgs = pipeline.getArgs();
-//            if (parsedArgs != null) updateAtomicString(staticProgress,
-//                    "<ul><li>" + String.join("</li><li>", parsedArgs) + "</li></ul>");
-//
-////            EXECUTE PIPELINE
-//            updateAtomicString(staticProgress, "<br><br><h3>Executing PPIXpress... </h3>");
-//            AtomicBoolean stopSignal = new AtomicBoolean(false);
-//            AtomicReference<String> runProgress = new AtomicReference<String>("");
-//            request.getSession().setAttribute("LONG_PROCESS_SIGNAL", stopSignal);
-//            request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runProgress);
-//
-//            LongRunningProcess myThreads = new LongRunningProcess(pipeline, stopSignal, runProgress);
-//            Thread lrp = new Thread(myThreads);
-//            lrp.start();
         }
         else if (submit_type.equals("RunNormal")) {
-//            Add path to protein network to arguments set. If taxon = null, use a predefined path to store input PPI
-//            network on server, else use taxon to retrieve network from Mentha/IntAct
+//            Add path to protein network to arguments set.
             String taxon_id = request.getParameter("protein_network_web");
+//            If taxon = null, use a predefined path to store input PPI
+//            network on server, else use taxon to retrieve network from Mentha/IntAct
             String ORIGINAL_NETWORK_PATH = taxon_id.equals("null") ? INPUT_PATH + FILENAME_PPI : "taxon:" + taxon_id;
             allArgs.add(ORIGINAL_NETWORK_PATH);
 
@@ -172,7 +133,7 @@ public class PPIXpressServlet extends HttpServlet {
             allArgs.add(request.getParameter("threshold"));
             allArgs.add(request.getParameter("percentile"));
             allArgs.removeIf(n -> (n.equals("null")));
-//            System.out.println(allArgs);
+            System.out.println("From Servlet " + allArgs);
 
 
 //            Create and execute PPIXpress and update progress periodically to screen
