@@ -217,6 +217,40 @@ jQuery(document).ready(function() {
             NetworkOptions.toggle()
     })
 
+
+    // Actions after finishing PPIXPress
+    function downloadResultFile(pathToFile, fileName, pureText){
+        let blob = new Blob([pureText], { type: "text/plain" })
+        if (pureText === "null") {
+            $.ajax({
+                type: "POST",
+                url: pathToFile,
+                dataType: "text",
+                success: function(result) {
+                    blob = new Blob([result], { type: "text/plain" })
+                }
+            })
+        }
+        let a = document.createElement('a');
+        a.href = window.URL.createObjectURL(blob);
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(a.href);
+    }
+    $('#downloadLogFile').on("click", function(){
+        const logContent = runningProgressContent.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
+        downloadResultFile(null, null, logContent);
+    })
+
+    $('#toResultSummary').on("click", function (){
+        $('#ResultSummary').trigger("click");
+    })
+
+    $('#toNetworkVisualization').on("click", function (){
+        $('#NetworkVisualization').trigger("click");
+    })
 })
 
 /**

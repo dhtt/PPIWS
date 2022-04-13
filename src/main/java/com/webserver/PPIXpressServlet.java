@@ -90,12 +90,15 @@ public class PPIXpressServlet extends HttpServlet {
 //        Main pipeline
         String SOURCE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/";
         String INPUT_PATH = SOURCE_PATH + "input/";
-        String OUTPUT_PATH = SOURCE_PATH + "output/";
         String FILENAME_PPI = "ppi_data.sif";
-        List<String> allArgs = new ArrayList<>();
+
+        String WEBAPP_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/webapp/";
+        String OUTPUT_PATH = WEBAPP_PATH + "output/";
+        String LOGFILE_PATH = OUTPUT_PATH + "log.txt";
 
         response.setContentType("text/html");
         String submit_type = request.getParameter("submitType");
+        List<String> allArgs = new ArrayList<>();
 
 
         if (submit_type.equals("RunExample")) {
