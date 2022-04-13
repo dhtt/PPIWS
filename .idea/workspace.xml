@@ -9,10 +9,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Refactor">
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Omit static message, move all updated message to PPIXpress_Tomcat (#427c660b5667c0d1957094779e09e0d943af44e4)">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/jsoup.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/output/reference_ddin.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/output/reference_major-transcripts.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/output/reference_ppin.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressRun.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/ProgressReporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/ProgressReporter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,23 +78,25 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/output" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.27931035" />
     <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
       <recent name="$PROJECT_DIR$/src/main/webapp/output" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/output" />
+      <recent name="$PROJECT_DIR$/src/main/webapp" />
       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib" />
       <recent name="$PROJECT_DIR$/src/main/resources/input" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/output" />
       <recent name="$PROJECT_DIR$/src/main/webapp/output/graph" />
     </key>
   </component>
@@ -324,7 +339,8 @@
       <workItem from="1649614043767" duration="13008000" />
       <workItem from="1649664181872" duration="609000" />
       <workItem from="1649676076857" duration="11148000" />
-      <workItem from="1649771084064" duration="5284000" />
+      <workItem from="1649771084064" duration="5732000" />
+      <workItem from="1649842003010" duration="16575000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -417,7 +433,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649778950662</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Omit static message, move all updated message to PPIXpress_Tomcat (#427c660b5667c0d1957094779e09e0d943af44e4)">
+      <created>1649781123057</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1649781123057</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -448,7 +471,8 @@
     <MESSAGE value="Use PPIXpress_Tomcat from jdaco package instead of Servlet package" />
     <MESSAGE value="Change to storing arguments in list of strings &amp; Accept .gz ending" />
     <MESSAGE value="Refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor" />
+    <MESSAGE value="Omit static message, move all updated message to PPIXpress_Tomcat (#427c660b5667c0d1957094779e09e0d943af44e4)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Omit static message, move all updated message to PPIXpress_Tomcat (#427c660b5667c0d1957094779e09e0d943af44e4)" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

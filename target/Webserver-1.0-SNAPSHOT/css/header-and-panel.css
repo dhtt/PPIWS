@@ -68,7 +68,7 @@
 .button-tab:hover {
     background-color: #b4e8c6;
 }
-.button-tab:focus, .button-tab.active {
+.button-tab:focus, .tab-active {
     color: #EDF2F4;
     background-color: var(--choco);
 }
