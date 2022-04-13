@@ -207,8 +207,8 @@ jQuery(document).ready(function() {
         $("[name='Display']").addClass("non-display")
         $('#' + tabName + "Content").removeClass("non-display")
 
-        $("[name='DisplayTab']").removeClass("active")
-        $(tabName).addClass("active")
+        $("[name='DisplayTab']").removeClass("tab-active")
+        $(this).addClass("tab-active")
     })
 
     $("label").on("click", function (){
