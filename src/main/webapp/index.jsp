@@ -146,7 +146,7 @@
 
     <div id="RightPanel" class="middle-under" style="flex: 1; display: flex; flex-flow: column;">
         <div id="DisplayTabs" class="tabs" style="flex: 0 1 auto">
-            <button type="button" name="DisplayTab" id="RunningProgress" value="RunningProgress" class="header button-tab active" >Running Progress</button>
+            <button type="button" name="DisplayTab" id="RunningProgress" value="RunningProgress" class="header button-tab tab-active" >Running Progress</button>
             <button type="button" name="DisplayTab" id="ResultSummary" value="ResultSummary" class="header button-tab">Result Summary</button>
             <button type="button" name="DisplayTab" id="NetworkVisualization" value="NetworkVisualization" class="header button-tab">Network Visualization</button>
         </div>

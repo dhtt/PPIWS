@@ -9,23 +9,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Omit static message, move all updated message to PPIXpress_Tomcat (#427c660b5667c0d1957094779e09e0d943af44e4)">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/jsoup.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/output/reference_ddin.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/output/reference_major-transcripts.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/output/reference_ppin.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressRun.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Fix: active tab did not stay in focus when click elsewhere">
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -340,7 +325,7 @@
       <workItem from="1649664181872" duration="609000" />
       <workItem from="1649676076857" duration="11148000" />
       <workItem from="1649771084064" duration="5732000" />
-      <workItem from="1649842003010" duration="16575000" />
+      <workItem from="1649842003010" duration="18017000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -440,7 +425,42 @@
       <option name="project" value="LOCAL" />
       <updated>1649781123057</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Fix: active tab did not stay in focus when click elsewhere">
+      <created>1649868202751</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1649868202751</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Fix: active tab did not stay in focus when click elsewhere">
+      <created>1649868311552</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1649868311552</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Refactor">
+      <created>1649868392575</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1649868392575</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Fix: active tab did not stay in focus when click elsewhere">
+      <created>1649868446475</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1649868446475</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Fix: active tab did not stay in focus when click elsewhere">
+      <created>1649868765176</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1649868765176</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -451,7 +471,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -470,9 +502,10 @@
     <MESSAGE value="Add percentile option as alternative to expression level threshold" />
     <MESSAGE value="Use PPIXpress_Tomcat from jdaco package instead of Servlet package" />
     <MESSAGE value="Change to storing arguments in list of strings &amp; Accept .gz ending" />
-    <MESSAGE value="Refactor" />
     <MESSAGE value="Omit static message, move all updated message to PPIXpress_Tomcat (#427c660b5667c0d1957094779e09e0d943af44e4)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Omit static message, move all updated message to PPIXpress_Tomcat (#427c660b5667c0d1957094779e09e0d943af44e4)" />
+    <MESSAGE value="Refactor" />
+    <MESSAGE value="Fix: active tab did not stay in focus when click elsewhere" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: active tab did not stay in focus when click elsewhere" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

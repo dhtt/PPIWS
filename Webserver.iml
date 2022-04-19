@@ -82,6 +82,5 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.8.2" level="project" />
     <orderEntry type="library" name="PPIXpress" level="project" />
     <orderEntry type="library" name="@types/filesystem" level="application" />
-    <orderEntry type="library" name="jsoup" level="project" />
   </component>
 </module>
