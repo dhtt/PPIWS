@@ -152,10 +152,10 @@
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto; position: relative">
             <div id="RunningProgressContent" name="Display" class="display-content" style="display: flex; flex-direction: row">
-                <div id="LeftDisplay" class="display-part" style="flex-basis: 70%">
+                <div id="LeftDisplay" class="display-part" style="flex-basis: 60%">
                     <div id="RPContent" name="RunningProgress"></div>
                     <div id="Loader" name="RunningProgress" style="display: none; position: relative;"></div>
-                    <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 50%; margin: 1em auto; border-radius: 1em">
+                    <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 55%; margin: 1em auto; border-radius: 1em">
                         <p class="header" style="background: #68d3aa; color: white; text-shadow: var(--textshadow)"> PPIXpress pipeline is finished! </p>
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
@@ -165,10 +165,10 @@
                     </div>
                     <p name="ScrollToTop" class="reset" style="display: none; text-align: center">Scroll to top</p>
                 </div>
-                <div id="RightDisplay" class="display-part" style="display: none; flex-basis: 30%; text-align: center">
+                <div id="RightDisplay" class="display-part" style="display: none; text-align: center; padding: 0.5em">
                     <p class="subsection-text" style="margin: 0; font-size: smaller">Number of proteins and interactions<br>in each expression data</p>
-                    <jsp:include page="output/test_table.html"/>
-                    <a href="header.html">Download this table</a><br><br>
+                    <div id="SampleSummaryTable"><jsp:include page="output/sample_table.html"/><br></div>
+                    <button type="button" name="transit" id="downloadSampleSummary" value="null" class="button download" style="min-width: fit-content; padding: 0.5em">Download this table</button><br><br>
                     <p name="ScrollToTop" class="reset" style="text-align: center">Scroll to top</p>
                 </div>
             </div>

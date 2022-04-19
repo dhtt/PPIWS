@@ -10,7 +10,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Fix: active tab did not stay in focus when click elsewhere">
+      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/output/reference_ddin.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/output/reference_major-transcripts.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/output/reference_ppin.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/output/test_table.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/output/test_table.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -326,6 +340,7 @@
       <workItem from="1649676076857" duration="11148000" />
       <workItem from="1649771084064" duration="5732000" />
       <workItem from="1649842003010" duration="18017000" />
+      <workItem from="1650378707623" duration="15821000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -460,7 +475,14 @@
       <option name="project" value="LOCAL" />
       <updated>1649868765176</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Fix: active tab did not stay in focus when click elsewhere">
+      <created>1650378744388</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1650378744388</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

@@ -115,8 +115,7 @@ public class PPIXpressServlet extends HttpServlet {
 
 
                     else if (fileType.equals("expression_file")){
-                        String fileExtension = fileName.endsWith(".gz") ? ".gz" : ".txt";
-                        String input_files_path = INPUT_PATH + "exp_data_" + expression_file_count + fileExtension;
+                        String input_files_path = INPUT_PATH + fileName.substring(fileName.lastIndexOf("\\")+1);
                         writeOutputStream(part, input_files_path);
                         allArgs.add(input_files_path);
 

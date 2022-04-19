@@ -75,6 +75,7 @@ table{
     overflow: hidden;
     border-collapse: collapse;
     position: relative;
+    box-shadow: var(--shadow);
 }
 thead{
     height: 2em;
@@ -84,17 +85,14 @@ tr{
     height: 1.5em;
 }
 table th, table td{
-    overflow: scroll;
+    overflow-wrap: break-word;
     white-space: break-spaces;
 }
-/*table td{*/
-/*    overflow: scroll;*/
-/*}*/
 table td:first-child, table th:first-child{
     padding-left: 1em;
 }
-table th:first-child{
-    text-align: left;
+table td:first-child, table th:first-child, table td:nth-child(2), table th:nth-child(2) {
+    width: 20%;
 }
 table td:last-child, table th:last-child{
     padding-right: 1em;
@@ -172,9 +170,10 @@ footer{
 
 .download:hover{
     color: var(--ultradarkmint);
-    box-shadow: 0 1px 5px var(--mint);
-    z-index: 10;
-    background-position: left;
+    border: solid 2px var(--mint);
+    /*box-shadow: 0 1px 5px var(--mint);*/
+    /*z-index: 10;*/
+    /*background-position: left;*/
 }
 
 .submit{

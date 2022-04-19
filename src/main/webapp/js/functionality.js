@@ -239,8 +239,15 @@ jQuery(document).ready(function() {
         window.URL.revokeObjectURL(a.href);
     }
     $('#downloadLogFile').on("click", function(){
-        const logContent = runningProgressContent.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
-        downloadResultFile(null, null, logContent);
+        const logContent = stripHTML(runningProgressContent)
+        // const logContent = runningProgressContent.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
+        downloadResultFile(null, "PPIXpress_Log.txt", logContent);
+    })
+
+    $('#downloadSampleSummary').on("click", function(){
+        const SampleSummary = stripHTML($('#SampleSummaryTable'))
+        downloadResultFile(null,
+            "PPIXpress_SampleSummary.txt", SampleSummary);
     })
 
     $('#toResultSummary').on("click", function (){
@@ -251,6 +258,11 @@ jQuery(document).ready(function() {
         $('#NetworkVisualization').trigger("click");
     })
 })
+
+function stripHTML(HTMLElement){
+    return HTMLElement.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
+}
+
 
 /**
  * Add network showing options to NetworkSelection
