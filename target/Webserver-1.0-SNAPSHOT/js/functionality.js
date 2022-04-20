@@ -46,14 +46,16 @@ jQuery(document).ready(function() {
         placeholder.find("#remove_decay_transcripts").prop('checked', true)
     })
 
-    // Show number of uploaded files
+    /**
+     * Show number of uploaded files
+     */
     var protein_network_web = $('#protein_network_web')
     var protein_network_file = $('#protein_network_file')
     var expression_file = $('#expression_file')
     let no_expression_file = 0;
     /**
      * Confirm the use of taxon for protein network retrieval. After confirming,
-     * filepath for protein_network_file is set to null.
+     * filepath for protein_network_file is set to empty string.
      */
     $('#protein_network_web_confirm').on("click", function (){
         $('#protein_network_file_description').html("Selected taxon: " +
@@ -64,12 +66,12 @@ jQuery(document).ready(function() {
     })
     /**
      * Use user-uploaded network file instead of retrieve by taxon. Upon being selected, taxon and
-     * protein_network_web (if chosen) will be invalidated
+     * protein_network_web (if chosen) will be invalidated to empty string
      */
     protein_network_file.on("change", function(){
         showNoChosenFiles('protein_network_file', 1)
         // alert("Use user-uploaded network file.")
-        protein_network_web.val("null")
+        protein_network_web.val("")
     })
 
     expression_file.on("change", function(){
@@ -182,6 +184,8 @@ jQuery(document).ready(function() {
     const NVContent = $('#NVContent');
     $('#RunNormal').on('click', function (){
 
+        // Only submit form if user has chosen a protein network file/taxon for protein network retrieval
+        // and at least 1 expression file
         if ((protein_network_web.val() === "" && protein_network_file.val() === "") || expression_file.val() === ""){
             alert('Missing input file(s). Please check if protein interaction data is uploaded/chosen and if expression data is uploaded.');
             return false;
@@ -218,41 +222,83 @@ jQuery(document).ready(function() {
 
 
     // Actions after finishing PPIXPress
-    function downloadResultFile(pathToFile, fileName, pureText){
-        let blob = new Blob([pureText], { type: "text/plain" })
-        if (pureText === "null") {
-            $.ajax({
-                type: "POST",
-                url: pathToFile,
-                dataType: "text",
-                success: function(result) {
-                    blob = new Blob([result], { type: "text/plain" })
-                }
-            })
-        }
+    /**
+     * Create a download link from a blob and delete it after click
+     * @param Blob_ a blob
+     * @param fileName_ name of downloaded file
+     */
+    function createDownloadLink(Blob_, fileName_){
         let a = document.createElement('a');
-        a.href = window.URL.createObjectURL(blob);
-        a.download = fileName;
+        a.href = window.URL.createObjectURL(Blob_);
+        a.download = fileName_;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(a.href);
     }
+
+    /**
+     * Trigger downloading a file when click download button. if pureText is null, use a path to file, else let user
+     * download pure text.
+     * @param pathToFile If pureText not defined, download the content of a file from a file path
+     * @param fileName Name of downloaded file
+     * @param pureText Pure HTML/plain text to download as file
+     */
+    let WEBAPP_PATH = "USER_DATA/"
+    let USER_ID = "USER_1/";
+    let OUTPUT_PATH = WEBAPP_PATH + USER_ID;
+    function downloadResultFile(pureText, pathToFile, fileName, contentType){
+        if (pureText !== null){
+            let blob = new Blob([pureText], {type: contentType})
+            createDownloadLink(blob, fileName)
+        }
+        else {
+            fetch(pathToFile, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': contentType
+                }
+            })
+                .then((response) => {
+                    let blob = response.blob()
+                    blob.then((blob) => {
+                        createDownloadLink(blob, fileName)
+                    })
+                });
+        }
+
+
+        // $.ajax({
+        //     type: "POST",
+        //     url: pathToFile,
+        //     dataType: "text",
+        //     success: function(result) {
+        //         let blob = pureText === null ?
+        //             new Blob([result], {type: blobType}) :
+        //             new Blob([pureText], {type: blobType})
+        //         createDownloadLink(blob, fileName)
+        //     }
+        // })
+    }
+
+
     $('#downloadLogFile').on("click", function(){
         const logContent = stripHTML(runningProgressContent)
-        // const logContent = runningProgressContent.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
-        downloadResultFile(null, "PPIXpress_Log.txt", logContent);
+        downloadResultFile(logContent, null, "PPIXpress_Log.txt", "text/plain");
     })
 
     $('#downloadSampleSummary').on("click", function(){
         const SampleSummary = stripHTML($('#SampleSummaryTable'))
-        downloadResultFile(null,
-            "PPIXpress_SampleSummary.txt", SampleSummary);
+        downloadResultFile(SampleSummary,null, "PPIXpress_SampleSummary.txt", "text/plain");
     })
 
-    $('#toResultSummary').on("click", function (){
-        $('#ResultSummary').trigger("click");
+    $('#downloadResultFiles').on("click", function(){
+        downloadResultFile(null,OUTPUT_PATH + "PPIXPress_Output.zip", "PPIXPress_Output.zip", "application/zip");
     })
+
+    // $('#toResultSummary').on("click", function (){
+    //     $('#ResultSummary').trigger("click");
+    // })
 
     $('#toNetworkVisualization').on("click", function (){
         $('#NetworkVisualization').trigger("click");
