@@ -46,30 +46,32 @@ jQuery(document).ready(function() {
         placeholder.find("#remove_decay_transcripts").prop('checked', true)
     })
 
-    // Show number of uploaded files
+    /**
+     * Show number of uploaded files
+     */
     var protein_network_web = $('#protein_network_web')
     var protein_network_file = $('#protein_network_file')
     var expression_file = $('#expression_file')
     let no_expression_file = 0;
     /**
      * Confirm the use of taxon for protein network retrieval. After confirming,
-     * filepath for protein_network_file is set to null.
+     * filepath for protein_network_file is set to empty string.
      */
     $('#protein_network_web_confirm').on("click", function (){
         $('#protein_network_file_description').html("Selected taxon: " +
             $(this).parent().children('.input').val())
         $(".popup").hide()
         // alert("Use retrieved protein network from database.")
-        protein_network_file.val("null")
+        protein_network_file.val("")
     })
     /**
      * Use user-uploaded network file instead of retrieve by taxon. Upon being selected, taxon and
-     * protein_network_web (if chosen) will be invalidated
+     * protein_network_web (if chosen) will be invalidated to empty string
      */
     protein_network_file.on("change", function(){
         showNoChosenFiles('protein_network_file', 1)
         // alert("Use user-uploaded network file.")
-        protein_network_web.val("null")
+        protein_network_web.val("")
     })
 
     expression_file.on("change", function(){

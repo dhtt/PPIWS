@@ -60,7 +60,7 @@ jQuery(document).ready(function() {
             $(this).parent().children('.input').val())
         $(".popup").hide()
         // alert("Use retrieved protein network from database.")
-        protein_network_file.val("null")
+        protein_network_file.val("")
     })
     /**
      * Use user-uploaded network file instead of retrieve by taxon. Upon being selected, taxon and
