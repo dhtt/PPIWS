@@ -184,6 +184,8 @@ jQuery(document).ready(function() {
     const NVContent = $('#NVContent');
     $('#RunNormal').on('click', function (){
 
+        // Only submit form if user has chosen a protein network file/taxon for protein network retrieval
+        // and at least 1 expression file
         if ((protein_network_web.val() === "" && protein_network_file.val() === "") || expression_file.val() === ""){
             alert('Missing input file(s). Please check if protein interaction data is uploaded/chosen and if expression data is uploaded.');
             return false;
@@ -220,25 +222,27 @@ jQuery(document).ready(function() {
 
 
     // Actions after finishing PPIXPress
-    function downloadResultFile(pathToFile, fileName, pureText){
-        let blob = new Blob([pureText], { type: "text/plain" })
-        if (pureText === "null") {
-            $.ajax({
-                type: "POST",
-                url: pathToFile,
-                dataType: "text",
-                success: function(result) {
-                    blob = new Blob([result], { type: "text/plain" })
-                }
-            })
-        }
+    function createDownloadLink(Blob_, fileName_){
         let a = document.createElement('a');
-        a.href = window.URL.createObjectURL(blob);
-        a.download = fileName;
+        a.href = window.URL.createObjectURL(Blob_);
+        a.download = fileName_;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         window.URL.revokeObjectURL(a.href);
+    }
+    function downloadResultFile(pathToFile, fileName, pureText){
+        $.ajax({
+            type: "POST",
+            url: pathToFile,
+            dataType: "text",
+            success: function(result) {
+                let blob = pureText === "null" ?
+                    new Blob([result], { type: "text/plain" }) :
+                    new Blob([pureText], { type: "text/plain" })
+                createDownloadLink(blob, fileName)
+            }
+        })
     }
     $('#downloadLogFile').on("click", function(){
         const logContent = stripHTML(runningProgressContent)
@@ -252,9 +256,12 @@ jQuery(document).ready(function() {
             "PPIXpress_SampleSummary.txt", SampleSummary);
     })
 
-    $('#toResultSummary').on("click", function (){
-        $('#ResultSummary').trigger("click");
+    $('#downloadResultFiles').on("click", function(){
+        downloadResultFile("output/1_ppin.txt", "PPIXpress_Result.txt", "null");
     })
+    // $('#toResultSummary').on("click", function (){
+    //     $('#ResultSummary').trigger("click");
+    // })
 
     $('#toNetworkVisualization').on("click", function (){
         $('#NetworkVisualization').trigger("click");
