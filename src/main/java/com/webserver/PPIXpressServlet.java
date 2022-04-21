@@ -137,6 +137,7 @@ public class PPIXpressServlet extends HttpServlet {
         else if (submit_type.equals("RunNormal")) {
 //            Add path to protein network to arguments set.
             String taxon_id = request.getParameter("protein_network_web");
+
 //            If taxon = null, use a predefined path to store input PPI
 //            network on server, else use taxon to retrieve network from Mentha/IntAct
             String ORIGINAL_NETWORK_PATH = taxon_id.isEmpty() ? INPUT_PATH + FILENAME_PPI : "taxon:" + taxon_id;

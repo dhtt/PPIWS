@@ -9,22 +9,71 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Fix: active tab did not stay in focus when click elsewhere">
-      <change beforePath="$PROJECT_DIR$/.idea/webContexts.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Change download method from using ajax to fetch">
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/PPIXpress.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/input/human_ppin.sif.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/input/temp.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/output/reference_ddin.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/output/reference_major-transcripts.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/output/reference_ppin.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/output/test_table.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/output/test_table.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/output/graph/exp_1.json" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/output/graph/1_ppin.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT.war" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/classes/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/asm-9.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/cxf-core-3.4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/cxf-rt-bindings-soap-3.4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/cxf-rt-bindings-xml-3.4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/cxf-rt-databinding-jaxb-3.4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/cxf-rt-frontend-jaxws-3.4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/cxf-rt-frontend-simple-3.4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/cxf-rt-ws-addr-3.4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/cxf-rt-ws-policy-3.4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/cxf-rt-wsdl-3.4.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/geronimo-jta_1.1_spec-1.1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/istack-commons-runtime-3.0.12.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/jakarta.activation-1.2.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/jakarta.activation-api-1.2.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/jakarta.annotation-api-1.3.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/jakarta.jws-api-2.1.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/jakarta.xml.bind-api-2.3.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/jakarta.xml.soap-api-1.4.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/jakarta.xml.ws-api-2.3.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/jaxb-runtime-2.3.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/neethi-3.1.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/saaj-impl-1.5.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/stax-ex-1.8.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/stax2-api-4.2.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/txw2-2.3.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/woodstox-core-6.2.6.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/wsdl4j-1.6.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/xml-resolver-1.2.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/lib/xmlschema-core-2.2.5.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/WEB-INF/web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/header-and-panel.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/interface.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/loader1.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/css/loader2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/examples.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/graphCustomizer.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/footer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/html/header.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/index.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/functionality.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/js/network_maker.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/jsp/example_form.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/jsp/example_result.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/jsp/form.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/jsp/result.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/output/graph/exp_1.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/output/graph/exp_2.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Webserver-1.0-SNAPSHOT/output/network_table.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/MANIFEST.MF" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,11 +126,12 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="TEXT" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.27931035" />
     <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
@@ -92,11 +142,11 @@
       <recent name="$PROJECT_DIR$/src/main/webapp/output" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/USER_DATA/USER_1" />
+      <recent name="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/AUX_OUTPUT" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/output/output" />
       <recent name="$PROJECT_DIR$/src/main/webapp/output" />
-      <recent name="$PROJECT_DIR$/src/main/webapp" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF/lib" />
-      <recent name="$PROJECT_DIR$/src/main/resources/input" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/output/graph" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -340,7 +390,9 @@
       <workItem from="1649676076857" duration="11148000" />
       <workItem from="1649771084064" duration="5732000" />
       <workItem from="1649842003010" duration="18017000" />
-      <workItem from="1650378707623" duration="15821000" />
+      <workItem from="1650378707623" duration="35055000" />
+      <workItem from="1650464782882" duration="4185000" />
+      <workItem from="1650547348767" duration="7554000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -482,7 +534,42 @@
       <option name="project" value="LOCAL" />
       <updated>1650378744388</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Format sample summary table &amp; download functions">
+      <created>1650400239280</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1650400239280</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Set protein_network_file/protein_network_web to empty string instead of null when other option is chosen">
+      <created>1650444309181</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1650444309181</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Refactor download button function">
+      <created>1650446341105</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1650446341105</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Compress output as a zip file &amp; store in deploy folder for download">
+      <created>1650461434373</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1650461434373</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Change download method from using ajax to fetch">
+      <created>1650461501425</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1650461501425</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -527,7 +614,12 @@
     <MESSAGE value="Omit static message, move all updated message to PPIXpress_Tomcat (#427c660b5667c0d1957094779e09e0d943af44e4)" />
     <MESSAGE value="Refactor" />
     <MESSAGE value="Fix: active tab did not stay in focus when click elsewhere" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix: active tab did not stay in focus when click elsewhere" />
+    <MESSAGE value="Format sample summary table &amp; download functions" />
+    <MESSAGE value="Set protein_network_file/protein_network_web to empty string instead of null when other option is chosen" />
+    <MESSAGE value="Refactor download button function" />
+    <MESSAGE value="Compress output as a zip file &amp; store in deploy folder for download" />
+    <MESSAGE value="Change download method from using ajax to fetch" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change download method from using ajax to fetch" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
