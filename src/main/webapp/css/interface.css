@@ -171,9 +171,8 @@ footer{
 .download:hover{
     color: var(--ultradarkmint);
     border: solid 2px var(--mint);
-    /*box-shadow: 0 1px 5px var(--mint);*/
-    /*z-index: 10;*/
-    /*background-position: left;*/
+    font-size: small;
+    transition: all ease-in-out 0.2s;
 }
 
 .submit{

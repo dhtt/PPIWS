@@ -29,6 +29,7 @@ public class PPIXpressServlet extends HttpServlet {
      * Source: https://stackoverflow.com/a/68439125/9798960
      */
     public static void zip(String sourceDirPath_, String zipPath_) throws IOException {
+        Files.deleteIfExists(Paths.get(zipPath_));
         Path zipFile = Files.createFile(Paths.get(zipPath_));
 
         Path sourceDirPath = Paths.get(sourceDirPath_);
@@ -114,10 +115,10 @@ public class PPIXpressServlet extends HttpServlet {
 //        make DIR for LOCAL_STORAGE_PATH/USER_1/INPUT/, LOCAL_STORAGE_PATH/USER_1/OUTPUT/,
 //        LOCAL_STORAGE_PATH/USER_1/OUTPUT/GRAPH, WEBAPP_PATH/USER_1
 
-        /**
-         * Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
-         * output.zip inside deploy folder (WEBAPP_PATH)
-         */
+
+//         Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
+//         output.zip inside deploy folder (WEBAPP_PATH)
+
         String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/";
         String USER_ID = "USER_1/";
         String INPUT_PATH = LOCAL_STORAGE_PATH + USER_ID + "INPUT/";

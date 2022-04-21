@@ -11,7 +11,7 @@ jQuery(document).ready(function() {
 
     const NetworkSelection = $('#NetworkSelection')
     NetworkSelection.on('change', function () {
-        let graphFile = "output/graph/" + $(this).val() + ".json"
+        let graphFile = $(this).val()
         makePlot(graphFile, '#433C39', '#1f9b71')
     })
 

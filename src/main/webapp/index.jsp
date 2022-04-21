@@ -1,5 +1,3 @@
-<%@ page import="java.io.File" %>
-<%@ page import="java.util.Objects" %>
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -147,7 +145,7 @@
     <div id="RightPanel" class="middle-under" style="flex: 1; display: flex; flex-flow: column;">
         <div id="DisplayTabs" class="tabs" style="flex: 0 1 auto">
             <button type="button" name="DisplayTab" id="RunningProgress" value="RunningProgress" class="header button-tab tab-active" >Running Progress</button>
-            <button type="button" name="DisplayTab" id="ResultSummary" value="ResultSummary" class="header button-tab">Result Summary</button>
+<%--            <button type="button" name="DisplayTab" id="ResultSummary" value="ResultSummary" class="header button-tab">Result Summary</button>--%>
             <button type="button" name="DisplayTab" id="NetworkVisualization" value="NetworkVisualization" class="header button-tab">Network Visualization</button>
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto; position: relative">
@@ -159,7 +157,8 @@
                         <p class="header" style="background: #68d3aa; color: white; text-shadow: var(--textshadow)"> PPIXpress pipeline is finished! </p>
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
-                            <button type="button" name="transit" id="toResultSummary" value="null" class="button download">View PPIXPress Results</button><br>
+                            <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
+<%--                            <button type="button" name="transit" id="toResultSummary" value="null" class="button download">View PPIXPress Results</button><br>--%>
                             <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Condition-Specific Networks</button><br>
                         </div>
                     </div>
@@ -173,9 +172,9 @@
                 </div>
             </div>
 
-            <div id="ResultSummaryContent" name="Display" class="display-content non-display">
-<%--                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>--%>
-            </div>
+<%--            <div id="ResultSummaryContent" name="Display" class="display-content non-display">--%>
+<%--&lt;%&ndash;                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>&ndash;%&gt;--%>
+<%--            </div>--%>
 
             <div id="NetworkVisualizationContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
 <%--                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>--%>

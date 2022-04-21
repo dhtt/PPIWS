@@ -1,5 +1,10 @@
 import {makePlot} from './network_maker.js'
 
+let WEBAPP_PATH = "USER_DATA/"
+let USER_ID = "USER_1/";
+let OUTPUT_PATH = WEBAPP_PATH + USER_ID;
+let GRAPH_PATH = OUTPUT_PATH + "GRAPH/";
+
 jQuery(document).ready(function() {
     /**
      * Set options to default
@@ -163,7 +168,11 @@ jQuery(document).ready(function() {
                             loader.css({'display': 'none'})
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
-                            makePlot("output/graph/exp_1.json", '#ff00ae', '#14cb9a')
+                            $("form")[0].reset(); // Reset the form fields
+                            $("[name='Reset']").click() // Set default settings for all option panels
+
+                            //Display the first network by default
+                            makePlot(GRAPH_PATH + "1_ppin.json", '#ff00ae', '#14cb9a')
                         }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
@@ -244,9 +253,6 @@ jQuery(document).ready(function() {
      * @param fileName Name of downloaded file
      * @param pureText Pure HTML/plain text to download as file
      */
-    let WEBAPP_PATH = "USER_DATA/"
-    let USER_ID = "USER_1/";
-    let OUTPUT_PATH = WEBAPP_PATH + USER_ID;
     function downloadResultFile(pureText, pathToFile, fileName, contentType){
         if (pureText !== null){
             let blob = new Blob([pureText], {type: contentType})
@@ -307,7 +313,7 @@ function addNetworkSelection(no_expression_file_){
     NetworkSelection.innerHTML = '';
     for (let i = 1; i <= no_expression_file_; i++){
         const opt = document.createElement('option');
-        opt.value = "exp_" + i;
+        opt.value = GRAPH_PATH + i + "_ppin.json";
         opt.innerHTML = "Expression file " + i;
         NetworkSelection.appendChild(opt);
     }
