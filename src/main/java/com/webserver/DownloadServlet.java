@@ -37,7 +37,6 @@ public class DownloadServlet extends HttpServlet {
                     .filter(path -> !Files.isDirectory(path))
                     .forEach(path -> {
                         if (path.toString().endsWith(".gz") || path.toString().endsWith(".txt")){
-                            System.out.println("IS RESULT" + path);
                             ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
                             try {
                                 zipOutputStream.putNextEntry(zipEntry);
@@ -46,9 +45,6 @@ public class DownloadServlet extends HttpServlet {
                             } catch (IOException e) {
                                 System.out.println(e.getMessage());
                             }
-                        }
-                        else {
-                            System.out.println("NOT RESULT" + path);
                         }
                     });
             zipOutputStream.finish();
