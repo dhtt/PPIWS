@@ -114,6 +114,7 @@ jQuery(document).ready(function() {
     const runningProgressContent = $('#RPContent');
     const loader = $('#Loader');
     const leftDisplay = $('#LeftDisplay');
+    let SampleSummaryTable = $('#SampleSummaryTable')
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
@@ -169,6 +170,7 @@ jQuery(document).ready(function() {
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.css({'display': 'none'})
+                            downloadResultFile(null, "sample", SampleSummaryTable[0], false) // Display the sample summary table
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
                             $("form")[0].reset(); // Reset the form fields
@@ -251,44 +253,56 @@ jQuery(document).ready(function() {
 
     /**
      * Trigger downloading a file when click download button. if pureText is null, use a path to file, else let user
-     * download pure text.
+     * download pure text. Downloadable can be switched to false in order to fetch result files from local storage to
+     * target HTML element
      * @param pureText Pure HTML/plain text to download as file
      * @param resultFileType Type of result to be downloaded. Options include "log", "output", "sample"
-     * @param fileName Name of downloaded file
+     * @param target Name of downloaded file or HTML element that will carry the resulted text
+     * @param downloadable true or false
      */
-    function downloadResultFile(pureText, resultFileType, fileName){
-
-        if (resultFileType !== "output"){
+    function fetchResult(pureText, resultFileType, target, downloadable){
+        if (pureText !== null){
             let blob = new Blob([pureText])
-            createDownloadLink(blob, fileName)
+            createDownloadLink(blob, target)
         }
         else {
             const downloadData = new FormData();
-            fetch("DownloadServlet", {
+            downloadData.append("resultFileType", resultFileType)
+            let output = fetch("DownloadServlet", {
                 method: 'POST',
                 body: downloadData
-            }).then((response) => {
-                let blob = new Blob([], {type: 'application/octet-stream'});
-                return response.blob()
-            }).then((blob) => {
-                createDownloadLink(blob, fileName)
-            });
+            })
+
+            // If downloadable is true, download file from fetched response under target as filename
+            if (downloadable)
+                output.then(
+                    response => response.blob()
+                ).then(
+                    blob => createDownloadLink(blob, target)
+                )
+            // If downloadable is false, display the fetched response in target as container HTML element
+            else
+                output.then(
+                    response => response.text()
+                ).then(
+                    text => target.innerHTML = text
+                )
         }
     }
 
 
     $('#downloadLogFile').on("click", function(){
         const logContent = stripHTML(runningProgressContent)
-        downloadResultFile(logContent, "log","PPIXpress_Log.txt");
+        fetchResult(logContent, "log","PPIXpress_Log.txt", true);
     })
 
     $('#downloadSampleSummary').on("click", function(){
-        const SampleSummary = stripHTML($('#SampleSummaryTable'))
-        downloadResultFile(SampleSummary,"sample", "PPIXpress_SampleSummary.txt");
+        const SampleSummary = stripHTML(SampleSummaryTable)
+        fetchResult(SampleSummary,"sample_summary", "PPIXpress_SampleSummary.txt", true);
     })
 
     $('#downloadResultFiles').on("click", function(){
-        downloadResultFile(null,"output", "PPIXPress_Output.zip");
+        fetchResult(null,"output", "PPIXPress_Output.zip", true);
     })
 
     // $('#toResultSummary').on("click", function (){

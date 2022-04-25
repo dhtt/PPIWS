@@ -55,42 +55,49 @@ public class DownloadServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String USER_ID = "USER_1/"; // Each user has their own ID
-        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID; // Define a data local storage on the local server
+        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID + "OUTPUT/"; // Define a data local storage on the local server
 
-        String OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
-        String FILE_NAME = "PPIXPress_Output.zip";
-        String FILE_PATH = OUTPUT_PATH + FILE_NAME;
+        String OUTPUT_FILENAME = "PPIXPress_Output.zip";
+        String SAMPLE_FILENAME = "sample_table.html";
 
-        response.setHeader("Content-Disposition","attachment; filename=\"" + FILE_NAME + "\"");
-        response.setContentType("application/zip");
-        response.setHeader("Cache-Control", "max-age=60");
-        response.setHeader("Cache-Control", "must-revalidate");
+        String resultFileType = request.getParameter("resultFileType");
 
-        try {
-            zip(OUTPUT_PATH, FILE_PATH);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (resultFileType.equals("output")){
+            response.setHeader("Content-Disposition","attachment; filename=\"" + OUTPUT_FILENAME + "\"");
+            response.setContentType("application/zip");
+            response.setHeader("Cache-Control", "max-age=60");
+            response.setHeader("Cache-Control", "must-revalidate");
+
+            try {
+                zip(LOCAL_STORAGE_PATH, LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            File outputFile = new File(LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
+            response.setContentLength((int) outputFile.length());
+
+            FileInputStream InStream = new FileInputStream(outputFile);
+            BufferedInputStream BufInStream = new BufferedInputStream(InStream);
+            ServletOutputStream ServletOutStream = response.getOutputStream();
+            int readBytes = 0;
+
+            //read from the file; write to the ServletOutputStream
+            while ((readBytes = BufInStream.read()) != -1) {
+                ServletOutStream.write(readBytes);
+            }
         }
-        File outputFile = new File(OUTPUT_PATH + FILE_NAME);
-        response.setContentLength((int) outputFile.length());
+        else if (resultFileType.equals("sample_summary")){
+            PrintWriter out = response.getWriter();
 
-        FileInputStream InStream = new FileInputStream(outputFile);
-        BufferedInputStream BufInStream = new BufferedInputStream(InStream);
-        ServletOutputStream ServletOutStream = response.getOutputStream();
-        int readBytes = 0;
-
-        //read from the file; write to the ServletOutputStream
-        while ((readBytes = BufInStream.read()) != -1) {
-            ServletOutStream.write(readBytes);
+            response.setContentType("text/html");
+            File HTMLText = new File(LOCAL_STORAGE_PATH + SAMPLE_FILENAME);
+            Scanner file = new Scanner(HTMLText);
+            while (file.hasNext())
+            {
+                String s = file.nextLine();
+                out.println(s);
+            }
         }
 
-
-//        File HTMLText = new File(URL);
-//        Scanner file = new Scanner(HTMLText);
-//        while (file.hasNext())
-//        {
-//            String s = file.nextLine();
-//            out.println(s);
-//        }
     }
 }

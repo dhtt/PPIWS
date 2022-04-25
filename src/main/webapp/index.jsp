@@ -166,7 +166,7 @@
                 </div>
                 <div id="RightDisplay" class="display-part" style="display: none; text-align: center; padding: 0.5em">
                     <p class="subsection-text" style="margin: 0; font-size: smaller">Number of proteins and interactions<br>in each expression data</p>
-                    <div id="SampleSummaryTable"><jsp:include page="output/sample_table.html"/><br></div>
+                    <div id="SampleSummaryTable"></div><br>
                     <button type="button" name="transit" id="downloadSampleSummary" value="null" class="button download" style="min-width: fit-content; padding: 0.5em">Download this table</button><br><br>
                     <p name="ScrollToTop" class="reset" style="text-align: center">Scroll to top</p>
                 </div>
@@ -179,7 +179,7 @@
             <div id="NetworkVisualizationContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
 <%--                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>--%>
 
-                <div id="NVContent" class="non-display" style="display: flex; flex-direction: column; flex: 1 1 auto">
+                <div id="NVContent" style="display: flex; flex-direction: column; flex: 1 1 auto">
                     <div id="NVContent_Graph" style="flex: 1 1 auto"></div>
 
                     <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
