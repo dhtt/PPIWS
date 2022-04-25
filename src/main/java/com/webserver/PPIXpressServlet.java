@@ -22,35 +22,37 @@ import standalone_tools.PPIXpress_Tomcat;
 
 public class PPIXpressServlet extends HttpServlet {
     /**
-     * Zip output files in the result folder
-     * @param sourceDirPath_ path to folder to be zipped
-     * @param zipPath_ path to zipped folder
-     * @throws IOException
-     * Source: https://stackoverflow.com/a/68439125/9798960
+     * Delete folders and contents recursively
+     * @param Path_ Path to directory
      */
-    public static void zip(String sourceDirPath_, String zipPath_) throws IOException {
-        Files.deleteIfExists(Paths.get(zipPath_));
-        Path zipFile = Files.createFile(Paths.get(zipPath_));
+    public static void deleteDir(String Path_) {
+        File dirFile = new File(Path_);
+        if (dirFile.isDirectory()) {
+            File[] dirs = dirFile.listFiles();
+            assert dirs != null;
+            for (File dir: dirs) {
+                deleteDir(String.valueOf(dir));
+            }
+        }
+        dirFile.delete();
+    }
 
-        Path sourceDirPath = Paths.get(sourceDirPath_);
-        try (ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
-             Stream<Path> paths = Files.walk(sourceDirPath)) {
-            paths
-                    .filter(path -> !Files.isDirectory(path))
-                    .forEach(path -> {
-                        if (path.toString().endsWith(".gz") || path.toString().endsWith(".txt")){
-                            ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
-                            try {
-                                zipOutputStream.putNextEntry(zipEntry);
-                                Files.copy(path, zipOutputStream);
-                                zipOutputStream.closeEntry();
-                            } catch (IOException e) {
-                                System.out.println(e.getMessage());
-                            }
-                        }
-                    });
+
+    /**
+     * Create working directory for user
+     * @param LocalStoragePath_ Path to the user's local storage
+     */
+    public static void createUserDir(String LocalStoragePath_) throws IOException {
+        if (!Files.exists(Paths.get(LocalStoragePath_))){
+            Files.createDirectories(Paths.get(LocalStoragePath_ + "OUTPUT/GRAPH/"));
+            Files.createDirectories(Paths.get(LocalStoragePath_ + "INPUT/"));
+        }
+        else {
+            deleteDir(LocalStoragePath_);
+            createUserDir(LocalStoragePath_);
         }
     }
+
 
     /**
      * TODO: Write documentation
@@ -60,14 +62,12 @@ public class PPIXpressServlet extends HttpServlet {
         private final AtomicReference<String> message;
         private final PPIXpress_Tomcat pipeline = new PPIXpress_Tomcat();
         private volatile boolean stop;
-        private final String outputPath;
         private final List<String> argList;
 
-        public LongRunningProcess(List<String> allArgs, AtomicBoolean stopSignal, AtomicReference<String> message, String OUTPUT_PATH_) {
+        public LongRunningProcess(List<String> allArgs, AtomicBoolean stopSignal, AtomicReference<String> message) {
             this.stopSignal = stopSignal;
             this.message = message;
             this.argList = allArgs;
-            this.outputPath = OUTPUT_PATH_;
         }
 
         @Override
@@ -75,11 +75,6 @@ public class PPIXpressServlet extends HttpServlet {
             while (!stop){
                 pipeline.runAnalysis(this.argList, stopSignal, message);
                 if (stopSignal.get()){
-                    try {
-                        zip(outputPath, outputPath + "PPIXPress_Output.zip");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                     setStop(true);
                 }
             }
@@ -119,13 +114,13 @@ public class PPIXpressServlet extends HttpServlet {
 //         Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
 //         output.zip inside deploy folder (WEBAPP_PATH)
 
-        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/";
-        String USER_ID = "USER_1/";
-        String INPUT_PATH = LOCAL_STORAGE_PATH + USER_ID + "INPUT/";
-        String FILENAME_PPI = "ppi_data.sif";
+        String USER_ID = "USER_1/"; // Each user has their own ID
+        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID; // Define a data local storage on the local server
+        createUserDir(LOCAL_STORAGE_PATH); // Create input directory
 
-        String WEBAPP_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/webapp/USER_DATA/";
-        String OUTPUT_PATH = WEBAPP_PATH + USER_ID;
+        String INPUT_PATH = LOCAL_STORAGE_PATH + "INPUT/";
+        String OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
+        String FILENAME_PPI = "ppi_data.sif";
 
         response.setContentType("text/html");
         String submit_type = request.getParameter("submitType");
@@ -187,11 +182,12 @@ public class PPIXpressServlet extends HttpServlet {
             request.getSession().setAttribute("LONG_PROCESS_SIGNAL", stopSignal);
             request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runProgress);
 
-            LongRunningProcess myThreads = new LongRunningProcess(allArgs, stopSignal, runProgress, OUTPUT_PATH);
+            LongRunningProcess myThreads = new LongRunningProcess(allArgs, stopSignal, runProgress);
             Thread lrp = new Thread(myThreads);
             lrp.start();
         }
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) throws IOException {
     }
 }

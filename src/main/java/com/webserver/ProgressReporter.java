@@ -1,14 +1,17 @@
 package com.webserver;
 
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
+
+import jakarta.servlet.*;
 import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.*;
+
 import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 @WebServlet(name = "ProgressReporter", value = "/ProgressReporter")
+
 public class ProgressReporter extends HttpServlet {
     public void doPost(HttpServletRequest request , HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json");

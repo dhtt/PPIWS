@@ -1,6 +1,9 @@
 import {makePlot} from './network_maker.js'
 
-let WEBAPP_PATH = "USER_DATA/"
+// TODO Disable form while task run
+// TODO onbeforeunload
+
+let WEBAPP_PATH = "USER_OUTPUT/"
 let USER_ID = "USER_1/";
 let OUTPUT_PATH = WEBAPP_PATH + USER_ID;
 let GRAPH_PATH = OUTPUT_PATH + "GRAPH/";
@@ -42,7 +45,7 @@ jQuery(document).ready(function() {
         placeholder.find("input[type='checkbox']").prop('checked', false)
         placeholder.find('.hidden-checkbox').prop("checked", true)
         placeholder.find("input[type='file']").val("")
-        placeholder.find('.description-text').html("&emsp;")
+        placeholder.find('.description-text').html("&emsp;") // A space is needed so that there is an empty line
 
         // Specific settings for each datatype-panel
         placeholder.find("#threshold").val(1.00)
@@ -249,44 +252,43 @@ jQuery(document).ready(function() {
     /**
      * Trigger downloading a file when click download button. if pureText is null, use a path to file, else let user
      * download pure text.
-     * @param pathToFile If pureText not defined, download the content of a file from a file path
-     * @param fileName Name of downloaded file
      * @param pureText Pure HTML/plain text to download as file
+     * @param resultFileType Type of result to be downloaded. Options include "log", "output", "sample"
+     * @param fileName Name of downloaded file
      */
-    function downloadResultFile(pureText, pathToFile, fileName, contentType){
-        if (pureText !== null){
-            let blob = new Blob([pureText], {type: contentType})
+    function downloadResultFile(pureText, resultFileType, fileName){
+
+        if (resultFileType !== "output"){
+            let blob = new Blob([pureText])
             createDownloadLink(blob, fileName)
         }
         else {
-            fetch(pathToFile, {
+            const downloadData = new FormData();
+            fetch("DownloadServlet", {
                 method: 'POST',
-                headers: {
-                    'Content-Type': contentType
-                }
-            })
-                .then((response) => {
-                    let blob = response.blob()
-                    blob.then((blob) => {
-                        createDownloadLink(blob, fileName)
-                    })
-                });
+                body: downloadData
+            }).then((response) => {
+                let blob = new Blob([], {type: 'application/octet-stream'});
+                return response.blob()
+            }).then((blob) => {
+                createDownloadLink(blob, fileName)
+            });
         }
     }
 
 
     $('#downloadLogFile').on("click", function(){
         const logContent = stripHTML(runningProgressContent)
-        downloadResultFile(logContent, null, "PPIXpress_Log.txt", "text/plain");
+        downloadResultFile(logContent, "log","PPIXpress_Log.txt");
     })
 
     $('#downloadSampleSummary').on("click", function(){
         const SampleSummary = stripHTML($('#SampleSummaryTable'))
-        downloadResultFile(SampleSummary,null, "PPIXpress_SampleSummary.txt", "text/plain");
+        downloadResultFile(SampleSummary,"sample", "PPIXpress_SampleSummary.txt");
     })
 
     $('#downloadResultFiles').on("click", function(){
-        downloadResultFile(null,OUTPUT_PATH + "PPIXPress_Output.zip", "PPIXPress_Output.zip", "application/zip");
+        downloadResultFile(null,"output", "PPIXPress_Output.zip");
     })
 
     // $('#toResultSummary').on("click", function (){
