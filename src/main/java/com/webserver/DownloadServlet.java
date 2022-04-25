@@ -76,17 +76,17 @@ public class DownloadServlet extends HttpServlet {
             e.printStackTrace();
         }
         File outputFile = new File(OUTPUT_PATH + FILE_NAME);
-//        response.setContentLength((int) outputFile.length());
-//
-//        FileInputStream InStream = new FileInputStream(outputFile);
-//        BufferedInputStream BufInStream = new BufferedInputStream(InStream);
-//        ServletOutputStream ServletOutStream = response.getOutputStream();
-//        int readBytes = 0;
-//
-//        //read from the file; write to the ServletOutputStream
-//        while ((readBytes = BufInStream.read()) != -1) {
-//            ServletOutStream.write(readBytes);
-//        }
+        response.setContentLength((int) outputFile.length());
+
+        FileInputStream InStream = new FileInputStream(outputFile);
+        BufferedInputStream BufInStream = new BufferedInputStream(InStream);
+        ServletOutputStream ServletOutStream = response.getOutputStream();
+        int readBytes = 0;
+
+        //read from the file; write to the ServletOutputStream
+        while ((readBytes = BufInStream.read()) != -1) {
+            ServletOutStream.write(readBytes);
+        }
 
 
 //        File HTMLText = new File(URL);
