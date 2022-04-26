@@ -1,5 +1,26 @@
 [{
   "data": {
+    "weight":"1.0",
+    "source":"P07900",
+    "target":"Q8NBS9"
+  },
+  "removed":false,
+  "selectable":true,
+  "classes":"",
+  "grabbable":true,
+  "locked":false,
+  "selected":false
+},
+  {"data":{
+    "id":"Q7RTN6"},
+    "classes":"",
+    "locked":false,
+    "remove":false,
+    "selected":false,
+    "group":"nodes"
+  },
+  {"data":{"id":"Q8NBE8"},"classes":"","locked":false,"remove":false,"selected":false,"group":"nodes"},
+  "data": {
     "id": "HIRA",
     "altered": 0,
     "rank": 148,

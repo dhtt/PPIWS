@@ -35,7 +35,7 @@
                                 <button type="button" name="close" class="help close">x</button>
                                 Retrieve a network<br>from Mentha or IntAct database
                             </div>
-                            <p class="menu panel shadow" style="text-align: center; width: 300px">
+                            <p class="menu panel shadow" style="text-align: center; width: 300px; font-weight: normal">
                                 Please input an organism taxon.<br>e.g. Type 9606 for a human network.<br><br>
                                 <input type="text" name="protein_network_web" id="protein_network_web" class="input" style="height: 1.5em"><br><br>
                                 <button type="button" id="protein_network_web_confirm" name="confirm" class="button upload" style="width: fit-content;">Enter</button>
@@ -183,27 +183,32 @@
                     <div id="NVContent_Graph" style="flex: 1 1 auto"></div>
 
                     <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
-                        <div class="network-option panel" style="text-align: center; border-radius: 1em">
-                            <label for="NetworkSelection" style="font-weight: bold">Show network for</label>
-                            <select id="NetworkSelection" name="NetworkOptions" class="button upload" style="margin-top: 0.5em"></select>
+                        <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--edgecolor); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
+
+                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
+                            <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
+                            <input id="NetworkSelection_Protein" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
+                            <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
+                            <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>
+                            <button type="button" name="Show Subnetwork" id="ShowSubnetworks" value="null" class="button upload">Show</button>
                         </div>
 
-                        <div class="network-option panel" style="text-align: center; border-radius: 1em">
+                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label for="NodesNumber" style="font-weight: bold">Number of displayed nodes</label>
-                            <input type="range" id="NodesNumber" name="NetworkOptions" value="1.00" min="0" max="1.0" step="0.01" style="display:none; width: 80%; margin-top: 0.5em">
+                            <input type="range" id="NodesNumber" value="1.00" min="0" max="1.0" step="0.01" style="width: 80%; margin-top: 0.5em">
                         </div>
 
-                        <div class="network-option panel" style="text-align: center; border-radius: 1em">
+                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label for="NVContentMetricsTable" style="font-weight: bold">Display network properties</label>
-                            <div id="NVContentMetricsTable" name="NetworkOptions" class="popup" style="display:none">
+                            <div id="NVContentMetricsTable" class="popup">
                                 <jsp:include page="output/network_table.html"/><br>
                                 <a href="header.html">Download this table</a>
                             </div>
                         </div>
 
-                        <div class="network-option panel" style="text-align: center; border-radius: 1em">
+                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label for="ColorTheme" style="font-weight: bold">Customize graph color</label>
-                            <select id="ColorTheme" name="NetworkOptions" class="button upload" style="display:none; margin-top: 0.5em">
+                            <select id="ColorTheme" class="button upload" style="margin-top: 0.5em">
                                 <option value="default">Default</option>
                             </select>
                         </div>

@@ -11,7 +11,7 @@
     --textshadow: 1px 1px 4px var(--darkintensemint);
     --warning: #ff003b;
     --nodecolor: #2a036b;
-    --edgecolor: #a4268f;
+    --edgecolor: deeppink;
 }
 :root.default{
     --nodecolor: #433C39;
@@ -257,6 +257,7 @@ footer{
 }
 .panel{
     font-size: small;
+    font-weight: bold;
     text-align: left;
     background: var(--lightmintgrey);
     border-radius: 0 0 1em 1em;
@@ -340,6 +341,19 @@ select, input[type="range"]{
     position: relative;
 }
 
+#ShowSubnetworks {
+    margin-top: 0.5em;
+    width: fit-content;
+    font-size: smaller;
+    border: 0;
+}
+#ShowSubnetworks:hover {
+    color: white;
+    background: deeppink;
+    box-shadow: var(--shadow);
+    transition: all ease-in-out 0.2s;
+}
+
 #Loader {
     position: fixed;
     width: 30px;
@@ -378,8 +392,7 @@ li li::marker {
 .align_box_right{
     position: absolute;
     right: 0;
-    margin: 1em;
-    padding: 0.5em;
+    padding: 0 1em;
     width: 15%;
     min-width: 200px;
 }

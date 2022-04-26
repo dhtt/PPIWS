@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="unix4j.command" type="repository">
+    <properties maven-id="org.unix4j:unix4j-command:0.6" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/unix4j/unix4j-command/0.6/unix4j-command-0.6.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/unix4j/unix4j-base/0.6/unix4j-base-0.6.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.30/slf4j-api-1.7.30.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

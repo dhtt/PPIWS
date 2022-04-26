@@ -3,11 +3,6 @@ import {makePlot} from './network_maker.js'
 // TODO Disable form while task run
 // TODO onbeforeunload
 
-let WEBAPP_PATH = "USER_OUTPUT/"
-let USER_ID = "USER_1/";
-let OUTPUT_PATH = WEBAPP_PATH + USER_ID;
-let GRAPH_PATH = OUTPUT_PATH + "GRAPH/";
-
 jQuery(document).ready(function() {
     /**
      * Set options to default
@@ -57,9 +52,9 @@ jQuery(document).ready(function() {
     /**
      * Show number of uploaded files
      */
-    var protein_network_web = $('#protein_network_web')
-    var protein_network_file = $('#protein_network_file')
-    var expression_file = $('#expression_file')
+    const protein_network_web = $('#protein_network_web');
+    const protein_network_file = $('#protein_network_file')
+    const expression_file = $('#expression_file')
     let no_expression_file = 0;
     /**
      * Confirm the use of taxon for protein network retrieval. After confirming,
@@ -170,14 +165,11 @@ jQuery(document).ready(function() {
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.css({'display': 'none'})
-                            downloadResultFile(null, "sample", SampleSummaryTable[0], false) // Display the sample summary table
+                            fetchResult(null, "sample", SampleSummaryTable[0], false) // Display the sample summary table
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
                             $("form")[0].reset(); // Reset the form fields
                             $("[name='Reset']").click() // Set default settings for all option panels
-
-                            //Display the first network by default
-                            makePlot(GRAPH_PATH + "1_ppin.json", '#ff00ae', '#14cb9a')
                         }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
@@ -204,14 +196,14 @@ jQuery(document).ready(function() {
             alert('Missing input file(s). Please check if protein interaction data is uploaded/chosen and if expression data is uploaded.');
             return false;
         }
-        addNetworkSelection(no_expression_file);
+        addNetworkExpressionSelection(no_expression_file);
         loader.css({'display': 'block'});
         $.fn.submit_form("RunNormal")
         NVContent.removeClass("non-display")
         return false;
     })
     $('#RunExample').on('click', function (){
-        addNetworkSelection(no_expression_file);
+        addNetworkExpressionSelection(no_expression_file);
         loader.css({'display': 'block'});
         $.fn.submit_form("RunExample");
         NVContent.removeClass("non-display")
@@ -228,10 +220,8 @@ jQuery(document).ready(function() {
         $(this).addClass("tab-active")
     })
 
-    $("label").on("click", function (){
-        var NetworkOptions = $('#' + $(this).attr('for'))
-        if (NetworkOptions.attr("name") === "NetworkOptions")
-            NetworkOptions.toggle()
+    $("#ShowNetworkOptions").on("click", function (){
+        $("[name='NetworkOptions']").toggle()
     })
 
 
@@ -260,33 +250,47 @@ jQuery(document).ready(function() {
      * @param target Name of downloaded file or HTML element that will carry the resulted text
      * @param downloadable true or false
      */
+    const NetworkSelection_Protein = $('#NetworkSelection_Protein');
+    const NetworkSelection_Expression = $('#NetworkSelection_Expression');
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
             let blob = new Blob([pureText])
             createDownloadLink(blob, target)
         }
+
         else {
             const downloadData = new FormData();
             downloadData.append("resultFileType", resultFileType)
-            let output = fetch("DownloadServlet", {
-                method: 'POST',
-                body: downloadData
-            })
 
-            // If downloadable is true, download file from fetched response under target as filename
+            if (resultFileType === "graph"){
+                downloadData.append("proteinQuery", NetworkSelection_Protein.val())
+                downloadData.append("expressionQuery", NetworkSelection_Expression.val())
+            }
+
+            let fetchData = fetch("DownloadServlet",
+                {
+                    method: 'POST',
+                    body: downloadData
+                })
+
+            // If downloadable is true, download file from fetched response under target as filename.
+            // Applied for resultFileType of log, sample_summary, output
             if (downloadable)
-                output.then(
-                    response => response.blob()
-                ).then(
-                    blob => createDownloadLink(blob, target)
-                )
+                fetchData
+                    .then(response => response.blob())
+                    .then(blob => createDownloadLink(blob, target))
+
             // If downloadable is false, display the fetched response in target as container HTML element
+            // Applied for resultFileType of graph, sample_summary
             else
-                output.then(
-                    response => response.text()
-                ).then(
-                    text => target.innerHTML = text
-                )
+                if (resultFileType === "graph"){
+                    makePlot(fetchData)
+                }
+                else if (resultFileType === "sample_summary"){
+                    fetchData
+                        .then(response => response.text())
+                        .then(text => target.innerHTML = text)
+                }
         }
     }
 
@@ -312,7 +316,26 @@ jQuery(document).ready(function() {
     $('#toNetworkVisualization').on("click", function (){
         $('#NetworkVisualization').trigger("click");
     })
+
+
+    //Show Subnetworks
+    $('#ShowSubnetworks').on("click", function (){
+        let proteinQuery = NetworkSelection_Protein.val();
+        let expressionQuery = NetworkSelection_Expression.val();
+        if (proteinQuery !== ""){
+            // First check if protein is in the list of node
+            // From Utils, fetch new graph file
+
+            fetchResult(null, "graph", null, false)
+        }
+        else {
+            alert("Please choose a protein!")
+        }
+    })
+
+
 })
+
 
 function stripHTML(HTMLElement){
     return HTMLElement.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
@@ -324,14 +347,14 @@ function stripHTML(HTMLElement){
  * based on the number of uploaded expression files
  * @param no_expression_file_ Number of expression file
  */
-function addNetworkSelection(no_expression_file_){
-    const NetworkSelection = document.getElementById('NetworkSelection');
-    NetworkSelection.innerHTML = '';
+function addNetworkExpressionSelection(no_expression_file_){
+    const NetworkSelection_Expression = document.getElementById('NetworkSelection_Expression');
+    NetworkSelection_Expression.innerHTML = '';
     for (let i = 1; i <= no_expression_file_; i++){
         const opt = document.createElement('option');
-        opt.value = GRAPH_PATH + i + "_ppin.json";
+        opt.value = i + "_ppin.txt";
         opt.innerHTML = "Expression file " + i;
-        NetworkSelection.appendChild(opt);
+        NetworkSelection_Expression.appendChild(opt);
     }
 }
 

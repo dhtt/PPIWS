@@ -3,6 +3,8 @@ package com.webserver;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.nio.file.Files;
@@ -12,6 +14,8 @@ import java.util.Scanner;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+
+import static com.webserver.Utils.filterProtein;
 
 @WebServlet(name = "DownloadServlet", value = "/DownloadServlet")
 @MultipartConfig()
@@ -61,42 +65,50 @@ public class DownloadServlet extends HttpServlet {
         String SAMPLE_FILENAME = "sample_table.html";
 
         String resultFileType = request.getParameter("resultFileType");
+        PrintWriter out = response.getWriter();
 
-        if (resultFileType.equals("output")){
-            response.setHeader("Content-Disposition","attachment; filename=\"" + OUTPUT_FILENAME + "\"");
-            response.setContentType("application/zip");
-            response.setHeader("Cache-Control", "max-age=60");
-            response.setHeader("Cache-Control", "must-revalidate");
+        switch (resultFileType) {
+            case "output":
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + OUTPUT_FILENAME + "\"");
+                response.setContentType("application/zip");
+                response.setHeader("Cache-Control", "max-age=60");
+                response.setHeader("Cache-Control", "must-revalidate");
 
-            try {
-                zip(LOCAL_STORAGE_PATH, LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            File outputFile = new File(LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
-            response.setContentLength((int) outputFile.length());
+                try {
+                    zip(LOCAL_STORAGE_PATH, LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                File outputFile = new File(LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
+                response.setContentLength((int) outputFile.length());
 
-            FileInputStream InStream = new FileInputStream(outputFile);
-            BufferedInputStream BufInStream = new BufferedInputStream(InStream);
-            ServletOutputStream ServletOutStream = response.getOutputStream();
-            int readBytes = 0;
+                FileInputStream InStream = new FileInputStream(outputFile);
+                BufferedInputStream BufInStream = new BufferedInputStream(InStream);
+                ServletOutputStream ServletOutStream = response.getOutputStream();
+                int readBytes = 0;
 
-            //read from the file; write to the ServletOutputStream
-            while ((readBytes = BufInStream.read()) != -1) {
-                ServletOutStream.write(readBytes);
-            }
-        }
-        else if (resultFileType.equals("sample_summary")){
-            PrintWriter out = response.getWriter();
+                //read from the file; write to the ServletOutputStream
+                while ((readBytes = BufInStream.read()) != -1) {
+                    ServletOutStream.write(readBytes);
+                }
+                break;
 
-            response.setContentType("text/html");
-            File HTMLText = new File(LOCAL_STORAGE_PATH + SAMPLE_FILENAME);
-            Scanner file = new Scanner(HTMLText);
-            while (file.hasNext())
-            {
-                String s = file.nextLine();
-                out.println(s);
-            }
+            case "sample_summary":
+                File HTMLText = new File(LOCAL_STORAGE_PATH + SAMPLE_FILENAME);
+                Scanner file = new Scanner(HTMLText);
+                while (file.hasNext()) {
+                    String s = file.nextLine();
+                    out.println(s);
+                }
+                break;
+
+            case "graph":
+                String proteinQuery = request.getParameter("proteinQuery");
+                String expressionQuery = request.getParameter("expressionQuery");
+
+                JSONArray subNetworkData = filterProtein(LOCAL_STORAGE_PATH, proteinQuery, expressionQuery);
+                out.println(subNetworkData);
+                break;
         }
 
     }
