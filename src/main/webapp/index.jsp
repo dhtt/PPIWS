@@ -187,7 +187,8 @@
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
-                            <input id="NetworkSelection_Protein" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
+                            <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
+                            <datalist id="NetworkSelection_Protein_List"></datalist>
                             <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
                             <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>
                             <button type="button" name="Show Subnetwork" id="ShowSubnetworks" value="null" class="button upload">Show</button>

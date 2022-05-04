@@ -110,6 +110,9 @@ jQuery(document).ready(function() {
     const loader = $('#Loader');
     const leftDisplay = $('#LeftDisplay');
     let SampleSummaryTable = $('#SampleSummaryTable')
+    const NetworkSelection_Protein = $('#NetworkSelection_Protein');
+    const NetworkSelection_Expression = $('#NetworkSelection_Expression');
+
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
@@ -165,7 +168,10 @@ jQuery(document).ready(function() {
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.css({'display': 'none'})
-                            fetchResult(null, "sample", SampleSummaryTable[0], false) // Display the sample summary table
+
+                            fetchResult(null,"sample_summary", SampleSummaryTable[0], false); // Display the sample summary table
+                            fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
+
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
                             $("form")[0].reset(); // Reset the form fields
@@ -250,8 +256,6 @@ jQuery(document).ready(function() {
      * @param target Name of downloaded file or HTML element that will carry the resulted text
      * @param downloadable true or false
      */
-    const NetworkSelection_Protein = $('#NetworkSelection_Protein');
-    const NetworkSelection_Expression = $('#NetworkSelection_Expression');
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
             let blob = new Blob([pureText])
@@ -291,6 +295,11 @@ jQuery(document).ready(function() {
                         .then(response => response.text())
                         .then(text => target.innerHTML = text)
                 }
+                else if (resultFileType === "protein_list"){
+                    fetchData
+                        .then(response => response.text())
+                        .then(text => target.innerHTML = text)
+                }
         }
     }
 
@@ -320,17 +329,13 @@ jQuery(document).ready(function() {
 
     //Show Subnetworks
     $('#ShowSubnetworks').on("click", function (){
-        let proteinQuery = NetworkSelection_Protein.val();
-        let expressionQuery = NetworkSelection_Expression.val();
-        if (proteinQuery !== ""){
-            // First check if protein is in the list of node
-            // From Utils, fetch new graph file
-
+        if (NetworkSelection_Protein.val() !== "")
+            //TODO: Strip spaces from protein query & Give suggestion
+            //TODO: Refine network display & Add option to center/Download image
+            //TODO: Implement network customization and property display
             fetchResult(null, "graph", null, false)
-        }
-        else {
+        else
             alert("Please choose a protein!")
-        }
     })
 
 

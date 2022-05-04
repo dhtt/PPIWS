@@ -4,18 +4,19 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import static com.webserver.Utils.filterProtein;
+import static com.webserver.Utils.*;
+import static standalone_tools.PPIXpress_Tomcat.createElement;
 
 @WebServlet(name = "DownloadServlet", value = "/DownloadServlet")
 @MultipartConfig()
@@ -108,6 +109,15 @@ public class DownloadServlet extends HttpServlet {
 
                 JSONArray subNetworkData = filterProtein(LOCAL_STORAGE_PATH, proteinQuery, expressionQuery);
                 out.println(subNetworkData);
+                break;
+
+            case "protein_list":
+                Scanner s = new Scanner(new File(LOCAL_STORAGE_PATH + "protein_list.txt"));
+                ArrayList<String> proteinList = new ArrayList<>();
+                while (s.hasNext()){
+                    proteinList.add(createElement("option", s.next()));
+                }
+                out.println(String.join("", proteinList));
                 break;
         }
 
