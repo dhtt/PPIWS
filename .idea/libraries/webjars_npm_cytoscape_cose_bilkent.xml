@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="webjars.npm.cytoscape.cose.bilkent" type="repository">
+    <properties maven-id="org.webjars.npm:cytoscape-cose-bilkent:4.0.0" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/webjars/npm/cytoscape-cose-bilkent/4.0.0/cytoscape-cose-bilkent-4.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

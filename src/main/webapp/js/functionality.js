@@ -4,6 +4,10 @@ import {makePlot} from './network_maker.js'
 // TODO onbeforeunload
 
 jQuery(document).ready(function() {
+    // Test
+    addNetworkExpressionSelection(2);
+    // fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
+
     /**
      * Set options to default
      */
@@ -169,6 +173,7 @@ jQuery(document).ready(function() {
                             allPanel.css({'cursor': 'default'})
                             loader.css({'display': 'none'})
 
+                            addNetworkExpressionSelection(no_expression_file);
                             fetchResult(null,"sample_summary", SampleSummaryTable[0], false); // Display the sample summary table
                             fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
 
@@ -202,14 +207,12 @@ jQuery(document).ready(function() {
             alert('Missing input file(s). Please check if protein interaction data is uploaded/chosen and if expression data is uploaded.');
             return false;
         }
-        addNetworkExpressionSelection(no_expression_file);
         loader.css({'display': 'block'});
         $.fn.submit_form("RunNormal")
         NVContent.removeClass("non-display")
         return false;
     })
     $('#RunExample').on('click', function (){
-        addNetworkExpressionSelection(no_expression_file);
         loader.css({'display': 'block'});
         $.fn.submit_form("RunExample");
         NVContent.removeClass("non-display")
@@ -357,7 +360,7 @@ function addNetworkExpressionSelection(no_expression_file_){
     NetworkSelection_Expression.innerHTML = '';
     for (let i = 1; i <= no_expression_file_; i++){
         const opt = document.createElement('option');
-        opt.value = i + "_ppin.txt";
+        opt.value = i;
         opt.innerHTML = "Expression file " + i;
         NetworkSelection_Expression.appendChild(opt);
     }

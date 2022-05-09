@@ -9,12 +9,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Retrieve and display subnetwork using protein query and expression data query">
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Add dropdown menu for available proteins">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_webjars_npm_cytoscape_cose_bilkent_4_0_0.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/webjars_npm_cytoscape_cose_bilkent.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/INPUT/BRCA_tumor.normalized_RSEM.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/INPUT/ppi_data.sif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/OUTPUT/1_ppin.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/OUTPUT/protein_list.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/OUTPUT/sample_table.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/BRCA_tumor.normalized_RSEM.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/ppi_data.sif" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ddin.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ppin.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/protein_list.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/sample_table.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Webserver_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Webserver_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,6 +60,10 @@
       <filtered-out-file-type name="TAG" />
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
+  </component>
+  <component name="JsBowerSettings">
+    <bower-package value="" />
+    <bower.json value="" />
   </component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
@@ -70,27 +93,33 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="TEXT" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/USER_INPUT/USER_1" />
+    <property name="javascript.nodejs.core.library.configured.version" value="16.15.0" />
+    <property name="javascript.nodejs.core.library.typings.version" value="16.11.33" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST" />
     <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.standard" value="" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.27931035" />
+    <property name="project.structure.side.proportion" value="0.3632184" />
     <property name="settings.editor.selected.configurable" value="JavaScript.Libraries" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST" />
       <recent name="$PROJECT_DIR$/src/main/resources/USER_INPUT/USER_1" />
       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
       <recent name="$PROJECT_DIR$/src/main/webapp/output" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp/js" />
+      <recent name="$PROJECT_DIR$/src/main/resources/USER_DATA/" />
       <recent name="$PROJECT_DIR$/src/main/resources/USER_DATA" />
       <recent name="$PROJECT_DIR$/src/main/webapp/USER_DATA/USER_1" />
       <recent name="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/AUX_OUTPUT" />
-      <recent name="$PROJECT_DIR$/src/main/resources" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/output/output" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -355,7 +384,10 @@
       <workItem from="1650705920036" duration="3747000" />
       <workItem from="1650873859507" duration="24244000" />
       <workItem from="1650969604060" duration="19007000" />
-      <workItem from="1651653685958" duration="6775000" />
+      <workItem from="1651653685958" duration="22118000" />
+      <workItem from="1651679949924" duration="1327000" />
+      <workItem from="1651750851941" duration="9037000" />
+      <workItem from="1652083475520" duration="3851000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -581,7 +613,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650992506206</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="Add dropdown menu for available proteins">
+      <created>1651663785899</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1651663785899</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -611,7 +650,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Show NetworkSelection options based on number of uploaded expression files" />
     <MESSAGE value="Toggle tab and tab content by jQuery" />
     <MESSAGE value="Refactor reset and scroll buttons" />
     <MESSAGE value="Clean up Display" />
@@ -636,7 +674,8 @@
     <MESSAGE value="Divert download link to fetched data from DownloadServlet" />
     <MESSAGE value="Expand method downloadResultFile to fetchResult for both download and display" />
     <MESSAGE value="Retrieve and display subnetwork using protein query and expression data query" />
-    <option name="LAST_COMMIT_MESSAGE" value="Retrieve and display subnetwork using protein query and expression data query" />
+    <MESSAGE value="Add dropdown menu for available proteins" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add dropdown menu for available proteins" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

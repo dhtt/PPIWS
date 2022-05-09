@@ -40,7 +40,7 @@ public class PPIXpressServlet extends HttpServlet {
      */
     public static void createUserDir(String LocalStoragePath_) throws IOException {
         if (!Files.exists(Paths.get(LocalStoragePath_))){
-            Files.createDirectories(Paths.get(LocalStoragePath_ + "OUTPUT/GRAPH/"));
+            Files.createDirectories(Paths.get(LocalStoragePath_ + "OUTPUT/"));
             Files.createDirectories(Paths.get(LocalStoragePath_ + "INPUT/"));
         }
         else {
@@ -110,7 +110,7 @@ public class PPIXpressServlet extends HttpServlet {
 //         Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
 //         output.zip inside deploy folder (WEBAPP_PATH)
 
-        String USER_ID = "USER_1/"; // Each user has their own ID
+        String USER_ID = "USER_TEST/"; // Each user has their own ID
         String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID; // Define a data local storage on the local server
         createUserDir(LOCAL_STORAGE_PATH); // Create input directory
 

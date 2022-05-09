@@ -59,7 +59,7 @@ public class DownloadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String USER_ID = "USER_1/"; // Each user has their own ID
+        String USER_ID = "USER_TEST/"; // Each user has their own ID
         String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID + "OUTPUT/"; // Define a data local storage on the local server
 
         String OUTPUT_FILENAME = "PPIXPress_Output.zip";
@@ -106,8 +106,9 @@ public class DownloadServlet extends HttpServlet {
             case "graph":
                 String proteinQuery = request.getParameter("proteinQuery");
                 String expressionQuery = request.getParameter("expressionQuery");
+                boolean showDDIs = true;
 
-                JSONArray subNetworkData = filterProtein(LOCAL_STORAGE_PATH, proteinQuery, expressionQuery);
+                JSONArray subNetworkData = filterProtein(LOCAL_STORAGE_PATH, proteinQuery, expressionQuery, showDDIs);
                 out.println(subNetworkData);
                 break;
 
