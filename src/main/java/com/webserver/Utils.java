@@ -1,6 +1,7 @@
 package com.webserver;
 
 import framework.Utilities;
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.unix4j.line.Line;
@@ -8,20 +9,48 @@ import org.unix4j.unix.Grep;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.unix4j.Unix4j.grep;
 import static standalone_tools.PPIXpress_Tomcat.createElement;
 
 
 public class Utils {
-    public static class Protein {
-        String ID;
-        ArrayList<String> Domains;
+    public static JSONObject addEdge(String source_, String target_, String weight_, String class_){
+        JSONObject edge_data = new JSONObject();
+        edge_data.put("source", source_);
+        edge_data.put("target", target_);
+        edge_data.put("isdirected", false);
+        edge_data.put("weight", Float.parseFloat(weight_));
 
-        // okay with many threads since only written once
-        private HashMap<String, String[]> ddis;
-        private HashMap<String, String[]> protein_to_domains;
-        private HashMap<String, String> domain_to_protein;
+        JSONObject edge_output = new JSONObject();
+        edge_output.put("data", edge_data);
+        edge_output.put("position", new JSONObject());
+        edge_output.put("group", "edges");
+        edge_output.put("removed", false);
+        edge_output.put("grabbable", true);
+        edge_output.put("classes", class_);
+
+        return edge_output;
+    }
+
+    public static JSONObject addNode(String id_, String label_, String parent_, String class_){
+        JSONObject node_data = new JSONObject();
+        node_data.put("id", id_);
+        node_data.put("label", label_);
+        node_data.put("parent", parent_);
+
+        JSONObject node_output = new JSONObject();
+        node_output.put("data", node_data);
+        node_output.put("position", new JSONObject());
+        node_output.put("group", "nodes");
+        node_output.put("remove", false);
+        node_output.put("selected", false);
+        node_output.put("locked", false);
+        node_output.put("classes", class_);
+
+        return node_output;
     }
 
     public static JSONArray filterProtein(String LOCAL_STORAGE_PATH, String proteinQuery, String expressionQuery, boolean showDDIs) {
@@ -38,86 +67,49 @@ public class Utils {
             for (Line line : lines) {
                 String[] PPIs = line.getContent().split(" ");
                 partners.addAll(List.of(Arrays.copyOfRange(PPIs, 0, 2)));
-
-                JSONObject edge_data = new JSONObject();
-                edge_data.put("source", PPIs[0]);
-                edge_data.put("target", PPIs[1]);
-                edge_data.put("isdirected", false);
-                edge_data.put("weight", Float.parseFloat(PPIs[2]));
-
-                JSONObject edge_output = new JSONObject();
-                edge_output.put("data", edge_data);
-                edge_output.put("position", new JSONObject());
-                edge_output.put("group", "edges");
-                edge_output.put("removed", false);
-                edge_output.put("grabbable", true);
-                edge_output.put("classes", "");
-
-                output.put(edge_output);
+                JSONObject PPI_Edge = addEdge(PPIs[0], PPIs[1], PPIs[2], "PPI_Edge");
+                output.put(PPI_Edge);
             }
 
             for (String node : partners) {
-                JSONObject node_data = new JSONObject();
-                node_data.put("id", node);
-                node_data.put("label", node);
-
-                JSONObject node_output = new JSONObject();
-                node_output.put("data", node_data);
-                node_output.put("position", new JSONObject());
-                node_output.put("group", "nodes");
-                node_output.put("remove", false);
-                node_output.put("selected", false);
-                node_output.put("locked", false);
-                node_output.put("classes", "");
-
-                output.put(node_output);
+                JSONObject Protein_Node = addNode(node, node, "", "Protein_Node");
+                output.put(Protein_Node);
             }
 
             if (showDDIs){
                 File DDI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ddin.txt");
                 List<Line> DDIs = grep(".*?" + String.join(".*?|.*?", partners) + ".*?", DDI_file).toLineList();
+                ArrayList<String> DomainList = new ArrayList<>();
+
                 for (Line line : DDIs) {
                     String[] PPIs = line.getContent().split(" ");
 
                     if (PPIs[2].equals("pd")) {
                         String parent = PPIs[0];
                         String[] nodeLabels = PPIs[1].split("\\|");
+                        String DDI_ID = nodeLabels[1] + "_" + nodeLabels[2];
 
-                        JSONObject node_data = new JSONObject();
-                        node_data.put("id", nodeLabels[1] + "_" + nodeLabels[2]); //Pfam domain + protein
-                        node_data.put("label", nodeLabels[1]); //Pfam domain
-                        node_data.put("parent", parent);
-
-                        JSONObject node_output = new JSONObject();
-                        node_output.put("data", node_data);
-                        node_output.put("position", new JSONObject());
-                        node_output.put("group", "nodes");
-                        node_output.put("remove", false);
-                        node_output.put("selected", false);
-                        node_output.put("locked", false);
-                        node_output.put("classes", "");
-
-                        output.put(node_output);
+                        if (!DomainList.contains(DDI_ID)){ // Avoid adding duplicated nodes
+                            JSONObject Domain_Node = addNode(DDI_ID, nodeLabels[1], parent, "Domain_Node");
+                            output.put(Domain_Node);
+                            DomainList.add(DDI_ID);
+                        }
                     }
                     else if (PPIs[2].equals("dd")) {
                         String[] nodeLabel1 = PPIs[0].split("\\|");
+                        String DDI_ID1 = nodeLabel1[1] + "_" + nodeLabel1[2];
                         String[] nodeLabel2 = PPIs[1].split("\\|");
+                        String DDI_ID2 = nodeLabel2[1] + "_" + nodeLabel2[2];
 
-                        if (nodeLabel1[2].equals(proteinQuery) | nodeLabel2[2].equals(proteinQuery)){
-                            JSONObject edge_data = new JSONObject();
-                            edge_data.put("source", nodeLabel1[1] + "_" + nodeLabel1[2]); //Pfam domain + protein
-                            edge_data.put("target", nodeLabel2[1] + "_" + nodeLabel2[2]); //Pfam domain + protein
-                            edge_data.put("weight", Float.parseFloat(PPIs[3]));
+                        System.out.println("CURRENT: " + DDI_ID1 + DDI_ID2);
+                        if (!DomainList.contains(DDI_ID1 + DDI_ID2)){ // Avoid adding duplicated edges
+                            String proteinPair = nodeLabel1[2] + "_" + nodeLabel2[2];
 
-                            JSONObject edge_output = new JSONObject();
-                            edge_output.put("data", edge_data);
-                            edge_output.put("position", new JSONObject());
-                            edge_output.put("group", "edges");
-                            edge_output.put("removed", false);
-                            edge_output.put("grabbable", true);
-                            edge_output.put("classes", "");
-
-                            output.put(edge_output);
+                            if (proteinPair.matches("(?i).*" + proteinQuery + ".*" )){
+                                JSONObject DDI_Edge = addEdge(DDI_ID1, DDI_ID2, PPIs[3], "DDI_Edge");
+                                output.put(DDI_Edge);
+                            }
+                            DomainList.add(DDI_ID1 + DDI_ID2);
                         }
                     }
                 }
