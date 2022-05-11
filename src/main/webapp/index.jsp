@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
     <script src="webjars/cytoscape-cose-bilkent/4.0.0/cytoscape-cose-bilkent.js"></script>
     <script type="module" src="js/cytoscape-expand-collapse.js"></script>
@@ -182,7 +183,7 @@
 <%--                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>--%>
 
                 <div id="NVContent" style="display: flex; flex-direction: column; flex: 1 1 auto">
-                    <div id="NVContent_Graph" style="flex: 1 1 auto"></div>
+                    <div id="NVContent_Graph" style="flex: 1 1 auto; z-index: 0"></div>
 
                     <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
                         <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--edgecolor); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
@@ -196,9 +197,35 @@
                             <button type="button" name="Show Subnetwork" id="ShowSubnetworks" value="null" class="button upload">Show</button>
                         </div>
 
+<%--                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">--%>
+<%--                            <label for="NodesNumber" style="font-weight: bold">Number of displayed nodes</label>--%>
+<%--                            <input type="range" id="NodesNumber" value="1.00" min="0" max="1.0" step="0.01" style="width: 80%; margin-top: 0.5em">--%>
+<%--                        </div>--%>
+
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <label for="NodesNumber" style="font-weight: bold">Number of displayed nodes</label>
-                            <input type="range" id="NodesNumber" value="1.00" min="0" max="1.0" step="0.01" style="width: 80%; margin-top: 0.5em">
+                            <label style="font-weight: bold">Customize network display</label>
+                            <select id="ToggleExpandCollapse" style="width: fit-content; background: white; padding: 0 0.5em; margin: 1em; border: 0">
+                                <option value="expandAll">Expand nodes</option>
+                                <option value="collapseAll">Collapse nodes</option>
+                            </select><br>
+
+                            <label style="font-size: small; font-weight: bold">Node color
+                            <label for="ProteinColor" style="font-size: small">Proteins
+                                <input id="ProteinColor" type="text" value="rgb(255, 128, 0)"/>
+                            </label><br>
+                            <label for="pickCollapsedNodeColor">Domains
+                                <input id="pickCollapsedNodeColor" type="text" value="rgb(255, 128, 0)" />
+                            </label><br>
+                            <label for="pickPPIColor">PPI
+                                <input id="pickPPIColor" type="text" value="rgb(255, 128, 0)"/>
+                            </label><br>
+                            <label for="pickDDIColor">DDI
+                                <input id="pickDDIColor" type="text" value="rgb(255, 128, 0)" />
+                            </label><br>
+
+                        <%--                            <select id="ColorTheme" class="button upload" style="margin-top: 0.5em">--%>
+<%--                                <option value="default">Default</option>--%>
+<%--                            </select>--%>
                         </div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
@@ -209,12 +236,7 @@
                             </div>
                         </div>
 
-                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <label for="ColorTheme" style="font-weight: bold">Customize graph color</label>
-                            <select id="ColorTheme" class="button upload" style="margin-top: 0.5em">
-                                <option value="default">Default</option>
-                            </select>
-                        </div>
+
 
                     </div>
                 </div>

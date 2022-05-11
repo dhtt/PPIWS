@@ -1,5 +1,4 @@
 import {makePlot} from './network_maker.js'
-
 // TODO Disable form while task run
 // TODO onbeforeunload
 
@@ -7,6 +6,7 @@ jQuery(document).ready(function() {
     // Test
     addNetworkExpressionSelection(2);
     // fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
+
 
     /**
      * Set options to default
@@ -234,7 +234,11 @@ jQuery(document).ready(function() {
     })
 
 
-    // Actions after finishing PPIXPress
+    /*
+    ===================================================================================================================
+    ============================ Actions after finishing PPIXPress on Running Progress tab ============================
+    ===================================================================================================================
+    */
     /**
      * Create a download link from a blob and delete it after click
      * @param Blob_ a blob
@@ -259,6 +263,7 @@ jQuery(document).ready(function() {
      * @param target Name of downloaded file or HTML element that will carry the resulted text
      * @param downloadable true or false
      */
+    let ProteinNetwork = null;
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
             let blob = new Blob([pureText])
@@ -291,7 +296,7 @@ jQuery(document).ready(function() {
             // Applied for resultFileType of graph, sample_summary
             else
                 if (resultFileType === "graph"){
-                    makePlot(fetchData)
+                    ProteinNetwork = makePlot(fetchData);
                 }
                 else if (resultFileType === "sample_summary"){
                     fetchData
@@ -305,7 +310,6 @@ jQuery(document).ready(function() {
                 }
         }
     }
-
 
     $('#downloadLogFile').on("click", function(){
         const logContent = stripHTML(runningProgressContent)
@@ -341,7 +345,21 @@ jQuery(document).ready(function() {
             alert("Please choose a protein!")
     })
 
-
+    /*
+    ===================================================================================================================
+    ================================= Graph customization on Network Visualization tab ================================
+    ===================================================================================================================
+    */
+    const ToggleExpandCollapse = $('#ToggleExpandCollapse')
+    ToggleExpandCollapse.on('change', function(){
+        if (ProteinNetwork !== null){
+            ProteinNetwork.then(data => {
+                const api = data.expandCollapse('get');
+                ToggleExpandCollapse.val() === "expandAll" ? api.expandAll() : api.collapseAll()
+            })
+        }
+        else alert('Please first select a protein to display the subnetwork. ')
+    })
 })
 
 

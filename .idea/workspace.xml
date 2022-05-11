@@ -9,9 +9,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Add dropdown menu for available proteins">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_webjars_npm_cytoscape_cose_bilkent_4_0_0.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/webjars_npm_cytoscape_cose_bilkent.xml" afterDir="false" />
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Add domain nodes &amp; collapse/expand options">
       <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/INPUT/BRCA_tumor.normalized_RSEM.gz" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/INPUT/ppi_data.sif" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/OUTPUT/1_ppin.txt" afterDir="false" />
@@ -23,14 +21,11 @@
       <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ppin.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/protein_list.txt" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/sample_table.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/Webserver_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/Webserver_war_exploded.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" afterDir="false" />
@@ -387,7 +382,8 @@
       <workItem from="1651653685958" duration="22118000" />
       <workItem from="1651679949924" duration="1327000" />
       <workItem from="1651750851941" duration="9037000" />
-      <workItem from="1652083475520" duration="3851000" />
+      <workItem from="1652083475520" duration="4500000" />
+      <workItem from="1652175044117" duration="16662000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -620,7 +616,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651663785899</updated>
     </task>
-    <option name="localTasksCounter" value="34" />
+    <task id="LOCAL-00034" summary="Add domain nodes &amp; collapse/expand options">
+      <created>1652089058821</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1652089058821</updated>
+    </task>
+    <option name="localTasksCounter" value="35" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -650,7 +653,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Toggle tab and tab content by jQuery" />
     <MESSAGE value="Refactor reset and scroll buttons" />
     <MESSAGE value="Clean up Display" />
     <MESSAGE value="Update resources files" />
@@ -675,7 +677,8 @@
     <MESSAGE value="Expand method downloadResultFile to fetchResult for both download and display" />
     <MESSAGE value="Retrieve and display subnetwork using protein query and expression data query" />
     <MESSAGE value="Add dropdown menu for available proteins" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add dropdown menu for available proteins" />
+    <MESSAGE value="Add domain nodes &amp; collapse/expand options" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add domain nodes &amp; collapse/expand options" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

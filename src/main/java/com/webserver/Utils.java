@@ -59,6 +59,7 @@ public class Utils {
             for (String node : partners) {
                 JSONObject node_data = new JSONObject();
                 node_data.put("id", node);
+                node_data.put("label", node);
 
                 JSONObject node_output = new JSONObject();
                 node_output.put("data", node_data);
@@ -80,10 +81,11 @@ public class Utils {
 
                     if (PPIs[2].equals("pd")) {
                         String parent = PPIs[0];
-                        String node = PPIs[1].split("\\|")[1] + " " + PPIs[1].split("\\|")[0];
+                        String[] nodeLabels = PPIs[1].split("\\|");
 
                         JSONObject node_data = new JSONObject();
-                        node_data.put("id", node);
+                        node_data.put("id", nodeLabels[1] + "_" + nodeLabels[2]); //Pfam domain + protein
+                        node_data.put("label", nodeLabels[1]); //Pfam domain
                         node_data.put("parent", parent);
 
                         JSONObject node_output = new JSONObject();
@@ -98,13 +100,13 @@ public class Utils {
                         output.put(node_output);
                     }
                     else if (PPIs[2].equals("dd")) {
-                        String[] node1 = PPIs[0].split("\\|");
-                        String[] node2 = PPIs[1].split("\\|");
+                        String[] nodeLabel1 = PPIs[0].split("\\|");
+                        String[] nodeLabel2 = PPIs[1].split("\\|");
 
-                        if (node1[2].equals(proteinQuery) | node2[2].equals(proteinQuery)){
+                        if (nodeLabel1[2].equals(proteinQuery) | nodeLabel2[2].equals(proteinQuery)){
                             JSONObject edge_data = new JSONObject();
-                            edge_data.put("source", node1[1] + " " + node1[0]);
-                            edge_data.put("target", node2[1] + " " + node2[0]);
+                            edge_data.put("source", nodeLabel1[1] + "_" + nodeLabel1[2]); //Pfam domain + protein
+                            edge_data.put("target", nodeLabel2[1] + "_" + nodeLabel2[2]); //Pfam domain + protein
                             edge_data.put("weight", Float.parseFloat(PPIs[3]));
 
                             JSONObject edge_output = new JSONObject();

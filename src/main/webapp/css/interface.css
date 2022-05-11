@@ -347,7 +347,7 @@ select, input[type="range"]{
     font-size: smaller;
     border: 0;
 }
-#ShowSubnetworks:hover {
+#ShowSubnetworks:hover, #ShowNetworkOptions:hover {
     color: white;
     background: deeppink;
     box-shadow: var(--shadow);
