@@ -2,6 +2,15 @@ import {makePlot} from './network_maker.js'
 // TODO Disable form while task run
 // TODO onbeforeunload
 
+
+// Define values for button holding CSS style before the document is ready
+const CSS_Style = {};
+$("[name='CSS_Style']").map(function(){
+    const col = window.getComputedStyle(this, null).getPropertyValue("color"); // Get CS value of variable
+    this.value = col // Set value of style to value of CSS variable
+    CSS_Style[this.id] = col; // Return an JSON entry for variable with value as item
+}).get()
+
 jQuery(document).ready(function() {
     // Test
     addNetworkExpressionSelection(2);
@@ -264,6 +273,15 @@ jQuery(document).ready(function() {
      * @param downloadable true or false
      */
     let ProteinNetwork = null;
+    // Default colors for graphs
+    let colorOpts = {
+        'ProteinColor': CSS_Style['--deeppink'],
+        'DomainColor': CSS_Style['--intensemint'],
+        'PPIColor': CSS_Style['--darkdeeppink'],
+        'DDIColor': CSS_Style['--darkintensemint'],
+        'parentNodeBackgroundColor': 'lightgray',
+        'nodeSize': 15,
+    }
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
             let blob = new Blob([pureText])
@@ -296,7 +314,7 @@ jQuery(document).ready(function() {
             // Applied for resultFileType of graph, sample_summary
             else
                 if (resultFileType === "graph"){
-                    ProteinNetwork = makePlot(fetchData);
+                    ProteinNetwork = makePlot(fetchData, colorOpts);
                 }
                 else if (resultFileType === "sample_summary"){
                     fetchData
@@ -348,7 +366,7 @@ jQuery(document).ready(function() {
 
             ProteinNetwork
                 .then(cy => {
-                    cy.unbind("tap"); // unbind event to prevent possible mishaps with firing too many events
+                    cy.unbind("grab"); // unbind event to prevent possible mishaps with firing too many events
                     cy.$('node').bind('grab', function(node) { // bind with .bind() (synonym to .on() but more intuitive
                         var ele = node.target;
                         ele.addClass('Node_active');
@@ -361,6 +379,7 @@ jQuery(document).ready(function() {
                     });
 
 
+                    cy.unbind("tap"); // unbind event to prevent possible mishaps with firing too many events
                     cy.$('node').bind('tap', function(node) { // bind with .bind() (synonym to .on() but more intuitive
                         const api = cy.expandCollapse('get');
                         const ele = node.target;
@@ -394,6 +413,42 @@ jQuery(document).ready(function() {
             alert("Please choose a protein!")
     })
 
+    //Change node color
+    const ProteinColor = $('#ProteinColor')[0]
+    const DomainColor = $('#DomainColor')[0]
+    const PPIColor = $('#PPIColor')[0]
+    const DDIColor = $('#DDIColor')[0]
+    $('#applyGraphStyle').on('click', function(){
+        ProteinNetwork
+            .then(cy => {
+                cy.style()
+                    .selector('node')
+                    .style({
+                        'background-color': ProteinColor.getAttribute('data-current-color'),
+                        'color': ProteinColor.getAttribute('data-current-color')
+                    })
+                    .selector('.Domain_Node')
+                    .style({
+                        'background-color': DomainColor.getAttribute('data-current-color'),
+                        'color': DomainColor.getAttribute('data-current-color')
+                    })
+                    .selector('.PPI_Edge')
+                    .style({
+                        'line-color': PPIColor.getAttribute('data-current-color')
+                    })
+                    .selector('.DDI_Edge')
+                    .style({
+                        'line-color': DDIColor.getAttribute('data-current-color')
+                    })
+                    .selector(':parent')
+                    .style({
+                        'background-color': colorOpts.parentNodeBackgroundColor,
+                    })
+                    .update()
+            })
+    })
+
+
     //TODO ProteinNetwork is currently on this page
     const ToggleExpandCollapse = $('#ToggleExpandCollapse')
     ToggleExpandCollapse.on('change', function(){
@@ -419,7 +474,6 @@ jQuery(document).ready(function() {
     })
 })
 
-
 function stripHTML(HTMLElement){
     return HTMLElement.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
 }
@@ -441,4 +495,6 @@ function addNetworkExpressionSelection(no_expression_file_){
     }
 }
 
-
+function test(){
+    alert("DDA")
+}

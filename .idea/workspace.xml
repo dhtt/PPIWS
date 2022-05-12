@@ -9,12 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Change way to query protein from all partners' interaction">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/cytoscape-style.css" afterDir="false" />
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Add graph animation when grab/tap &amp; expand/collapse selected nodes">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/jscolor.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/jscolor.min.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/BRCA_tumor.normalized_RSEM.gz" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/BRCA_tumor.normalized_RSEM.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" afterDir="false" />
@@ -375,7 +375,7 @@
       <workItem from="1651750851941" duration="9037000" />
       <workItem from="1652083475520" duration="4500000" />
       <workItem from="1652175044117" duration="35781000" />
-      <workItem from="1652347801506" duration="12675000" />
+      <workItem from="1652347801506" duration="28558000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -629,7 +629,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652289911455</updated>
     </task>
-    <option name="localTasksCounter" value="37" />
+    <task id="LOCAL-00037" summary="Add graph animation when grab/tap &amp; expand/collapse selected nodes">
+      <created>1652364354669</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1652364354669</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -659,7 +666,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Update resources files" />
     <MESSAGE value="Add popup window &amp; close button, Make protein network usage (uploaded vs database) exclusive" />
     <MESSAGE value="Reimplement Reset buttons" />
     <MESSAGE value="Network display options to right side &amp; function tuning" />
@@ -684,7 +690,8 @@
     <MESSAGE value="Add domain nodes &amp; collapse/expand options" />
     <MESSAGE value="Remove duplicate domains and DDIs" />
     <MESSAGE value="Change way to query protein from all partners' interaction" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change way to query protein from all partners' interaction" />
+    <MESSAGE value="Add graph animation when grab/tap &amp; expand/collapse selected nodes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add graph animation when grab/tap &amp; expand/collapse selected nodes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

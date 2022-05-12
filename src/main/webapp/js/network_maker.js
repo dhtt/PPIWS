@@ -1,14 +1,22 @@
+/*
+var ProteinColor = "deeppink"
+var PPIColor = "#a4268f"
+var DomainColor = "#68d3aa"
+var DDIColor = "#1f9b71"
+var parentNodeBackgroundColor = "lightgray"
+var nodeSize = 15
 
-export function makePlot(fetchedData){
-    var ProteinColor = "deeppink"
-    var PPIColor = "#a4268f"
-    var DomainColor = "#68d3aa"
-    var DDIColor = "#1f9b71"
-    var parentNodeBackgroundColor = "lightgray"
-    var textColor = "#433C39"
-    var nodeSize = 15
-    var highlighNode = "#e86202"
+let colorOpts = {
+    'ProteinColor': ProteinColor,
+    'PPIColor': PPIColor,
+    'DomainColor': DomainColor,
+    'DDIColor': DDIColor,
+    'parentNodeBackgroundColor': parentNodeBackgroundColor,
+    'nodeSize': nodeSize
+}
+*/
 
+export function makePlot(fetchedData, colorOpts){
     var graph = fetchedData
         .then(res => res.json())
         .then(
@@ -44,16 +52,15 @@ export function makePlot(fetchedData){
                             selector: 'node',
                             style: {
                                 'label': 'data(label)', //Show gene id
-                                'color': PPIColor,
+                                'color': colorOpts.ProteinColor,
                                 'text-valign': 'bottom',
-                                // 'font-family': 'Roboto, Gill Sans',
-                                'background-color': DomainColor,
+                                'background-color': colorOpts.ProteinColor,
                                 'text-margin-y': 5,
                                 'padding': 10,
-                                'line-color': PPIColor,
+                                'line-color': colorOpts.PPIColor,
                                 'line-height': 2,
-                                'height': nodeSize,
-                                'width': nodeSize
+                                'height': colorOpts.nodeSize,
+                                'width': colorOpts.nodeSize
                             }
                         },
                         { // Node properties for both protein ad domain node when dragged
@@ -65,14 +72,15 @@ export function makePlot(fetchedData){
                         { // Node properties for domain node
                             selector: ".Domain_Node",
                             style: {
-                                'color': DDIColor,
+                                'color': colorOpts.DDIColor,
+                                'background-color': colorOpts.DomainColor
                             }
                         },
                         { // Node properties for parents (compound nodes)
                             selector: ':parent',
                             style: {
                                 'background-opacity': 0.4,
-                                'background-color': parentNodeBackgroundColor,
+                                'background-color': colorOpts.parentNodeBackgroundColor,
                                 'text-margin-y': 5,
                                 'border-width': 0,
                                 'shape' : 'round-rectangle',
@@ -81,7 +89,7 @@ export function makePlot(fetchedData){
                         { // Collapsed nodes properties
                             selector: "node.cy-expand-collapse-collapsed-node",
                             style: {
-                                "background-color": ProteinColor,
+                                "background-color": colorOpts.ProteinColor,
                                 "shape": "round-triangle"
                             }
                         },
@@ -92,13 +100,13 @@ export function makePlot(fetchedData){
                                 'curve-style': 'straight',
                                 'width': "mapData(weight, 0, 5, 1, 10)",
                                 'opacity': 0.4,
-                                'line-color': PPIColor
+                                'line-color': colorOpts.PPIColor
                             }
                         },
                         { // Default edge properties for DDI
                             selector: ".DDI_Edge",
                             style: {
-                                'line-color': DDIColor
+                                'line-color': colorOpts.DDIColor
                             }
                         },
                         {  // Edge properties for DDI in expand mode
@@ -132,5 +140,4 @@ export function makePlot(fetchedData){
 }
 
 jQuery(document).ready(function(){
-    const nodeColor = $('#pickNodeColor');
 })

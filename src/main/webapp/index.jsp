@@ -12,10 +12,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
-    <script src="https://unpkg.com/layout-base/layout-base.js"></script>
-    <script src="https://unpkg.com/cose-base/cose-base.js"></script>
     <script src="webjars/cytoscape-cose-bilkent/4.0.0/cytoscape-cose-bilkent.js"></script>
     <script type="module" src="js/cytoscape-expand-collapse.js"></script>
+    <script type="module" src="js/jscolor.js"></script>
     <script type="module" src="js/functionality.js"></script>
     <script type="module" src="js/network_maker.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -189,7 +188,7 @@
                     <div id="NVContent_Graph" style="flex: 1 1 auto; z-index: 0"></div>
 
                     <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
-                        <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--edgecolor); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
+                        <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
@@ -205,6 +204,7 @@
 <%--                            <input type="range" id="NodesNumber" value="1.00" min="0" max="1.0" step="0.01" style="width: 80%; margin-top: 0.5em">--%>
 <%--                        </div>--%>
 
+
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label style="font-weight: bold">Customize network display</label>
                             <select id="ToggleExpandCollapse" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
@@ -212,23 +212,22 @@
                                 <option value="expandAll">Expand nodes</option>
                             </select><br>
 
-                            <label style="font-size: small; font-weight: bold">Node color
-                            <label for="ProteinColor" style="font-size: small">Proteins
-                                <input id="ProteinColor" type="text" value="rgb(255, 128, 0)"/>
-                            </label><br>
-                            <label for="pickCollapsedNodeColor">Domains
-                                <input id="pickCollapsedNodeColor" type="text" value="rgb(255, 128, 0)" />
-                            </label><br>
-                            <label for="pickPPIColor">PPI
-                                <input id="pickPPIColor" type="text" value="rgb(255, 128, 0)"/>
-                            </label><br>
-                            <label for="pickDDIColor">DDI
-                                <input id="pickDDIColor" type="text" value="rgb(255, 128, 0)" />
-                            </label><br>
+                            <div style="display: flex; flex-direction: row; padding: 1em">
+                                <div style="flex-basis: 50%; text-align: right">
+                                    <label style="font-size: smaller">Domains </label>
+                                    <button name="changeGraphStyle" id="DomainColor" data-jscolor="{valueElement: '#--mint'}"></button><br>
+                                    <label style="font-size: smaller">DDI </label>
+                                    <button name="changeGraphStyle" id="DDIColor" data-jscolor="{valueElement: '#--darkintensemint'}"></button><br>
+                                </div>
 
-                        <%--                            <select id="ColorTheme" class="button upload" style="margin-top: 0.5em">--%>
-<%--                                <option value="default">Default</option>--%>
-<%--                            </select>--%>
+                                <div style="flex-basis: 50%; text-align: right">
+                                    <label style="font-size: smaller">Protein </label>
+                                    <button name="changeGraphStyle" id="ProteinColor" data-jscolor="{valueElement: '#--deeppink'}"></button><br>
+                                    <label style="font-size: smaller">PPI </label>
+                                    <button name="changeGraphStyle" id="PPIColor" data-jscolor="{valueElement: '#--darkdeeppink'}"></button><br>
+                                </div>
+                            </div>
+                            <button type="button" name="Apply Graph Style" id="applyGraphStyle" value="null" class="button upload">Apply changes</button>
                         </div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
@@ -239,7 +238,20 @@
                             </div>
                         </div>
 
-
+                        <div style="display: none">
+                            <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
+                            <button name="CSS_Style" id="--darkmint" style="color: var(--darkmint)"></button>
+                            <button name="CSS_Style" id="--choco" style="color: var(--choco)"></button>
+                            <button name="CSS_Style" id="--lightmintgrey" style="color: var(--lightmintgrey)"></button>
+                            <button name="CSS_Style" id="--intensemint" style="color: var(--intensemint)"></button>
+                            <button name="CSS_Style" id="--darkintensemint" style="color: var(--darkintensemint)"></button>
+                            <button name="CSS_Style" id="--ultradarkmint" style="color: var(--ultradarkmint)"></button>
+                            <button name="CSS_Style" id="--deeppink" style="color: var(--deeppink)"></button>
+                            <button name="CSS_Style" id="--darkdeeppink" style="color: var(--darkdeeppink)"></button>
+                            <button name="CSS_Style" id="--shadow" style="color: var(--shadow)"></button>
+                            <button name="CSS_Style" id="--textshadow" style="color: var(--textshadow)"></button>
+                            <button name="CSS_Style" id="--warning" style="color: var(--warning)"></button>
+                        </div>
 
                     </div>
                 </div>
