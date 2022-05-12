@@ -8,9 +8,12 @@
     <title>PPIXpress</title>
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
+    <link rel="stylesheet" href="css/cytoscape-style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
+    <script src="https://unpkg.com/layout-base/layout-base.js"></script>
+    <script src="https://unpkg.com/cose-base/cose-base.js"></script>
     <script src="webjars/cytoscape-cose-bilkent/4.0.0/cytoscape-cose-bilkent.js"></script>
     <script type="module" src="js/cytoscape-expand-collapse.js"></script>
     <script type="module" src="js/functionality.js"></script>
@@ -204,9 +207,9 @@
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label style="font-weight: bold">Customize network display</label>
-                            <select id="ToggleExpandCollapse" style="width: fit-content; background: white; padding: 0 0.5em; margin: 1em; border: 0">
-                                <option value="expandAll">Expand nodes</option>
+                            <select id="ToggleExpandCollapse" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
                                 <option value="collapseAll">Collapse nodes</option>
+                                <option value="expandAll">Expand nodes</option>
                             </select><br>
 
                             <label style="font-size: small; font-weight: bold">Node color

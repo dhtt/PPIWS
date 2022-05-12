@@ -101,7 +101,6 @@ public class Utils {
                         String[] nodeLabel2 = PPIs[1].split("\\|");
                         String DDI_ID2 = nodeLabel2[1] + "_" + nodeLabel2[2];
 
-                        System.out.println("CURRENT: " + DDI_ID1 + DDI_ID2);
                         if (!DomainList.contains(DDI_ID1 + DDI_ID2)){ // Avoid adding duplicated edges
                             String proteinPair = nodeLabel1[2] + "_" + nodeLabel2[2];
 

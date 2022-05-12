@@ -43,6 +43,7 @@
     <orderEntry type="library" name="layout-base" level="application" />
     <orderEntry type="library" name="cose-base" level="application" />
     <orderEntry type="library" name="webjars.npm.cytoscape.cose.bilkent" level="project" />
+    <orderEntry type="library" name="bootstrap-colorpicker" level="application" />
     <orderEntry type="library" name="Maven: org.webjars.npm:cytoscape-cose-bilkent:4.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.unix4j:unix4j-command:0.6" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
@@ -88,6 +89,5 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.8.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.8.2" level="project" />
-    <orderEntry type="library" name="bootstrap-colorpicker" level="application" />
   </component>
 </module>

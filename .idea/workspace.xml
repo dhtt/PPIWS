@@ -9,23 +9,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Add domain nodes &amp; collapse/expand options">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/INPUT/BRCA_tumor.normalized_RSEM.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/INPUT/ppi_data.sif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/OUTPUT/1_ppin.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/OUTPUT/protein_list.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/OUTPUT/sample_table.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/BRCA_tumor.normalized_RSEM.gz" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/ppi_data.sif" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ddin.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ppin.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/protein_list.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/sample_table.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Change way to query protein from all partners' interaction">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/cytoscape-style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/BRCA_tumor.normalized_RSEM.gz" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/BRCA_tumor.normalized_RSEM.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" afterDir="false" />
@@ -41,6 +30,7 @@
         <option value="Jsp File" />
         <option value="Class" />
         <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -91,6 +81,7 @@
     <property name="javascript.nodejs.core.library.configured.version" value="16.15.0" />
     <property name="javascript.nodejs.core.library.typings.version" value="16.11.33" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -383,7 +374,8 @@
       <workItem from="1651679949924" duration="1327000" />
       <workItem from="1651750851941" duration="9037000" />
       <workItem from="1652083475520" duration="4500000" />
-      <workItem from="1652175044117" duration="16662000" />
+      <workItem from="1652175044117" duration="35781000" />
+      <workItem from="1652347801506" duration="12675000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -623,7 +615,21 @@
       <option name="project" value="LOCAL" />
       <updated>1652089058821</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Remove duplicate domains and DDIs">
+      <created>1652270468414</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1652270468414</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Change way to query protein from all partners' interaction">
+      <created>1652289911455</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1652289911455</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -653,8 +659,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Refactor reset and scroll buttons" />
-    <MESSAGE value="Clean up Display" />
     <MESSAGE value="Update resources files" />
     <MESSAGE value="Add popup window &amp; close button, Make protein network usage (uploaded vs database) exclusive" />
     <MESSAGE value="Reimplement Reset buttons" />
@@ -678,7 +682,9 @@
     <MESSAGE value="Retrieve and display subnetwork using protein query and expression data query" />
     <MESSAGE value="Add dropdown menu for available proteins" />
     <MESSAGE value="Add domain nodes &amp; collapse/expand options" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add domain nodes &amp; collapse/expand options" />
+    <MESSAGE value="Remove duplicate domains and DDIs" />
+    <MESSAGE value="Change way to query protein from all partners' interaction" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change way to query protein from all partners' interaction" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

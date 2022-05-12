@@ -333,32 +333,89 @@ jQuery(document).ready(function() {
         $('#NetworkVisualization').trigger("click");
     })
 
-
+    /*
+        ===================================================================================================================
+        ================================= Graph customization on Network Visualization tab ================================
+        ===================================================================================================================
+        */
     //Show Subnetworks
+    let cyOpts = {animationDuration : 10}
     $('#ShowSubnetworks').on("click", function (){
-        if (NetworkSelection_Protein.val() !== "")
-            //TODO: Strip spaces from protein query & Give suggestion
-            //TODO: Refine network display & Add option to center/Download image
-            //TODO: Implement network customization and property display
+        if (NetworkSelection_Protein.val() !== "") {
+            // TODO: Add option to center/Download image
             fetchResult(null, "graph", null, false)
+            ToggleExpandCollapse.val("collapseAll").change()
+
+            ProteinNetwork
+                .then(cy => {
+                    cy.unbind("tap"); // unbind event to prevent possible mishaps with firing too many events
+                    cy.$('node').bind('grab', function(node) { // bind with .bind() (synonym to .on() but more intuitive
+                        var ele = node.target;
+                        ele.addClass('Node_active');
+                        ele.connectedEdges().addClass('Edge_highlight');
+                    });
+                    cy.$('node').bind('free', function(node) { // bind with .bind() (synonym to .on() but more intuitive
+                        var ele = node.target;
+                        ele.removeClass('Node_active');
+                        ele.connectedEdges().removeClass('Edge_highlight')
+                    });
+
+
+                    cy.$('node').bind('tap', function(node) { // bind with .bind() (synonym to .on() but more intuitive
+                        const api = cy.expandCollapse('get');
+                        const ele = node.target;
+
+                        let connectedEdges = ele.connectedEdges()
+                        if (api.isExpandable(ele)) {
+                            api.expand(ele, cyOpts)
+                            for (let i = 0; i < connectedEdges.length; i++){
+                                let child_edge = connectedEdges[i]
+                                if (child_edge.hasClass('DDI_Edge')){
+                                    child_edge.removeClass('DDI_Edge_inactive')
+                                    child_edge.addClass('DDI_Edge_active')
+                                }
+                            }
+                        }
+                        else {
+                            api.collapse(ele, cyOpts)
+                            let connectedEdges = ele.connectedEdges()
+                            for (let i = 0; i < connectedEdges.length; i++){
+                                let child_edge = connectedEdges[i]
+                                if (child_edge.hasClass('DDI_Edge')){
+                                    child_edge.addClass('DDI_Edge_inactive')
+                                    child_edge.removeClass('DDI_Edge_active')
+                                }
+                            }
+                        }
+                    });
+                })
+        }
         else
             alert("Please choose a protein!")
     })
 
-    /*
-    ===================================================================================================================
-    ================================= Graph customization on Network Visualization tab ================================
-    ===================================================================================================================
-    */
+    //TODO ProteinNetwork is currently on this page
     const ToggleExpandCollapse = $('#ToggleExpandCollapse')
     ToggleExpandCollapse.on('change', function(){
         if (ProteinNetwork !== null){
-            ProteinNetwork.then(data => {
-                const api = data.expandCollapse('get');
-                ToggleExpandCollapse.val() === "expandAll" ? api.expandAll() : api.collapseAll()
+            ProteinNetwork
+                .then(cy => {
+                    const api = cy.expandCollapse('get');
+                    if (ToggleExpandCollapse.val() === "expandAll"){
+                        api.expandAll()
+                        cy.$('.PPI_Edge').addClass('PPI_Edge_inactive')
+                        cy.$('.DDI_Edge').addClass('DDI_Edge_active')
+                        cy.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
+                    }
+                    else {
+                        api.collapseAll()
+                        cy.$('.PPI_Edge').removeClass('PPI_Edge_inactive')
+                        cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
+                        cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
+                }
             })
         }
-        else alert('Please first select a protein to display the subnetwork. ')
+        else alert('Please first select a protein to display the subnetwork.')
     })
 })
 
