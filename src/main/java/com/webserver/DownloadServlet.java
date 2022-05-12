@@ -66,7 +66,7 @@ public class DownloadServlet extends HttpServlet {
         String SAMPLE_FILENAME = "sample_table.html";
 
         String resultFileType = request.getParameter("resultFileType");
-        PrintWriter out = response.getWriter();
+        PrintWriter out;
 
         switch (resultFileType) {
             case "output":
@@ -83,20 +83,28 @@ public class DownloadServlet extends HttpServlet {
                 File outputFile = new File(LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
                 response.setContentLength((int) outputFile.length());
 
-                FileInputStream InStream = new FileInputStream(outputFile);
-                BufferedInputStream BufInStream = new BufferedInputStream(InStream);
-                ServletOutputStream ServletOutStream = response.getOutputStream();
-                int readBytes = 0;
+                try {
+                    FileInputStream InStream = new FileInputStream(outputFile);
+                    BufferedInputStream BufInStream = new BufferedInputStream(InStream);
+                    ServletOutputStream ServletOutStream = response.getOutputStream();
+                    int readBytes = 0;
 
-                //read from the file; write to the ServletOutputStream
-                while ((readBytes = BufInStream.read()) != -1) {
-                    ServletOutStream.write(readBytes);
+                    //read from the file; write to the ServletOutputStream
+                    while ((readBytes = BufInStream.read()) != -1) {
+                        ServletOutStream.write(readBytes);
+                    }
                 }
+                catch(Exception e){
+                    System.out.println(e.getMessage());
+                }
+
                 break;
 
             case "sample_summary":
+                out = response.getWriter();
                 File HTMLText = new File(LOCAL_STORAGE_PATH + SAMPLE_FILENAME);
                 Scanner file = new Scanner(HTMLText);
+
                 while (file.hasNext()) {
                     String s = file.nextLine();
                     out.println(s);
@@ -104,6 +112,7 @@ public class DownloadServlet extends HttpServlet {
                 break;
 
             case "graph":
+                out = response.getWriter();
                 String proteinQuery = request.getParameter("proteinQuery");
                 String expressionQuery = request.getParameter("expressionQuery");
                 boolean showDDIs = true;
@@ -113,6 +122,7 @@ public class DownloadServlet extends HttpServlet {
                 break;
 
             case "protein_list":
+                out = response.getWriter();
                 Scanner s = new Scanner(new File(LOCAL_STORAGE_PATH + "protein_list.txt"));
                 ArrayList<String> proteinList = new ArrayList<>();
                 while (s.hasNext()){
