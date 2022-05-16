@@ -115,7 +115,7 @@ public class DownloadServlet extends HttpServlet {
                 out = response.getWriter();
                 String proteinQuery = request.getParameter("proteinQuery");
                 String expressionQuery = request.getParameter("expressionQuery");
-                boolean showDDIs = true;
+                boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
 
                 JSONArray subNetworkData = filterProtein(LOCAL_STORAGE_PATH, proteinQuery, expressionQuery, showDDIs);
                 out.println(subNetworkData);

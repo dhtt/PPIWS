@@ -295,6 +295,7 @@ jQuery(document).ready(function() {
             if (resultFileType === "graph"){
                 downloadData.append("proteinQuery", NetworkSelection_Protein.val())
                 downloadData.append("expressionQuery", NetworkSelection_Expression.val())
+                downloadData.append("showDDIs", showDDIs)
             }
 
             let fetchData = fetch("DownloadServlet",
@@ -357,10 +358,11 @@ jQuery(document).ready(function() {
         ===================================================================================================================
         */
     //Show Subnetworks
-    let cyOpts = {animationDuration : 10}
-    $('#ShowSubnetworks').on("click", function (){
+    let cyOpts = {animationDuration : 10} // Options for graph rendering
+    let WarningMessage = $('#WarningMessage')
+    let DownloadSubnetwork = $('#DownloadSubnetwork')
+    $('#ShowSubnetwork').on("click", function (){
         if (NetworkSelection_Protein.val() !== "") {
-            // TODO: Add option to center/Download image
             fetchResult(null, "graph", null, false)
             ToggleExpandCollapse.val("collapseAll").change()
 
@@ -381,6 +383,12 @@ jQuery(document).ready(function() {
 
                     cy.unbind("tap"); // unbind event to prevent possible mishaps with firing too many events
                     cy.$('node').bind('tap', function(node) { // bind with .bind() (synonym to .on() but more intuitive
+                        if (!showDDIs){
+                            showWarningMessage(WarningMessage,
+                                '⚠️ Protein nodes are not expandable because "Output DDINs" options was not selected.',
+                                3000)
+                        }
+
                         const api = cy.expandCollapse('get');
                         const ele = node.target;
 
@@ -451,22 +459,28 @@ jQuery(document).ready(function() {
 
     //TODO ProteinNetwork is currently on this page
     const ToggleExpandCollapse = $('#ToggleExpandCollapse')
+    ToggleExpandCollapse.on('click', function(){
+        if (!showDDIs){
+            showWarningMessage(WarningMessage,
+                '⚠️ Protein nodes are not expandable because "Output DDINs" options was not selected.',
+                3000)
+        }
+    })
     ToggleExpandCollapse.on('change', function(){
-        if (ProteinNetwork !== null){
-            ProteinNetwork
-                .then(cy => {
-                    const api = cy.expandCollapse('get');
-                    if (ToggleExpandCollapse.val() === "expandAll"){
-                        api.expandAll()
-                        cy.$('.PPI_Edge').addClass('PPI_Edge_inactive')
-                        cy.$('.DDI_Edge').addClass('DDI_Edge_active')
-                        cy.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
-                    }
-                    else {
-                        api.collapseAll()
-                        cy.$('.PPI_Edge').removeClass('PPI_Edge_inactive')
-                        cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
-                        cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
+        ProteinNetwork
+            .then(cy => {
+                const api = cy.expandCollapse('get');
+                if (ToggleExpandCollapse.val() === "expandAll"){
+                    api.expandAll()
+                    cy.$('.PPI_Edge').addClass('PPI_Edge_inactive')
+                    cy.$('.DDI_Edge').addClass('DDI_Edge_active')
+                    cy.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
+                }
+                else {
+                    api.collapseAll()
+                    cy.$('.PPI_Edge').removeClass('PPI_Edge_inactive')
+                    cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
+                    cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
                 }
             })
         }
@@ -474,6 +488,43 @@ jQuery(document).ready(function() {
     })
 })
 
+/***
+ *
+ * @param button_
+ * @param classes_
+ */
+function toggleDisabledButton(button_, classes_){
+    if (button_.prop('disabled')){
+        button_.prop('disabled', false)
+        for (let i = 0; i < classes_.length; i++){
+            button_.addClass(classes_[i])
+        }
+    }
+    else {
+        button_.prop('disabled', true)
+        for (let i = 0; i < classes_.length; i++){
+            button_.removeClass(classes_[i])
+        }
+    }
+}
+/***
+ *
+ * @param WarningMessage_
+ * @param message_
+ * @param timeout_
+ */
+function showWarningMessage(WarningMessage_, message_, timeout_){
+    WarningMessage_.html(message_)
+    WarningMessage_.css({'display': 'block'})
+    setTimeout(function(){
+        WarningMessage_.css({'display': 'none'})
+    }, timeout_)
+}
+/***
+ *
+ * @param HTMLElement
+ * @returns {*}
+ */
 function stripHTML(HTMLElement){
     return HTMLElement.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
 }
