@@ -9,11 +9,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Add graph animation when grab/tap &amp; expand/collapse selected nodes">
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/jscolor.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/jscolor.min.js" afterDir="false" />
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Graph refinement">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/BRCA_tumor.normalized_RSEM.gz" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/BRCA_tumor.normalized_RSEM.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/BRCA_tumor.normalized_RSEM.gz" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/ppi_data.sif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/ppi_data.sif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ddin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ddin.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ppin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ppin.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/protein_list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/protein_list.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/sample_table.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/sample_table.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
@@ -31,6 +35,7 @@
         <option value="Class" />
         <option value="HTML File" />
         <option value="CSS File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -376,6 +381,8 @@
       <workItem from="1652083475520" duration="4500000" />
       <workItem from="1652175044117" duration="35781000" />
       <workItem from="1652347801506" duration="28558000" />
+      <workItem from="1652699412003" duration="12765000" />
+      <workItem from="1652883270828" duration="23360000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -636,7 +643,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652364354669</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="Disable showing DDI in graphs if output DDINs option is false">
+      <created>1652714228260</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1652714228260</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -666,8 +680,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Add popup window &amp; close button, Make protein network usage (uploaded vs database) exclusive" />
-    <MESSAGE value="Reimplement Reset buttons" />
     <MESSAGE value="Network display options to right side &amp; function tuning" />
     <MESSAGE value="Write uploaded files to local files" />
     <MESSAGE value="Add percentile option as alternative to expression level threshold" />
@@ -691,7 +703,21 @@
     <MESSAGE value="Remove duplicate domains and DDIs" />
     <MESSAGE value="Change way to query protein from all partners' interaction" />
     <MESSAGE value="Add graph animation when grab/tap &amp; expand/collapse selected nodes" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add graph animation when grab/tap &amp; expand/collapse selected nodes" />
+    <MESSAGE value="Disable showing DDI in graphs if output DDINs option is false" />
+    <MESSAGE value="Graph refinement" />
+    <option name="LAST_COMMIT_MESSAGE" value="Graph refinement" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/main/webapp/js/functionality.js</url>
+          <line>380</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

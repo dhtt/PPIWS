@@ -293,12 +293,31 @@ select, input[type="range"]{
     font-weight: normal;
     vertical-align: middle;
     position: relative;
-    background: var(--lightmintgrey);
     margin: 0;
     padding: 0;
     border-radius: 0.5em;
     width: 80%
 }
+input[type="range"]{
+    -webkit-appearance: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    background: var(--choco);
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+    cursor: ew-resize;
+    transition: background .3s ease-in-out;
+}
+
+input[type=range]::-webkit-slider-runnable-track  {
+    -webkit-appearance: none;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+}
+
 .disabled{
     color: grey;
 }
@@ -321,20 +340,43 @@ select, input[type="range"]{
     height: 100%;
     position: relative;
 }
+#ToggleExpandCollapse, #changeLayout{
+    width: fit-content;
+    height: 1.5em;
+    background: white;
+    margin: 0.5em 0;
+    padding: 0 0.5em;
+    border: 0;
+    text-align: center;
+}
 
-#ShowSubnetworks, #applyGraphStyle {
+.graph-menu-button{
     margin-top: 0.5em;
     width: fit-content;
     font-size: smaller;
     border: 0;
 }
-#ShowSubnetworks:hover, #ShowNetworkOptions:hover, #applyGraphStyle:hover {
+.graph-menu-button:hover, #ShowNetworkOptions:hover{
     color: white;
     background: deeppink;
     box-shadow: var(--shadow);
     transition: all ease-in-out 0.2s;
 }
-
+#WarningMessage{
+    position: absolute;
+    left: 0;
+    width: 30%;
+    min-width: 200px;
+    text-align: left;
+    font-size: smaller;
+    font-weight: bold;
+    border-radius: 1em;
+    background-color: var(--mint);
+    padding: 1em;
+    margin: 0.5em;
+    opacity: 0.8;
+    transition: all ease-in-out 0.2s;
+}
 #Loader {
     position: fixed;
     width: 30px;
@@ -343,7 +385,7 @@ select, input[type="range"]{
     background-size: 30px;
 }
 
-button[name="changeGraphStyle"] {
+button[name="changeGraphColor"] {
     border-radius: 0.5em;
     border: solid white 1px;
 }

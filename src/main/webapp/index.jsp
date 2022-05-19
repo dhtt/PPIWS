@@ -21,7 +21,20 @@
 </head>
 <body>
 <jsp:include page="html/header.html" />
-
+<div style="display: none">
+    <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
+    <button name="CSS_Style" id="--darkmint" style="color: var(--darkmint)"></button>
+    <button name="CSS_Style" id="--choco" style="color: var(--choco)"></button>
+    <button name="CSS_Style" id="--lightmintgrey" style="color: var(--lightmintgrey)"></button>
+    <button name="CSS_Style" id="--intensemint" style="color: var(--intensemint)"></button>
+    <button name="CSS_Style" id="--darkintensemint" style="color: var(--darkintensemint)"></button>
+    <button name="CSS_Style" id="--ultradarkmint" style="color: var(--ultradarkmint)"></button>
+    <button name="CSS_Style" id="--deeppink" style="color: var(--deeppink)"></button>
+    <button name="CSS_Style" id="--darkdeeppink" style="color: var(--darkdeeppink)"></button>
+    <button name="CSS_Style" id="--shadow" style="color: var(--shadow)"></button>
+    <button name="CSS_Style" id="--textshadow" style="color: var(--textshadow)"></button>
+    <button name="CSS_Style" id="--warning" style="color: var(--warning)"></button>
+</div>
 <div id="AllPanels" class="container-body">
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
@@ -148,9 +161,8 @@
     </div>
 
     <div id="RightPanel" class="middle-under" style="flex: 1; display: flex; flex-flow: column;">
-        <div id="DisplayTabs" class="tabs" style="flex: 0 1 auto">
+        <div id="DisplayTabs" class="tabs" style="flex: 0 1 auto; width: 75%">
             <button type="button" name="DisplayTab" id="RunningProgress" value="RunningProgress" class="header button-tab tab-active" >Running Progress</button>
-<%--            <button type="button" name="DisplayTab" id="ResultSummary" value="ResultSummary" class="header button-tab">Result Summary</button>--%>
             <button type="button" name="DisplayTab" id="NetworkVisualization" value="NetworkVisualization" class="header button-tab">Network Visualization</button>
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto; position: relative">
@@ -196,64 +208,60 @@
                             <datalist id="NetworkSelection_Protein_List"></datalist>
                             <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
                             <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>
-                            <button type="button" name="Show Subnetwork" id="ShowSubnetworks" value="null" class="button upload">Show</button>
+                            <button type="button" name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show</button>
+                            <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
+                        </div>
+
+                        <div class="network-option panel" name="NetworkOptions" id="NetworkOptions" style="text-align: center; border-radius: 1em">
+                            <label style="font-weight: bold">Customize network display</label>
+
+                            <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
+                                <div style="text-align: left; flex: auto">
+                                    <label for="ToggleExpandCollapse" style="font-weight: bold; font-size: smaller">Display mode</label><br>
+                                    <label for="changeLayout" style="font-weight: bold; font-size: smaller">Graph layout</label><br>
+                                    <label for="changeNodeSize" style="font-weight: bold; font-size: smaller">Node size</label>
+                                </div>
+                                <div style="text-align: right; width: min-content">
+                                    <select name="ApplyGraphStyle" id="ToggleExpandCollapse" disabled>
+                                        <option value="collapseAll">Collapse all</option>
+                                        <option value="expandAll">Expand all</option>
+                                    </select><br>
+                                    <select name="ApplyGraphStyle" id="changeLayout" disabled>
+                                        <option value="cose-bilkent">Cose-bilkent</option>
+                                        <option value="circle">Circle</option>
+                                        <option value="cola">Cola</option>
+                                    </select><br>
+                                    <input type="range" name="ApplyGraphStyle" id="changeNodeSize" disabled value="15" min="1" max="50" step="5" style="width: 100%; height: 0.5em"><br>
+                                </div>
+                            </div>
+
+                            <label style="font-weight: bold; font-size: smaller">Customize colors</label>
+                            <div style="display: flex; flex-direction: row; padding: 0 1em 1em 1em">
+                                <div style="flex-basis: 50%; text-align: right">
+                                    <label style="font-size: smaller">Protein </label>
+                                    <button name="changeGraphColor" id="ProteinColor" data-jscolor="{valueElement: '#--deeppink'}"></button><br>
+                                    <label style="font-size: smaller">PPI </label>
+                                    <button name="changeGraphColor" id="PPIColor" data-jscolor="{valueElement: '#--darkdeeppink'}"></button><br>
+                                </div>
+                                <div style="flex-basis: 50%; text-align: right">
+                                    <label style="font-size: smaller">Domains </label>
+                                    <button name="changeGraphColor" id="DomainColor" data-jscolor="{valueElement: '#--mint'}"></button><br>
+                                    <label style="font-size: smaller">DDI </label>
+                                    <button name="changeGraphColor" id="DDIColor" data-jscolor="{valueElement: '#--darkintensemint'}"></button><br>
+                                </div>
+                            </div>
+                            <button type="button" name="ApplyGraphStyle" id="ApplyGraphColor" disabled value="null" class="button graph-menu-button">Apply color changes</button>
                         </div>
 
 <%--                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">--%>
-<%--                            <label for="NodesNumber" style="font-weight: bold">Number of displayed nodes</label>--%>
-<%--                            <input type="range" id="NodesNumber" value="1.00" min="0" max="1.0" step="0.01" style="width: 80%; margin-top: 0.5em">--%>
+<%--                            <label for="NVContentMetricsTable" style="font-weight: bold">Display network properties</label>--%>
+<%--                            <div id="NVContentMetricsTable" class="popup">--%>
+<%--                                <jsp:include page="output/network_table.html"/><br>--%>
+<%--                                <a href="header.html">Download this table</a>--%>
+<%--                            </div>--%>
 <%--                        </div>--%>
-
-
-                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <label style="font-weight: bold">Customize network display</label>
-                            <select id="ToggleExpandCollapse" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
-                                <option value="collapseAll">Collapse nodes</option>
-                                <option value="expandAll">Expand nodes</option>
-                            </select><br>
-
-                            <div style="display: flex; flex-direction: row; padding: 1em">
-                                <div style="flex-basis: 50%; text-align: right">
-                                    <label style="font-size: smaller">Domains </label>
-                                    <button name="changeGraphStyle" id="DomainColor" data-jscolor="{valueElement: '#--mint'}"></button><br>
-                                    <label style="font-size: smaller">DDI </label>
-                                    <button name="changeGraphStyle" id="DDIColor" data-jscolor="{valueElement: '#--darkintensemint'}"></button><br>
-                                </div>
-
-                                <div style="flex-basis: 50%; text-align: right">
-                                    <label style="font-size: smaller">Protein </label>
-                                    <button name="changeGraphStyle" id="ProteinColor" data-jscolor="{valueElement: '#--deeppink'}"></button><br>
-                                    <label style="font-size: smaller">PPI </label>
-                                    <button name="changeGraphStyle" id="PPIColor" data-jscolor="{valueElement: '#--darkdeeppink'}"></button><br>
-                                </div>
-                            </div>
-                            <button type="button" name="Apply Graph Style" id="applyGraphStyle" value="null" class="button upload">Apply changes</button>
-                        </div>
-
-                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <label for="NVContentMetricsTable" style="font-weight: bold">Display network properties</label>
-                            <div id="NVContentMetricsTable" class="popup">
-                                <jsp:include page="output/network_table.html"/><br>
-                                <a href="header.html">Download this table</a>
-                            </div>
-                        </div>
-
-                        <div style="display: none">
-                            <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
-                            <button name="CSS_Style" id="--darkmint" style="color: var(--darkmint)"></button>
-                            <button name="CSS_Style" id="--choco" style="color: var(--choco)"></button>
-                            <button name="CSS_Style" id="--lightmintgrey" style="color: var(--lightmintgrey)"></button>
-                            <button name="CSS_Style" id="--intensemint" style="color: var(--intensemint)"></button>
-                            <button name="CSS_Style" id="--darkintensemint" style="color: var(--darkintensemint)"></button>
-                            <button name="CSS_Style" id="--ultradarkmint" style="color: var(--ultradarkmint)"></button>
-                            <button name="CSS_Style" id="--deeppink" style="color: var(--deeppink)"></button>
-                            <button name="CSS_Style" id="--darkdeeppink" style="color: var(--darkdeeppink)"></button>
-                            <button name="CSS_Style" id="--shadow" style="color: var(--shadow)"></button>
-                            <button name="CSS_Style" id="--textshadow" style="color: var(--textshadow)"></button>
-                            <button name="CSS_Style" id="--warning" style="color: var(--warning)"></button>
-                        </div>
-
                     </div>
+                    <p id="WarningMessage" style="display: none; flex: 1 1 auto"></p>
                 </div>
             </div>
         </div>

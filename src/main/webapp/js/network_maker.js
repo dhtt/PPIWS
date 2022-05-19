@@ -60,7 +60,8 @@ export function makePlot(fetchedData, colorOpts){
                                 'line-color': colorOpts.PPIColor,
                                 'line-height': 2,
                                 'height': colorOpts.nodeSize,
-                                'width': colorOpts.nodeSize
+                                'width': colorOpts.nodeSize,
+                                'opacity': colorOpts.opacity
                             }
                         },
                         { // Node properties for both protein ad domain node when dragged
