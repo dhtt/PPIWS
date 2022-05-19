@@ -56,6 +56,25 @@ public class DownloadServlet extends HttpServlet {
         }
     }
 
+    public static void writeFile(HttpServletResponse response_, String OutputFilePath){
+        File outputFile = new File(OutputFilePath);
+        response_.setContentLength((int) outputFile.length());
+
+        try {
+            FileInputStream InStream = new FileInputStream(outputFile);
+            BufferedInputStream BufInStream = new BufferedInputStream(InStream);
+            ServletOutputStream ServletOutStream = response_.getOutputStream();
+            int readBytes = 0;
+
+            //read from the file; write to the ServletOutputStream
+            while ((readBytes = BufInStream.read()) != -1) {
+                ServletOutStream.write(readBytes);
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,6 +83,7 @@ public class DownloadServlet extends HttpServlet {
 
         String OUTPUT_FILENAME = "PPIXPress_Output.zip";
         String SAMPLE_FILENAME = "sample_table.html";
+        String SUBNETWORK_FILENAME = "subnetwork.png";
 
         String resultFileType = request.getParameter("resultFileType");
         PrintWriter out;
@@ -80,25 +100,35 @@ public class DownloadServlet extends HttpServlet {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                File outputFile = new File(LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
-                response.setContentLength((int) outputFile.length());
 
-                try {
-                    FileInputStream InStream = new FileInputStream(outputFile);
-                    BufferedInputStream BufInStream = new BufferedInputStream(InStream);
-                    ServletOutputStream ServletOutStream = response.getOutputStream();
-                    int readBytes = 0;
-
-                    //read from the file; write to the ServletOutputStream
-                    while ((readBytes = BufInStream.read()) != -1) {
-                        ServletOutStream.write(readBytes);
-                    }
-                }
-                catch(Exception e){
-                    System.out.println(e.getMessage());
-                }
+                writeFile(response, LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
+//                File outputFile = new File(LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
+//                response.setContentLength((int) outputFile.length());
+//
+//                try {
+//                    FileInputStream InStream = new FileInputStream(outputFile);
+//                    BufferedInputStream BufInStream = new BufferedInputStream(InStream);
+//                    ServletOutputStream ServletOutStream = response.getOutputStream();
+//                    int readBytes = 0;
+//
+//                    //read from the file; write to the ServletOutputStream
+//                    while ((readBytes = BufInStream.read()) != -1) {
+//                        ServletOutStream.write(readBytes);
+//                    }
+//                }
+//                catch(Exception e){
+//                    System.out.println(e.getMessage());
+//                }
 
                 break;
+/*
+            case "subnetwork":
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + OUTPUT_FILENAME + "\"");
+                response.setContentType("img/png");
+                response.setHeader("Cache-Control", "max-age=60");
+                response.setHeader("Cache-Control", "must-revalidate");
+                writeFile(response, LOCAL_STORAGE_PATH + SUBNETWORK_FILENAME);
+                break;*/
 
             case "sample_summary":
                 out = response.getWriter();
@@ -115,7 +145,7 @@ public class DownloadServlet extends HttpServlet {
                 out = response.getWriter();
                 String proteinQuery = request.getParameter("proteinQuery");
                 String expressionQuery = request.getParameter("expressionQuery");
-                boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
+                boolean showDDIs = true;
 
                 JSONArray subNetworkData = filterProtein(LOCAL_STORAGE_PATH, proteinQuery, expressionQuery, showDDIs);
                 out.println(subNetworkData);

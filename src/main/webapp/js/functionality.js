@@ -208,8 +208,10 @@ jQuery(document).ready(function() {
     })
 
     // Submit
+    let showDDIs = false
     const NVContent = $('#NVContent');
     $('#RunNormal').on('click', function (){
+        showDDIs = $('#output_DDINs').prop('checked')
 
         // Only submit form if user has chosen a protein network file/taxon for protein network retrieval
         // and at least 1 expression file
@@ -284,7 +286,6 @@ jQuery(document).ready(function() {
         'nodeSize': 15,
         'opacity': 1
     }
-    let showDDIs = $('#output_DDINs').prop('checked')
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
             let blob = new Blob([pureText])
@@ -318,9 +319,15 @@ jQuery(document).ready(function() {
             // Applied for resultFileType of graph, sample_summary
             else
                 if (resultFileType === "graph"){
-                    showWarningMessage(WarningMessage, "Loading subnetworks... Please wait...", null)
+                    showWarningMessage(WarningMessage,
+                        "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
+                        null)
                     ProteinNetwork = makePlot(fetchData, colorOpts);
-                    WarningMessage.css({'display': 'none'})
+                    ProteinNetwork
+                        .then(cy => {
+                            WarningMessage.css({'display': 'none'});
+                            return cy
+                        })
                 }
                 else if (resultFileType === "sample_summary"){
                     fetchData
@@ -334,7 +341,6 @@ jQuery(document).ready(function() {
                 }
         }
     }
-
     $('#downloadLogFile').on("click", function(){
         const logContent = stripHTML(runningProgressContent)
         fetchResult(logContent, "log","PPIXpress_Log.txt", true);
@@ -349,6 +355,15 @@ jQuery(document).ready(function() {
         fetchResult(null,"output", "PPIXPress_Output.zip", true);
     })
 
+    $('#DownloadSubnetwork').on("click", function(){
+        let fileName = NetworkSelection_Protein.val() + "_" + NetworkSelection_Expression.val() + ".png"
+        ProteinNetwork
+            .then(cy => {
+                saveAs(cy.png(), fileName)
+                return cy
+            })
+    })
+
     $('#toNetworkVisualization').on("click", function (){
         $('#NetworkVisualization').trigger("click");
     })
@@ -361,11 +376,18 @@ jQuery(document).ready(function() {
     //Show Subnetworks
     let WarningMessage = $('#WarningMessage')
     let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
+    let cyOpts = {
+        animate: false
+    }
+    let ShowSubnetworkOption = {
+        'expandCollapseOptions': cyOpts,
+        'showDDIs': showDDIs
+    }
     $('#ShowSubnetwork').on("click", function (){
         if (NetworkSelection_Protein.val() !== "") {
             fetchResult(null, "graph", null, false)
             enableButton(ApplyGraphStyle, ['upload'])
-            activateNetwork(ProteinNetwork)
+            activateNetwork(ProteinNetwork, WarningMessage, ShowSubnetworkOption)
             $('#NetworkOptions').find('select').prop('selectedIndex', 0).change()
             changeNodeSize.val(15).change()
         }
@@ -380,15 +402,18 @@ jQuery(document).ready(function() {
     // Change graph layout
     let changeLayout = $('#changeLayout')
     changeLayout.on('change', function(){
-        const newLayout = {
-            name: changeLayout.val(),
-            animate: true,
-            randomize: false,
-            fit: true
-        }
         ProteinNetwork
             .then(cy => {
-                rearrange(cy, newLayout)
+                const newLayout = {
+                    name: changeLayout.val(),
+                    animate: true,
+                    randomize: false,
+                    fit: true
+                }
+                const api = cy.expandCollapse({
+                    layoutBy: newLayout
+                })
+                return cy
             })
     })
 
@@ -442,6 +467,7 @@ jQuery(document).ready(function() {
                         'background-color': colorOpts.parentNodeBackgroundColor,
                     })
                     .update()
+                return cy
             })
     })
 
@@ -458,7 +484,13 @@ jQuery(document).ready(function() {
     ToggleExpandCollapse.on('change', function(){
         ProteinNetwork
             .then(cy => {
-                const api = cy.expandCollapse('get');
+                const newLayout = {
+                    name: changeLayout.val(),
+                    animate: true,
+                    randomize: false,
+                    fit: true
+                }
+                const api = cy.expandCollapse({layoutBy: newLayout});
                 if (ToggleExpandCollapse.val() === "expandAll"){
                     api.expandAll()
                     cy.$('.PPI_Edge').addClass('PPI_Edge_inactive')
@@ -471,6 +503,7 @@ jQuery(document).ready(function() {
                     cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
                     cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
                 }
+                return cy
             })
     })
 })
@@ -528,26 +561,28 @@ function showWarningMessage(WarningMessage_, message_, timeout_){
 }
 
 
-function activateNetwork (graph){
+function activateNetwork (graph, warning, ShowSubnetworkOption){
+    let hasDDI = ShowSubnetworkOption['showDDIs']
+    let options = ShowSubnetworkOption['options']
     graph
         .then(cy => {
             cy.unbind("grab"); // unbind event to prevent possible mishaps with firing too many events
             cy.$('node').bind('grab', function(node) { // bind with .bind() (synonym to .on() but more intuitive
-                var ele = node.target;
+                const ele = node.target;
                 ele.addClass('Node_active');
                 ele.connectedEdges().addClass('Edge_highlight');
             });
 
             cy.$('node').bind('free', function(node) { // bind with .bind() (synonym to .on() but more intuitive
-                var ele = node.target;
+                const ele = node.target;
                 ele.removeClass('Node_active');
                 ele.connectedEdges().removeClass('Edge_highlight')
             });
 
             cy.unbind("tap"); // unbind event to prevent possible mishaps with firing too many events
             cy.$('node').bind('tap', function(node) { // bind with .bind() (synonym to .on() but more intuitive
-                if (!showDDIs){
-                    showWarningMessage(WarningMessage,
+                if (!hasDDI){
+                    showWarningMessage(warning,
                         '⚠️ Protein nodes are not expandable because "Output DDINs" options was not selected.',
                         3000)
                 }
@@ -557,7 +592,7 @@ function activateNetwork (graph){
 
                 let connectedEdges = ele.connectedEdges()
                 if (api.isExpandable(ele)) {
-                    api.expand(ele, cyOpts)
+                    api.expand(ele, options)
                     for (let i = 0; i < connectedEdges.length; i++){
                         let child_edge = connectedEdges[i]
                         if (child_edge.hasClass('DDI_Edge')){
@@ -567,7 +602,7 @@ function activateNetwork (graph){
                     }
                 }
                 else {
-                    api.collapse(ele, cyOpts)
+                    api.collapse(ele, options)
                     let connectedEdges = ele.connectedEdges()
                     for (let i = 0; i < connectedEdges.length; i++){
                         let child_edge = connectedEdges[i]
@@ -578,7 +613,7 @@ function activateNetwork (graph){
                     }
                 }
             })
-
+            return cy
         })
 }
 /***

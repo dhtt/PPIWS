@@ -9,7 +9,7 @@
     --ultradarkmint: #003924;
     --shadow: rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px;
     --textshadow: 1px 1px 4px var(--darkintensemint);
-    --warning: #ff003b;
+    --warning: #ffed25;
     --nodecolor: #2a036b;
     --deeppink: #FF1493;
     --darkdeeppink: #a4268f;
@@ -371,7 +371,7 @@ input[type=range]::-webkit-slider-runnable-track  {
     font-size: smaller;
     font-weight: bold;
     border-radius: 1em;
-    background-color: var(--mint);
+    background-color: var(--warning);
     padding: 1em;
     margin: 0.5em;
     opacity: 0.8;

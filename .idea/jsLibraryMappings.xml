@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{Node.js Core, bootstrap, bootstrap-colorpicker, cose-base, jquery, layout-base}" />
+    <file url="file://$PROJECT_DIR$" libraries="{FileSaver.js, Node.js Core, bootstrap, bootstrap-colorpicker, cose-base, jquery, layout-base}" />
     <file url="PROJECT" libraries="{@types/filesystem, @types/node, cytoscape, jquery}" />
   </component>
 </project>

@@ -17,6 +17,7 @@
     <script type="module" src="js/jscolor.js"></script>
     <script type="module" src="js/functionality.js"></script>
     <script type="module" src="js/network_maker.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"> </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
@@ -229,7 +230,6 @@
                                     <select name="ApplyGraphStyle" id="changeLayout" disabled>
                                         <option value="cose-bilkent">Cose-bilkent</option>
                                         <option value="circle">Circle</option>
-                                        <option value="cola">Cola</option>
                                     </select><br>
                                     <input type="range" name="ApplyGraphStyle" id="changeNodeSize" disabled value="15" min="1" max="50" step="5" style="width: 100%; height: 0.5em"><br>
                                 </div>
