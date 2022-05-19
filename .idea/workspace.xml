@@ -712,8 +712,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/main/webapp/js/functionality.js</url>
-          <line>380</line>
-          <properties lambdaOrdinal="-1" />
+          <line>383</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

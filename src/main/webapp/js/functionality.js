@@ -284,6 +284,7 @@ jQuery(document).ready(function() {
         'nodeSize': 15,
         'opacity': 1
     }
+    let showDDIs = $('#output_DDINs').prop('checked')
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
             let blob = new Blob([pureText])
@@ -372,6 +373,43 @@ jQuery(document).ready(function() {
             alert("Please choose a protein!")
     })
 
+
+    /****************************
+     * **Graph customization ****
+     * **************************/
+    // Change graph layout
+    let changeLayout = $('#changeLayout')
+    changeLayout.on('change', function(){
+        const newLayout = {
+            name: changeLayout.val(),
+            animate: true,
+            randomize: false,
+            fit: true
+        }
+        ProteinNetwork
+            .then(cy => {
+                rearrange(cy, newLayout)
+            })
+    })
+
+
+    // Change nodes size
+    let changeNodeSize = $('#changeNodeSize')
+    changeNodeSize.on('change', function(){
+        let nodeSize = changeNodeSize.val()
+        ProteinNetwork
+            .then(cy => {
+                cy.style()
+                    .selector('node')
+                    .style({
+                        'height':  nodeSize,
+                        'width': nodeSize,
+                    })
+                    .update()
+                return cy
+            })
+    })
+
     //Change nodes color
     const ProteinColor = $('#ProteinColor')[0]
     const DomainColor = $('#DomainColor')[0]
@@ -436,6 +474,22 @@ jQuery(document).ready(function() {
             })
     })
 })
+
+
+
+/***
+ *
+ * @param graph
+ * @param layoutBy
+ */
+function rearrange(graph, layoutBy) {
+    if (layoutBy != null) {
+        let layout = graph.layout(layoutBy);
+        if (layout && layout.run) {
+            layout.run();
+        }
+    }
+}
 
 /***
  *
