@@ -1,21 +1,3 @@
-/*
-var ProteinColor = "deeppink"
-var PPIColor = "#a4268f"
-var DomainColor = "#68d3aa"
-var DDIColor = "#1f9b71"
-var parentNodeBackgroundColor = "lightgray"
-var nodeSize = 15
-
-let colorOpts = {
-    'ProteinColor': ProteinColor,
-    'PPIColor': PPIColor,
-    'DomainColor': DomainColor,
-    'DDIColor': DDIColor,
-    'parentNodeBackgroundColor': parentNodeBackgroundColor,
-    'nodeSize': nodeSize
-}
-*/
-
 export function makePlot(fetchedData, colorOpts){
     var graph = fetchedData
         .then(res => res.json())
