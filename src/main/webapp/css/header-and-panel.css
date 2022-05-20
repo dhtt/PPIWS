@@ -118,3 +118,45 @@ a:hover{
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
+.disabled{
+    color: #9a9999
+}
+.help-panel, .help-panel-sub{
+    line-height: 2.5em;
+    text-align: center;
+    letter-spacing: 0.05em;
+    width: 100%;
+    position: relative;
+}
+.help-panel{
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.help-panel:hover, .help-panel-sub:hover{
+    color: var(--choco);
+    background: rgba(104, 211, 170, 0.5);
+    font-weight: bolder;
+    letter-spacing: 0.1em;
+}
+.help-panel-sub{
+    display: none;
+}
+.help-panel-sub:hover{
+    background: rgba(104, 211, 170, 0.3);
+}
+.help-panel-highlight{
+    background: rgba(104, 211, 170, 0.75);
+}
+.help-section-title{
+    background: rgba(104, 211, 170, 0.5);
+    width: 100%;
+    font-size: small;
+    line-height: 1.5em;
+    text-transform: uppercase;
+}
+.help-section-body{
+    padding: 0 1em;
+}
+.DefaultHelpMenu{
+}

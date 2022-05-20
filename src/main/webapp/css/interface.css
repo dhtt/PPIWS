@@ -1,7 +1,7 @@
 /*TODO set focus for elements*/
 :root{
     --mint: #b4e8c6;
-    --darkmint: #729F82;
+    --darkmint: rgba(114, 159, 130, 0.7);
     --choco: #433C39;
     --lightmintgrey: #EDF2F4;
     --intensemint: #68d3aa;
@@ -13,6 +13,7 @@
     --nodecolor: #2a036b;
     --deeppink: #FF1493;
     --darkdeeppink: #a4268f;
+    --lightblue: #f7fafc;
 }
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -318,9 +319,6 @@ input[type=range]::-webkit-slider-runnable-track  {
     background: transparent;
 }
 
-.disabled{
-    color: grey;
-}
 .highlight{
     color: var(--warning);
 }

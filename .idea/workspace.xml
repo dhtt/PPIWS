@@ -9,20 +9,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Add methods to change layout/node sizes &amp; Refactor">
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Keep layout when toggle display mode">
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/info_page.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/js/help-page-functionality.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/ppi_data.sif" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/ppi_data.sif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ddin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ddin.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ppin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ppin.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/protein_list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/protein_list.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/sample_table.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/sample_table.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ddin.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/examples.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/examples.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/graphCustomizer.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/footer.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/html/header.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/header.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsp/example_form.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/jsp/example_result.jsp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,6 +82,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="TODO_SCOPE" value="All Places" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="TEXT" />
     <property name="javascript.nodejs.core.library.configured.version" value="16.15.0" />
@@ -107,11 +108,11 @@
       <recent name="$PROJECT_DIR$/src/main/webapp/output" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/webapp" />
+      <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
       <recent name="$PROJECT_DIR$/src/main/webapp/js" />
       <recent name="$PROJECT_DIR$/src/main/resources/USER_DATA/" />
       <recent name="$PROJECT_DIR$/src/main/resources/USER_DATA" />
-      <recent name="$PROJECT_DIR$/src/main/webapp/USER_DATA/USER_1" />
-      <recent name="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_1/AUX_OUTPUT" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -151,7 +152,7 @@
     <configuration name="Tomcat 10.0.16" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.0.16" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080/Webserver" />
       <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
-      <option name="UPDATING_POLICY" value="redeploy-artifacts" />
+      <option name="UPDATING_POLICY" value="update-resources" />
       <deployment>
         <artifact name="Webserver:war exploded">
           <settings>
@@ -344,6 +345,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.PPIXpressServlet" />
+      <item itemvalue="Application.Utils" />
+      <item itemvalue="Tomcat Server.Tomcat 10.0.16" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Utils" />
@@ -384,6 +390,7 @@
       <workItem from="1652347801506" duration="28558000" />
       <workItem from="1652699412003" duration="12765000" />
       <workItem from="1652883270828" duration="23360000" />
+      <workItem from="1653038841861" duration="16884000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -658,7 +665,21 @@
       <option name="project" value="LOCAL" />
       <updated>1652976081995</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Keep layout when toggle display mode">
+      <created>1652982863936</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1652982863936</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Keep layout when toggle display mode">
+      <created>1652982927611</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1652982927611</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -688,7 +709,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Write uploaded files to local files" />
     <MESSAGE value="Add percentile option as alternative to expression level threshold" />
     <MESSAGE value="Use PPIXpress_Tomcat from jdaco package instead of Servlet package" />
     <MESSAGE value="Change to storing arguments in list of strings &amp; Accept .gz ending" />
@@ -713,7 +733,8 @@
     <MESSAGE value="Disable showing DDI in graphs if output DDINs option is false" />
     <MESSAGE value="Graph refinement" />
     <MESSAGE value="Add methods to change layout/node sizes &amp; Refactor" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add methods to change layout/node sizes &amp; Refactor" />
+    <MESSAGE value="Keep layout when toggle display mode" />
+    <option name="LAST_COMMIT_MESSAGE" value="Keep layout when toggle display mode" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -721,7 +742,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/main/webapp/js/functionality.js</url>
           <line>383</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

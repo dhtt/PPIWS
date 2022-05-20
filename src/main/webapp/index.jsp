@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="html/header.html" />
+<jsp:include page="header.html" />
 <div style="display: none">
     <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
     <button name="CSS_Style" id="--darkmint" style="color: var(--darkmint)"></button>
@@ -63,7 +63,8 @@
                     </div>
                     <p id="protein_network_file_description" class="description-text">&emsp;</p>
                     <span style="display:flex; width: 280px">
-                        <span class="subsection-text" style="flex:1;">Options</span><span name="Reset" id="ResetPPIOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
+                        <span class="subsection-text" style="flex:1;">Options</span>
+                        <span name="Reset" id="ResetPPIOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
                     </span>
                     <label>
                         <input type="checkbox" name="PPIOptions" id="STRING_weights" value="-w">Add STRING weights
@@ -94,7 +95,8 @@
                     </p>
                     <p id="expression_file_description" class="description-text">&emsp;</p>
                     <span style="display:flex; width: 280px">
-                        <span class="subsection-text" style="flex:1;">Options</span><span name="Reset" id="ResetExpOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
+                        <span class="subsection-text" style="flex:1;">Options</span>
+                        <span name="Reset" id="ResetExpOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
                     </span>
                     <label>
                         <input type="checkbox" name="ExpOptions" id="gene_level_only" value="-g">Gene-level only
@@ -127,7 +129,8 @@
                 <p class="menu header">Run Options</p>
                 <div class="menu panel">
                     <span style="display:flex; width: 280px">
-                        <span class="subsection-text" style="flex:1;">Options</span><span name="Reset" id="ResetRunOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
+                        <span class="subsection-text" style="flex:1;">Options</span>
+                        <span name="Reset" id="ResetRunOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
                     </span>
                     <label>
                         <input type="checkbox" name="RunOptions" id="remove_decay_transcripts" value="-x">Remove decay transcripts
@@ -162,7 +165,7 @@
     </div>
 
     <div id="RightPanel" class="middle-under" style="flex: 1; display: flex; flex-flow: column;">
-        <div id="DisplayTabs" class="tabs" style="flex: 0 1 auto; width: 75%">
+        <div id="DisplayTabs" class="tabs" style="flex: 0 1 auto; width: 50%">
             <button type="button" name="DisplayTab" id="RunningProgress" value="RunningProgress" class="header button-tab tab-active" >Running Progress</button>
             <button type="button" name="DisplayTab" id="NetworkVisualization" value="NetworkVisualization" class="header button-tab">Network Visualization</button>
         </div>
