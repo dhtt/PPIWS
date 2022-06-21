@@ -38,7 +38,7 @@
                     <p name="HelpMenu" id="PPIXpressStandaloneTool" class="help-panel">PPIXpress Standalone Tool</p>
                     <p name="HelpMenu" id="Download" class="help-panel-sub">Download</p>
                     <p name="HelpMenu" id="Documentation" class="help-panel-sub">Documentation</p>
-                    <p name="HelpMenu" id="Contact" class="help-panel-sub">Contact</p>
+                    <p name="HelpMenu" id="Contact" class="help-panel-sub">Citation</p>
                 </div>
                 <div>
                     <p name="HelpMenu" id="Citation" class="help-panel" style="border-radius: 0 0 1em 1em;">Cite PPIXpress</p>
@@ -51,7 +51,7 @@
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
                         <span id="toProteinInteractionData" style="font-weight: bold; text-transform: uppercase">Protein interaction data</span><br>
-                        <span>Text</span>
+                        <span>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br></span>
                     </div>
                     <div class="help-section-body">
                         <span id="toExpressionData" style="font-weight: bold; text-transform: uppercase">Expression data</span><br>

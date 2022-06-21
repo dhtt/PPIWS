@@ -17,7 +17,6 @@ jQuery(document).ready(function() {
     // fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
 
 
-
     /**
      * Set options to default
      */
@@ -413,6 +412,7 @@ jQuery(document).ready(function() {
                 const api = cy.expandCollapse({
                     layoutBy: newLayout
                 })
+                cy.$('node').eq(0).trigger('tap')
                 return cy
             })
     })
@@ -484,6 +484,7 @@ jQuery(document).ready(function() {
     ToggleExpandCollapse.on('change', function(){
         ProteinNetwork
             .then(cy => {
+                // Toggle while keeping current layout
                 const newLayout = {
                     name: changeLayout.val(),
                     animate: true,

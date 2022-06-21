@@ -115,18 +115,19 @@ public class Utils {
             }
         }
 
-        System.out.println(output);
+//        System.out.println(output);
         return output;
     }
 
 
     public static void main(String[] args) throws FileNotFoundException {
-        String USER_ID = "USER_TEST/"; // Each user has their own ID
-        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID + "OUTPUT/"; // Define a data local storage on the local server
-        String expressionQuery = "1";
-        JSONArray output = filterProtein(LOCAL_STORAGE_PATH, "P07900", expressionQuery, true);
-//        String output = getProteinList(LOCAL_STORAGE_PATH);
-        System.out.println(output);
+//        String USER_ID = "USER_TEST/"; // Each user has their own ID
+//        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID + "OUTPUT/"; // Define a data local storage on the local server
+//        String expressionQuery = "1";
+//        JSONArray output = filterProtein(LOCAL_STORAGE_PATH, "P07900", expressionQuery, true);
+////        String output = getProteinList(LOCAL_STORAGE_PATH);
+//        System.out.println(output);
+//        System.out.println();
 //        HashSet<String> proteins = new HashSet<>();
 //        proteins.add("Protein 1");
 //        proteins.add("Protein 2");

@@ -92,18 +92,21 @@
     padding-bottom: 0.5em;
 }
 /*Other*/
-a:link{
+/*a:link, a:visited{*/
+/*}*/
+/*a:hover{*/
+/*}*/
+.href_to_section, .href_to_section:visited{
     text-decoration: none;
     color: var(--darkintensemint);
     font-size: small;
     font-weight: lighter;
 }
-a:hover{
+.href_to_section:hover{
     color: var(--choco);
     font-weight: bold;
     cursor: default;
 }
-
 .popup{
     text-align: center;
     padding: 1em

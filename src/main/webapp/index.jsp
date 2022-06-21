@@ -106,10 +106,12 @@
                     </label><br>
 
                     <span class="subsection-text" style="flex:1;">Expression level
-                    <select id="ExpressionLevelOption" style="width: fit-content; background: white; padding: 0 0.5em; margin: 1em; border: 0">
+                    <label for="ExpressionLevelOption">
+                        <select id="ExpressionLevelOption" style="width: fit-content; background: white; padding: 0 0.5em; margin: 1em; border: 0">
                         <option value="threshold">Use threshold</option>
                         <option value="percentile">Use percentile</option>
                     </select>
+                    </label>
                     </span>
                     <span class="subsection-text" style="flex:1; text-align: center">
                         <label for="threshold">Threshold</label>
@@ -119,8 +121,9 @@
                     </span>
 
 
-                    <label></label>
-                    <input type="checkbox" name="ExpOptions" class="hidden-checkbox" style="display: none" value=null checked>
+                    <label>
+                        <input type="checkbox" name="ExpOptions" class="hidden-checkbox" style="display: none" value=null checked>
+                    </label>
 
                 </div>
             </div>
@@ -147,8 +150,9 @@
                     <label>
                         <input type="checkbox" name="RunOptions" id="report_gene_abundance" value="-mg">Report gene abundance
                     </label><br>
-                    <label>
-                        <input type="checkbox" name="RunOptions" id="compress_output" value="-c">Compress output
+                    <label style="display: none">
+<%--                        Do not allow compression of text files because Utils.filterProtein() only read _ppin.txt--%>
+                        <input type="checkbox" name="RunOptions" id="compress_output" value="-c" style="display: none">Compress output
                     </label><br>
                     <label>
                         <input type="checkbox" name="RunOptions" class="hidden-checkbox" style="display: none" value=null checked>
@@ -209,7 +213,7 @@
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
                             <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
-                            <datalist id="NetworkSelection_Protein_List"></datalist>
+                            <datalist id="NetworkSelection_Protein_List"></datalist><br>
                             <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
                             <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>
                             <button type="button" name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show</button>
