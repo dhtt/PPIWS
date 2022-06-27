@@ -188,8 +188,8 @@ jQuery(document).ready(function() {
 
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
-                            $("form")[0].reset(); // Reset the form fields
-                            $("[name='Reset']").click() // Set default settings for all option panels
+                            // $("form")[0].reset(); // Reset the form fields
+                            // $("[name='Reset']").click() // Set default settings for all option panels
                         }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
@@ -209,6 +209,7 @@ jQuery(document).ready(function() {
     // Submit
     let showDDIs = false
     const NVContent = $('#NVContent');
+    let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
     $('#RunNormal').on('click', function (){
         showDDIs = $('#output_DDINs').prop('checked')
 
@@ -218,9 +219,13 @@ jQuery(document).ready(function() {
             alert('Missing input file(s). Please check if protein interaction data is uploaded/chosen and if expression data is uploaded.');
             return false;
         }
+
+        // Before resubmit, clear existing graphs and graph options
+        $('#NVContent_Graph').html('')
+        disableButton(ApplyGraphStyle, ['upload'])
+
         loader.css({'display': 'block'});
         $.fn.submit_form("RunNormal")
-        NVContent.removeClass("non-display")
         return false;
     })
     $('#RunExample').on('click', function (){
@@ -374,18 +379,18 @@ jQuery(document).ready(function() {
         */
     //Show Subnetworks
     let WarningMessage = $('#WarningMessage')
-    let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
     let cyOpts = {
         animate: false
     }
-    let ShowSubnetworkOption = {
-        'expandCollapseOptions': cyOpts,
-        'showDDIs': showDDIs
-    }
+
     $('#ShowSubnetwork').on("click", function (){
         if (NetworkSelection_Protein.val() !== "") {
             fetchResult(null, "graph", null, false)
             enableButton(ApplyGraphStyle, ['upload'])
+            let ShowSubnetworkOption = {
+                'expandCollapseOptions': cyOpts,
+                'showDDIs': showDDIs
+            }
             activateNetwork(ProteinNetwork, WarningMessage, ShowSubnetworkOption)
             $('#NetworkOptions').find('select').prop('selectedIndex', 0).change()
             changeNodeSize.val(15).change()
