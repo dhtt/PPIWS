@@ -110,6 +110,8 @@ public class PPIXpressServlet extends HttpServlet {
 //         Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
 //         output.zip inside deploy folder (WEBAPP_PATH)
 
+//        HttpSession SS = request.getSession();
+//        System.out.println(SS.getId());
         String USER_ID = "USER_TEST/"; // Each user has their own ID
         String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID; // Define a data local storage on the local server
         createUserDir(LOCAL_STORAGE_PATH); // Create input directory
@@ -170,11 +172,13 @@ public class PPIXpressServlet extends HttpServlet {
             allArgs.add(request.getParameter("percentile"));
             allArgs.removeIf(n -> (n.equals("null")));
             System.out.println("From Servlet " + allArgs);
+            int no_expression_file  = Integer.parseInt(request.getParameter("no_expression_file"));
 
 
 //            Create and execute PPIXpress and update progress periodically to screen
             AtomicBoolean stopSignal = new AtomicBoolean(false);
             AtomicReference<String> runProgress = new AtomicReference<String>("");
+            request.getSession().setAttribute("no_expression_file", no_expression_file);
             request.getSession().setAttribute("LONG_PROCESS_SIGNAL", stopSignal);
             request.getSession().setAttribute("LONG_PROCESS_MESSAGE", runProgress);
 

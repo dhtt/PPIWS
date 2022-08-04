@@ -20,7 +20,8 @@ export function makePlot(fetchedData, colorOpts){
                                 name: "cose-bilkent",
                                 animate: true,
                                 randomize: false,
-                                fit: true
+                                fit: true,
+                                animationDuration: 200,
                             },
                             fisheye: true,
                             animate: true,

@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="header.html" />
+<jsp:include page="header.html"/>
 <div style="display: none">
     <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
     <button name="CSS_Style" id="--darkmint" style="color: var(--darkmint)"></button>
@@ -36,6 +36,23 @@
     <button name="CSS_Style" id="--textshadow" style="color: var(--textshadow)"></button>
     <button name="CSS_Style" id="--warning" style="color: var(--warning)"></button>
 </div>
+
+<div class="disabling_layer" id="disabling_window"></div>
+<div id="already_open_window_popup" class="popup center-pop" style="display: none">
+    <div class="menu header" style="width: 400px; font-size: small; padding: 1em">
+        PPIXpress is already open on another tab!
+    </div>
+    <p class="menu panel shadow" style="text-align: center; width: 400px; font-weight: normal; padding: 1em">
+        <span>Please close this window<br>OR click "Stay here" to continue working on this window<br><br></span>
+        <span style="font-size: smaller; color: #707070">Note: PPIXpress progress in other window will be continued here.
+            <br>If you wish to begin a new analysis, please close all opening PPIXpress windows
+            <br>or continue and click on "Run a new analysis" when the progress is finished.
+            <br><br>
+        </span>
+        <button type="button" id="already_open_window_switch" class="button upload" style="width: fit-content; margin: 0 1em">Stay here</button>
+    </p>
+</div>
+
 <div id="AllPanels" class="container-body">
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
@@ -131,7 +148,7 @@
             <div name="LeftPanel3" id="LeftPanel3">
                 <p class="menu header">Run Options</p>
                 <div class="menu panel">
-                    <span style="display:flex; width: 280px">
+                    <span style="display:flex; width: 280px; margin-top: -1em">
                         <span class="subsection-text" style="flex:1;">Options</span>
                         <span name="Reset" id="ResetRunOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
                     </span>
@@ -153,7 +170,7 @@
                     <label style="display: none">
 <%--                        Do not allow compression of text files because Utils.filterProtein() only read _ppin.txt--%>
                         <input type="checkbox" name="RunOptions" id="compress_output" value="-c" style="display: none">Compress output
-                    </label><br>
+                    </label>
                     <label>
                         <input type="checkbox" name="RunOptions" class="hidden-checkbox" style="display: none" value=null checked>
                     </label>
@@ -183,8 +200,8 @@
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
-<%--                            <button type="button" name="transit" id="toResultSummary" value="null" class="button download">View PPIXPress Results</button><br>--%>
                             <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Condition-Specific Networks</button><br>
+                            <button type="button" name="transit" id="runNewAnalysis" value="null" class="button download">Run a new analysis</button><br>
                         </div>
                     </div>
                     <p name="ScrollToTop" class="reset" style="display: none; text-align: center">Scroll to top</p>
@@ -192,7 +209,7 @@
                 <div id="RightDisplay" class="display-part" style="display: none; text-align: center; padding: 0.5em">
                     <p class="subsection-text" style="margin: 0; font-size: smaller">Number of proteins and interactions<br>in each expression data</p>
                     <div id="SampleSummaryTable"></div><br>
-                    <button type="button" name="transit" id="downloadSampleSummary" value="null" class="button download" style="min-width: fit-content; padding: 0.5em">Download this table</button><br><br>
+                    <button type="button" name="transit" id="downloadSampleSummary" value="null" class="button download" style="min-width: fit-content; padding: 0.5em 1em; height: fit-content">Download this table</button><br><br>
                     <p name="ScrollToTop" class="reset" style="text-align: center">Scroll to top</p>
                 </div>
             </div>
@@ -273,7 +290,7 @@
             </div>
         </div>
     </div>
-</div>
+</div><br>
 <footer>
     Thorsten Will & Volkhard Helms. Chair of Computational Biology
 </footer>

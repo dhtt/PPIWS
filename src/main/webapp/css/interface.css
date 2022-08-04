@@ -2,7 +2,7 @@
 :root{
     --mint: #b4e8c6;
     --darkmint: rgba(114, 159, 130, 0.7);
-    --choco: #433C39;
+    --choco: rgb(67, 60, 57);
     --lightmintgrey: #EDF2F4;
     --intensemint: #68d3aa;
     --darkintensemint: #1f9b71;
@@ -10,6 +10,7 @@
     --shadow: rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px;
     --textshadow: 1px 1px 4px var(--darkintensemint);
     --warning: #ffed25;
+    --warning_close: red;
     --nodecolor: #2a036b;
     --deeppink: #FF1493;
     --darkdeeppink: #a4268f;
@@ -47,6 +48,26 @@ body {
 }
 blockquote, q {
     quotes: none;
+}
+.disabling_layer
+{
+    position: fixed;
+    opacity: 0.7;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    background-color: #222222;
+    display: none;
+    cursor: not-allowed;
+}
+#already_open_window_popup{
+    text-align: center;
+    width: 300px;
+    font-weight: normal;
+    padding: 1em;
+    z-index: 1000
 }
 
 /*Styling table*/
@@ -195,6 +216,7 @@ footer{
     text-align: center;
 }
 .help:hover{
+    cursor: help;
     border-color: var(--mint);
     background-color: var(--mint);
 }
@@ -206,8 +228,9 @@ footer{
     margin-bottom: 0.5em;
 }
 .close:hover{
-    border-color: var(--warning);
-    background-color: var(--warning);
+    cursor: default;
+    border-color: var(--warning_close);
+    background-color: var(--warning_close);
     color: white;
 }
 /*Menu bar skeleton*/
@@ -216,6 +239,9 @@ footer{
     width: 280px;
     padding: inherit;
     margin: 1em 0;
+}
+.menu:hover{
+    cursor: default;
 }
 .outer{
 }
@@ -312,7 +338,7 @@ input[type="range"]::-webkit-slider-thumb {
     transition: background .3s ease-in-out;
 }
 
-input[type=range]::-webkit-slider-runnable-track  {
+input[type="range"]::-webkit-slider-runnable-track  {
     -webkit-appearance: none;
     box-shadow: none;
     border: none;
@@ -326,6 +352,10 @@ input[type=range]::-webkit-slider-runnable-track  {
      box-shadow: var(--shadow);
  }
 
+#RunNormal:disabled{
+    color: white;
+    background: lightgrey;
+}
 #NVContent {
     width: 100%;
     height: 100%;
@@ -360,6 +390,18 @@ input[type=range]::-webkit-slider-runnable-track  {
     box-shadow: var(--shadow);
     transition: all ease-in-out 0.2s;
 }
+#runNewAnalysis{
+    background: var(--darkmint);
+    color:white;
+    opacity: 0.7;
+    transition: all ease-in-out 0.2s;
+}
+#runNewAnalysis:hover{
+    background: var(--intensemint);
+    border: 0;
+    opacity: 1;
+    transition: all ease-in-out 0.2s;
+}
 #WarningMessage{
     position: absolute;
     left: 0;
@@ -388,6 +430,10 @@ button[name="changeGraphColor"] {
     border: solid white 1px;
 }
 
+button[name='Submit']:disabled {
+    color: white;
+    font-size: small;
+}
 /*list styling*/
 ol, ul, li {
     list-style-position: inside;

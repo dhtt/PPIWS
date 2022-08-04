@@ -1,9 +1,47 @@
 import {makePlot} from './network_maker.js'
-// TODO Disable form while task run
-// TODO onbeforeunload
+// TODO warning for protein that are not in the list
+// TODO java.util.concurrent.ScheduledExecutorService
+
+/***
+ * Get session ID
+ * @returns {RegExpMatchArray}
+ */
+function getJSessionId(){
+    var jsId = document.cookie.match(/JSESSIONID=[^;]+/);
+    if(jsId != null) {
+        if (jsId instanceof Array)
+            jsId = jsId[0].substring(11);
+        else
+            jsId = jsId.substring(11);
+    }
+    return jsId;
+}
+let SSID = $("meta[name='csrf-token']").attr("content");
+console.log(SSID)
 
 
-// Define values for button holding CSS style before the document is ready
+/***
+ * alert when new window is open
+ * @type {number}
+ */
+localStorage.openpages = Date.now();
+let already_open_window_popup = $('#already_open_window_popup')
+let disabling_window = $('#disabling_window')
+window.addEventListener('storage', function (e) {
+    if(e.key === "openpages") {
+        // Listen if anybody else is opening the same page!
+        localStorage.page_available = Date.now();
+    }
+    if(e.key === "page_available") {
+        already_open_window_popup.toggle()
+        disabling_window.toggle()
+    }
+}, false);
+
+/***
+ * Define values for button holding CSS style before the document is ready
+ * @type {{}}
+ */
 const CSS_Style = {};
 $("[name='CSS_Style']").map(function(){
     const col = window.getComputedStyle(this, null).getPropertyValue("color"); // Get CS value of variable
@@ -12,9 +50,9 @@ $("[name='CSS_Style']").map(function(){
 }).get()
 
 jQuery(document).ready(function() {
-    // Test
-    addNetworkExpressionSelection(2);
-    // fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
+    // // Test
+    // addNetworkExpressionSelection(2);
+    // // fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
 
 
     /**
@@ -131,6 +169,8 @@ jQuery(document).ready(function() {
         const data = new FormData(form);
         data.get('ExpOptions')
         data.append('submitType', submit_type_);
+        data.append('no_expression_file', no_expression_file);
+        data.append('SSID', SSID);
 
         // If threshold is chosen, do not send percentile value and vice versa
         if ($('#ExpressionLevelOption').val() === "threshold"){
@@ -142,9 +182,6 @@ jQuery(document).ready(function() {
             data.append('percentile', "-tp=" + $('#percentile').val());
         }
 
-        // Reset display message (clear message from the previous run)
-        $("#AfterRunOptions, #RightDisplay").css({'display': 'none'})
-        runningProgressContent.html("")
 
         $.ajax({
             url: "PPIXpress",
@@ -162,6 +199,7 @@ jQuery(document).ready(function() {
         })
     }
 
+
     /**
      * Dynamically print PPIXpress progress run in PPIXpressServlet to RPContent
      * @param resultText Messages from PPIXpressServlet
@@ -170,46 +208,55 @@ jQuery(document).ready(function() {
     let updateLongRunningStatus = function (resultText, updateInterval) {
         const interval = setInterval(function (json) {
             $.ajax({
-                    type: "POST",
-                    url: 'ProgressReporter',
-                    cache: false,
-                    contentType: "application/json",
-                    dataType: "json",
-                    success: function (json) {
-                        allPanel.css({'cursor': 'progress'})
+                type: "POST",
+                url: 'ProgressReporter',
+                cache: false,
+                contentType: "application/json",
+                dataType: "json",
+                success: function (json) {
+                    allPanel.css({'cursor': 'progress'})
+
+                    // When new tab is open but no job is currently running for this user
+                    if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
+                        // Stop updateLongRunningStatus & make allPanel cursor default
+                        clearInterval(interval)
+                        allPanel.css({'cursor': 'default'})
+                        loader.css({'display': 'none'})
+                        Submit.prop('disabled', false)
+                    }
+                    // If job is running on one more or tabs, the main tab (or new tabs)
+                    // will all be updated with the process
+                    else {
                         if (json.UPDATE_LONG_PROCESS_SIGNAL === true) {
+                            // Stop updateLongRunningStatus & return to default setting
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.css({'display': 'none'})
+                            Submit.prop('disabled', false)
+                            $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
+                            $("[name='ScrollToTop']").css({'display': 'block'})
 
+                            no_expression_file = json.NO_EXPRESSION_FILE
                             addNetworkExpressionSelection(no_expression_file);
                             fetchResult(null,"sample_summary", SampleSummaryTable[0], false); // Display the sample summary table
                             fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
-
-                            $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
-                            $("[name='ScrollToTop']").css({'display': 'block'})
-                            // $("form")[0].reset(); // Reset the form fields
-                            // $("[name='Reset']").click() // Set default settings for all option panels
                         }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
                     }
                 }
-            );
+            })
         }, updateInterval);
     }
 
-    /**
-     * Scroll to top of a div
-     * */
-    $("[name='ScrollToTop']").on('click', function(){
-        $(this).parent()[0].scrollTop = 0
-    })
-
-    // Submit
+    /***
+     * Submit form and run analysis
+     * @type {boolean}
+     */
     let showDDIs = false
     const NVContent = $('#NVContent');
     let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
+    let Submit = $("[name='Submit']")
     $('#RunNormal').on('click', function (){
         showDDIs = $('#output_DDINs').prop('checked')
 
@@ -220,10 +267,7 @@ jQuery(document).ready(function() {
             return false;
         }
 
-        // Before resubmit, clear existing graphs and graph options
-        $('#NVContent_Graph').html('')
-        disableButton(ApplyGraphStyle, ['upload'])
-
+        Submit.prop('disabled', true)
         loader.css({'display': 'block'});
         $.fn.submit_form("RunNormal")
         return false;
@@ -235,7 +279,54 @@ jQuery(document).ready(function() {
         return false;
     })
 
-    // Show tab
+
+    /***
+     * Continue running progress when user open a new window
+     */
+    $('#already_open_window_switch').on('click', function(){
+        already_open_window_popup.toggle()
+        disabling_window.toggle()
+
+        //Show current files and settings on the new tab
+        disableButton(ApplyGraphStyle, ['upload'])
+        Submit.prop('disabled', true)
+        loader.css({'display': 'block'});
+
+        //Fetch current process on the new tab
+        updateLongRunningStatus("resultText", 1000)
+    })
+
+
+    /**
+     * Scroll to top of a div
+     * */
+    $("[name='ScrollToTop']").on('click', function(){
+        $(this).parent()[0].scrollTop = 0
+    })
+
+
+    /**
+     * Reset all forms & clear all fields for new analysis
+     */
+    $('#runNewAnalysis').on('click', function (){
+        $("form")[0].reset(); // Reset the form fields
+        $("[name='Reset']").click() // Set default settings for all option panels
+        $("[name='ScrollToTop']").css({'display': 'none'})
+
+        // Reset display message (clear message from the previous run)
+        $("#AfterRunOptions, #RightDisplay").css({'display': 'none'})
+        runningProgressContent.html("")
+
+        // Before resubmit, clear existing graphs and graph options
+        $('#NVContent_Graph').html('')
+        disableButton(ApplyGraphStyle, ['upload'])
+        NetworkSelection_Protein.val('')
+    })
+
+
+    /***
+     * Switch and highlight tabs
+     */
     $("[name='DisplayTab']").on('click', function(){
         const tabName = $(this).val()
         $("[name='Display']").addClass("non-display")
@@ -244,6 +335,7 @@ jQuery(document).ready(function() {
         $("[name='DisplayTab']").removeClass("tab-active")
         $(this).addClass("tab-active")
     })
+
 
     $("#ShowNetworkOptions").on("click", function (){
         $("[name='NetworkOptions']").toggle()
