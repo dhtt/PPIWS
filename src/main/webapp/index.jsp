@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
+<%--TODO: Safari appearance--%>
 <html lang="en">
 <head>
     <title>PPIXpress</title>
@@ -43,10 +43,10 @@
         PPIXpress is already open on another tab!
     </div>
     <p class="menu panel shadow" style="text-align: center; width: 400px; font-weight: normal; padding: 1em">
-        <span>Please close this window<br>OR click "Stay here" to continue working on this window<br><br></span>
+        <span>Please close this window<br>OR click "Stay here" to switch to working on this window<br><br></span>
         <span style="font-size: smaller; color: #707070">Note: PPIXpress progress in other window will be continued here.
             <br>If you wish to begin a new analysis, please close all opening PPIXpress windows
-            <br>or continue and click on "Run a new analysis" when the progress is finished.
+            <br>or continue and click on "Run a new analysis" in the dialog for finished job.
             <br><br>
         </span>
         <button type="button" id="already_open_window_switch" class="button upload" style="width: fit-content; margin: 0 1em">Stay here</button>
@@ -124,7 +124,7 @@
 
                     <span class="subsection-text" style="flex:1;">Expression level
                     <label for="ExpressionLevelOption">
-                        <select id="ExpressionLevelOption" style="width: fit-content; background: white; padding: 0 0.5em; margin: 1em; border: 0">
+                        <select id="ExpressionLevelOption" style="width: fit-content; margin: 0.5em; border: 0">
                         <option value="threshold">Use threshold</option>
                         <option value="percentile">Use percentile</option>
                     </select>
@@ -178,7 +178,7 @@
             </div>
 
             <div name="LeftPanel4" id="LeftPanel4" style="text-align: center">
-                <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit">Run PPIXPress</button>
+                <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPIXPress</button>
                 <button type="submit" name="Submit" id="RunExample" value="null" class="button try">or Try with example data!</button>
 <%--                <button type="button" name="SubmitExample" id="RunExample" value="Run example" class="button try">or Try with example data!</button>--%>
             </div>

@@ -16,4 +16,11 @@ jQuery(document).ready(function() {
         console.log(this.id)
         $('#to' + this.id)[0].scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"})
     })
+
+    /**
+     * Scroll to top of a div
+     * */
+    $("[name='ScrollToTop']").on('click', function(){
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    })
 })

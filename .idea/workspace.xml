@@ -9,19 +9,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Clear graph and options before resubmission &amp; Check showDDIs right before activating network">
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Keep run progress when user open multiple windows">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Webserver.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Webserver.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/ProgressReporter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/ProgressReporter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/1_ppin.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST_/OUTPUT/1_ppin.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/protein_list.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST_/OUTPUT/protein_list.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/OUTPUT/sample_table.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST_/OUTPUT/sample_table.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/META-INF/MANIFEST.MF" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/info_page.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/info_page.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/network_maker.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/help-page-functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/help-page-functionality.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -396,7 +393,8 @@
       <workItem from="1656349961220" duration="1015000" />
       <workItem from="1659428992493" duration="3375000" />
       <workItem from="1659535811786" duration="15005000" />
-      <workItem from="1659603029104" duration="9076000" />
+      <workItem from="1659603029104" duration="13712000" />
+      <workItem from="1659690466365" duration="7713000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -706,7 +704,14 @@
       <option name="project" value="LOCAL" />
       <updated>1656338965842</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="Keep run progress when user open multiple windows">
+      <created>1659616322402</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1659616322402</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -736,7 +741,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Omit static message, move all updated message to PPIXpress_Tomcat (#427c660b5667c0d1957094779e09e0d943af44e4)" />
     <MESSAGE value="Refactor" />
     <MESSAGE value="Fix: active tab did not stay in focus when click elsewhere" />
     <MESSAGE value="Format sample summary table &amp; download functions" />
@@ -761,18 +765,8 @@
     <MESSAGE value="Add help page" />
     <MESSAGE value="Scroll function of help options" />
     <MESSAGE value="Clear graph and options before resubmission &amp; Check showDDIs right before activating network" />
-    <option name="LAST_COMMIT_MESSAGE" value="Clear graph and options before resubmission &amp; Check showDDIs right before activating network" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java</url>
-          <line>127</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Keep run progress when user open multiple windows" />
+    <option name="LAST_COMMIT_MESSAGE" value="Keep run progress when user open multiple windows" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

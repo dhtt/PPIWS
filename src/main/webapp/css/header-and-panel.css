@@ -17,7 +17,7 @@
     color: white;
     text-align: center;
     font-weight: lighter;
-    font-size: xxx-large;
+    font-size: -webkit-xxx-large;
     text-shadow: 0 0.1em 0.15em rgba(0, 0, 0, 0.4);
     border: none;
 }
@@ -39,7 +39,7 @@
     min-width: 80vh;
 }
 .middle-under{
-    margin: 0 0.5em 0 1em;
+    margin: 0 0.5em 0 310px;
     min-height: calc(100vh - 6em);
 }
 
@@ -67,6 +67,7 @@
 }
 .button-tab:hover {
     background-color: #b4e8c6;
+    color: var(--choco);
 }
 .button-tab:focus, .tab-active {
     color: #EDF2F4;

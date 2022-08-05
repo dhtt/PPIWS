@@ -1,24 +1,4 @@
 import {makePlot} from './network_maker.js'
-// TODO warning for protein that are not in the list
-// TODO java.util.concurrent.ScheduledExecutorService
-
-/***
- * Get session ID
- * @returns {RegExpMatchArray}
- */
-function getJSessionId(){
-    var jsId = document.cookie.match(/JSESSIONID=[^;]+/);
-    if(jsId != null) {
-        if (jsId instanceof Array)
-            jsId = jsId[0].substring(11);
-        else
-            jsId = jsId.substring(11);
-    }
-    return jsId;
-}
-let SSID = $("meta[name='csrf-token']").attr("content");
-console.log(SSID)
-
 
 /***
  * alert when new window is open
@@ -170,7 +150,6 @@ jQuery(document).ready(function() {
         data.get('ExpOptions')
         data.append('submitType', submit_type_);
         data.append('no_expression_file', no_expression_file);
-        data.append('SSID', SSID);
 
         // If threshold is chosen, do not send percentile value and vice versa
         if ($('#ExpressionLevelOption').val() === "threshold"){

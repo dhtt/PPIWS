@@ -78,12 +78,11 @@ public class DownloadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String USER_ID = "USER_TEST/"; // Each user has their own ID
-        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID + "OUTPUT/"; // Define a data local storage on the local server
+        String USER_ID = "USER_" + request.getSession().getId(); // Each user has their own ID
+        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID + "/OUTPUT/"; // Define a data local storage on the local server
 
         String OUTPUT_FILENAME = "PPIXPress_Output.zip";
         String SAMPLE_FILENAME = "sample_table.html";
-        String SUBNETWORK_FILENAME = "subnetwork.png";
 
         String resultFileType = request.getParameter("resultFileType");
         PrintWriter out;
@@ -102,33 +101,7 @@ public class DownloadServlet extends HttpServlet {
                 }
 
                 writeFile(response, LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
-//                File outputFile = new File(LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
-//                response.setContentLength((int) outputFile.length());
-//
-//                try {
-//                    FileInputStream InStream = new FileInputStream(outputFile);
-//                    BufferedInputStream BufInStream = new BufferedInputStream(InStream);
-//                    ServletOutputStream ServletOutStream = response.getOutputStream();
-//                    int readBytes = 0;
-//
-//                    //read from the file; write to the ServletOutputStream
-//                    while ((readBytes = BufInStream.read()) != -1) {
-//                        ServletOutStream.write(readBytes);
-//                    }
-//                }
-//                catch(Exception e){
-//                    System.out.println(e.getMessage());
-//                }
-
                 break;
-/*
-            case "subnetwork":
-                response.setHeader("Content-Disposition", "attachment; filename=\"" + OUTPUT_FILENAME + "\"");
-                response.setContentType("img/png");
-                response.setHeader("Cache-Control", "max-age=60");
-                response.setHeader("Cache-Control", "must-revalidate");
-                writeFile(response, LOCAL_STORAGE_PATH + SUBNETWORK_FILENAME);
-                break;*/
 
             case "sample_summary":
                 out = response.getWriter();

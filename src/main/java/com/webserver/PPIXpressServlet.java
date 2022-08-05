@@ -102,18 +102,12 @@ public class PPIXpressServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //        Main pipeline
-//        TODO: Create random number for each user to replace USER_1 then
-//        make DIR for LOCAL_STORAGE_PATH/USER_1/INPUT/, LOCAL_STORAGE_PATH/USER_1/OUTPUT/,
-//        LOCAL_STORAGE_PATH/USER_1/OUTPUT/GRAPH, WEBAPP_PATH/USER_1
-
 
 //         Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
 //         output.zip inside deploy folder (WEBAPP_PATH)
-
-//        HttpSession SS = request.getSession();
-//        System.out.println(SS.getId());
-        String USER_ID = "USER_TEST/"; // Each user has their own ID
-        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID; // Define a data local storage on the local server
+        //TODO log file of session ID - user ID - run option - run status
+        String USER_ID = "USER_" + request.getSession().getId(); // Each user has their own ID
+        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID + "/"; // Define a data local storage on the local server
         createUserDir(LOCAL_STORAGE_PATH); // Create input directory
 
         String INPUT_PATH = LOCAL_STORAGE_PATH + "INPUT/";
