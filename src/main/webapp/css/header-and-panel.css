@@ -28,7 +28,7 @@
     text-align: right;
     margin: 1em 1em 0 0;
 }
-.middle, .middle-under {
+.middle, .middle-under, .middle-under-info-page {
     background-color: white;
     color: var(--choco);
     font-size: large;
@@ -38,11 +38,13 @@
     height: 3em;
     min-width: 80vh;
 }
-.middle-under{
-    margin: 0 0.5em 0 310px;
+.middle-under, .middle-under-info-page{
+    margin: 0 0.5em 0 1em;
     min-height: calc(100vh - 6em);
 }
-
+.middle-under-info-page{
+    margin: 0 0.5em 0 310px;
+}
 /*Display section*/
 .display{
     background-color: #f7fafc;
@@ -101,7 +103,6 @@
     text-decoration: none;
     color: var(--darkintensemint);
     font-size: small;
-    font-weight: lighter;
 }
 .href_to_section:hover{
     color: var(--choco);
@@ -126,6 +127,8 @@
 .disabled{
     color: #9a9999
 }
+
+/*Info page style*/
 .help-panel, .help-panel-sub{
     line-height: 2.5em;
     text-align: center;
@@ -163,4 +166,44 @@
     padding: 0 1em;
 }
 .DefaultHelpMenu{
+}
+
+.level-1-heading, .level-2-heading, .level-3-heading{
+    font-weight: bold;
+    line-height: 2em;
+}
+.level-1-heading{
+    font-size: larger;
+    text-transform: uppercase;
+    color: var(--darkintensemint);
+}
+.level-3-heading{
+    line-height: 1em;
+    font-style: italic;
+}
+.table-2{
+    margin: 1em auto;
+    border-radius: 0.5em;
+    border-collapse: collapse;
+    width: fit-content;
+    table-layout: auto;
+    box-shadow: none;
+    font-size: medium;
+}
+table.table-2#Table-Cufflinks, table.table-2#Table-GTF{
+    font-size: smaller;
+}
+table.table-2[name="TableExampleRunSetting"]{
+    line-height: 0;
+    min-width: 250px;
+}
+table.table-2 td{
+    background: white;
+}
+table.table-2 td:first-child, table.table-2 th:first-child,
+table.table-2 td:first-child, table.table-2 th:first-child,
+table.table-2 td:nth-child(2), table.table-2 th:nth-child(2),
+table.table-2 td:last-child, table.table-2 th:last-child{
+    width: fit-content;
+    padding: 0.5em 1em;
 }

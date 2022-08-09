@@ -134,7 +134,7 @@
                         <label for="threshold">Threshold</label>
                         <input type="number" id="threshold" value="1.00" min="0" max="1.0" step="0.01">
                         <label for="percentile" style="display: none">Percentile</label>
-                        <input type="number" id="percentile" value="0.00" min="0" max="1.0" step="0.01" style="display: none">
+                        <input type="number" id="percentile" value="0.00" min="0" max="100.0" step="1" style="display: none">
                     </span>
 
 

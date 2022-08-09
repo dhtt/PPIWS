@@ -9,16 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Keep run progress when user open multiple windows">
+    <list default="true" id="f4b8f25b-5b1a-4fa9-92f5-1aa2670ada93" name="Changes" comment="Assign job location for each user &amp; Minor fixes">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/BRCA_tumor.normalized_RSEM.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/brain.fpkm_tracking.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/human_ppin.sif.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT/mouse_brain.gtf.gz" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/css/info_page.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/html/instruction.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/DownloadServlet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/webserver/PPIXpressServlet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/header-and-panel.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/css/interface.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/css/interface.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/index.jsp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/webapp/info_page.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/info_page.jsp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/functionality.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/webapp/js/help-page-functionality.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/js/help-page-functionality.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,9 +32,9 @@
       <list>
         <option value="Jsp File" />
         <option value="Class" />
+        <option value="JavaScript File" />
         <option value="HTML File" />
         <option value="CSS File" />
-        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -83,7 +85,7 @@
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="TEXT" />
     <property name="javascript.nodejs.core.library.configured.version" value="16.15.0" />
     <property name="javascript.nodejs.core.library.typings.version" value="16.11.33" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
@@ -98,6 +100,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST/INPUT" />
       <recent name="$PROJECT_DIR$/src/main/resources/USER_DATA/USER_TEST" />
       <recent name="$PROJECT_DIR$/src/main/resources/USER_INPUT/USER_1" />
       <recent name="$PROJECT_DIR$/src/main/webapp/WEB-INF" />
@@ -394,7 +397,9 @@
       <workItem from="1659428992493" duration="3375000" />
       <workItem from="1659535811786" duration="15005000" />
       <workItem from="1659603029104" duration="13712000" />
-      <workItem from="1659690466365" duration="7713000" />
+      <workItem from="1659690466365" duration="15224000" />
+      <workItem from="1659949650057" duration="13331000" />
+      <workItem from="1660031599130" duration="909000" />
     </task>
     <task id="LOCAL-00001" summary="Show NetworkSelection options based on number of uploaded expression files">
       <created>1649093228602</created>
@@ -711,7 +716,14 @@
       <option name="project" value="LOCAL" />
       <updated>1659616322402</updated>
     </task>
-    <option name="localTasksCounter" value="46" />
+    <task id="LOCAL-00046" summary="Assign job location for each userdhtt &amp; Minor fixes">
+      <created>1659704390830</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1659704390830</updated>
+    </task>
+    <option name="localTasksCounter" value="47" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -741,7 +753,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Refactor" />
     <MESSAGE value="Fix: active tab did not stay in focus when click elsewhere" />
     <MESSAGE value="Format sample summary table &amp; download functions" />
     <MESSAGE value="Set protein_network_file/protein_network_web to empty string instead of null when other option is chosen" />
@@ -766,7 +777,8 @@
     <MESSAGE value="Scroll function of help options" />
     <MESSAGE value="Clear graph and options before resubmission &amp; Check showDDIs right before activating network" />
     <MESSAGE value="Keep run progress when user open multiple windows" />
-    <option name="LAST_COMMIT_MESSAGE" value="Keep run progress when user open multiple windows" />
+    <MESSAGE value="Assign job location for each user &amp; Minor fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="Assign job location for each user &amp; Minor fixes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
