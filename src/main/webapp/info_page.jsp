@@ -51,10 +51,10 @@
             <div id="toInstruction">
                 <p class="menu header help-section-title">Instruction</p>
                 <div class="menu panel" style="width: 100%">
-                    <span>Generally, transcripts or genes in all files (with the exception of the TCGA for- mats) are assumed to be given as Ensembl identifiers, proteins are assumed to be UniProt accessions or HGNC/Ensembl genes in the input network. Further- more, compressed files should have the ending .gz.</span>
-                    <br>
                     <div class="help-section-body">
                         <span id="toProteinInteractionData" class="level-1-heading">Protein interaction data</span><br>
+                        <span>Generally, transcripts or genes in all files (with the exception of the TCGA formats) are assumed to be given as Ensembl identifiers, proteins are assumed to be UniProt accessions or HGNC/Ensembl genes in the input network. Furthermore, compressed files should have the ending .gz.</span>
+                        <br><br>
                         <ul>
                             <li>
                                 <span class="level-2-heading">From file<br></span>
