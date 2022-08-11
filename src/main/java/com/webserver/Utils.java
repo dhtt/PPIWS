@@ -1,7 +1,5 @@
 package com.webserver;
 
-import framework.Utilities;
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.unix4j.line.Line;
@@ -9,11 +7,8 @@ import org.unix4j.unix.Grep;
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static org.unix4j.Unix4j.grep;
-import static standalone_tools.PPIXpress_Tomcat.createElement;
 
 
 public class Utils {

@@ -62,13 +62,14 @@ public class DownloadServlet extends HttpServlet {
 
         try {
             FileInputStream InStream = new FileInputStream(outputFile);
-            BufferedInputStream BufInStream = new BufferedInputStream(InStream);
-            ServletOutputStream ServletOutStream = response_.getOutputStream();
-            int readBytes = 0;
+            try (BufferedInputStream BufInStream = new BufferedInputStream(InStream)) {
+                ServletOutputStream ServletOutStream = response_.getOutputStream();
+                int readBytes = 0;
 
-            //read from the file; write to the ServletOutputStream
-            while ((readBytes = BufInStream.read()) != -1) {
-                ServletOutStream.write(readBytes);
+                //read from the file; write to the ServletOutputStream
+                while ((readBytes = BufInStream.read()) != -1) {
+                    ServletOutStream.write(readBytes);
+                }
             }
         }
         catch(Exception e){
@@ -78,8 +79,8 @@ public class DownloadServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String USER_ID = "USER_" + request.getSession().getId(); // Each user has their own ID
-        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID + "/OUTPUT/"; // Define a data local storage on the local server
+        String USER_ID = request.getSession().getId(); // Each user has their own ID
+        String LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/OUTPUT/"; // Define a data local storage on the local server
 
         String OUTPUT_FILENAME = "PPIXPress_Output.zip";
         String SAMPLE_FILENAME = "sample_table.html";

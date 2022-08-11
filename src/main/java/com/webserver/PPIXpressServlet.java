@@ -106,8 +106,8 @@ public class PPIXpressServlet extends HttpServlet {
 //         Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
 //         output.zip inside deploy folder (WEBAPP_PATH)
         //TODO log file of session ID - user ID - run option - run status
-        String USER_ID = "USER_" + request.getSession().getId(); // Each user has their own ID
-        String LOCAL_STORAGE_PATH = "/Users/trangdo/IdeaProjects/Webserver/src/main/resources/USER_DATA/" + USER_ID + "/"; // Define a data local storage on the local server
+        String USER_ID = request.getSession().getId(); // Each user has their own ID
+        String LOCAL_STORAGE_PATH =  "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/"; // Define a data local storage on the local server
         createUserDir(LOCAL_STORAGE_PATH); // Create input directory
 
         String INPUT_PATH = LOCAL_STORAGE_PATH + "INPUT/";
