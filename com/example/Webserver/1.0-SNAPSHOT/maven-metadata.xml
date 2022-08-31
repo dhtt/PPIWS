@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata modelVersion="1.1.0">
+  <groupId>com.example</groupId>
+  <artifactId>Webserver</artifactId>
+  <versioning>
+    <lastUpdated>20220830125850</lastUpdated>
+    <snapshot>
+      <timestamp>20220830.125850</timestamp>
+      <buildNumber>3</buildNumber>
+    </snapshot>
+    <snapshotVersions>
+      <snapshotVersion>
+        <extension>war</extension>
+        <value>1.0-20220830.125850-3</value>
+        <updated>20220830125850</updated>
+      </snapshotVersion>
+      <snapshotVersion>
+        <extension>pom</extension>
+        <value>1.0-20220830.125850-3</value>
+        <updated>20220830125850</updated>
+      </snapshotVersion>
+    </snapshotVersions>
+  </versioning>
+  <version>1.0-SNAPSHOT</version>
+</metadata>

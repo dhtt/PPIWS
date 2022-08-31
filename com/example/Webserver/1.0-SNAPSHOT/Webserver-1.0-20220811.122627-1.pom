@@ -16,13 +16,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <junit.version>5.8.2</junit.version>
     </properties>
-    
+
     <dependencies>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-jasper</artifactId>
-            <version>10.0.23</version>
-        </dependency>
         <dependency>
             <groupId>org.glassfish.web</groupId>
             <artifactId>jakarta.servlet.jsp.jstl</artifactId>
@@ -68,7 +63,7 @@
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <version>5.0.0</version>
-            <scope>provided</scope>
+            <!-- <scope>provided</scope> -->
         </dependency>
         <dependency>
             <groupId>jakarta.servlet.jsp</groupId>
@@ -101,10 +96,6 @@
             <name>PPIXpress Repo</name>
             <url>file:///home/trang/PPIWS</url>
         </repository>
-        <!-- <site>
-            <id>PPIXpress</id>
-            <url>https://service.bioinformatik.uni-saarland.de/PPIXpress</url>
-        </site> -->
     </distributionManagement>
 
     <build>
@@ -140,21 +131,4 @@
             </plugin>
         </plugins>
     </build>
-
-
-    <dependencyManagement>
-    
-
-        <dependencies>
-        
-
-            <dependency>
-                <groupId>com.sun.activation</groupId>
-                <artifactId>jakarta.activation</artifactId>
-                <version>2.0.0</version>
-            </dependency>
-
-        </dependencies>
-
-    </dependencyManagement>
 </project>
