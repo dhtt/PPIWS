@@ -24,3 +24,6 @@ hs_err_pid*
 
 repository/
 target/
+.idea/*
+.vscode/*
+com/example/Webserver/*

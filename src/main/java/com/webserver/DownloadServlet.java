@@ -24,10 +24,11 @@ import static standalone_tools.PPIXpress_Tomcat.createElement;
 public class DownloadServlet extends HttpServlet {
     /**
      * Zip output files in the result folder
+     * 
      * @param sourceDirPath_ path to folder to be zipped
-     * @param zipPath_ path to zipped folder
+     * @param zipPath_       path to zipped folder
      * @throws IOException
-     * Source: https://stackoverflow.com/a/68439125/9798960
+     *                     Source: https://stackoverflow.com/a/68439125/9798960
      */
     public static void zip(String sourceDirPath_, String zipPath_) throws IOException {
         Files.deleteIfExists(Paths.get(zipPath_));
@@ -36,12 +37,11 @@ public class DownloadServlet extends HttpServlet {
         Path sourceDirPath = Paths.get(sourceDirPath_);
         try (
                 ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
-                Stream<Path> paths = Files.walk(sourceDirPath)
-        ) {
+                Stream<Path> paths = Files.walk(sourceDirPath)) {
             paths
                     .filter(path -> !Files.isDirectory(path))
                     .forEach(path -> {
-                        if (path.toString().endsWith(".gz") || path.toString().endsWith(".txt")){
+                        if (path.toString().endsWith(".gz") || path.toString().endsWith(".txt")) {
                             ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
                             try {
                                 zipOutputStream.putNextEntry(zipEntry);
@@ -56,7 +56,7 @@ public class DownloadServlet extends HttpServlet {
         }
     }
 
-    public static void writeFile(HttpServletResponse response_, String OutputFilePath){
+    public static void writeFile(HttpServletResponse response_, String OutputFilePath) {
         File outputFile = new File(OutputFilePath);
         response_.setContentLength((int) outputFile.length());
 
@@ -66,21 +66,33 @@ public class DownloadServlet extends HttpServlet {
                 ServletOutputStream ServletOutStream = response_.getOutputStream();
                 int readBytes = 0;
 
-                //read from the file; write to the ServletOutputStream
+                // read from the file; write to the ServletOutputStream
                 while ((readBytes = BufInStream.read()) != -1) {
                     ServletOutStream.write(readBytes);
                 }
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println(e.getMessage());
         }
     }
 
+    private ServletContext context;
+
+    /**
+     * Initilize ServletContext log to localhost log files
+     */
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        context = getServletContext();
+    }
+
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         String USER_ID = request.getSession().getId(); // Each user has their own ID
-        String LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/OUTPUT/"; // Define a data local storage on the local server
+        String LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/OUTPUT/"; // Define a data
+                                                                                                    // local storage on
+                                                                                                    // the local server
 
         String OUTPUT_FILENAME = "PPIXPress_Output.zip";
         String SAMPLE_FILENAME = "sample_table.html";
@@ -97,43 +109,57 @@ public class DownloadServlet extends HttpServlet {
 
                 try {
                     zip(LOCAL_STORAGE_PATH, LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
+                    writeFile(response, LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    context.log(USER_ID + "DownloadServlet: An error occured while getting result.zip");
                 }
-
-                writeFile(response, LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
                 break;
 
             case "sample_summary":
                 out = response.getWriter();
-                File HTMLText = new File(LOCAL_STORAGE_PATH + SAMPLE_FILENAME);
-                Scanner file = new Scanner(HTMLText);
+                try {
+                    File HTMLText = new File(LOCAL_STORAGE_PATH + SAMPLE_FILENAME);
+                    Scanner file = new Scanner(HTMLText);
 
-                while (file.hasNext()) {
-                    String s = file.nextLine();
-                    out.println(s);
+                    while (file.hasNext()) {
+                        String s = file.nextLine();
+                        out.println(s);
+                    }
+                    file.close();
+                } catch (Exception e) {
+                    context.log(USER_ID + "DownloadServlet: An error occured while getting sample summary");
                 }
                 break;
 
             case "graph":
                 out = response.getWriter();
-                String proteinQuery = request.getParameter("proteinQuery");
-                String expressionQuery = request.getParameter("expressionQuery");
-                boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
-//                boolean showDDIs = true;
+                try {
+                    String proteinQuery = request.getParameter("proteinQuery");
+                    String expressionQuery = request.getParameter("expressionQuery");
+                    boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
+                    // boolean showDDIs = true;
 
-                JSONArray subNetworkData = filterProtein(LOCAL_STORAGE_PATH, proteinQuery, expressionQuery, showDDIs);
-                out.println(subNetworkData);
+                    JSONArray subNetworkData = filterProtein(LOCAL_STORAGE_PATH, proteinQuery, expressionQuery,
+                            showDDIs);
+                    out.println(subNetworkData);
+                } catch (Exception e) {
+                    context.log(USER_ID
+                            + "DownloadServlet: An error occured while retrieving protein-protein interaction graph");
+                }
                 break;
 
             case "protein_list":
                 out = response.getWriter();
-                Scanner s = new Scanner(new File(LOCAL_STORAGE_PATH + "protein_list.txt"));
-                ArrayList<String> proteinList = new ArrayList<>();
-                while (s.hasNext()){
-                    proteinList.add(createElement("option", s.next()));
+                try {
+                    Scanner s = new Scanner(new File(LOCAL_STORAGE_PATH + "protein_list.txt"));
+                    ArrayList<String> proteinList = new ArrayList<>();
+                    while (s.hasNext()) {
+                        proteinList.add(createElement("option", s.next()));
+                    }
+                    out.println(String.join("", proteinList));
+                } catch (Exception e) {
+                    context.log(USER_ID + "DownloadServlet: An error occured while retrieving protein list");
                 }
-                out.println(String.join("", proteinList));
                 break;
         }
 
