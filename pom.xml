@@ -106,7 +106,7 @@
             <url>https://service.bioinformatik.uni-saarland.de/PPIXpress</url>
         </site> -->
     </distributionManagement>
-
+    
     <build>
         <plugins>
             <plugin>
