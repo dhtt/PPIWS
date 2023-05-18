@@ -1,0 +1,1000 @@
+  420  ls activation
+  421  ls el-api
+  422  ls
+  423  ls el
+  424  ls el/jakarta.el-api
+  425  rm -r el
+  426  ls
+  427  ls servlet/jsp
+  428  ls servlet/jsp/jstl
+  429  rm -r servlet/jsp
+  430  ls servlet/jsp/jstl
+  431  ls xml
+  432  ls xml/bind
+  433  cd xml/bind/jakarta.xml.bind-api
+  434  ls
+  435  cd ..
+  436  ls
+  437  rm -r jakarta.xml.bind-api
+  438  cd ..
+  439  ls
+  440  cd ..
+  441  ls
+  442  ls activation
+  443  ls activation/jakarta.activation-api
+  444  rm -r activation
+  445  ls
+  446  ls servlet
+  447  ls servlet/jakarta.servlet-api
+  448  rm -r servlet
+  449  ls 
+  450  ls servlet
+  451  rm -r /home/trang/Users
+  452  "/home/trang/apache-maven-3.8.6/bin/mvn" validate -f "/home/trang/PPIWS/pom.xml"
+  453  ls
+  454  cd 
+  455  ls
+  456  ls lib
+  457  cp lib/json-20211205.jar /home/trang/PPIWS/src/main/webapp/WEB-INF/lib
+  458  cp lib/json-20211205-javadoc.jar /home/trang/PPIWS/src/main/webapp/WEB-INF/lib
+  459  cd ..
+  460  ls
+  461  ls markus
+  462  ls markus/TF-site2
+  463  ls markus/TF-site2/tfmir
+  464  ls markus/TF-site2/backend
+  465  ls markus/ProPoresWeb
+  466  ls
+  467  ls markus
+  468  ls markus/PreTIS
+  469  ls markus/PreTIS/saves
+  470  ls markus/PreTIS
+  471  ls markus
+  472  ls markus/TF-site2
+  473  ls markus/TF-site2/tfmir
+  474  ls
+  475  ls access
+  476  ls markus
+  477  ls markus/TF-site2
+  478  ls markus/TF-site2/backend
+  479  ls markus/TF-site2/tfmir
+  480  ls markus/TF-site2/tfmir/tfmir
+  481  ls markus/TF-site2/tfmir/uploads
+  482  ls markus/TF-site2/tfmir/upload.php
+  483  vim markus/TF-site2/tfmir/upload.php
+  484  ls markus/TF-site2/tfmir/uploads/vjdgebrevopctdtdt92fuidpmp
+  485  cd
+  486  ls
+  487  ls lib
+  488  mv lib WEB-INF/lib
+  489  mv lib PPIWS.WEB-INF.lib
+  490  ls
+  491  cd PPIWS
+  492  git config --global user.email dhthutrang@gmail.com
+  493  git config --global user.name Trang Do
+  494  ls -l /home/trang/PPIWS/target/
+  495  cd PPIWS
+  496  mvn clean install -U
+  497  mv /home/trang/PPIWS/src/main/webapp/WEB-INF/lib/* /home/trang/lib
+  498  cd
+  499  mkdir lib
+  500  mv /home/trang/PPIWS/src/main/webapp/WEB-INF/lib/* /home/trang/lib
+  501  cd PPIWS
+  502  mvn clean install -U
+  503  ls /home/trang/PPIWS/repository/uploads
+  504  mvn clean install -U
+  505  "/home/trang/apache-maven-3.8.6/bin/mvn" compile -f "/home/trang/PPIWS/pom.xml"
+  506  "/home/trang/apache-maven-3.8.6/bin/mvn" test -f "/home/trang/PPIWS/pom.xml"
+  507  "/home/trang/apache-maven-3.8.6/bin/mvn" test-compile -f "/home/trang/PPIWS/pom.xml"
+  508  "/home/trang/apache-maven-3.8.6/bin/mvn" package -f "/home/trang/PPIWS/pom.xml"
+  509  "/home/trang/apache-maven-3.8.6/bin/mvn" verify -f "/home/trang/PPIWS/pom.xml"
+  510  "/home/trang/apache-maven-3.8.6/bin/mvn" site -f "/home/trang/PPIWS/pom.xml"
+  511  "/home/trang/apache-maven-3.8.6/bin/mvn" deploy -f "/home/trang/PPIWS/pom.xml"
+  512  cd PPIWS
+  513  mvn clean deploy
+  514  mvn clean deploy -U
+  515  mvn site-deploy
+  516  mvn site-deploy -U
+  517  mvn clean deploy
+  518  ls
+  519  cd ..
+  520  ls
+  521  cd ..
+  522  ls
+  523  cd usr
+  524  ls
+  525  ls share
+  526  ls share/doc
+  527  ls share/doc/apache
+  528  ls share/doc/apache2
+  529  cd
+  530  ls /etc/apache2/apache2.conf
+  531  vim /etc/apache2/apache2.conf
+  532  cd .m2
+  533  cd repository
+  534  ls
+  535  cd org/apache/maven
+  536  ls
+  537  ls maven-site-plugin
+  538  pils -f /etc/apache2
+  539  ls -f /etc/apache2
+  540  ls -f /etc/apache2/apache2.conf
+  541  vim /etc/apache2/apache2.conf
+  542  vim /etc/apache2/
+  543  ls -f /etc/apache2/.
+  544  ls -f /etc/apache2/..
+  545  ls -f /etc/apache2/.
+  546  head /etc/apache2/./ports.conf
+  547  vim /etc/apache2/./ports.conf
+  548  vim /etc/apache2/./apache2.conf
+  549  vim /etc/apache2/./envvars
+  550  vim /etc/apache2/./sites-available
+  551  vim /etc/apache2/./sites-enabled
+  552  ls /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8/apache-tomcat-10.0.8/conf
+  553  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8/apache-tomcat-10.0.8/conf
+  554  ls
+  555  ls Catalina
+  556  ls Catalina/localhost
+  557  vim 
+  558  vim context.xml
+  559  vim server.xml
+  560  cd ..
+  561  ls
+  562  ls conf
+  563  ls bin
+  564  sudo lsof -i ':80'
+  565  lsof -i ':80'
+  566  lsof -i ':8080'
+  567  lsof -i 
+  568  cd
+  569  ls
+  570  sudo mkdir -p /var/www/your_domain_1/public_html
+  571  vim var/www/html
+  572  cd ..
+  573  vim var/www/html
+  574  vim var/www/html/index.html
+  575  systemctl status tomcat
+  576  cd
+  577  cd ..
+  578  ls
+  579  ls markus
+  580  cd ProPoresWeb
+  581  ls markus/ProPoresWeb
+  582  ls markus/ProPoresWeb/Propores-Cache
+  583  cd ProPoresWebls
+  584  ls
+  585  ls access
+  586  ls access/snap
+  587  ls access/service_backup
+  588  ls access/services_backup
+  589  ls access/installation_instructions
+  590  ls access/installation_instructions/server_installation.md
+  591  vim  access/installation_instructions/server_installation.md
+  592  vim  access/installation_instructions/TFmiR_installation.md.md
+  593  vim  access/installation_instructions/TFmiR_installation.md
+  594  ls
+  595  ls mins
+  596  ls mins/mins
+  597  vim mins/mins/how_to_setup.txt
+  598  ls mins/mins/MINS-1
+  599  ls
+  600  ls rasp
+  601  ls rasp/snap
+  602  ls rasp/snap/docker
+  603  ls rasp/snap/docker/common
+  604  ls rasp/snap/docker/1767
+  605  ls rasp/ssh
+  606  ls
+  607  ls tfmir-test
+  608  ls tfmir-test/TFmiR2.5
+  609  ls
+  610  cd ..
+  611  ;s
+  612  ls
+  613  ls bin
+  614  ls bin | grep tom
+  615  ls
+  616  ls usr
+  617  ls usr/bin
+  618  ls usr
+  619  ls usr | head
+  620  ls usr | head -20
+  621  ls usr | head -100
+  622  ls usr | head
+  623  ls usr
+  624  ls usr/share
+  625  ls usr/share/apache2
+  626  ls
+  627  ls local
+  628  ls use
+  629  ls usr
+  630  ls usr/local
+  631  ls usr/share
+  632  ls
+  633  ls opt
+  634  ls * | rep tomcat
+  635  ls * | grep tomcat
+  636  ls * | grep ache
+  637  ls
+  638  ls etc
+  639  ls etc/systemd
+  640  ls etc/systemd/system
+  641  ls etc/systemd/system " grep tom
+  642  ls etc/systemd/system | grep tom
+  643  ls
+  644  ls /etc/apache2/
+  645  ls /etc/apache2/sites-available
+  646  ls
+  647  ;s var
+  648  ls var
+  649  ls var/www
+  650  ls var/www/html
+  651  ls var/www/html/tfmir2
+  652  ls
+  653  ls opt
+  654  ls opt/containerd
+  655  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8/apache-tomcat-10.0.8/conf
+  656  ls
+  657  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+  658  "/home/trang/apache-maven-3.8.6/bin/mvn" install -f "/home/trang/PPIWS/pom.xml"
+  659  cd PPIWS
+  660  ls
+  661  mvn clean -U
+  662  mvn instal
+  663  mvn install
+  664  mvn clean install -U
+  665  ls /home/trang/.vscode-server/data/CachedExtensionVSIXs/
+  666  rm /home/trang/.vscode-server/data/CachedExtensionVSIXs/redhat.vscode-community-server-connector-0.25.4
+  667  rm /home/trang/.vscode-server/data/CachedExtensionVSIXs/redhat.vscode-rsp-ui-0.23.11
+  668  ls /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8/apache-tomcat-10.0.8/conf/
+  669  curl -IL https://localhost:8443
+  670  head /home/trang/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/extensions/debug-auto-launch/.vscode/launch.json
+  671  rm /home/trang/.vscode-server/bin/3b889b090b5ad5793f524b5d1d39fda662b96a2a/extensions/debug-auto-launch/.vscode/launch.json
+  672  rm /home/trang/.vscode-server/bin/6d9b74a70ca9c7733b29f0456fd8195364076dda/extensions/debug-auto-launch/.vscode/launch.json
+  673  rm /home/trang/.vscode-server/bin/da76f93349a72022ca4670c1b84860304616aaa2/extensions/debug-auto-launch/.vscode/launch.json
+  674  cd 
+  675  cd ..
+  676  ls
+  677  cd ..
+  678  ls
+  679  ls usr/
+  680  ls usr/share
+  681  cd 
+  682  keytool 
+  683  keytool -genkey -alias PPIXpress -keyalg RSA -keystore PPIXpress.keystore
+  684  ls
+  685  pwd
+  686  keytool -certreq -keyalg RSA -alias PPIXpress -file PPIXpress.csr -keystore PPIXpress.keystore
+  687  ls
+  688  rm  PPIXpress.csr  PPIXpress.keystore
+  689  mkdir tomcat
+  690  ls
+  691  cd tomcat
+  692  ls
+  693  $JAVA_HOME/bin/keytool
+  694  $JAVA_HOME/bin/keytool -genkey -alias tomcat -keyalg RSA
+  695  ls
+  696  ls  $JAVA_HOME/bin/keytool
+  697  ls  $JAVA_HOME/bin/
+  698  ls  $JAVA_HOME/bin/ | grep PPI
+  699  ;s
+  700  ls
+  701  ls ..
+  702  cd tomcat
+  703  ls
+  704  ls /home/trang/.keystore
+  705  $JAVA_HOME/bin/keytool -genkey -alias tomcat -keyalg RSA
+  706  $JAVA_HOME/bin/keytool
+  707  $JAVA_HOME/bin/keytool -delete tomcat
+  708  $JAVA_HOME/bin/keytool -delete /home/trang/.keystore
+  709  $JAVA_HOME/bin/keytool -delete -keystore /home/trang/.keystore
+  710  $JAVA_HOME/bin/keytool -genkey -alias tomcat -keyalg RSA
+  711  $JAVA_HOME/bin/keytool 
+  712  $JAVA_HOME/bin/keytool  -keypasswd
+  713  $JAVA_HOME/bin/keytool  -keypasswd tomcat
+  714  $JAVA_HOME/bin/keytool  -keypasswd -alias tomcat
+  715  cd 
+  716  cd ..
+  717  ls
+  718  cd ..
+  719  ls etc
+  720  cd etc
+  721  vim hosts
+  722  iptables
+  723  iptables -L -n
+  724  sudo iptables -L -n
+  725  cp /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8/apache-tomcat-10.0.8/conf/server.xml server.xml
+  726  lsof -i tcp:443
+  727  lsof -i tcp:8443
+  728  lsof -i tcp:8080
+  729  sudo ss -ltn
+  730  netstat -tuplen
+  731  cp /home/trang/server.xml /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/conf/server.xml
+  732  myip
+  733  netstat -a -n
+  734  netstat -a -n " grep 8443
+  735  netstat -a -n " | grep 8443
+  736  netstat -a -n | grep 8443
+  737  netstat -a -n | grep 443
+  738  ls
+  739  ls tomcat
+  740  cd tomcat
+  741  wget https://dlcdn.apache.org/tomcat/tomcat-10/v10.0.23/bin/apache-tomcat-10.0.23.zip
+  742  ls
+  743  unzip apache-tomcat-10.0.23.zip
+  744  ls
+  745  apache-tomcat-10.0.23
+  746  ls apache-tomcat-10.0.23
+  747  java -version
+  748  mv apache-tomcat-10.0.23 ./tomcat
+  749  ls
+  750  ls tomcat
+  751  cp tomcat/* /
+  752  cp tomcat/* .
+  753  ls
+  754  cp-r  tomcat/* .
+  755  cp -r  tomcat/* .
+  756  ls
+  757  rm apache-tomcat-10.0.23.zip
+  758  ls tomcat
+  759  ls
+  760  rm -r tomcat
+  761  ls
+  762  cd 
+  763  cp server.xml tomcat/conf/
+  764  update-java-alternatives -l
+  765  systemctl daemon-reload
+  766  systemctl start tomcat
+  767  netstat -aon | findstr "8080"
+  768  netstat -aon | grep "8080"
+  769  netstat -aon | grep 443
+  770  ping 134.96.204.6
+  771  nc -vvv 134.96.204.6 8443
+  772  nc -vvv 134.96.204.6 443
+  773  cd tomcat
+  774  ls
+  775  keytool -genkey -alias servtomcat_er -keyalg RSA -keysize 2048 -keystore yourtomcat.jks
+  776  ls
+  777  mv yourtomcat.jks tomcat.jks
+  778  ls
+  779  cd 
+  780  cd //
+  781  cd ..
+  782  cd .
+  783  cd ..
+  784  ls
+  785  ls usr
+  786  ls usr/local
+  787  ls /etc/apache2/sites-enabled/000-default-le-ssl.conf
+  788  vim /etc/apache2/sites-enabled/000-default-le-ssl.conf
+  789  pkill -f tomcat
+  790  vim /etc/apache2/sites-enabled/000-default-le-ssl.conf
+  791  /etc/letsencrypt/live/service.bioinformatik.uni-saarland.de/privkey.pem
+  792  ls /etc/letsencrypt/live/service.bioinformatik.uni-saarland.de/
+  793  head home/trang/tomcat/tomcat.jks
+  794  ls home/trang/tomcat/
+  795  ls /home/trang/tomcat/
+  796  head /home/trang/tomcat/tomcat.jks
+  797  cd tomcat
+  798  ls
+  799  keytool -genkey -alias tomcat -keyalg RSA
+  800  keytool -genkey -alias tomcat_server -keyalg RSA
+  801  cd
+  802  keytool -genkey -alias tomcat_server -keyalg RSA
+  803  apt-get install libapr1.0-dev libssl-dev
+  804  apt-get install libapr1.0-dev
+  805  apt-get installibssl-dev
+  806  apt-get install ibssl-dev
+  807  cd tomcat
+  808  keytool -genkeypair -keysize 2048 -keyalg RSA -alitomcat  -st-storetype jceks -keysttomcat.jks
+  809  keytool -genkeypair -keysize 2048 -keyalg RSA -alias tomcat  -storetype jceks -keysttomcat.jks
+  810  keytool -genkeypair -keysize 2048 -keyalg RSA -alias tomcat  -storetype jceks -keystore tomcat.jks
+  811  keytool -importkeystore -srckeystore tomcat.jks -destkeystore tomcat.jks -deststoretype pkcs12
+  812  wget https://dlcdn.apache.org/tomcat/tomcat-connectors/native/2.0.1/source/tomcat-native-2.0.1-src.tar.gz
+  813  unzip tomcat-native-2.0.1-src.tar.gz
+  814  gunzip tomcat-native-2.0.1-src.tar.gz
+  815  ls
+  816  tar -cvf tomcat-native-2.0.1-src.tar
+  817  tar -xvf tomcat-native-2.0.1-src.tar
+  818  ls
+  819  mv tomcat-native-2.0.1-src ./
+  820  mv -r tomcat-native-2.0.1-src ./
+  821  mv tomcat-native-2.0.1-src /home/trang
+  822  ls
+  823  cd ..
+  824  ls
+  825  cd tomcat-native-2.0.1-src
+  826  ls
+  827  ./configure --help
+  828  ls *
+  829  cd native
+  830  ./configure --help
+  831  openssl
+  832  whereis openssl
+  833  ./configure --with-ssl=yes --prefix=/home/trang/tomcat
+  834  apr
+  835  ./configure --with-ssl=yes --with-apr=no --prefix=/home/trang/tomcat
+  836  ./configure --with-ssl=yes --with-apr=/home/trang/apr-util --prefix=/home/trang/tomcat
+  837  ./configure --with-ssl=yes --with-apr=/home/trang/apr-util -with-java-home=/usr/bin/java --prefix=/home/trang/tomcat
+  838  ./configure --with-ssl=yes --with-apr=/home/trang/apr-util -with-java-home=/usr/lib/jvm/java-11-openjdk-amd64 --prefix=/home/trang/tomcat
+  839  ./configure --with-ssl=/usr/bin/openssl --with-apr=/home/trang/apr-util -with-java-home=/usr/lib/jvm/java-11-openjdk-amd64 --prefix=/home/trang/tomcat
+  840  ./configure --with-ssl=/usr/lib/ssl --with-apr=/home/trang/apr-util -with-java-home=/usr/lib/jvm/java-11-openjdk-amd64 --prefix=/home/trang/tomcat
+  841  which Openssl
+  842  which openssl
+  843  openssl -v
+  844  openssl -version
+  845  openssl --version
+  846  ./configure --with-ssl=/home/trang/ssl --with-apr=/home/trang/apr-util -with-java-home=/usr/lib/jvm/java-11-openjdk-amd64 --prefix=/home/trang/tomcat
+  847  make install
+  848  ./configure --with-ssl=/home/trang/ssl --with-apr=/home/trang/apr-util -with-java-home=/usr/lib/jvm/java-11-openjdk-amd64 --prefix=/home/trang/tc_native
+  849  make install
+  850  ls -l /home/trang/tomcat/bin
+  851  ls
+  852  cd 
+  853  cd tomcat
+  854  ls
+  855  vim bin/setenv.sh
+  856  java -XshowSettings:propertie
+  857  java -X showSettings:propertie
+  858  java -XshowSettings:properties
+  859  vim /etc/apache2/sites-enabled/000-default-le-ssl.conf
+  860  cd 
+  861  cp server.xml /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/conf/server.xml
+  862  vim /etc/apache2/sites-enabled/000-default-le-ssl.conf
+  863  ls
+  864  wget https://dlcdn.apache.org//apr/apr-1.7.0.tar.gz
+  865  ls
+  866  unzip apr-1.7.0.tar.gz
+  867  gunzip apr-1.7.0.tar.gz
+  868  ls
+  869  tar -xvf apr-1.7.0.tar
+  870  ls
+  871  rm -r apr-1.7.0.tar
+  872  ls
+  873  cd apr-1.7.0.tar
+  874  cd apr-1.7.0
+  875  ./configure --prefix/home/trang//apr-util --with-apr=home/trang/apr/
+  876  ./configure --prefix=/home/trang/apr-util --with-apr=home/trang/apr/
+  877  make
+  878  make install
+  879  whereis java
+  880  ls /usr/java
+  881  ls /usr/local/java
+  882  ls /usr/local/
+  883  which java
+  884  ls /usr/bin/java
+  885  $(dirname $(dirname $(readlink -f $(which javac))))
+  886  ls /usr/lib/jvm/java-11-openjdk-amd64
+  887  ls /usr/lib/jvm/java-11-openjdk-amd64/bin
+  888  ls /usr/lib/
+  889  ls /usr/lib/java
+  890  ls /usr/lib/jvm/java-11-openjdk-amd64/bin
+  891  whereis openssl
+  892  $(dirname $(dirname $(readlink -f $(which openssl))))
+  893  $(dirname $(readlink -f $(which openssl)
+  894  $(dirname $(readlink -f $(which openssl)))
+  895  $(readlink -f $(which openssl))
+  896  /usr/bin/openssl
+  897  ls /usr/lib/
+  898  ls /usr/lib/ " grep open
+  899  ls /usr/lib/ | grep open
+  900  ls /usr/lib/open-iscsi
+  901  ls /usr/local
+  902  ls /usr/local/bin
+  903  ls /usr/lib/
+  904  cd 
+  905  ls
+  906  wget https://www.openssl.org/source/openssl-3.0.5.tar.gz
+  907  ls
+  908  gunzip openssl-3.0.5.tar.gz
+  909  tar -xvf openssl-3.0.5.tar
+  910  ls
+  911  rm openssl-3.0.5.tar
+  912  cd openssl-3.0.5
+  913  ls
+  914  ./config --prefix=/home/trang/ssl --openssldir=/home/trang/ssl
+  915  make install
+  916  cd ..
+  917  ls
+  918  ls etc
+  919  ls etc/ufw
+  920  vim etc/ufw/before.rules
+  921  /sbin/iptables 
+  922  ps -ef
+  923  ps -ef | grep tomcat
+  924  netstat -lnp | grep 971096
+  925  netstat -lnp 
+  926  netstat -lnp | grep 971096
+  927  netstat -tulpn
+  928  netstat - an | find "8080"
+  929  netstat - an | find 8080
+  930  netstat - an | find 8443
+  931  netstat - an 
+  932  netstat - an | grep 8080
+  933  netstat - an | grep 443
+  934  telnet
+  935  telnet 134.96.1.123 8080
+  936  telnet 134.96.1.123 443
+  937  telnet 134.96.1.123 8443
+  938  vim /etc/apache2/sites-enabled/000-default-le-ssl.conf 
+  939  curl ifconfig.me
+  940  ifconfig -a
+  941  hostname -I | awk '{print $1}'
+  942  ifconfig -a
+  943  hostname -I | awk '{print $1}'
+  944  curl ifconfig.me
+  945  ping service.bioinformatik.uni-saarland.de
+  946  /etc/apache2/sites-enabled/000-default-le-ssl.conf
+  947  vim /etc/apache2/sites-enabled/000-default-le-ssl.conf
+  948  ifconfig -a
+  949  hostname -I | awk '{print $1}'
+  950  ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1
+  951  ifconfig eth0 
+  952  hostname -i
+  953  hostname -I
+  954  ls /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1
+  955  ls /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8
+  956  ls /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin
+  957  /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin/startup.sh
+  958  /home/trang/tomcat/bin/startup.sh
+  959  ./home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin/startup.sh
+  960  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin/
+  961  ls
+  962  chmod +x startup.sh
+  963  ./startup.sh
+  964  ls
+  965  chmod +x */sh
+  966  chmod +x *.sh
+  967  ls
+  968  ./startup.sh
+  969  ps -ef | grep java | grep 8080
+  970  ps -ef | grep java 
+  971  ps -ef | grep java | grep 443
+  972  ps -ef | grep java | grep 8443
+  973  netstat -nlp
+  974  ps -ef | grep tomcat  
+  975  netstat -a | grep 8080
+  976  netstat -a | grep 8443
+  977  netstat -a | grep 8081
+  978  ls
+  979  ./shutdown.sh
+  980  ./startup.sh
+  981  ./shutdown.sh
+  982  ./startup.sh
+  983  ls /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/conf/server.xml
+  984  ls /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/
+  985  ls /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/conf
+  986  vim /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/conf/tomcat-user.xml
+  987  vim /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/conf/tomcat-users.xml
+  988  ./shutdown.sh
+  989  ./startup.sh
+  990  vim  /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/conf/tomcat-users.xml
+  991  ./shutdown.sh
+  992  ./startup.sh
+  993  openssl s_client -connect service.bioinformatik.uni-saarland.de:443
+  994  openssl s_client -connect service.bioinformatik.uni-saarland.de:8443
+  995  lsof -i:
+  996  lsof -i:8080
+  997  lsof -i:8081
+  998  lsof -i:8443
+  999  kill -9 980100
+ 1000  lsof -i:8080
+ 1001  lsof -i:8443
+ 1002  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/conf/server.xml
+ 1003  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/
+ 1004  ls
+ 1005  cd bin
+ 1006  ls
+ 1007  shutdown.sh
+ 1008  ./shutdown.sh
+ 1009  ./startup.sh
+ 1010  ./shutdown.sh
+ 1011  lsof -i:8005
+ 1012  lsof -i:8443
+ 1013  kill -9 986380
+ 1014  lsof -i:8005
+ 1015  ./shutdown.sh
+ 1016  ./startup.sh
+ 1017  lsof -i:8005
+ 1018  ./startup.sh
+ 1019  lsof -i:8005
+ 1020  lsof -i:8443
+ 1021  ./shutdown.sh
+ 1022  ./startup.sh
+ 1023  nmap -p T:1-65535 -T4 localhost
+ 1024  netstat -nltup
+ 1025  hostname -I | awk '{print $1}'
+ 1026  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin
+ 1027  ls
+ 1028  ./startup.sh
+ 1029  ./shutdown.sh
+ 1030  ./startup.sh
+ 1031  ./shutdown.sh
+ 1032  netstat -a -n -o | find "8080"
+ 1033  cat /proc/sys/net/ipv4/ip_forward
+ 1034  iptables -t nat -nvL
+ 1035  hostname -I | awk '{print $1}'
+ 1036  netstat -lntu
+ 1037  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/cbin
+ 1038  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin
+ 1039  ls
+ 1040  .startup.bat
+ 1041  .startup.sh
+ 1042  ./startup.sh
+ 1043  ./shutdown.sh
+ 1044  lsof i:8005
+ 1045  lsof -i:8005
+ 1046  kill -9 4188
+ 1047  ls
+ 1048  htop
+ 1049  ./shutdown.sh
+ 1050  ./startup.sh
+ 1051  ./shutdown.sh
+ 1052  kill -9 4188
+ 1053  lsof -i:8005
+ 1054  kill -9 4634
+ 1055  ./shutdown.sh
+ 1056  ./startup.sh
+ 1057  ./shutdown.sh
+ 1058  lsof -i:8005
+ 1059  lsof -i:8443
+ 1060  kill -9 4932
+ 1061  lsof -i:8005
+ 1062  ./startup.sh
+ 1063  ./shutdown.sh
+ 1064  ./startup.sh
+ 1065  ./shutdown.sh
+ 1066  lsof -i:8005
+ 1067  lsof -i:8443
+ 1068  ./shutdown.sh
+ 1069  lsof -i:8443
+ 1070  lsof -i:8005
+ 1071  ./startup.sh
+ 1072  ./shutdown.sh
+ 1073  ./startup.sh
+ 1074  ./shutdown.sh
+ 1075  ./startup.sh
+ 1076  ./shutdown.sh
+ 1077  ./startup.sh
+ 1078  ./shutdown.sh
+ 1079  ./startup.sh
+ 1080  ./shutdown.sh
+ 1081  ./startup.sh
+ 1082  ./shutdown.sh
+ 1083  ./startup.sh
+ 1084  ./shutdown.sh
+ 1085  ./startup.sh
+ 1086  ./shutdown.sh
+ 1087  ./startup.sh
+ 1088  ls
+ 1089  ./shutdown.sh && ./startup.sh
+ 1090  ./shutdown.sh 
+ 1091  lsof -i:8443
+ 1092  ./shutdown.sh
+ 1093  lsof -i:8005
+ 1094  ./startup.sh
+ 1095  ./shutdown.sh && ./startup.sh
+ 1096  lsof -i:8443
+ 1097  ./shutdown.sh && ./startup.sh
+ 1098  lsof -i
+ 1099  lsof -i:8443
+ 1100  ./startup.sh
+ 1101  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin
+ 1102  ./startup.sh
+ 1103  ./shutdown.sh && ./startup.sh
+ 1104  vim startup.sh
+ 1105  vim catalina.sh
+ 1106  ./shutdown.sh && ./startup.sh
+ 1107  ./shutdown.sh
+ 1108  ./shutdown.sh && ./startup.sh
+ 1109  ./startup.sh
+ 1110  ./shutdown.sh && ./startup.sh
+ 1111  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin
+ 1112  ls
+ 1113  ./startup.sh
+ 1114  vim /etc/apache2/sites-enabled/000-default-le-ssl.conf
+ 1115  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin
+ 1116  ls
+ 1117  ./startup.sh
+ 1118  lsof -i:8443
+ 1119  lsof -i:443
+ 1120  lsof -i:8443
+ 1121  kill -9 3830
+ 1122  lsof -i:8443
+ 1123  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin
+ 1124  vim ~/.bashrc
+ 1125  source ~/.bashrc
+ 1126  echo $TOMCAT
+ 1127  vim ~/.bashrc
+ 1128  echo $TOMCAT
+ 1129  source ~/.bashrc
+ 1130  echo $TOMCAT
+ 1131  cd $TOMCAT
+ 1132  ls
+ 1133  cd bin
+ 1134  ls
+ 1135  startup.bat
+ 1136  ./startup.sh
+ 1137  lsof -i:8443
+ 1138  ./shutdown.sh
+ 1139  ./startup.sh
+ 1140  ./shutdown.sh && ./startup.sh
+ 1141  telnet 127.0.0.1 443
+ 1142  telnet 127.0.0.1 8443
+ 1143  ifconfig -a
+ 1144  cd ..
+ 1145  ls conf
+ 1146  ls conf/Catalina
+ 1147  ls conf/Catalina/localhost
+ 1148  ls conf/Catalina/service.bioinformatik.uni-saarland.de
+ 1149  cd conf/Catalina/localhost
+ 1150  vim manager.xml
+ 1151  vim host-manager.xml
+ 1152  groups
+ 1153  cd ..
+ 1154  cd bin
+ 1155  ls
+ 1156  ./shutdown.sh
+ 1157  pwd
+ 1158  ./shutdown.sh
+ 1159  cd $TOMCAT
+ 1160  ls
+ 1161  cd bin
+ 1162  ls
+ 1163  ./startup.sh
+ 1164  ./shutdown.sh && ./startup.sh
+ 1165  LS -L /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/lib
+ 1166  ls -l /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/lib
+ 1167  ./shutdown.sh && ./startup.sh
+ 1168  ./shutdown.sh
+ 1169  ./startup.sh
+ 1170  ./shutdown.sh && ./startup.sh
+ 1171  ls /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/lib
+ 1172  ./shutdown.sh && ./startup.sh
+ 1173  ./shutdown.sh
+ 1174  ./startup.sh
+ 1175  ./shutdown.sh && ./startup.sh
+ 1176  ./shutdown.sh
+ 1177  ./startup.sh
+ 1178  ./shutdown.sh && ./startup.sh
+ 1179  ls
+ 1180  ls tc_native
+ 1181  ls tc_native/lib
+ 1182  pwd
+ 1183  ls
+ 1184  wget https://dlcdn.apache.org/tomcat/tomcat-connectors/native/2.0.1/source/tomcat-native-2.0.1-src.tar.gz
+ 1185  ls
+ 1186  gunzip tomcat-native-2.0.1-src.tar.gz
+ 1187  rm -r tomcat-native-2.0.1-src
+ 1188  tar -xvf tomcat-native-2.0.1-src.tar
+ 1189  ls
+ 1190  ls tomcat-native-2.0.1-src
+ 1191  cd tomcat-native-2.0.1-src
+ 1192  ls
+ 1193  ./configure --with-apr=/home/trang/apr-util --with-ssl=/home/trang/ssl --prefix=$TOMCAT
+ 1194  ls
+ 1195  cd native
+ 1196  ./configure --with-apr=/home/trang/apr-util --with-ssl=/home/trang/ssl --prefix=$TOMCAT
+ 1197  ./configure --with-apr=/home/trang/apr-util --with-ssl=/home/trang/ssl --with-java-home=/usr/lib/jvm/default-java --prefix=$TOMCAT
+ 1198  make && make install
+ 1199  ls -l /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/lib
+ 1200  pwd
+ 1201  ls
+ 1202  ls apr-1.7.0
+ 1203  head apr-1.7.0/build.conf
+ 1204  ls apr-util
+ 1205  ls apr-util/bin
+ 1206  ls apr-util/bin/apr-1-config
+ 1207  ls
+ 1208  ;s ssl
+ 1209  ls ssl
+ 1210  readlink -f `which java`
+ 1211  $(dirname $(readlink $(which javac)))/java_home
+ 1212  $(readlink $(which javac))
+ 1213  readlink $(which javac)
+ 1214  $(dirname $(readlink $(which javac)))
+ 1215  echo $(dirname $(readlink $(which javac)))
+ 1216  ls /etc/alternatives
+ 1217  ls /etc/alternatives/javac
+ 1218  /etc/alternatives/javac
+ 1219  readlink -f $(which java) 
+ 1220  ls /usr/lib/jvm/
+ 1221  ls /usr/lib/jvm/openjdk-11
+ 1222  ls /usr/lib/jvm/*
+ 1223  ls /usr
+ 1224  ls /usr/lib/jvm/default-java
+ 1225  ls /usr/lib/jvm/default-java/bin
+ 1226  echo $LD_LIBRARY_PATH
+ 1227  echo $LD_RUN_PATH
+ 1228  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/lib/libtcnative-2.a
+ 1229  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/lib/
+ 1230  ls
+ 1231  mv libtcnative-2.a libtcnative-1.a
+ 1232  mv libtcnative-2.la libtcnative-1.
+ 1233  mv libtcnative-2.so libtcnative-1.so
+ 1234  mv libtcnative-2.so.0 libtcnative-1.so.0
+ 1235  mv libtcnative-2.so.0.1 libtcnative-1.so.0.1
+ 1236  mv libtcnative-2.so.0.0.1 libtcnative-1.so.0.0.1
+ 1237  ls
+ 1238  mv libtcnative-1.so.0.0.1 libtcnative-2.so.0.0.1
+ 1239  mv libtcnative-1.so.0 libtcnative-2.so.0
+ 1240  ls
+ 1241  mv libtcnative-1.a libtcnative-2.a
+ 1242  mv libtcnative-1.la libtcnative-2.la
+ 1243  mv libtcnative-1.so libtcnative-2.so
+ 1244  ls
+ 1245  pwd
+ 1246  head libtcnative-2.a
+ 1247  q
+ 1248  lsls
+ 1249  ls
+ 1250  cd 
+ 1251  ls
+ 1252  cd ..
+ 1253  ls
+ 1254  ls access
+ 1255  vim /etc/apache2/sites-enabled/000-default-le-ssl.conf
+ 1256  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1257  "/home/trang/apache-maven-3.8.6/bin/mvn" install -f "/home/trang/PPIWS/pom.xml"
+ 1258  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1259  "/home/trang/apache-maven-3.8.6/bin/mvn" install -f "/home/trang/PPIWS/pom.xml"
+ 1260  "/home/trang/apache-maven-3.8.6/bin/mvn" deploy -f "/home/trang/PPIWS/pom.xml"
+ 1261  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1262  "/home/trang/apache-maven-3.8.6/bin/mvn" install -f "/home/trang/PPIWS/pom.xml"
+ 1263  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1264  "/home/trang/apache-maven-3.8.6/bin/mvn" install -f "/home/trang/PPIWS/pom.xml"
+ 1265  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1266  "/home/trang/apache-maven-3.8.6/bin/mvn" install -f "/home/trang/PPIWS/pom.xml"
+ 1267  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1268  "/home/trang/apache-maven-3.8.6/bin/mvn" install -f "/home/trang/PPIWS/pom.xml"
+ 1269  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1270  "/home/trang/apache-maven-3.8.6/bin/mvn" install -f "/home/trang/PPIWS/pom.xml"
+ 1271  "/home/trang/apache-maven-3.8.6/bin/mvn" clean install -f "/home/trang/PPIWS/pom.xml"
+ 1272  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin
+ 1273  ls
+ 1274  ./shutdown.sh && ./startup.sh
+ 1275  ./shutdown.sh 
+ 1276  lsof -i:8080
+ 1277  lsof -i:8005
+ 1278  ./startup.sh
+ 1279  ./shutdown.sh && ./startup.sh
+ 1280  ./shutdown.sh && ./startup.s
+ 1281  ./shutdown.sh && ./startup.sh
+ 1282  ./startup.sh
+ 1283  ./shutdown.sh && ./startup.sh
+ 1284  htop
+ 1285  ./shutdown.sh
+ 1286  htop
+ 1287  ./startup.sh
+ 1288  ls 
+ 1289  ls /home/trang/PPIWS/repository/uploads/065048268B64D3D9A3E50C211FA92D05/OUTPUT
+ 1290  htop
+ 1291  ./shutdown.sh && ./startup.sh
+ 1292  ./shutdown.sh
+ 1293  ./startup.sh
+ 1294  ./shutdown.sh && ./startup.sh
+ 1295  ./shutdown.sh
+ 1296  ./startup.sh
+ 1297  ./shutdown.sh && ./startup.sh
+ 1298  htop
+ 1299  cd
+ 1300  cp /home/trang/PPIWS/target/Webserver-1.0-SNAPSHOT /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/webapps/
+ 1301  cp -r /home/trang/PPIWS/target/Webserver-1.0-SNAPSHOT /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/webapps/
+ 1302  htop
+ 1303  cp -r /home/trang/PPIWS/target/Webserver-1.0-SNAPSHOT /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/webapps/
+ 1304  htop
+ 1305  cp -r /home/trang/PPIWS/target/Webserver-1.0-SNAPSHOT /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/webapps/
+ 1306  ls /home/trang/PPIWS/repository/uploads
+ 1307  rm /home/trang/PPIWS/repository/uploads/*
+ 1308  rm -r /home/trang/PPIWS/repository/uploads/*
+ 1309  ls /home/trang/PPIWS/repository/uploads
+ 1310  htop
+ 1311  cd /home/trang/.rsp/redhat-community-server-connector/runtimes/installations/tomcat-10.0.8_1/apache-tomcat-10.0.8/bin
+ 1312  ls
+ 1313  ./shutdown.sh 
+ 1314  ./shutdown.sh && ./startup.sh
+ 1315  jps -v
+ 1316  jstack 269271
+ 1317  jps 
+ 1318  jstack 273718
+ 1319  pwd
+ 1320  ./shutdown.sh
+ 1321  cd 
+ 1322  ls
+ 1323  pwd
+ 1324  tar -cvf PPIWS.WEB-INF.lib.tar PPIWS.WEB-INF.lib
+ 1325  ls
+ 1326  mkdir /home/trang/PPIWS/repository/example_run
+ 1327  ls
+ 1328  cd /home/trang/PPIWS/repository
+ 1329  ls
+ 1330  cd example_run
+ 1331  ls
+ 1332  mkdir INPUT OUTPUT
+ 1333  LS
+ 1334  ls
+ 1335  pwd
+ 1336  echo $TOMCAT
+ 1337  cd $TOMCAT/bin
+ 1338  ls
+ 1339  ./startup.sh
+ 1340  ls -i:8080
+ 1341  ls of -i:8080
+ 1342  ls -of i:8080
+ 1343  ls of i:8080
+ 1344  ls
+ 1345  ./shutdown.sh
+ 1346  ./startup.sh
+ 1347  lsof -i:8080
+ 1348  lsof -i:8443
+ 1349  lsnetstat -nlp
+ 1350  netstat -nlp
+ 1351  ./shutdown.sh
+ 1352  ./startup.sh
+ 1353  ./shutdown.sh
+ 1354  ps -T -p 534639
+ 1355  sudo lshw
+ 1356  exit
+ 1357  cd ..
+ 1358  ls
+ 1359  exit
+ 1360  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1361  "/home/trang/apache-maven-3.8.6/bin/mvn" validate -f "/home/trang/PPIWS/pom.xml"
+ 1362  "/home/trang/apache-maven-3.8.6/bin/mvn" compile -f "/home/trang/PPIWS/pom.xml"
+ 1363  "/home/trang/apache-maven-3.8.6/bin/mvn" test -f "/home/trang/PPIWS/pom.xml"
+ 1364  "/home/trang/apache-maven-3.8.6/bin/mvn" package -f "/home/trang/PPIWS/pom.xml"
+ 1365  "/home/trang/apache-maven-3.8.6/bin/mvn" verify -f "/home/trang/PPIWS/pom.xml"
+ 1366  "/home/trang/apache-maven-3.8.6/bin/mvn" install -f "/home/trang/PPIWS/pom.xml"
+ 1367  "/home/trang/apache-maven-3.8.6/bin/mvn" site -f "/home/trang/PPIWS/pom.xml"
+ 1368  "/home/trang/apache-maven-3.8.6/bin/mvn" deploy -f "/home/trang/PPIWS/pom.xml"
+ 1369  cd 
+ 1370  ls
+ 1371  mvn install:install-file
+ 1372  mvn install:install-file -h
+ 1373  ls
+ 1374  mvn install:install-file -Dfile=PPIXpress.jar -DgroupId=standalone_tools -DartifactId=PPIXpress -Dversion=1.1 -Dpackaging=jar -DgeneratePom=true
+ 1375  ls
+ 1376  jar xf PPIXpress.jar
+ 1377  ls
+ 1378  cd cd standalone_tools
+ 1379  ls
+ 1380  cd standalone_tools
+ 1381  ls
+ 1382  rm LICENSE NOTICE 
+ 1383  cd ..
+ 1384  rm LICENSE NOTICE 
+ 1385  rm -r META-INF assets com data framework googleorg standalone_tools test
+ 1386  rm -r META-INF assets com data framework google org standalone_tools test
+ 1387  ls
+ 1388  mv /home/trang/PPIWS/test /home/trang/PPIWS/src/
+ 1389  ls /home/trang/PPIWS/src/test
+ 1390  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1391  cd /home/trang/PPIWS/src/test
+ 1392  ls
+ 1393  mkdir java 
+ 1394  mv PPIXpressServlet_test.java java/
+ 1395  ls
+ 1396  "/home/trang/apache-maven-3.8.6/bin/mvn" validate -f "/home/trang/PPIWS/pom.xml"
+ 1397  "/home/trang/apache-maven-3.8.6/bin/mvn" compile -f "/home/trang/PPIWS/pom.xml"
+ 1398  "/home/trang/apache-maven-3.8.6/bin/mvn" test -f "/home/trang/PPIWS/pom.xml"
+ 1399  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1400  "/home/trang/apache-maven-3.8.6/bin/mvn" validate -f "/home/trang/PPIWS/pom.xml"
+ 1401  "/home/trang/apache-maven-3.8.6/bin/mvn" compile -f "/home/trang/PPIWS/pom.xml"
+ 1402  "/home/trang/apache-maven-3.8.6/bin/mvn" test -f "/home/trang/PPIWS/pom.xml"
+ 1403  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1404  "/home/trang/apache-maven-3.8.6/bin/mvn" validate -f "/home/trang/PPIWS/pom.xml"
+ 1405  "/home/trang/apache-maven-3.8.6/bin/mvn" compile -f "/home/trang/PPIWS/pom.xml"
+ 1406  "/home/trang/apache-maven-3.8.6/bin/mvn" clean -f "/home/trang/PPIWS/pom.xml"
+ 1407  "/home/trang/apache-maven-3.8.6/bin/mvn" validate -f "/home/trang/PPIWS/pom.xml"
+ 1408  "/home/trang/apache-maven-3.8.6/bin/mvn" compile -f "/home/trang/PPIWS/pom.xml"
+ 1409  "/home/trang/apache-maven-3.8.6/bin/mvn" test -f "/home/trang/PPIWS/pom.xml"
+ 1410  "/home/trang/apache-maven-3.8.6/bin/mvn" compile -f "/home/trang/PPIWS/pom.xml"
+ 1411  "/home/trang/apache-maven-3.8.6/bin/mvn" test -f "/home/trang/PPIWS/pom.xml"
+ 1412  grep -D history | tail
+ 1413  grep
+ 1414  grep Dart history | tail
+ 1415  head history
+ 1416  history
+ 1417  cat history
+ 1418  grep grep history
+ 1419  history > history.txt

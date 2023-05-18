@@ -16,6 +16,16 @@ import standalone_tools.PPIXpress_Tomcat;
 @MultipartConfig()
 
 public class PPIXpressServlet extends HttpServlet {
+    private ServletContext context;
+
+    /**
+     * Initilize ServletContext log to localhost log files
+     */
+        public void init(ServletConfig config) throws ServletException {
+            super.init(config);
+            context = getServletContext();
+    }
+
     /**
      * Delete folders and contents recursively
      * @param Path_ Path to directory
@@ -162,7 +172,7 @@ public class PPIXpressServlet extends HttpServlet {
             allArgs.add(request.getParameter("threshold"));
             allArgs.add(request.getParameter("percentile"));
             allArgs.removeIf(n -> (n.equals("null")));
-            System.out.println("From Servlet " + allArgs);
+            context.log(USER_ID + ": Process initiated from Servlet\n" + allArgs);
             int no_expression_file  = Integer.parseInt(request.getParameter("no_expression_file"));
 
 
@@ -170,6 +180,7 @@ public class PPIXpressServlet extends HttpServlet {
             AtomicBoolean stopSignal = new AtomicBoolean(false);
             request.getSession().setAttribute("no_expression_file", no_expression_file);
             request.getSession().setAttribute("LONG_PROCESS_SIGNAL", stopSignal);
+            request.getSession().setAttribute("LONG_PROCESS_ID", USER_ID);
 
             LongRunningProcess myThreads = new LongRunningProcess(allArgs, stopSignal);
             Thread lrp = new Thread(myThreads);
