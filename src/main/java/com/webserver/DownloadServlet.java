@@ -22,6 +22,16 @@ import static standalone_tools.PPIXpress_Tomcat.createElement;
 @MultipartConfig()
 
 public class DownloadServlet extends HttpServlet {
+    private ServletContext context;
+     
+      /**
+         * Initilize ServletContext log to localhost log files
+         */
+        public void init(ServletConfig config) throws ServletException {
+            super.init(config);
+            context = getServletContext();
+        }
+
     /**
      * Zip output files in the result folder
      * @param sourceDirPath_ path to folder to be zipped
@@ -87,7 +97,7 @@ public class DownloadServlet extends HttpServlet {
 
         String resultFileType = request.getParameter("resultFileType");
         PrintWriter out;
-
+        
         switch (resultFileType) {
             case "output":
                 response.setHeader("Content-Disposition", "attachment; filename=\"" + OUTPUT_FILENAME + "\"");
@@ -98,7 +108,7 @@ public class DownloadServlet extends HttpServlet {
                 try {
                     zip(LOCAL_STORAGE_PATH, LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    context.log(USER_ID + ": DownloadServlet: Fail to compress output. Check error message:\n" + e);
                 }
 
                 writeFile(response, LOCAL_STORAGE_PATH + OUTPUT_FILENAME);
@@ -106,34 +116,56 @@ public class DownloadServlet extends HttpServlet {
 
             case "sample_summary":
                 out = response.getWriter();
-                File HTMLText = new File(LOCAL_STORAGE_PATH + SAMPLE_FILENAME);
-                Scanner file = new Scanner(HTMLText);
 
-                while (file.hasNext()) {
-                    String s = file.nextLine();
-                    out.println(s);
+                try {
+                    File HTMLText = new File(LOCAL_STORAGE_PATH + SAMPLE_FILENAME);
+                    Scanner file = new Scanner(HTMLText);
+    
+                    while (file.hasNext()) {
+                        String s = file.nextLine();
+                        out.println(s);
+                    } 
+
+                    file.close();
+                } catch(Exception e) {
+                    context.log(USER_ID + ": DownloadServlet: Fail to retrieve sample summary. Check error message:\n" + e);
+                    out.println("Fail to retrieve sample summary. Please contact authors using the ID:\n" + USER_ID);
                 }
+                
                 break;
 
             case "graph":
                 out = response.getWriter();
-                String proteinQuery = request.getParameter("proteinQuery");
-                String expressionQuery = request.getParameter("expressionQuery");
-                boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
-//                boolean showDDIs = true;
 
-                JSONArray subNetworkData = filterProtein(LOCAL_STORAGE_PATH, proteinQuery, expressionQuery, showDDIs);
-                out.println(subNetworkData);
+                try {
+                    String proteinQuery = request.getParameter("proteinQuery");
+                    String expressionQuery = request.getParameter("expressionQuery");
+                    boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
+    //                boolean showDDIs = true;
+    
+                    JSONArray subNetworkData = filterProtein(LOCAL_STORAGE_PATH, proteinQuery, expressionQuery, showDDIs);
+                    out.println(subNetworkData);
+                } catch(Exception e) {
+                    context.log(USER_ID + ": DownloadServlet: Fail to retrieve data for graphs data. Check error message:\n" + e);
+                    out.println("Fail to retrieve graphs data. Please contact authors using the ID:\n" + USER_ID);
+                }
+                
                 break;
 
             case "protein_list":
                 out = response.getWriter();
-                Scanner s = new Scanner(new File(LOCAL_STORAGE_PATH + "protein_list.txt"));
-                ArrayList<String> proteinList = new ArrayList<>();
-                while (s.hasNext()){
-                    proteinList.add(createElement("option", s.next()));
+                
+                try {
+                    Scanner s = new Scanner(new File(LOCAL_STORAGE_PATH + "protein_list.txt"));
+                    ArrayList<String> proteinList = new ArrayList<>();
+                    while (s.hasNext()){
+                        proteinList.add(createElement("option", s.next()));
+                    }
+                    out.println(String.join("", proteinList));
+                } catch (Exception e) {
+                    context.log(USER_ID + ": DownloadServlet: Fail to retrieve protein list. Check error message:\n" + e);
+                    out.println("Fail to retrieve protein list. Please contact authors using the ID:\n" + USER_ID);
                 }
-                out.println(String.join("", proteinList));
                 break;
         }
 
