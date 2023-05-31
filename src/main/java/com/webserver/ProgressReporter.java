@@ -17,10 +17,11 @@ import java.io.FileWriter;
 
 //TODO When fail these step, do not display "PPIXpress pipeline is finished!""
 public class ProgressReporter extends HttpServlet {
-        private String runProgress;
+        private String RUN_PROGRESS_LOG;
+        private String LOCAL_STORAGE_PATH;
+        private Boolean LONG_PROCESS_SIGNAL;
+        private int NO_EXPRESSION_FILE;
         private String USER_ID;
-        private Boolean stopSignal;
-        private int no_expression_file;
         private ServletContext context;
 
         /**
@@ -63,26 +64,27 @@ public class ProgressReporter extends HttpServlet {
                 HttpSession session = request.getSession();
 
                 try {
-                        stopSignal = session.getAttribute("LONG_PROCESS_SIGNAL") == null ||
+                        LONG_PROCESS_SIGNAL = session.getAttribute("LONG_PROCESS_SIGNAL") == null ||
                                         Boolean.parseBoolean(session.getAttribute("LONG_PROCESS_SIGNAL").toString());
-                        no_expression_file = session.getAttribute("no_expression_file") == null ? 0
-                                        : (int) session.getAttribute("no_expression_file");
-                        USER_ID = session.getAttribute("LONG_PROCESS_ID") == null ? ""
-                                        : session.getAttribute("LONG_PROCESS_ID").toString();
-
-                        String LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/uploads/" + USER_ID
-                                        + "/OUTPUT/PPIXpress_log.html";
-                        runProgress = Files.readString(Paths.get(LOCAL_STORAGE_PATH));
+                        NO_EXPRESSION_FILE = session.getAttribute("NO_EXPRESSION_FILE") == null ? 0
+                                        : (int) session.getAttribute("NO_EXPRESSION_FILE");
+                        LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
+                                        : session.getAttribute("LOCAL_STORAGE_PATH").toString();
+                        String[] splitPath = LOCAL_STORAGE_PATH.split("/");
+                        USER_ID = splitPath[splitPath.length - 1];
+                        
+                        RUN_PROGRESS_LOG = LOCAL_STORAGE_PATH + "/OUTPUT/PPIXpress_log.html";
+                        RUN_PROGRESS_LOG = Files.readString(Paths.get(RUN_PROGRESS_LOG));
                 } catch (IOException e) {
-                        stopSignal = true;
+                        LONG_PROCESS_SIGNAL = true;
                         context.log(USER_ID + ": ProgressReporter: Fail to retrieve log file. Check error message:\n" + e);
                 }
 
                 // Send response to show on display
                 JSONObject POSTData = new JSONObject();
-                POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", runProgress);
-                POSTData.put("UPDATE_LONG_PROCESS_SIGNAL", stopSignal);
-                POSTData.put("NO_EXPRESSION_FILE", no_expression_file);
+                POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", RUN_PROGRESS_LOG);
+                POSTData.put("UPDATE_LONG_PROCESS_SIGNAL", LONG_PROCESS_SIGNAL);
+                POSTData.put("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
                 out.println(POSTData);
         }
 }

@@ -86,7 +86,7 @@ jQuery(document).ready(function() {
     const protein_network_web = $('#protein_network_web');
     const protein_network_file = $('#protein_network_file')
     const expression_file = $('#expression_file')
-    let no_expression_file = 0;
+    let NO_EXPRESSION_FILE = 0;
     /**
      * Confirm the use of taxon for protein network retrieval. After confirming,
      * filepath for protein_network_file is set to empty string.
@@ -109,8 +109,8 @@ jQuery(document).ready(function() {
     })
 
     expression_file.on("change", function(){
-        no_expression_file = this.files.length
-        showNoChosenFiles('expression_file', no_expression_file)
+        NO_EXPRESSION_FILE = this.files.length
+        showNoChosenFiles('expression_file', NO_EXPRESSION_FILE)
     })
     function showNoChosenFiles(inputType, noFiles){
         $('#' + inputType + "_description").html(noFiles + " file(s) selected")
@@ -149,7 +149,7 @@ jQuery(document).ready(function() {
         const data = new FormData(form);
         data.get('ExpOptions')
         data.append('submitType', submit_type_);
-        data.append('no_expression_file', no_expression_file);
+        data.append('NO_EXPRESSION_FILE', NO_EXPRESSION_FILE);
 
         // If threshold is chosen, do not send percentile value and vice versa
         if ($('#ExpressionLevelOption').val() === "threshold"){
@@ -215,8 +215,8 @@ jQuery(document).ready(function() {
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
 
-                            no_expression_file = json.NO_EXPRESSION_FILE
-                            addNetworkExpressionSelection(no_expression_file);
+                            NO_EXPRESSION_FILE = json.NO_EXPRESSION_FILE
+                            addNetworkExpressionSelection(NO_EXPRESSION_FILE);
                             fetchResult(null,"sample_summary", SampleSummaryTable[0], false); // Display the sample summary table
                             fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
                         }
@@ -706,12 +706,12 @@ function stripHTML(HTMLElement){
 /**
  * Add network showing options to NetworkSelection
  * based on the number of uploaded expression files
- * @param no_expression_file_ Number of expression file
+ * @param NO_EXPRESSION_FILE_ Number of expression file
  */
-function addNetworkExpressionSelection(no_expression_file_){
+function addNetworkExpressionSelection(NO_EXPRESSION_FILE_){
     const NetworkSelection_Expression = document.getElementById('NetworkSelection_Expression');
     NetworkSelection_Expression.innerHTML = '';
-    for (let i = 1; i <= no_expression_file_; i++){
+    for (let i = 1; i <= NO_EXPRESSION_FILE_; i++){
         const opt = document.createElement('option');
         opt.value = i;
         opt.innerHTML = "Expression file " + i;
