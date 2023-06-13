@@ -148,7 +148,7 @@ jQuery(document).ready(function() {
         const form = $("form")[0];
         const data = new FormData(form);
         data.get('ExpOptions')
-        data.append('submitType', submit_type_);
+        data.append('SUBMIT_TYPE', submit_type_);
         data.append('NO_EXPRESSION_FILE', NO_EXPRESSION_FILE);
 
         // If threshold is chosen, do not send percentile value and vice versa

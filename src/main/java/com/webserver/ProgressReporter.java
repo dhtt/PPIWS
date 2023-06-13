@@ -70,14 +70,15 @@ public class ProgressReporter extends HttpServlet {
                                         : (int) session.getAttribute("NO_EXPRESSION_FILE");
                         LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
                                         : session.getAttribute("LOCAL_STORAGE_PATH").toString();
+                        context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS\n" + String.valueOf(NO_EXPRESSION_FILE) + " - "  + LOCAL_STORAGE_PATH);
                         String[] splitPath = LOCAL_STORAGE_PATH.split("/");
                         USER_ID = splitPath[splitPath.length - 1];
                         
-                        RUN_PROGRESS_LOG = LOCAL_STORAGE_PATH + "/OUTPUT/PPIXpress_log.html";
-                        RUN_PROGRESS_LOG = Files.readString(Paths.get(RUN_PROGRESS_LOG));
+                        String RUN_PROGRESS_LOG_PATH = LOCAL_STORAGE_PATH + "/OUTPUT/PPIXpress_log.html";
+                        RUN_PROGRESS_LOG = Files.readString(Paths.get(RUN_PROGRESS_LOG_PATH));
                 } catch (IOException e) {
                         LONG_PROCESS_SIGNAL = true;
-                        context.log(USER_ID + ": ProgressReporter: Fail to retrieve log file. Check error message:\n" + e);
+                        context.log(USER_ID + ": ProgressReporter: Fail to retrieve log file. ERROR:\n" + e);
                 }
 
                 // Send response to show on display
