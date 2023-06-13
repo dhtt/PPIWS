@@ -92,7 +92,6 @@ public class DownloadServlet extends HttpServlet {
         String USER_ID = request.getSession().getId(); // Each user has their own ID
 
         // Define a data local storage on the local server
-        // TODO: Why log of exampple repeated
         String LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/uploads/" + USER_ID;
         File LOCAL_STORAGE_DIR = new File(LOCAL_STORAGE_PATH); 
         if (!LOCAL_STORAGE_DIR.isDirectory()){

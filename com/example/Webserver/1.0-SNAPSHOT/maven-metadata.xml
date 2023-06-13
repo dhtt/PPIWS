@@ -3,21 +3,21 @@
   <groupId>com.example</groupId>
   <artifactId>Webserver</artifactId>
   <versioning>
-    <lastUpdated>20230613164025</lastUpdated>
+    <lastUpdated>20230613175351</lastUpdated>
     <snapshot>
-      <timestamp>20230613.164025</timestamp>
-      <buildNumber>36</buildNumber>
+      <timestamp>20230613.175351</timestamp>
+      <buildNumber>43</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>war</extension>
-        <value>1.0-20230613.164025-36</value>
-        <updated>20230613164025</updated>
+        <value>1.0-20230613.175351-43</value>
+        <updated>20230613175351</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>1.0-20230613.164025-36</value>
-        <updated>20230613164025</updated>
+        <value>1.0-20230613.175351-43</value>
+        <updated>20230613175351</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>

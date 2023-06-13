@@ -63,17 +63,24 @@ public class ProgressReporter extends HttpServlet {
                 PrintWriter out = response.getWriter();
                 HttpSession session = request.getSession();
 
-                try {
+                try {   
+                        // LONG_PROCESS_SIGNAL is a boolean value where "true" will stop PPIXpress process from standalone_tools:PPIXpress
+                        // and "false" keeps the process running. At the end of the process, LONG_PROCESS_SIGNAL is switched to true
                         LONG_PROCESS_SIGNAL = session.getAttribute("LONG_PROCESS_SIGNAL") == null ||
                                         Boolean.parseBoolean(session.getAttribute("LONG_PROCESS_SIGNAL").toString());
+
+                        // NO_EXPRESSION_FILE is the number of expression files user sent to the service
                         NO_EXPRESSION_FILE = session.getAttribute("NO_EXPRESSION_FILE") == null ? 0
                                         : (int) session.getAttribute("NO_EXPRESSION_FILE");
+
+                        // LOCAL_STORAGE_PATH is the path to the folder where INPUT and OUTPUT are stored for each user/example run
                         LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
                                         : session.getAttribute("LOCAL_STORAGE_PATH").toString();
-                        context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS\n" + String.valueOf(NO_EXPRESSION_FILE) + " - "  + LOCAL_STORAGE_PATH);
-                        String[] splitPath = LOCAL_STORAGE_PATH.split("/");
+                         String[] splitPath = LOCAL_STORAGE_PATH.split("/");
                         USER_ID = splitPath[splitPath.length - 1];
+                        context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS\n" + String.valueOf(NO_EXPRESSION_FILE) + " - "  + LOCAL_STORAGE_PATH);
                         
+                        // Get the process log stored in "/OUTPUT/PPIXpress_log.html". Log is updated by the process from standalone_tools:PPIXpress
                         String RUN_PROGRESS_LOG_PATH = LOCAL_STORAGE_PATH + "/OUTPUT/PPIXpress_log.html";
                         RUN_PROGRESS_LOG = Files.readString(Paths.get(RUN_PROGRESS_LOG_PATH));
                 } catch (IOException e) {

@@ -237,6 +237,8 @@ jQuery(document).ready(function() {
     let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
     let Submit = $("[name='Submit']")
     $('#RunNormal').on('click', function (){
+        // showDDIs is the switch to enable expanding nodes for cytoscape. js. Without this, even when #output_DDINs is checked, 
+        // cytoscape would not expand the nodes
         showDDIs = $('#output_DDINs').prop('checked')
 
         // Only submit form if user has chosen a protein network file/taxon for protein network retrieval
@@ -252,9 +254,17 @@ jQuery(document).ready(function() {
         return false;
     })
     $('#RunExample').on('click', function (){
-        loader.css({'display': 'block'});
-        $.fn.submit_form("RunExample");
-        NVContent.removeClass("non-display")
+        // For example run, RunOptions are all checked
+        $("input[name='RunOptions']").each(function () {
+            $(this).prop('checked', true);
+        });
+        // showDDIs is the switch to enable expanding nodes for cytoscape. js. Without this, even when #output_DDINs is checked, 
+        // cytoscape would not expand the nodes
+        showDDIs = $('#output_DDINs').prop('checked')
+
+        Submit.prop('disabled', true)
+        loader.css({'display': 'block'})
+        $.fn.submit_form("RunExample")
         return false;
     })
 

@@ -127,6 +127,7 @@ public class PPIXpressServlet extends HttpServlet {
         // output.zip inside deploy folder (WEBAPP_PATH)
         USER_ID = request.getSession().getId(); // Each user has their own ID
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
+        allArgs.clear();
         
 
         if (SUBMIT_TYPE.equals("RunExample")) {
@@ -231,8 +232,9 @@ public class PPIXpressServlet extends HttpServlet {
         allArgs.removeIf(n -> (n.equals("null")));
 
         // Create and execute PPIXpress and update progress periodically to screen
-        // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
-        AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
+        // // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
+        // AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
+        AtomicBoolean STOP_SIGNAL = new AtomicBoolean(false);
         request.getSession().setAttribute("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
         request.getSession().setAttribute("LONG_PROCESS_SIGNAL", STOP_SIGNAL);
         request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
