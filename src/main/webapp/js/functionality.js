@@ -196,6 +196,7 @@ jQuery(document).ready(function() {
                     allPanel.css({'cursor': 'progress'})
 
                     // When new tab is open but no job is currently running for this user
+                    // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from ProgressReporter.java
                     if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
                         // Stop updateLongRunningStatus & make allPanel cursor default
                         clearInterval(interval)
@@ -205,6 +206,7 @@ jQuery(document).ready(function() {
                     }
                     // If job is running on one more or tabs, the main tab (or new tabs)
                     // will all be updated with the process
+                    // json.UPDATE_LONG_PROCESS_SIGNAL is retrieved from ProgressReporter.java
                     else {
                         if (json.UPDATE_LONG_PROCESS_SIGNAL === true) {
                             // Stop updateLongRunningStatus & return to default setting
@@ -215,10 +217,11 @@ jQuery(document).ready(function() {
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
 
+                            // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
                             NO_EXPRESSION_FILE = json.NO_EXPRESSION_FILE
                             addNetworkExpressionSelection(NO_EXPRESSION_FILE);
                             fetchResult(null,"sample_summary", SampleSummaryTable[0], false); // Display the sample summary table
-                            fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
+                            fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample protein list 
                         }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
@@ -237,6 +240,9 @@ jQuery(document).ready(function() {
     let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
     let Submit = $("[name='Submit']")
     $('#RunNormal').on('click', function (){
+        // Reset displayed result from previous run
+        resetDisplay()
+
         // showDDIs is the switch to enable expanding nodes for cytoscape. js. Without this, even when #output_DDINs is checked, 
         // cytoscape would not expand the nodes
         showDDIs = $('#output_DDINs').prop('checked')
@@ -249,11 +255,15 @@ jQuery(document).ready(function() {
         }
 
         Submit.prop('disabled', true)
-        loader.css({'display': 'block'});
+        loader.css({'display': 'block'})
         $.fn.submit_form("RunNormal")
+        NVContent.removeClass("non-display")
         return false;
     })
     $('#RunExample').on('click', function (){
+        // Reset displayed result from previous run
+        resetDisplay()
+
         // For example run, RunOptions are all checked
         $("input[name='RunOptions']").each(function () {
             $(this).prop('checked', true);
@@ -265,6 +275,7 @@ jQuery(document).ready(function() {
         Submit.prop('disabled', true)
         loader.css({'display': 'block'})
         $.fn.submit_form("RunExample")
+        NVContent.removeClass("non-display")
         return false;
     })
 
@@ -297,11 +308,12 @@ jQuery(document).ready(function() {
     /**
      * Reset all forms & clear all fields for new analysis
      */
-    $('#runNewAnalysis').on('click', function (){
+    function resetForm(){
         $("form")[0].reset(); // Reset the form fields
         $("[name='Reset']").click() // Set default settings for all option panels
         $("[name='ScrollToTop']").css({'display': 'none'})
-
+    }
+    function resetDisplay(){
         // Reset display message (clear message from the previous run)
         $("#AfterRunOptions, #RightDisplay").css({'display': 'none'})
         runningProgressContent.html("")
@@ -310,6 +322,11 @@ jQuery(document).ready(function() {
         $('#NVContent_Graph').html('')
         disableButton(ApplyGraphStyle, ['upload'])
         NetworkSelection_Protein.val('')
+    }
+
+    $('#runNewAnalysis').on('click', function (){
+        resetForm()
+        resetDisplay()
     })
 
 
