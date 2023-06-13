@@ -234,11 +234,9 @@ public class PPIXpressServlet extends HttpServlet {
         // Create and execute PPIXpress and update progress periodically to screen
         // // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
         AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
-        AtomicBoolean EXAMPLE_RUN = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
         request.getSession().setAttribute("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
         request.getSession().setAttribute("LONG_PROCESS_SIGNAL", STOP_SIGNAL);
         request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
-        request.getSession().setAttribute("EXAMPLE_RUN", EXAMPLE_RUN);
 
         LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
         Thread lrp = new Thread(myThreads);

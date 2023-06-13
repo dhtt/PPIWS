@@ -92,12 +92,6 @@ public class DownloadServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String USER_ID = session.getId(); // Each user has their own ID
 
-        // // EXAMPLE_RUN is a boolean where "true" indicate that the run is using
-        // example data, and "false" when
-        // // user uploads their own input. EXAMPLE_RUN is inherited from
-        // PPIXpressServet.java
-        // Boolean EXAMPLE_RUN = session.getAttribute("EXAMPLE_RUN") == null
-        // || Boolean.parseBoolean(session.getAttribute("EXAMPLE_RUN").toString());
         // Define a data local storage on the local server
         String LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
                 : session.getAttribute("LOCAL_STORAGE_PATH").toString();
