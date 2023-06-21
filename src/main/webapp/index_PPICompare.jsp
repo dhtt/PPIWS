@@ -6,22 +6,23 @@
 <html lang="en">
 <head>
     <title>PPIXpress</title>
-    <link rel="stylesheet" href="css/interface.css">
-    <link rel="stylesheet" href="css/header-and-panel.css">
-    <link rel="stylesheet" href="css/cytoscape-style.css">
+    <link rel="stylesheet" href="./shared_resources/css/interface.css">
+    <link rel="stylesheet" href="./shared_resources/css/header-and-panel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
-    <script src="webjars/cytoscape-cose-bilkent/4.0.0/cytoscape-cose-bilkent.js"></script>
-    <script type="module" src="js/cytoscape-expand-collapse.js"></script>
-    <script type="module" src="js/jscolor.js"></script>
-    <script type="module" src="js/functionality.js"></script>
-    <script type="module" src="js/network_maker.js"></script>
+    <script src="https://unpkg.com/layout-base/layout-base.js"></script>
+    <script src="https://unpkg.com/cose-base/cose-base.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cytoscape-cose-bilkent@4.1/cytoscape-cose-bilkent.min.js"></script>
+    <script type="module" src="./shared_resources/js/cytoscape-expand-collapse.js"></script>
+    <script type="module" src="./shared_resources/js/jscolor.js"></script>
+    <script type="module" src="./shared_resources/js/functionality.js"></script>
+    <script type="module" src="./shared_resources/js/network_maker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"> </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="header.html"/>
+<jsp:include page="./ppicompare_resources/html/header.html"/>
 <div style="display: none">
     <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
     <button name="CSS_Style" id="--darkmint" style="color: var(--darkmint)"></button>
@@ -185,111 +186,6 @@
         </form>
     </div>
 
-    <div id="RightPanel" class="middle-under" style="flex: 1; display: flex; flex-flow: column;">
-        <div id="DisplayTabs" class="tabs" style="flex: 0 1 auto; width: 50%">
-            <button type="button" name="DisplayTab" id="RunningProgress" value="RunningProgress" class="header button-tab tab-active" >Running Progress</button>
-            <button type="button" name="DisplayTab" id="NetworkVisualization" value="NetworkVisualization" class="header button-tab">Network Visualization</button>
-        </div>
-        <div id="Display" class="display" style="flex: 1 1 auto; position: relative">
-            <div id="RunningProgressContent" name="Display" class="display-content" style="display: flex; flex-direction: row">
-                <div id="LeftDisplay" class="display-part" style="flex-basis: 60%">
-                    <div id="RPContent" name="RunningProgress"></div>
-                    <div id="Loader" name="RunningProgress" style="display: none; position: relative;"></div>
-                    <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 55%; margin: 1em auto; border-radius: 1em">
-                        <p class="header" style="background: #68d3aa; color: white; text-shadow: var(--textshadow)"> PPIXpress pipeline is finished! </p>
-                        <div class="panel" style="background: white; text-align: center">
-                            <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
-                            <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
-                            <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Condition-Specific Networks</button><br>
-                            <button type="button" name="transit" id="runNewAnalysis" value="null" class="button download">Run a new analysis</button><br>
-                        </div>
-                    </div>
-                    <p name="ScrollToTop" class="reset" style="display: none; text-align: center">Scroll to top</p>
-                </div>
-                <div id="RightDisplay" class="display-part" style="display: none; text-align: center; padding: 0.5em">
-                    <p class="subsection-text" style="margin: 0; font-size: smaller">Number of proteins and interactions<br>in each expression data</p>
-                    <div id="SampleSummaryTable"></div><br>
-                    <button type="button" name="transit" id="downloadSampleSummary" value="null" class="button download" style="min-width: fit-content; padding: 0.5em 1em; height: fit-content">Download this table</button><br><br>
-                    <p name="ScrollToTop" class="reset" style="text-align: center">Scroll to top</p>
-                </div>
-            </div>
-
-<%--            <div id="ResultSummaryContent" name="Display" class="display-content non-display">--%>
-<%--&lt;%&ndash;                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>&ndash;%&gt;--%>
-<%--            </div>--%>
-
-            <div id="NetworkVisualizationContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
-<%--                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>--%>
-
-                <div id="NVContent" style="display: flex; flex-direction: column; flex: 1 1 auto">
-                    <div id="NVContent_Graph" style="flex: 1 1 auto; z-index: 0"></div>
-
-                    <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
-                        <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
-
-                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
-                            <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
-                            <datalist id="NetworkSelection_Protein_List"></datalist><br>
-                            <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
-                            <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>
-                            <button type="button" name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show</button>
-                            <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
-                        </div>
-
-                        <div class="network-option panel" name="NetworkOptions" id="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <label style="font-weight: bold">Customize network display</label>
-
-                            <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
-                                <div style="text-align: left; flex: auto">
-                                    <label for="ToggleExpandCollapse" style="font-weight: bold; font-size: smaller">Display mode</label><br>
-                                    <label for="changeLayout" style="font-weight: bold; font-size: smaller">Graph layout</label><br>
-                                    <label for="changeNodeSize" style="font-weight: bold; font-size: smaller">Node size</label>
-                                </div>
-                                <div style="text-align: right; width: min-content">
-                                    <select name="ApplyGraphStyle" id="ToggleExpandCollapse" disabled>
-                                        <option value="collapseAll">Collapse all</option>
-                                        <option value="expandAll">Expand all</option>
-                                    </select><br>
-                                    <select name="ApplyGraphStyle" id="changeLayout" disabled>
-                                        <option value="cose-bilkent">Cose-bilkent</option>
-                                        <option value="circle">Circle</option>
-                                    </select><br>
-                                    <input type="range" name="ApplyGraphStyle" id="changeNodeSize" disabled value="15" min="1" max="50" step="5" style="width: 100%; height: 0.5em"><br>
-                                </div>
-                            </div>
-
-                            <label style="font-weight: bold; font-size: smaller">Customize colors</label>
-                            <div style="display: flex; flex-direction: row; padding: 0 1em 1em 1em">
-                                <div style="flex-basis: 50%; text-align: right">
-                                    <label style="font-size: smaller">Protein </label>
-                                    <button name="changeGraphColor" id="ProteinColor" data-jscolor="{valueElement: '#--deeppink'}"></button><br>
-                                    <label style="font-size: smaller">PPI </label>
-                                    <button name="changeGraphColor" id="PPIColor" data-jscolor="{valueElement: '#--darkdeeppink'}"></button><br>
-                                </div>
-                                <div style="flex-basis: 50%; text-align: right">
-                                    <label style="font-size: smaller">Domains </label>
-                                    <button name="changeGraphColor" id="DomainColor" data-jscolor="{valueElement: '#--mint'}"></button><br>
-                                    <label style="font-size: smaller">DDI </label>
-                                    <button name="changeGraphColor" id="DDIColor" data-jscolor="{valueElement: '#--darkintensemint'}"></button><br>
-                                </div>
-                            </div>
-                            <button type="button" name="ApplyGraphStyle" id="ApplyGraphColor" disabled value="null" class="button graph-menu-button">Apply color changes</button>
-                        </div>
-
-<%--                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">--%>
-<%--                            <label for="NVContentMetricsTable" style="font-weight: bold">Display network properties</label>--%>
-<%--                            <div id="NVContentMetricsTable" class="popup">--%>
-<%--                                <jsp:include page="output/network_table.html"/><br>--%>
-<%--                                <a href="header.html">Download this table</a>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-                    </div>
-                    <p id="WarningMessage" style="display: none; flex: 1 1 auto"></p>
-                </div>
-            </div>
-        </div>
-    </div>
 </div><br>
 <footer>
     Thorsten Will & Volkhard Helms. Chair of Computational Biology

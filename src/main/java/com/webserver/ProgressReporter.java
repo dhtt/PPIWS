@@ -16,6 +16,7 @@ import java.io.FileWriter;
 @WebServlet(name = "ProgressReporter", value = "/ProgressReporter")
 
 //TODO When fail these step, do not display "PPIXpress pipeline is finished!""
+//TODO When load the screen -> same session -> should check for output
 public class ProgressReporter extends HttpServlet {
         private String RUN_PROGRESS_LOG;
         private String LOCAL_STORAGE_PATH;

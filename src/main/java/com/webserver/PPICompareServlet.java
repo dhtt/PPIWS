@@ -12,10 +12,10 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import standalone_tools.PPIXpress_Tomcat;
 
-@WebServlet(name = "PPIXpressServlet", value = "/PPIXpressServlet")
+@WebServlet(name = "PPIXpress", value = "/PPIXpress")
 @MultipartConfig()
 
-public class PPIXpressServlet extends HttpServlet {
+public class PPICompareServlet extends HttpServlet {
     private ServletContext context;
 
     /**

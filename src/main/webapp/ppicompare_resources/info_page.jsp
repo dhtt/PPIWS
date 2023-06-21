@@ -1,3 +1,4 @@
+<%--TODO: Info page for PPICompare--%>
 <!DOCTYPE html>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
@@ -5,16 +6,16 @@
 
 <html lang="en">
 <head>
-    <title>PPIXpress</title>
-    <link rel="stylesheet" href="css/interface.css">
-    <link rel="stylesheet" href="css/header-and-panel.css">
+    <title>PPICompare</title>
+    <link rel="stylesheet" href="./shared_resources/css/interface.css">
+    <link rel="stylesheet" href="./shared_resources/css/header-and-panel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"> </script>
-    <script type="module" src="js/help-page-functionality.js"></script>
+    <script type="module" src="./shared_resources/js/help-page-functionality.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="header.html"/>
+<jsp:include page="./ppicompare_resources/html/header.html"/>
 <div>
 <%--    TODO: Add link o download example file--%>
     <div id="AllPanels" class="container-body">
@@ -24,18 +25,18 @@
                     <p name="HelpMenu" id="Instruction" class="help-panel DefaultHelpMenu" style="border-radius: 1em 1em 0 0;">Instruction</p>
                     <p name="HelpMenu" id="ProteinInteractionData" class="help-panel-sub">Protein interaction data</p>
                     <p name="HelpMenu" id="ExpressionData" class="help-panel-sub">Expression data</p>
-                    <p name="HelpMenu" id="PPIXpressRunOptions" class="help-panel-sub">PPIXpress run options</p>
+                    <p name="HelpMenu" id="PPICompareRunOptions" class="help-panel-sub">PPICompare run options</p>
                     <p name="HelpMenu" id="ExampleRunSetting" class="help-panel-sub">Example data</p>
                 </div>
                 <div>
-                    <p name="HelpMenu" id="PPIXpressOutput" class="help-panel">PPIXpress Output</p>
+                    <p name="HelpMenu" id="PPICompareOutput" class="help-panel">PPICompare Output</p>
                     <p name="HelpMenu" id="MainOutputFile" class="help-panel-sub">Main output file</p>
                     <p name="HelpMenu" id="PipelineLogFile" class="help-panel-sub">Pipeline log file</p>
                     <p name="HelpMenu" id="SampleSummaryFile" class="help-panel-sub">Sample summary file</p>
                     <p name="HelpMenu" id="SubnetworkVisualization" class="help-panel-sub">Subnetwork visualization</p>
                 </div>
                 <div>
-                    <p name="HelpMenu" id="PPIXpressStandaloneTool" class="help-panel">PPIXpress Standalone Tool</p>
+                    <p name="HelpMenu" id="PPICompareStandaloneTool" class="help-panel">PPICompare Standalone Tool</p>
                     <p name="HelpMenu" id="Download" class="help-panel-sub">Download</p>
                     <p name="HelpMenu" id="Documentation" class="help-panel-sub">Documentation</p>
                 </div>
@@ -59,8 +60,8 @@
                             <li>
                                 <span class="level-2-heading">From file<br></span>
                                 <span>
-                                    PPIXpress accepts protein interaction data of Simple Interaction Format (SIF). SIF is a convenient format to describe a graph as a list of interactions.
-                                    <br>PPIXpress expects interacting proteins pairs (UniProt accessions, Ensembl genes or HGNC gene symbols) line-by-line and optionally a weight.
+                                    PPICompare accepts protein interaction data of Simple Interaction Format (SIF). SIF is a convenient format to describe a graph as a list of interactions.
+                                    <br>PPICompare expects interacting proteins pairs (UniProt accessions, Ensembl genes or HGNC gene symbols) line-by-line and optionally a weight.
                                     <br>A header is not necessary, if there is one it should be of the following form:
                                     <span style="text-align: center">
                                     <table class="table-2">
@@ -109,7 +110,7 @@
                                 <span class="level-2-heading">Cufflinks (isoform/gene) FPKM tracking files<br></span>
                                 <span>
                                     Cufflinks (V2.x) creates FPKM tracking files with annotations according to a specified genome-annotation GTF file.
-                                    <br>If Ensembl/GENCODE annotation is used, those files can be immediately used by PPIXpress.
+                                    <br>If Ensembl/GENCODE annotation is used, those files can be immediately used by PPICompare.
                                     <br><a href="" class="href_to_section">brain.fpkm_tracking.gz</a> is an example for such a file built from the publicly available Illumina Human BodyMap 2.0 data. The file follows the format belows:<br>
                                     <table id="Table-Cufflinks" class="table-2">
                                         <thead>
@@ -166,13 +167,13 @@
                             <li>
                                 <span class="level-2-heading">Kallisto (transcript/gene) files<br></span>
                                 <span>
-                                    PPIXpress uses the reported TPM value to quantify abundance.<br>
+                                    PPICompare uses the reported TPM value to quantify abundance.<br>
                                 </span><br>
                             </li>
                             <li>
                                 <span class="level-2-heading">RSEM (transcript/gene) files<br></span>
                                 <span>
-                                    Example data can be found by the BLUEPRINT project, for example on <a href="http://dcc.blueprint-epigenome.eu/#/home" class="href_to_section">BLUEPRINT DCC PORTAL</a>. Here, PPIXpress also uses the reported TPM value (rather than FPKM) to quantify the abundance.<br>
+                                    Example data can be found by the BLUEPRINT project, for example on <a href="http://dcc.blueprint-epigenome.eu/#/home" class="href_to_section">BLUEPRINT DCC PORTAL</a>. Here, PPICompare also uses the reported TPM value (rather than FPKM) to quantify the abundance.<br>
                                 </span><br>
                             </li>
                             <li>
@@ -220,7 +221,7 @@
                                     </table>
                                     Gene annotations are converted from HGNC identifiers to Ensembl genes using the genenames.org-webservice, transcripts are converted from UCSC transcripts to Ensembl transcripts using UCSC’s hg19 MySQL (including all updates to transcript versions).
                                     <br>To ensure the best mapping possible, Ensembl data for assembly GRCh37 is automatically enforced.
-                                    <br>If Ensembl identifiers are found instead, a plain expression file (see below) with a header is assumed by PPIXpress.
+                                    <br>If Ensembl identifiers are found instead, a plain expression file (see below) with a header is assumed by PPICompare.
                                     <br><a href="" class="href_to_section">BRCA_tumor.normalized RSEM.gz</a> is a BRCA tumor sample taken from TCGA.<br>
                                 </span><br>
                             </li>
@@ -256,7 +257,7 @@
                         </ul><br>
                     </div>
                     <div class="help-section-body">
-                        <span id="toPPIXpressRunOptions" class="level-1-heading">PPIXpress run options</span><br>
+                        <span id="toPPICompareRunOptions" class="level-1-heading">PPICompare run options</span><br>
                         <ul>
                             <li>
                                 <span class="level-2-heading">Protein Interaction Data Options<br></span>
@@ -363,8 +364,8 @@
                                 </table>
                             </div>
                             <div style="flex: 2.8">
-                                <span class="level-2-heading">EXAMPLE 1 </span>(Try PPIXpress with this data on our main page!)<br>
-                                <br>PPIXpress will download the current Mentha protein interaction network for mouse (IntAct if the organism is not available in Mentha) and construct the domain mapping using the most recent Ensembl data, but will neither retrieve nor use current 3did/iPfam data.
+                                <span class="level-2-heading">EXAMPLE 1 </span>(Try PPICompare with this data on our main page!)<br>
+                                <br>PPICompare will download the current Mentha protein interaction network for mouse (IntAct if the organism is not available in Mentha) and construct the domain mapping using the most recent Ensembl data, but will neither retrieve nor use current 3did/iPfam data.
                                 <br>Then a condition-specific network for the mouse brain is built whereas transcripts are thought to be expressed if they have expression values above the median.
                                 <br>The output consists of the resulting protein interaction network but also files for the condition-specific domain-domain interaction network and the most abundant transcript for each protein.
                             </div>
@@ -386,8 +387,8 @@
                             </div>
                             <div style="flex: 2.8">
                                 <span class="level-2-heading">EXAMPLE 2 </span><br>
-                                <br>PPIXpress will first update the UniProt accessions in the given human protein interaction network human ppin.sif and then annotate it with weights from STRING.
-                                <br>Then PPIXpress will build internal data structures using data from Ensembl release 80 retrieved from the US server (if available on the server) and current 3did data.
+                                <br>PPICompare will first update the UniProt accessions in the given human protein interaction network human ppin.sif and then annotate it with weights from STRING.
+                                <br>Then PPICompare will build internal data structures using data from Ensembl release 80 retrieved from the US server (if available on the server) and current 3did data.
                                 <br>This knowledge is then used to independently build two condition-specific networks according to the expression data given by brain.fpkm tracking.gz and BRCA tumor.normalized RSEM.gz whereas transcripts are thought to be expressed if they have expression values above 0.3.
                             </div>
                         </div>
@@ -395,8 +396,8 @@
                 </div>
             </div>
 
-            <div id="toPPIXpressOutput">
-                <p class="menu header help-section-title">PPIXpress Output</p>
+            <div id="toPPICompareOutput">
+                <p class="menu header help-section-title">PPICompare Output</p>
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
                         <span id="toMainOutputFile" class="level-1-heading">Main output file</span><br>
@@ -417,18 +418,18 @@
                 </div>
             </div>
 
-            <div id="toPPIXpressStandaloneTool">
-                <p class="menu header help-section-title">PPIXpress Standalone Tool</p>
+            <div id="toPPICompareStandaloneTool">
+                <p class="menu header help-section-title">PPICompare Standalone Tool</p>
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
                         <span id="toDownload" class="level-1-heading">Download</span><br>
-                        <span>The standalone tool for PPIXpress is available on <a href="https://sourceforge.net/projects/ppixpress/" class="href_to_section">SourceForge</a>.</span>
+                        <span>The standalone tool for PPICompare is available on <a href="https://sourceforge.net/projects/ppixpress/" class="href_to_section">SourceForge</a>.</span>
                         <br>
                     </div>
                     <div class="help-section-body">
                         <span id="toDocumentation" class="level-1-heading">Documentation</span><br>
                         <span class="level-2-heading">
-                            PPIXpress: construction of condition-specific protein interaction networks based on transcript expression
+                            PPICompare: construction of condition-specific protein interaction networks based on transcript expression
                             <br>Thorsten Will, Volkhard Helms
                         </span>
                         <br>
@@ -440,7 +441,7 @@
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
                         <span id="toCitation" class="level-1-heading">Citation</span><br>
-                        <span>Will, T., & Helms, V. (2016). PPIXpress: construction of condition-specific protein interaction networks based on transcript expression. Bioinformatics, 32(4), 571-578.</span>
+                        <span>Will, T., & Helms, V. (2016). PPICompare: construction of condition-specific protein interaction networks based on transcript expression. Bioinformatics, 32(4), 571-578.</span>
                         <br>
                     </div>
                     <div class="help-section-body">

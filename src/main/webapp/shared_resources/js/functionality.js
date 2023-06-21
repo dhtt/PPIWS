@@ -172,8 +172,16 @@ jQuery(document).ready(function() {
             success: function (resultText) {
                 updateLongRunningStatus(resultText, 1000)
             },
-            error: function (){
-                alert("An error occurred, check console log!")
+
+            error: function (xhr, textStatus, error){
+            // }
+            // error: function (){
+                alert("An error occurred, check console!")
+                console.log(xhr.responseText);
+                console.log(xhr.statusText);
+                console.log(textStatus);
+                console.log(error);
+            
             }
         })
     }
