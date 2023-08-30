@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata modelVersion="1.1.0">
   <groupId>com.example</groupId>
-  <artifactId>Webserver</artifactId>
+  <artifactId>PPIXpressWS</artifactId>
   <versioning>
-    <lastUpdated>20230613192229</lastUpdated>
+    <lastUpdated>20230830154310</lastUpdated>
     <snapshot>
-      <timestamp>20230613.192229</timestamp>
-      <buildNumber>52</buildNumber>
+      <timestamp>20230830.154310</timestamp>
+      <buildNumber>3</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>war</extension>
-        <value>1.0-20230613.192229-52</value>
-        <updated>20230613192229</updated>
+        <value>1.0-20230830.154310-3</value>
+        <updated>20230830154310</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>1.0-20230613.192229-52</value>
-        <updated>20230613192229</updated>
+        <value>1.0-20230830.154310-3</value>
+        <updated>20230830154310</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>

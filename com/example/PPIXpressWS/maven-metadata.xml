@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <metadata>
   <groupId>com.example</groupId>
-  <artifactId>Webserver</artifactId>
+  <artifactId>PPIXpressWS</artifactId>
   <versioning>
     <versions>
       <version>1.0-SNAPSHOT</version>
     </versions>
-    <lastUpdated>20230613192229</lastUpdated>
+    <lastUpdated>20230830154310</lastUpdated>
   </versioning>
 </metadata>

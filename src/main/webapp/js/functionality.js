@@ -1,22 +1,22 @@
 import {makePlot} from './network_maker.js'
 
-/***
- * alert when new window is open
- * @type {number}
- */
-localStorage.openpages = Date.now();
-let already_open_window_popup = $('#already_open_window_popup')
-let disabling_window = $('#disabling_window')
-window.addEventListener('storage', function (e) {
-    if(e.key === "openpages") {
-        // Listen if anybody else is opening the same page!
-        localStorage.page_available = Date.now();
-    }
-    if(e.key === "page_available") {
-        already_open_window_popup.toggle()
-        disabling_window.toggle()
-    }
-}, false);
+// /***
+//  * alert when new window is open
+//  * @type {number}
+//  */
+// localStorage.openpages = Date.now();
+// let already_open_window_popup = $('#already_open_window_popup')
+// let disabling_window = $('#disabling_window')
+// window.addEventListener('storage', function (e) {
+//     if(e.key === "openpages") {
+//         // Listen if anybody else is opening the same page!
+//         localStorage.page_available = Date.now();
+//     }
+//     if(e.key === "page_available") {
+//         already_open_window_popup.toggle()
+//         disabling_window.toggle()
+//     }
+// }, false);
 
 /***
  * Define values for button holding CSS style before the document is ready

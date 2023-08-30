@@ -53,13 +53,7 @@
     </p>
 </div>
 
-<div>
-    <a href="./index_PPIXpress.jsp" target="_blank" rel="noopener noreferer" class="button submit" style="font-size: medium">To PPIXpress</a><br>
-    <a href="./index_PPICompare.jsp" target="_blank" rel="noopener noreferer" class="button submit" >To PPICompare</a><br>
-</div>
-
-
-<div id="AllPanels" class="container-body" style="display: none;">
+<div id="AllPanels" class="container-body">
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
@@ -70,6 +64,7 @@
                         <input type="file" name="protein_network_file" id="protein_network_file" accept=".sif" style="display: none">
 <%--                        TODO: Make input accept gzip --%>
                         &nbsp;or&nbsp;
+                        <label for="protein_network_web" class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
                         <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
                         <div id="protein_network_web_popup" class="popup center-pop" style="display: none">
                             <div class="menu header" style="width: 300px; font-size: small">
@@ -78,7 +73,6 @@
                             </div>
                             <p class="menu panel shadow" style="text-align: center; width: 300px; font-weight: normal">
                                 Please input an organism taxon.<br>e.g. Type 9606 for a human network.<br><br>
-                                <label for="protein_network_web" class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
                                 <input type="text" name="protein_network_web" id="protein_network_web" class="input" style="height: 1.5em"><br><br>
                                 <button type="button" id="protein_network_web_confirm" name="confirm" class="button upload" style="width: fit-content;">Enter</button>
                             </p>
