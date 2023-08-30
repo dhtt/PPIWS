@@ -5,7 +5,7 @@
 <%--TODO: Safari appearance--%>
 <html lang="en">
 <head>
-    <title>PPIXpress</title>
+    <title>PPICompare</title>
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
@@ -21,7 +21,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="header.html"/>
+<jsp:include page="header_PPICompare.html"/>
 <div style="display: none">
     <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
     <button name="CSS_Style" id="--darkmint" style="color: var(--darkmint)"></button>
@@ -40,12 +40,12 @@
 <div class="disabling_layer" id="disabling_window"></div>
 <div id="already_open_window_popup" class="popup center-pop" style="display: none">
     <div class="menu header" style="width: 400px; font-size: small; padding: 1em">
-        PPIXpress is already open on another tab!
+        PPICompare is already open on another tab!
     </div>
     <p class="menu panel shadow" style="text-align: center; width: 400px; font-weight: normal; padding: 1em">
         <span>Please close this window<br>OR click "Stay here" to switch to working on this window<br><br></span>
-        <span style="font-size: smaller; color: #707070">Note: PPIXpress progress in other window will be continued here.
-            <br>If you wish to begin a new analysis, please close all opening PPIXpress windows
+        <span style="font-size: smaller; color: #707070">Note: PPICompare progress in other window will be continued here.
+            <br>If you wish to begin a new analysis, please close all opening PPICompare windows
             <br>or continue and click on "Run a new analysis" in the dialog for finished job.
             <br><br>
         </span>
@@ -57,128 +57,43 @@
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
-                <p class="menu header">Load Protein Interaction Data</p>
+                <p class="menu header">Upload condition specific<br>networks</p>
                 <div class="menu panel">
                     <div style="text-align: center; margin: 0">
-                        <label for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
-                        <input type="file" name="protein_network_file" id="protein_network_file" accept=".sif" style="display: none">
+                        <label for="PPIXpress_network_1" class="button upload" title="??">First group</label>
+                        <input type="file" name="PPIXpress_network_1" id="PPIXpress_network_1" accept=".zip" style="display: none">
 <%--                        TODO: Make input accept gzip --%>
-                        &nbsp;or&nbsp;
-                        <label for="protein_network_web" class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
-                        <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
-                        <div id="protein_network_web_popup" class="popup center-pop" style="display: none">
-                            <div class="menu header" style="width: 300px; font-size: small">
-                                <button type="button" name="close" class="help close">x</button>
-                                Retrieve a network<br>from Mentha or IntAct database
-                            </div>
-                            <p class="menu panel shadow" style="text-align: center; width: 300px; font-weight: normal">
-                                Please input an organism taxon.<br>e.g. Type 9606 for a human network.<br><br>
-                                <input type="text" name="protein_network_web" id="protein_network_web" class="input" style="height: 1.5em"><br><br>
-                                <button type="button" id="protein_network_web_confirm" name="confirm" class="button upload" style="width: fit-content;">Enter</button>
-                            </p>
-                        </div>
+                        <label for="PPIXpress_network_2" class="button upload" title="??">Second group</label>
+                        <input type="file" name="PPIXpress_network_2" id="PPIXpress_network_2" accept=".zip" style="display: none">
+<%--                        TODO: Make input accept gzip --%>
+                        
+                        <br>&nbsp;or&nbsp;
+                        <button type="button" name="protein_network_example" id="protein_network_example" class="href_to_section" title="Example input">Get help</button>
                     </div>
-                    <p id="protein_network_file_description" class="description-text">&emsp;</p>
-                    <span style="display:flex; width: 280px">
-                        <span class="subsection-text" style="flex:1;">Options</span>
-                        <span name="Reset" id="ResetPPIOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
-                    </span>
-                    <label>
-                        <input type="checkbox" name="PPIOptions" id="STRING_weights" value="-w">Add STRING weights
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="PPIOptions" id="update_UniProt" value="-u">Update UniProt accessions
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="PPIOptions" id="up2date_DDIs" value="-l">Only local DDI data
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="PPIOptions" id="include_ELM" value="-elm">Include ELM data
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="PPIOptions" class="hidden-checkbox" style="display: none" value=null checked>
-                    </label>
-
                 </div>
             </div>
 
             <div name="LeftPanel2" id="LeftPanel2">
-                <p class="menu header">Load Processed Expression Data</p>
-                <div class="menu panel">
-                    <p style="text-align: center; margin: 0">
-                        <label for="expression_file" class="button upload" title="Upload one or more expression datasets">Upload file(s)</label>
-                        <input type="file" name="expression_file" id="expression_file" accept=".txt,.gz" style="display: none" multiple>
-                        <button type="button" name="expression_example" id="expression_example" class="help" title="Example input">?</button>
-                    </p>
-                    <p id="expression_file_description" class="description-text">&emsp;</p>
-                    <span style="display:flex; width: 280px">
-                        <span class="subsection-text" style="flex:1;">Options</span>
-                        <span name="Reset" id="ResetExpOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
-                    </span>
-                    <label>
-                        <input type="checkbox" name="ExpOptions" id="gene_level_only" value="-g">Gene-level only
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="ExpOptions" id="norm_transcripts" value="-n">Normalize transcripts
-                    </label><br>
-
-                    <span class="subsection-text" style="flex:1;">Expression level
-                    <label for="ExpressionLevelOption">
-                        <select id="ExpressionLevelOption" style="width: fit-content; margin: 0.5em; border: 0">
-                        <option value="threshold">Use threshold</option>
-                        <option value="percentile">Use percentile</option>
-                    </select>
-                    </label>
-                    </span>
-                    <span class="subsection-text" style="flex:1; text-align: center">
-                        <label for="threshold">Threshold</label>
-                        <input type="number" id="threshold" value="1.00" min="0" max="1.0" step="0.01">
-                        <label for="percentile" style="display: none">Percentile</label>
-                        <input type="number" id="percentile" value="0.00" min="0" max="100.0" step="1" style="display: none">
-                    </span>
-
-
-                    <label>
-                        <input type="checkbox" name="ExpOptions" class="hidden-checkbox" style="display: none" value=null checked>
-                    </label>
-
-                </div>
-            </div>
-
-            <div name="LeftPanel3" id="LeftPanel3">
                 <p class="menu header">Run Options</p>
                 <div class="menu panel">
                     <span style="display:flex; width: 280px; margin-top: -1em">
                         <span class="subsection-text" style="flex:1;">Options</span>
                         <span name="Reset" id="ResetRunOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
                     </span>
+
                     <label>
-                        <input type="checkbox" name="RunOptions" id="remove_decay_transcripts" value="-x">Remove decay transcripts
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="RunOptions" id="report_reference" value="reference">Output reference network
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="RunOptions" id="output_DDINs" value="-d">Output DDINs
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="RunOptions" id="output_major_transcripts" value="-m">Output major transcripts
-                    </label><br>
-                    <label>
-                        <input type="checkbox" name="RunOptions" id="report_gene_abundance" value="-mg">Report gene abundance
-                    </label><br>
-                    <label style="display: none">
-<%--                        Do not allow compression of text files because Utils.filterProtein() only read _ppin.txt--%>
-                        <input type="checkbox" name="RunOptions" id="compress_output" value="-c" style="display: none">Compress output
-                    </label>
-                    <label>
-                        <input type="checkbox" name="RunOptions" class="hidden-checkbox" style="display: none" value=null checked>
-                    </label>
+                        <input type="checkbox" name="RunOptions" id="return_protein_attribute" value="-x">Return protein attribute table 
+                    </label><br><br>
+
+                    <span class="subsection-text" style="flex:1; text-align: center">
+                        <label for="fdr">FDR</label>
+                        <input type="number" id="fdr" value="0.05" min="0" max="1.0" step="0.005">
+                    </span>
                 </div>
             </div>
 
-            <div name="LeftPanel4" id="LeftPanel4" style="text-align: center">
-                <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPIXPress</button>
+            <div name="LeftPanel3" id="LeftPanel3" style="text-align: center">
+                <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPICompare</button>
                 <button type="submit" name="Submit" id="RunExample" value="null" class="button try">or Try with example data!</button>
 <%--                <button type="button" name="SubmitExample" id="RunExample" value="Run example" class="button try">or Try with example data!</button>--%>
             </div>
@@ -196,7 +111,7 @@
                     <div id="RPContent" name="RunningProgress"></div>
                     <div id="Loader" name="RunningProgress" style="display: none; position: relative;"></div>
                     <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 55%; margin: 1em auto; border-radius: 1em">
-                        <p class="header" style="background: #68d3aa; color: white; text-shadow: var(--textshadow)"> PPIXpress pipeline is finished! </p>
+                        <p class="header" style="background: #68d3aa; color: white; text-shadow: var(--textshadow)"> PPICompare pipeline is finished! </p>
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
@@ -215,11 +130,11 @@
             </div>
 
 <%--            <div id="ResultSummaryContent" name="Display" class="display-content non-display">--%>
-<%--&lt;%&ndash;                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>&ndash;%&gt;--%>
+<%--&lt;%&ndash;                <h4>Please first run PPICompare and check for progress in Running Progress.</h4>&ndash;%&gt;--%>
 <%--            </div>--%>
 
             <div id="NetworkVisualizationContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
-<%--                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>--%>
+<%--                <h4>Please first run PPICompare and check for progress in Running Progress.</h4>--%>
 
                 <div id="NVContent" style="display: flex; flex-direction: column; flex: 1 1 auto">
                     <div id="NVContent_Graph" style="flex: 1 1 auto; z-index: 0"></div>
