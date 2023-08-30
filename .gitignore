@@ -27,3 +27,4 @@ target/
 .idea/*
 .vscode/*
 com/example/Webserver/*
+com/example/PPIWebserver/1.0-SNAPSHOT/*
