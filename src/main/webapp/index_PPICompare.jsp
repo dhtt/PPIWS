@@ -15,7 +15,8 @@
     <script src="webjars/cytoscape-cose-bilkent/4.0.0/cytoscape-cose-bilkent.js"></script>
     <script type="module" src="js/cytoscape-expand-collapse.js"></script>
     <script type="module" src="js/jscolor.js"></script>
-    <script type="module" src="js/functionality.js"></script>
+    <!-- <script type="module" src="js/functionality.js"></script> -->
+    <script type="module" src="js/functionality_PPICompare.js"></script>
     <script type="module" src="js/network_maker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"> </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
