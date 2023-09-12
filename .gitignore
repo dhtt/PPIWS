@@ -28,3 +28,4 @@ target/
 .vscode/*
 com/example/Webserver/*
 com/example/PPIWebserver/1.0-SNAPSHOT/*
+com/example/PPIXpressWS/1.0-SNAPSHOT/*

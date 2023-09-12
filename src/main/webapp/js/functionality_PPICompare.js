@@ -31,7 +31,6 @@ $("[name='CSS_Style']").map(function(){
 
 jQuery(document).ready(function() {
     // // Test
-    // addNetworkExpressionSelection(2);
     // // fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
 
 
@@ -39,29 +38,11 @@ jQuery(document).ready(function() {
      * Set options to default
      */
     let set_default = function () {
-        $('#remove_decay_transcripts').prop('checked', true)
-        $('#threshold').val(1.0)
-        $('#percentile').val(0.0)
+        $('#return_protein_attribute').prop('checked', true)
+        $('#fdr').val(0.05)
     }
     set_default()
 
-    /**
-     * Make output_major_transcripts true when report_gene_abundance
-     * @param source_
-     * @param target_
-     */
-    let make_all_checked = function (source_, target_) {
-        const parent = $('#' + source_)
-        const children = $('#' + target_)
-        if (parent.is(':checked') === true) {
-            children.prop("checked", true)
-        } else {
-            children.prop("checked", false)
-        }
-    }
-    $('#report_gene_abundance').on('click', function(){
-        make_all_checked('report_gene_abundance','output_major_transcripts')
-    })
 
     /**
      * Set checkboxes and input values to default
@@ -74,65 +55,30 @@ jQuery(document).ready(function() {
         placeholder.find('.description-text').html("&emsp;") // A space is needed so that there is an empty line
 
         // Specific settings for each datatype-panel
-        placeholder.find("#threshold").val(1.00)
-        placeholder.find("#percentile").val(0.00)
-        placeholder.find("#protein_network_web").val("")
-        placeholder.find("#remove_decay_transcripts").prop('checked', true)
+        placeholder.find("#fdr").val(0.05)
+        placeholder.find("#return_protein_attribute").prop('checked', true)
     })
 
     /**
      * Show number of uploaded files
      */
-    const protein_network_web = $('#protein_network_web');
-    const protein_network_file = $('#protein_network_file')
-    const expression_file = $('#expression_file')
-    let NO_EXPRESSION_FILE = 0;
-    /**
-     * Confirm the use of taxon for protein network retrieval. After confirming,
-     * filepath for protein_network_file is set to empty string.
-     */
-    $('#protein_network_web_confirm').on("click", function (){
-        $('#protein_network_file_description').html("Selected taxon: " +
-            $(this).parent().children('.input').val())
-        $(".popup").hide()
-        // alert("Use retrieved protein network from database.")
-        protein_network_file.val("")
+    const PPIXpress_network_1 = $('#PPIXpress_network_1');
+    const PPIXpress_network_2 = $('#PPIXpress_network_2');
+    let NO_PPIXpress_network_1 = 0;
+    let NO_PPIXpress_network_2 = 0;
+  
+    // TODO: Shorten this script
+    PPIXpress_network_1.on("change", function(){
+        NO_PPIXpress_network_1 = this.files.length
+        showNoChosenFiles('PPIXpress_network_1', NO_PPIXpress_network_1)
     })
-    /**
-     * Use user-uploaded network file instead of retrieve by taxon. Upon being selected, taxon and
-     * protein_network_web (if chosen) will be invalidated to empty string
-     */
-    protein_network_file.on("change", function(){
-        showNoChosenFiles('protein_network_file', 1)
-        // alert("Use user-uploaded network file.")
-        protein_network_web.val("")
-    })
-
-    expression_file.on("change", function(){
-        NO_EXPRESSION_FILE = this.files.length
-        showNoChosenFiles('expression_file', NO_EXPRESSION_FILE)
+    PPIXpress_network_2.on("change", function(){
+        NO_PPIXpress_network_2 = this.files.length
+        showNoChosenFiles('PPIXpress_network_2', NO_PPIXpress_network_2)
     })
     function showNoChosenFiles(inputType, noFiles){
         $('#' + inputType + "_description").html(noFiles + " file(s) selected")
     }
-
-    $("label[for='protein_network_web']").on("click", function(){
-        $('#protein_network_web_popup').toggle()
-    })
-
-
-    //Close buttons
-    $("[name='close']").on("click", function(){
-        $(".popup").hide()
-    })
-
-
-    $('#ExpressionLevelOption').on("change", function (){
-        $('label[for="threshold"]').toggle()
-        $('#threshold').toggle()
-        $('label[for="percentile"]').toggle()
-        $('#percentile').toggle()
-    })
 
 
     // Ajax Handler
@@ -140,30 +86,18 @@ jQuery(document).ready(function() {
     const runningProgressContent = $('#RPContent');
     const loader = $('#Loader');
     const leftDisplay = $('#LeftDisplay');
-    let SampleSummaryTable = $('#SampleSummaryTable')
     const NetworkSelection_Protein = $('#NetworkSelection_Protein');
     const NetworkSelection_Expression = $('#NetworkSelection_Expression');
 
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
-        data.get('ExpOptions')
         data.append('SUBMIT_TYPE', submit_type_);
-        data.append('NO_EXPRESSION_FILE', NO_EXPRESSION_FILE);
 
-        // If threshold is chosen, do not send percentile value and vice versa
-        if ($('#ExpressionLevelOption').val() === "threshold"){
-            data.append('threshold', "-t=" + $('#threshold').val());
-            data.append('percentile', "-tp=-1");
-        }
-        else {
-            data.append('threshold', "-t=1.0");
-            data.append('percentile', "-tp=" + $('#percentile').val());
-        }
-
+        data.append('fdr', "-fdr=" + $('#fdr').val());
 
         $.ajax({
-            url: "PPIXpress",
+            url: "PPICompare",
             method: "POST",
             enctype: 'multipart/form-data',
             data: data,
@@ -172,8 +106,9 @@ jQuery(document).ready(function() {
             success: function (resultText) {
                 updateLongRunningStatus(resultText, 1000)
             },
-            error: function (){
-                alert("An error occurred, check console log!")
+            error: function (e){
+                alert("An error occurred in PPICompare Webserver, check console log!")
+                console.log(e)
             }
         })
     }
@@ -214,19 +149,20 @@ jQuery(document).ready(function() {
                             allPanel.css({'cursor': 'default'})
                             loader.css({'display': 'none'})
                             Submit.prop('disabled', false)
-                            $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
+                            $("#AfterRunOptions").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
 
-                            // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
-                            NO_EXPRESSION_FILE = json.NO_EXPRESSION_FILE
-                            addNetworkExpressionSelection(NO_EXPRESSION_FILE);
-                            fetchResult(null,"sample_summary", SampleSummaryTable[0], false); // Display the sample summary table
-                            fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample protein list 
+                             // fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample protein list 
                         }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
                     }
+                },
+                error: function(e){
+                    alert("An error occurred in updateLongRunningStatus, check console log!")
+                    console.log(e)
                 }
+                
             })
         }, updateInterval);
     }
@@ -235,7 +171,6 @@ jQuery(document).ready(function() {
      * Submit form and run analysis
      * @type {boolean}
      */
-    let showDDIs = false
     const NVContent = $('#NVContent');
     let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
     let Submit = $("[name='Submit']")
@@ -245,12 +180,13 @@ jQuery(document).ready(function() {
 
         // showDDIs is the switch to enable expanding nodes for cytoscape. js. Without this, even when #output_DDINs is checked, 
         // cytoscape would not expand the nodes
-        showDDIs = $('#output_DDINs').prop('checked')
+        // showDDIs = $('#output_DDINs').prop('checked') 
+        // TODO: Check showDDIs
 
         // Only submit form if user has chosen a protein network file/taxon for protein network retrieval
         // and at least 1 expression file
-        if ((protein_network_web.val() === "" && protein_network_file.val() === "") || expression_file.val() === ""){
-            alert('Missing input file(s). Please check if protein interaction data is uploaded/chosen and if expression data is uploaded.');
+        if (PPIXpress_network_1.val() === "" || PPIXpress_network_2.val() === ""){
+            alert('Missing input file(s). TODO');
             return false;
         }
 
@@ -264,13 +200,11 @@ jQuery(document).ready(function() {
         // Reset displayed result from previous run
         resetDisplay()
 
-        // For example run, RunOptions are all checked
-        $("input[name='RunOptions']").each(function () {
-            $(this).prop('checked', true);
-        });
         // showDDIs is the switch to enable expanding nodes for cytoscape. js. Without this, even when #output_DDINs is checked, 
         // cytoscape would not expand the nodes
-        showDDIs = $('#output_DDINs').prop('checked')
+        // showDDIs = $('#output_DDINs').prop('checked')
+        // TODO: Check showDDIs
+
 
         Submit.prop('disabled', true)
         loader.css({'display': 'block'})
@@ -315,7 +249,7 @@ jQuery(document).ready(function() {
     }
     function resetDisplay(){
         // Reset display message (clear message from the previous run)
-        $("#AfterRunOptions, #RightDisplay").css({'display': 'none'})
+        $("#AfterRunOptions").css({'display': 'none'})
         runningProgressContent.html("")
 
         // Before resubmit, clear existing graphs and graph options
@@ -348,9 +282,9 @@ jQuery(document).ready(function() {
     })
 
 
-    /*
+    /* CONTINUE FROM HERE
     ===================================================================================================================
-    ============================ Actions after finishing PPIXPress on Running Progress tab ============================
+    ============================ Actions after finishing PPICompare on Running Progress tab ============================
     ===================================================================================================================
     */
     /**
@@ -448,11 +382,6 @@ jQuery(document).ready(function() {
         fetchResult(logContent, "log","PPIXpress_Log.txt", true);
     })
 
-    $('#downloadSampleSummary').on("click", function(){
-        const SampleSummary = stripHTML(SampleSummaryTable)
-        fetchResult(SampleSummary,"sample_summary", "PPIXpress_SampleSummary.txt", true);
-    })
-
     $('#downloadResultFiles').on("click", function(){
         fetchResult(null,"output", "PPIXPress_Output.zip", true);
     })
@@ -469,6 +398,7 @@ jQuery(document).ready(function() {
     $('#toNetworkVisualization').on("click", function (){
         $('#NetworkVisualization').trigger("click");
     })
+    // STOP FROM HERE
 
     /*
         ===================================================================================================================
@@ -727,21 +657,4 @@ function activateNetwork (graph, warning, ShowSubnetworkOption){
  */
 function stripHTML(HTMLElement){
     return HTMLElement.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
-}
-
-
-/**
- * Add network showing options to NetworkSelection
- * based on the number of uploaded expression files
- * @param NO_EXPRESSION_FILE_ Number of expression file
- */
-function addNetworkExpressionSelection(NO_EXPRESSION_FILE_){
-    const NetworkSelection_Expression = document.getElementById('NetworkSelection_Expression');
-    NetworkSelection_Expression.innerHTML = '';
-    for (let i = 1; i <= NO_EXPRESSION_FILE_; i++){
-        const opt = document.createElement('option');
-        opt.value = i;
-        opt.innerHTML = "Expression file " + i;
-        NetworkSelection_Expression.appendChild(opt);
-    }
 }

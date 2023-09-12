@@ -26,37 +26,6 @@ public class PPIXpressServlet extends HttpServlet {
         context = getServletContext();
     }
 
-    /**
-     * Delete folders and contents recursively
-     * 
-     * @param Path_ Path to directory
-     */
-    public static void deleteDir(String Path_) {
-        File dirFile = new File(Path_);
-        if (dirFile.isDirectory()) {
-            File[] dirs = dirFile.listFiles();
-            assert dirs != null;
-            for (File dir : dirs) {
-                deleteDir(String.valueOf(dir));
-            }
-        }
-        dirFile.delete();
-    }
-
-    /**
-     * Create working directory for user
-     * 
-     * @param LocalStoragePath_ Path to the user's local storage
-     */
-    public static void createUserDir(String LocalStoragePath_) throws IOException {
-        if (!Files.exists(Paths.get(LocalStoragePath_))) {
-            Files.createDirectories(Paths.get(LocalStoragePath_ + "OUTPUT/"));
-            Files.createDirectories(Paths.get(LocalStoragePath_ + "INPUT/"));
-        } else {
-            deleteDir(LocalStoragePath_);
-            createUserDir(LocalStoragePath_);
-        }
-    }
 
     /**
      * TODO: Write documentation
@@ -173,7 +142,7 @@ public class PPIXpressServlet extends HttpServlet {
                 LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/"; 
 
                 // Create input directory
-                createUserDir(LOCAL_STORAGE_PATH); 
+                Utils.createUserDir(LOCAL_STORAGE_PATH); 
                 INPUT_PATH = LOCAL_STORAGE_PATH + "INPUT/";
                 OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
                 FILENAME_PPI = "ppi_data.sif";

@@ -68,7 +68,7 @@
                         <input type="file" name="PPIXpress_network_2" id="PPIXpress_network_2" accept=".zip" style="display: none">
 <%--                        TODO: Make input accept gzip --%>
                         
-                        <br>&nbsp;or&nbsp;
+                        <br><br>&nbsp;or&nbsp;
                         <button type="button" name="protein_network_example" id="protein_network_example" class="href_to_section" title="Example input">Get help</button>
                     </div>
                 </div>
@@ -96,7 +96,6 @@
             <div name="LeftPanel3" id="LeftPanel3" style="text-align: center">
                 <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPICompare</button>
                 <button type="submit" name="Submit" id="RunExample" value="null" class="button try">or Try with example data!</button>
-<%--                <button type="button" name="SubmitExample" id="RunExample" value="Run example" class="button try">or Try with example data!</button>--%>
             </div>
         </form>
     </div>
@@ -108,31 +107,22 @@
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto; position: relative">
             <div id="RunningProgressContent" name="Display" class="display-content" style="display: flex; flex-direction: row">
-                <div id="LeftDisplay" class="display-part" style="flex-basis: 60%">
+                <div id="LeftDisplay" class="display-part">
                     <div id="RPContent" name="RunningProgress"></div>
                     <div id="Loader" name="RunningProgress" style="display: none; position: relative;"></div>
-                    <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 55%; margin: 1em auto; border-radius: 1em">
+                    <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 30%; margin: 1em auto; border-radius: 1em">
                         <p class="header" style="background: #68d3aa; color: white; text-shadow: var(--textshadow)"> PPICompare pipeline is finished! </p>
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
-                            <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Condition-Specific Networks</button><br>
+                            <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Differential Networks</button><br>
                             <button type="button" name="transit" id="runNewAnalysis" value="null" class="button download">Run a new analysis</button><br>
                         </div>
                     </div>
                     <p name="ScrollToTop" class="reset" style="display: none; text-align: center">Scroll to top</p>
                 </div>
-                <div id="RightDisplay" class="display-part" style="display: none; text-align: center; padding: 0.5em">
-                    <p class="subsection-text" style="margin: 0; font-size: smaller">Number of proteins and interactions<br>in each expression data</p>
-                    <div id="SampleSummaryTable"></div><br>
-                    <button type="button" name="transit" id="downloadSampleSummary" value="null" class="button download" style="min-width: fit-content; padding: 0.5em 1em; height: fit-content">Download this table</button><br><br>
-                    <p name="ScrollToTop" class="reset" style="text-align: center">Scroll to top</p>
-                </div>
             </div>
 
-<%--            <div id="ResultSummaryContent" name="Display" class="display-content non-display">--%>
-<%--&lt;%&ndash;                <h4>Please first run PPICompare and check for progress in Running Progress.</h4>&ndash;%&gt;--%>
-<%--            </div>--%>
 
             <div id="NetworkVisualizationContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
 <%--                <h4>Please first run PPICompare and check for progress in Running Progress.</h4>--%>

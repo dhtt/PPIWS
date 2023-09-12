@@ -6,12 +6,49 @@ import org.unix4j.line.Line;
 import org.unix4j.unix.Grep;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 
 import static org.unix4j.Unix4j.grep;
 
 
 public class Utils {
+
+    /**
+     * Create working directory for user
+     * 
+     * @param LocalStoragePath_ Path to the user's local storage
+     */
+    public static void createUserDir(String LocalStoragePath_) throws IOException {
+        if (!Files.exists(Paths.get(LocalStoragePath_))) {
+            Files.createDirectories(Paths.get(LocalStoragePath_ + "OUTPUT/"));
+            Files.createDirectories(Paths.get(LocalStoragePath_ + "INPUT/"));
+        } else {
+            Utils.deleteDir(LocalStoragePath_);
+            createUserDir(LocalStoragePath_);
+        }
+    }
+    
+
+    /**
+     * Delete folders and contents recursively
+     * 
+     * @param Path_ Path to directory
+     */
+    public static void deleteDir(String Path_) {
+        File dirFile = new File(Path_);
+        if (dirFile.isDirectory()) {
+            File[] dirs = dirFile.listFiles();
+            assert dirs != null;
+            for (File dir : dirs) {
+                deleteDir(String.valueOf(dir));
+            }
+        }
+        dirFile.delete();
+    }
+
+
     public static JSONObject addEdge(String source_, String target_, String weight_, String class_){
         JSONObject edge_data = new JSONObject();
         edge_data.put("source", source_);

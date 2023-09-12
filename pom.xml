@@ -34,7 +34,7 @@
         <dependency>
             <groupId>standalone_tools</groupId>
             <artifactId>PPIXpress</artifactId>
-            <version>1.1</version>
+            <version>2.1</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
