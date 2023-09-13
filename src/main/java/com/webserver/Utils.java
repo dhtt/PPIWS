@@ -6,14 +6,87 @@ import org.unix4j.line.Line;
 import org.unix4j.unix.Grep;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.File;
 import java.util.*;
+import java.nio.file.*;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipEntry;
 
 import static org.unix4j.Unix4j.grep;
 
 
 public class Utils {
+    public static String RemoveFileExtension(String FileName) {
+        String nameWithoutExtension = null;
+        // Find the last occurrence of the period character.
+        int lastDotIndex = FileName.lastIndexOf(".");
+        
+        if (lastDotIndex != -1) {
+            try{
+                // Remove the file extension.
+                nameWithoutExtension = FileName.substring(0, lastDotIndex);
+            }
+            catch(Exception e){
+                System.out.println("Cannot remove file extension");
+            }
+        } else {
+            nameWithoutExtension = FileName;
+        }
+        return(nameWithoutExtension);
+    }
+
+    
+    public static String UnzipFile(String zipFilePath_) {
+        // Define the directory where you want to extract the contents
+        Path parentDir = Paths.get(zipFilePath_).getParent();
+        Path targetDir = Paths.get(RemoveFileExtension(zipFilePath_));
+        try {
+            if (!Files.exists(targetDir)) {
+                Files.createDirectories(targetDir);
+            } else {
+                Utils.deleteDir(targetDir.toString());
+                Files.createDirectories(targetDir);
+            }
+        } catch(Exception e){
+            System.out.println(e);
+        }
+
+        byte[] buffer = new byte[1024];
+
+        try (
+            FileInputStream fis = new FileInputStream(zipFilePath_);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            ZipInputStream stream = new ZipInputStream(bis)) {
+                ZipEntry entry;
+                while ((entry = stream.getNextEntry()) != null) {
+                    
+                    String entryName = entry.getName();
+                    if (!entryName.startsWith("__MACOSX")){
+                        Path filePath = parentDir.resolve(entry.getName());
+                        
+                        try {
+                            File newFile = filePath.toFile();
+                            if (!newFile.isDirectory()){
+                                FileOutputStream fos = new FileOutputStream(newFile);
+                                BufferedOutputStream bos = new BufferedOutputStream(fos, buffer.length);
+
+                                int len;
+                                while ((len = stream.read(buffer)) > 0) {
+                                    bos.write(buffer, 0, len);
+                                }
+                                bos.close();
+                            }
+                        }
+                        catch(IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        catch(Exception e){}
+        return(targetDir.toString());
+    }
+
 
     /**
      * Create working directory for user
