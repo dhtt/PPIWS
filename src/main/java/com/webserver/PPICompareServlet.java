@@ -14,7 +14,7 @@ import standalone_tools.PPICompare_Tomcat;
 @MultipartConfig()
 
 public class PPICompareServlet extends HttpServlet {
-    private ServletContext context;
+    private static ServletContext context;
 
     /**
      * Initilize ServletContext log to localhost log files
@@ -41,11 +41,15 @@ public class PPICompareServlet extends HttpServlet {
 
         @Override
         public void run() {
-            while (!stop) {
-                PPICompare_Tomcat.runAnalysis(this.argList, stopSignal);
-                if (stopSignal.get()) {
-                    setStop(true);
-                }
+            try {
+                while (!stop) {
+                    PPICompare_Tomcat.runAnalysis(this.argList, stopSignal);
+                    if (stopSignal.get()) {
+                        setStop(true);
+                        }
+                    }
+                } catch(Exception e){
+                context.log(e.toString());
             }
         }
 
@@ -126,6 +130,7 @@ public class PPICompareServlet extends HttpServlet {
                             if (fileType.startsWith("PPIXpress_network_")) {
                                 String inputFilesPath = INPUT_PATH + fileName.substring(fileName.lastIndexOf("\\") + 1);
                                 UtilsServlet.writeOutputStream(part, inputFilesPath);
+                                inputFilesPath = Utils.UnzipFile(inputFilesPath) + '/'; //Extract zip file and remove extension
                                 allArgs.add(inputFilesPath);
                             }
                         }
@@ -134,7 +139,6 @@ public class PPICompareServlet extends HttpServlet {
                 catch(Exception e){
                     context.log(USER_ID + ": PPICompareServlet: Fail to retrieve uploaded expression files. ERROR:\n" + e);
                 }
-
                 // Add output path to arguments set
                 allArgs.add(OUTPUT_PATH);
 
@@ -148,8 +152,11 @@ public class PPICompareServlet extends HttpServlet {
 
         // Store and show to screen uploaded files
         allArgs.addAll(List.of(request.getParameterValues("RunOptions")));
+        System.out.println(allArgs);
         allArgs.add(request.getParameter("fdr"));
+        System.out.println(allArgs);
         allArgs.remove(null);
+        System.out.println(allArgs);
 
         // Create and execute PPICompare and update progress periodically to screen
         // // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
