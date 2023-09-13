@@ -97,8 +97,8 @@ public class DownloadServlet extends HttpServlet {
                 : session.getAttribute("LOCAL_STORAGE_PATH").toString();
 
         String OUTPUT_PATH = LOCAL_STORAGE_PATH + "/OUTPUT/";
-        String OUTPUT_FILENAME = "PPIXPress_Output.zip";
-        String SAMPLE_FILENAME = "sample_table.html";
+        String OUTPUT_FILENAME = "ResultFiles.zip"; 
+        String SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
 
         String resultFileType = request.getParameter("resultFileType");
         PrintWriter out;
