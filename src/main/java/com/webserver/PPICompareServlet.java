@@ -152,11 +152,8 @@ public class PPICompareServlet extends HttpServlet {
 
         // Store and show to screen uploaded files
         allArgs.addAll(List.of(request.getParameterValues("RunOptions")));
-        System.out.println(allArgs);
         allArgs.add(request.getParameter("fdr"));
-        System.out.println(allArgs);
         allArgs.remove(null);
-        System.out.println(allArgs);
 
         // Create and execute PPICompare and update progress periodically to screen
         // // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed

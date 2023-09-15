@@ -89,7 +89,7 @@
             <version>3.0.0</version>
             <!-- <scope>provided</scope> -->
         </dependency>
-        <dependency>
+        <!-- <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-frontend-jaxws</artifactId>
             <version>3.4.5</version>
@@ -99,7 +99,7 @@
                     <groupId>org.apache.cxf</groupId>
                 </exclusion>
             </exclusions>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

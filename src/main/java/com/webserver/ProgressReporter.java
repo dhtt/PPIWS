@@ -9,8 +9,7 @@ import org.json.JSONObject;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.io.FileWriter;
 
 @WebServlet(name = "ProgressReporter", value = "/ProgressReporter")
@@ -82,9 +81,17 @@ public class ProgressReporter extends HttpServlet {
                         context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS\n" + LOCAL_STORAGE_PATH);
                         
                         // Get the process log stored in "/OUTPUT/PPIXpress_log.html". Log is updated by the process from standalone_tools:PPIXpress or PPIXCompare
-                        //The file name must be the same as defined for log_file in PPICompare_Tomcat.java or PPIXpress_Tomcat.java
-                        String RUN_PROGRESS_LOG_PATH = LOCAL_STORAGE_PATH + "/OUTPUT/LogFile.html"; 
-                        RUN_PROGRESS_LOG = Files.readString(Paths.get(RUN_PROGRESS_LOG_PATH));
+                        // The file name must be the same as defined for log_file in PPICompare_Tomcat.java or PPIXpress_Tomcat.java and 
+                        // PPICompareServlet and PPIXpressServlet 
+                        String RUN_PROGRESS_LOG_PATH = LOCAL_STORAGE_PATH + "/OUTPUT/LogFile.html";
+                        Path LOG_FILE = Paths.get(RUN_PROGRESS_LOG_PATH);
+                        if (Files.exists(LOG_FILE)){
+                                RUN_PROGRESS_LOG = Files.readString(LOG_FILE);
+                        }
+                        else {
+                                RUN_PROGRESS_LOG = "";
+                        }
+                        
                 } catch (IOException e) {
                         LONG_PROCESS_SIGNAL = true;
                         context.log(USER_ID + ": ProgressReporter: Fail to retrieve log file. ERROR:\n" + e);

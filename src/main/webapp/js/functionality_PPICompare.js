@@ -379,11 +379,11 @@ jQuery(document).ready(function() {
     }
     $('#downloadLogFile').on("click", function(){
         const logContent = stripHTML(runningProgressContent)
-        fetchResult(logContent, "log","PPIXpress_Log.txt", true);
+        fetchResult(logContent, "log", "LogFile.txt", true);
     })
 
     $('#downloadResultFiles').on("click", function(){
-        fetchResult(null,"output", "PPIXPress_Output.zip", true);
+        fetchResult(null,"output", "ResultFiles.zip", true);
     })
 
     $('#DownloadSubnetwork').on("click", function(){
