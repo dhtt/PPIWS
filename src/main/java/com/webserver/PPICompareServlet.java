@@ -155,9 +155,8 @@ public class PPICompareServlet extends HttpServlet {
         allArgs.remove(null);
 
         // Create and execute PPICompare and update progress periodically to screen
-        // // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
-        // AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
-        AtomicBoolean STOP_SIGNAL = new AtomicBoolean(false);
+        // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
+        AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
         request.getSession().setAttribute("PROGRAM", "PPICompare");
         request.getSession().setAttribute("LONG_PROCESS_SIGNAL", STOP_SIGNAL);
         request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);

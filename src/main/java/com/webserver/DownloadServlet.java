@@ -161,7 +161,7 @@ public class DownloadServlet extends HttpServlet {
                 out = response.getWriter();
 
                 try {
-                    Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_list.txt"));
+                    Scanner s = new Scanner(new File(OUTPUT_PATH + "ProteinList.txt"));
                     ArrayList<String> proteinList = new ArrayList<>();
                     while (s.hasNext()) {
                         proteinList.add(createElement("option", s.next()));

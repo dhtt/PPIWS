@@ -102,14 +102,21 @@ public class ProgressReporter extends HttpServlet {
                         LONG_PROCESS_SIGNAL = true;
                         context.log(USER_ID + ": ProgressReporter: Fail to retrieve log file. ERROR:\n" + e);
                 }
-                // Send response to show on display
-                JSONObject POSTData = new JSONObject();
-                POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", RUN_PROGRESS_LOG);
-                POSTData.put("UPDATE_LONG_PROCESS_SIGNAL", LONG_PROCESS_SIGNAL);
-                if (PROGRAM.equals("PPIXpress")){
-                        POSTData.put("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
-                }
 
-                out.println(POSTData);
+                try {
+                        // Send response to show on display
+                        JSONObject POSTData = new JSONObject();
+                        POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", RUN_PROGRESS_LOG);
+                        POSTData.put("UPDATE_LONG_PROCESS_SIGNAL", LONG_PROCESS_SIGNAL);
+                        if (PROGRAM.equals("PPIXpress")){
+                                POSTData.put("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
+                        }
+
+                        out.println(POSTData);
+                } catch (Exception e) {
+                        LONG_PROCESS_SIGNAL = true;
+                        context.log(USER_ID + ": ProgressReporter: Fail to update log file/run signal. ERROR:\n" + e);
+                }
+         
         }
 }
