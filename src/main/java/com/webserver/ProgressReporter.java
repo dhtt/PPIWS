@@ -85,28 +85,23 @@ public class ProgressReporter extends HttpServlet {
                         // PPICompareServlet and PPIXpressServlet 
                         String RUN_PROGRESS_LOG_PATH = LOCAL_STORAGE_PATH + "/OUTPUT/LogFile.html";
                         Path LOG_FILE = Paths.get(RUN_PROGRESS_LOG_PATH);
+                        // RUN_PROGRESS_LOG = Files.readString(Paths.get(RUN_PROGRESS_LOG_PATH));
                         if (Files.exists(LOG_FILE)){
                                 RUN_PROGRESS_LOG = Files.readString(LOG_FILE);
                         }
-                        else {
-                                RUN_PROGRESS_LOG = "";
+
+                        if (PROGRAM.equals("PPICompare")){
+                                context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS\n" + LOCAL_STORAGE_PATH);
+                        } else if (PROGRAM.equals("PPIXpress")){
+                                NO_EXPRESSION_FILE = session.getAttribute("NO_EXPRESSION_FILE") == null ? 0
+                                : (int) session.getAttribute("NO_EXPRESSION_FILE");
+                                context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS\n" + String.valueOf(NO_EXPRESSION_FILE) + " - "  + LOCAL_STORAGE_PATH);
                         }
-                        
-                } catch (IOException e) {
+
+                } catch (Exception e) {
                         LONG_PROCESS_SIGNAL = true;
                         context.log(USER_ID + ": ProgressReporter: Fail to retrieve log file. ERROR:\n" + e);
                 }
-
-
-                if (PROGRAM.equals("PPICompare")){
-                        context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS\n" + LOCAL_STORAGE_PATH);
-                }
-                else if (PROGRAM.equals("PPIXpress")){
-                        NO_EXPRESSION_FILE = session.getAttribute("NO_EXPRESSION_FILE") == null ? 0
-                                                : (int) session.getAttribute("NO_EXPRESSION_FILE");
-                        context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS\n" + String.valueOf(NO_EXPRESSION_FILE) + " - "  + LOCAL_STORAGE_PATH);
-                }
-
                 // Send response to show on display
                 JSONObject POSTData = new JSONObject();
                 POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", RUN_PROGRESS_LOG);
@@ -114,6 +109,7 @@ public class ProgressReporter extends HttpServlet {
                 if (PROGRAM.equals("PPIXpress")){
                         POSTData.put("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
                 }
+
                 out.println(POSTData);
         }
 }

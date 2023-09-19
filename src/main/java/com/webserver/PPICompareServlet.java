@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import standalone_tools.PPICompare_Tomcat;
 
 @WebServlet(name = "PPICompare", value = "/PPICompare")
@@ -46,9 +45,9 @@ public class PPICompareServlet extends HttpServlet {
                     PPICompare_Tomcat.runAnalysis(this.argList, stopSignal);
                     if (stopSignal.get()) {
                         setStop(true);
-                        }
                     }
-                } catch(Exception e){
+                }
+            } catch(Exception e){
                 context.log(e.toString());
             }
         }
@@ -166,7 +165,7 @@ public class PPICompareServlet extends HttpServlet {
         LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
         Thread lrp = new Thread(myThreads);
         lrp.start();   
-    }
+    } 
 
     public static void main(String[] args) throws IOException {
     }
