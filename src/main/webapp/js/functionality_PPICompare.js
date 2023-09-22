@@ -137,7 +137,7 @@ jQuery(document).ready(function() {
                         clearInterval(interval)
                         allPanel.css({'cursor': 'default'})
                         loader.css({'display': 'none'})
-                        Submit.prop('disabled', false)
+                        // Submit.prop('disabled', false)
                     }
                     // If job is running on one more or tabs, the main tab (or new tabs)
                     // will all be updated with the process
@@ -148,7 +148,7 @@ jQuery(document).ready(function() {
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.css({'display': 'none'})
-                            Submit.prop('disabled', false)
+                            // Submit.prop('disabled', false)
                             $("#AfterRunOptions").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
 
@@ -261,6 +261,7 @@ jQuery(document).ready(function() {
     $('#runNewAnalysis').on('click', function (){
         resetForm()
         resetDisplay()
+        Submit.prop('disabled', false)
     })
 
 

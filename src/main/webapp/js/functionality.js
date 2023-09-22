@@ -143,6 +143,7 @@ jQuery(document).ready(function() {
     let SampleSummaryTable = $('#SampleSummaryTable')
     const NetworkSelection_Protein = $('#NetworkSelection_Protein');
     const NetworkSelection_Expression = $('#NetworkSelection_Expression');
+    
 
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
@@ -202,7 +203,7 @@ jQuery(document).ready(function() {
                         clearInterval(interval)
                         allPanel.css({'cursor': 'default'})
                         loader.css({'display': 'none'})
-                        Submit.prop('disabled', false)
+                        // Submit.prop('disabled', false)
                     }
                     // If job is running on one more or tabs, the main tab (or new tabs)
                     // will all be updated with the process
@@ -213,7 +214,7 @@ jQuery(document).ready(function() {
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.css({'display': 'none'})
-                            Submit.prop('disabled', false)
+                            // Submit.prop('disabled', false)
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
 
@@ -327,6 +328,7 @@ jQuery(document).ready(function() {
     $('#runNewAnalysis').on('click', function (){
         resetForm()
         resetDisplay()
+        Submit.prop('disabled', false)
     })
 
 
@@ -445,16 +447,16 @@ jQuery(document).ready(function() {
     }
     $('#downloadLogFile').on("click", function(){
         const logContent = stripHTML(runningProgressContent)
-        fetchResult(logContent, "log","PPIXpress_Log.txt", true);
+        fetchResult(logContent, "log","LogFile.txt", true);
     })
 
     $('#downloadSampleSummary').on("click", function(){
         const SampleSummary = stripHTML(SampleSummaryTable)
-        fetchResult(SampleSummary,"sample_summary", "PPIXpress_SampleSummary.txt", true);
+        fetchResult(SampleSummary,"sample_summary", "SampleSummary.txt", true);
     })
 
     $('#downloadResultFiles').on("click", function(){
-        fetchResult(null,"output", "PPIXPress_Output.zip", true);
+        fetchResult(null,"output", "ResultFiles.zip", true);
     })
 
     $('#DownloadSubnetwork').on("click", function(){

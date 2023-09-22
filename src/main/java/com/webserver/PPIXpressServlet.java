@@ -5,8 +5,6 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -16,7 +14,7 @@ import standalone_tools.PPIXpress_Tomcat;
 @MultipartConfig()
 
 public class PPIXpressServlet extends HttpServlet {
-    private ServletContext context;
+    private static ServletContext context;
 
     /**
      * Initilize ServletContext log to localhost log files
@@ -43,12 +41,17 @@ public class PPIXpressServlet extends HttpServlet {
 
         @Override
         public void run() {
-            while (!stop) {
-                pipeline.runAnalysis(this.argList, stopSignal);
-                if (stopSignal.get()) {
-                    setStop(true);
-                }
+            try {
+                while (!stop) {
+                    pipeline.runAnalysis(this.argList, stopSignal);
+                    if (stopSignal.get()) {
+                        setStop(true);
+                    }
+                }    
+            } catch (Exception e) {
+                context.log(e.toString());
             }
+            
         }
 
         public boolean getStop() {
@@ -57,21 +60,6 @@ public class PPIXpressServlet extends HttpServlet {
 
         public void setStop(boolean stop) {
             this.stop = stop;
-        }
-    }
-
-    /**
-     * Write a file part from JSP request to a local file to store on server
-     * 
-     * @param filePart_ file part from request
-     * @param filePath_ path to store file
-     */
-    static void writeOutputStream(Part filePart_, String filePath_) {
-        try (InputStream in = filePart_.getInputStream();
-                OutputStream out = Files.newOutputStream(Paths.get(filePath_))) {
-            in.transferTo(out);
-        } catch (IOException ex) {
-            ex.printStackTrace();
         }
     }
 
@@ -102,7 +90,7 @@ public class PPIXpressServlet extends HttpServlet {
         if (SUBMIT_TYPE.equals("RunExample")) {
             try {
                 // Define a data local storage on the local server
-                LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/example_run/"; 
+                LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/example_run/PPIXpress/"; 
                 INPUT_PATH = LOCAL_STORAGE_PATH + "INPUT/";
                 OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
                 FILENAME_PPI = "example_ppi_data.sif";
@@ -131,15 +119,14 @@ public class PPIXpressServlet extends HttpServlet {
                     context.log(USER_ID + ": PPIXpressServlet: Fail to retrieve example expression files. ERROR:\n" + e);
                 }
                 context.log(USER_ID + ": PPIXpressServlet: Example process initiated from Servlet\n" + allArgs);
-            }
-             catch(Exception e){
+            } catch(Exception e){
                 context.log(USER_ID + ": PPIXpressServlet: Fail to initiate example run\n" + e);
              }
         } 
         else if (SUBMIT_TYPE.equals("RunNormal")) {
             try {
                 // Define a data local storage on the local server
-                LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/"; 
+                LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/PPIXpress/"; 
 
                 // Create input directory
                 Utils.createUserDir(LOCAL_STORAGE_PATH); 
@@ -168,25 +155,23 @@ public class PPIXpressServlet extends HttpServlet {
                         if (fileName != null && !fileName.equals("")) {
 
                             if (fileType.equals("protein_network_file"))
-                                writeOutputStream(part, ORIGINAL_NETWORK_PATH);
+                                UtilsServlet.writeOutputStream(part, ORIGINAL_NETWORK_PATH);
 
                             else if (fileType.equals("expression_file")) {
                                 String inputFilesPath = INPUT_PATH + fileName.substring(fileName.lastIndexOf("\\") + 1);
-                                writeOutputStream(part, inputFilesPath);
+                                UtilsServlet.writeOutputStream(part, inputFilesPath);
                                 allArgs.add(inputFilesPath);
                             }
                         }
                     }
-                }
-                catch(Exception e){
+                } catch(Exception e){
                     context.log(USER_ID + ": PPIXpressServlet: Fail to retrieve uploaded expression files. ERROR:\n" + e);
                 }
                 
                 // Set number of expression files
                 NO_EXPRESSION_FILE = Integer.parseInt(request.getParameter("NO_EXPRESSION_FILE"));
                 context.log(USER_ID + ": PPIXpressServlet: User-defined process initiated from Servlet\n" + allArgs);
-            }
-            catch(Exception e){
+            } catch(Exception e){
                 context.log(USER_ID + ": PPIXpressServlet: Fail to initiate user-defined run\n" + e);
             }
            
@@ -201,8 +186,9 @@ public class PPIXpressServlet extends HttpServlet {
         allArgs.removeIf(n -> (n.equals("null")));
 
         // Create and execute PPIXpress and update progress periodically to screen
-        // // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
+        // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
         AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
+        request.getSession().setAttribute("PROGRAM", "PPIXpress");
         request.getSession().setAttribute("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
         request.getSession().setAttribute("LONG_PROCESS_SIGNAL", STOP_SIGNAL);
         request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
