@@ -6,6 +6,7 @@
 <html lang="en">
 <head>
     <title>PPICompare</title>
+    <link rel="stylesheet" href="css/theme_blue.css">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
@@ -24,8 +25,8 @@
 <body>
 <jsp:include page="header_PPICompare.html"/>
 <div style="display: none">
-    <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
-    <button name="CSS_Style" id="--darkmint" style="color: var(--darkmint)"></button>
+    <button name="CSS_Style" id="--cottonblue" style="color: var(--cottonblue)"></button>
+    <button name="CSS_Style" id="--darkcottonblue" style="color: var(--darkcottonblue)"></button>
     <button name="CSS_Style" id="--choco" style="color: var(--choco)"></button>
     <button name="CSS_Style" id="--lightmintgrey" style="color: var(--lightmintgrey)"></button>
     <button name="CSS_Style" id="--intensemint" style="color: var(--intensemint)"></button>
@@ -68,8 +69,8 @@
                         <input type="file" name="PPIXpress_network_2" id="PPIXpress_network_2" accept=".zip" style="display: none">
 <%--                        TODO: Make input accept gzip --%>
                         
-                        <br><br>&nbsp;or&nbsp;
-                        <button type="button" name="protein_network_example" id="protein_network_example" class="href_to_section" title="Example input">Get help</button>
+                        <br><br>&nbsp;or get help&nbsp;
+                        <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
                     </div>
                 </div>
             </div>
@@ -94,7 +95,7 @@
             </div>
 
             <div name="LeftPanel3" id="LeftPanel3" style="text-align: center">
-                <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPICompare</button>
+                <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium; ">Run PPICompare</button>
                 <button type="submit" name="Submit" id="RunExample" value="null" class="button try">or Try with example data!</button>
             </div>
         </form>
@@ -111,7 +112,7 @@
                     <div id="RPContent" name="RunningProgress"></div>
                     <div id="Loader" name="RunningProgress" style="display: none; position: relative;"></div>
                     <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 30%; margin: 1em auto; border-radius: 1em">
-                        <p class="header" style="background: #68d3aa; color: white; text-shadow: var(--textshadow)"> PPICompare pipeline is finished! </p>
+                        <p class="header" style="color: white; text-shadow: var(--textshadow)"> PPICompare pipeline is finished! </p>
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>

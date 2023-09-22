@@ -61,14 +61,14 @@
 .button-tab{
     flex: 1;
     line-height: 1;
-    background-color: #EDF2F4;
+    background-color: #efefef;
     color: var(--choco);
     border: none;
     margin: 1em 0 0 0;
     overflow: hidden;
 }
 .button-tab:hover {
-    background-color: #b4e8c6;
+    background-color: var(--mint);
     color: var(--choco);
 }
 .button-tab:focus, .tab-active {

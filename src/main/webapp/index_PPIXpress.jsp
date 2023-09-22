@@ -6,6 +6,7 @@
 <html lang="en">
 <head>
     <title>PPIXpress</title>
+    <link rel="stylesheet" href="css/theme_mint.css">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
@@ -167,10 +168,6 @@
                     <label>
                         <input type="checkbox" name="RunOptions" id="report_gene_abundance" value="-mg">Report gene abundance
                     </label><br>
-                    <label style="display: none">
-<%--                        Do not allow compression of text files because Utils.filterProtein() only read_ppin.txt--%>
-                        <input type="checkbox" name="RunOptions" id="compress_output" value="-c" style="display: none">Compress output
-                    </label>
                     <label>
                         <input type="checkbox" name="RunOptions" class="hidden-checkbox" style="display: none" value=null checked>
                     </label>

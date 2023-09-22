@@ -1,0 +1,17 @@
+:root{
+    --mint: #ADD8E6;
+    --darkmint: #4ea3c8;
+    --choco: rgb(67, 60, 57);
+    --lightmintgrey: #EDF2F4;
+    --intensemint: #4ea3c8;
+    --darkintensemint: #3da3cc;
+    --ultradarkmint: #003924;
+    --shadow: rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px;
+    --textshadow: 1px 1px 4px var(--darkintensemint);
+    --warning: #ffed25;
+    --warning_close: red;
+    --nodecolor: #2a036b;
+    --deeppink: #FF1493;
+    --darkdeeppink: #a4268f;
+    --lightblue: #f7fafc;
+}

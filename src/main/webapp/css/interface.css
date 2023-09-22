@@ -1,21 +1,3 @@
-:root{
-    --mint: #b4e8c6;
-    --darkmint: rgba(114, 159, 130, 0.7);
-    --choco: rgb(67, 60, 57);
-    --lightmintgrey: #EDF2F4;
-    --intensemint: #68d3aa;
-    --darkintensemint: #1f9b71;
-    --ultradarkmint: #003924;
-    --shadow: rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px;
-    --textshadow: 1px 1px 4px var(--darkintensemint);
-    --warning: #ffed25;
-    --warning_close: red;
-    --nodecolor: #2a036b;
-    --deeppink: #FF1493;
-    --darkdeeppink: #a4268f;
-    --lightblue: #f7fafc;
-}
-
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li,
@@ -243,8 +225,8 @@ footer{
 .menu:hover{
     cursor: default;
 }
-.outer{
-}
+/* .outer{
+} */
 .header{
     font-size: medium;
     text-align: center;
@@ -299,8 +281,8 @@ input[type="checkbox"]{
     bottom: 1px;
     margin-left: 1em; margin-right: 1em;
 }
-.hidden-checkbox{
-}
+/* .hidden-checkbox{
+} */
 input[type="number"], input[type="text"]{
     vertical-align: middle;
     position: relative;
@@ -399,10 +381,11 @@ input[type="range"]::-webkit-slider-runnable-track  {
     transition: all ease-in-out 0.2s;
 }
 #runNewAnalysis{
-    color: lightgrey;
+    background: var(--intensemint);
+    color: white;
 }
 #runNewAnalysis:hover{
-    background: var(--intensemint);
+    background: var(--deeppink);
     color: white;
 }
 #WarningMessage{
@@ -460,9 +443,9 @@ li li::marker {
     color: #46b088;
 }
 
-.input{
+/* .input{
 
-}
+} */
 
 .align_box_right{
     position: absolute;
