@@ -6,7 +6,6 @@ import org.unix4j.line.Line;
 import org.unix4j.unix.Grep;
 
 import java.io.*;
-import java.io.File;
 import java.util.*;
 import java.nio.file.*;
 import java.util.zip.ZipInputStream;
@@ -83,7 +82,9 @@ public class Utils {
                     }
                 }
             }
-        catch(Exception e){}
+        catch(Exception e){
+            e.printStackTrace();
+        }
         return(targetDir.toString());
     }
 
@@ -140,6 +141,7 @@ public class Utils {
         return edge_output;
     }
 
+
     public static JSONObject addNode(String id_, String label_, String parent_, String class_){
         JSONObject node_data = new JSONObject();
         node_data.put("id", id_);
@@ -158,69 +160,127 @@ public class Utils {
         return node_output;
     }
 
+    public static JSONObject addNode_PPICompare(String id_, String label_, String class_){
+        JSONObject node_data = new JSONObject();
+        node_data.put("id", id_);
+        node_data.put("label", label_);
+
+        JSONObject node_output = new JSONObject();
+        node_output.put("data", node_data);
+        node_output.put("position", new JSONObject());
+        node_output.put("group", "nodes");
+        node_output.put("remove", false);
+        node_output.put("selected", false);
+        node_output.put("locked", false);
+        node_output.put("classes", class_);
+
+        return node_output;
+    }
+
+
+    public static JSONArray filterProtein_PPICompare(String LOCAL_STORAGE_PATH) { 
+        JSONArray output = new JSONArray();  
+        Set<String> partners = new HashSet<>();
+        File PPI_file = new File(LOCAL_STORAGE_PATH + "differential_network.txt");
+
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(PPI_file));
+            br.readLine();
+            String line = null;
+            
+            while ((line = br.readLine()) != null) {
+                String[] PPIs = line.split(" ");
+                partners.addAll(List.of(Arrays.copyOfRange(PPIs, 0, 2)));
+
+                //Convert +/- type interaction to 1/0 for cytoscape color mapping 
+                String type = PPIs[2].equals("+") ? "1.0":"0.0"; 
+                
+                JSONObject PPI_Edge = new JSONObject();
+                PPI_Edge = addEdge(PPIs[0], PPIs[1], type, "PPI_Edge");
+                output.put(PPI_Edge);
+            }
+            br.close();
+
+            // Create single nodes that linked to itself
+            for (String node : partners) { 
+                JSONObject Protein_Node = addNode_PPICompare(node, node, "Protein_Node");
+                output.put(Protein_Node);
+            }
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        return output;
+    }
+    
+
     public static JSONArray filterProtein(String LOCAL_STORAGE_PATH, String proteinQuery, String expressionQuery, boolean showDDIs) {
         JSONArray output = new JSONArray();
         File PPI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ppin.txt");
         List<Line> lines = grep(Grep.Options.i, ".*?" + proteinQuery + ".*?", PPI_file).toLineList();
-        if (lines.isEmpty()) {
-            JSONObject emptyList = new JSONObject();
-            emptyList.put("Error", "Protein not found!");
-            output.put(emptyList);
-        } else {
-            Set<String> partners = new HashSet<>();
+        
+        try {   
+            if (lines.isEmpty()) {
+                JSONObject emptyList = new JSONObject();
+                emptyList.put("Error", "Protein not found!");
+                output.put(emptyList);
+            } else {
+                Set<String> partners = new HashSet<>();
 
-            for (Line line : lines) {
-                String[] PPIs = line.getContent().split(" ");
-                partners.addAll(List.of(Arrays.copyOfRange(PPIs, 0, 2)));
-                JSONObject PPI_Edge = addEdge(PPIs[0], PPIs[1], PPIs[2], "PPI_Edge");
-                output.put(PPI_Edge);
-            }
-
-            for (String node : partners) {
-                JSONObject Protein_Node = addNode(node, node, "", "Protein_Node");
-                output.put(Protein_Node);
-            }
-
-            if (showDDIs){
-                File DDI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ddin.txt");
-                List<Line> DDIs = grep(".*?" + String.join(".*?|.*?", partners) + ".*?", DDI_file).toLineList();
-                ArrayList<String> DomainList = new ArrayList<>();
-
-                for (Line line : DDIs) {
+                for (Line line : lines) {
                     String[] PPIs = line.getContent().split(" ");
+                    partners.addAll(List.of(Arrays.copyOfRange(PPIs, 0, 2)));
+                    JSONObject PPI_Edge = addEdge(PPIs[0], PPIs[1], PPIs[2], "PPI_Edge");
+                    output.put(PPI_Edge);
+                }
 
-                    if (PPIs[2].equals("pd")) {
-                        String parent = PPIs[0];
-                        String[] nodeLabels = PPIs[1].split("\\|");
-                        String DDI_ID = nodeLabels[1] + "_" + nodeLabels[2];
+                // Create single nodes that linked to itself
+                for (String node : partners) { 
+                    JSONObject Protein_Node = addNode(node, node, "", "Protein_Node");
+                    output.put(Protein_Node);
+                }
 
-                        if (!DomainList.contains(DDI_ID)){ // Avoid adding duplicated nodes
-                            JSONObject Domain_Node = addNode(DDI_ID, nodeLabels[1], parent, "Domain_Node");
-                            output.put(Domain_Node);
-                            DomainList.add(DDI_ID);
-                        }
-                    }
-                    else if (PPIs[2].equals("dd")) {
-                        String[] nodeLabel1 = PPIs[0].split("\\|");
-                        String DDI_ID1 = nodeLabel1[1] + "_" + nodeLabel1[2];
-                        String[] nodeLabel2 = PPIs[1].split("\\|");
-                        String DDI_ID2 = nodeLabel2[1] + "_" + nodeLabel2[2];
+                if (showDDIs){
+                    File DDI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ddin.txt");
+                    List<Line> DDIs = grep(".*?" + String.join(".*?|.*?", partners) + ".*?", DDI_file).toLineList();
+                    ArrayList<String> DomainList = new ArrayList<>();
 
-                        if (!DomainList.contains(DDI_ID1 + DDI_ID2)){ // Avoid adding duplicated edges
-                            String proteinPair = nodeLabel1[2] + "_" + nodeLabel2[2];
+                    for (Line line : DDIs) {
+                        String[] PPIs = line.getContent().split(" ");
 
-                            if (proteinPair.matches("(?i).*" + proteinQuery + ".*" )){
-                                JSONObject DDI_Edge = addEdge(DDI_ID1, DDI_ID2, PPIs[3], "DDI_Edge");
-                                output.put(DDI_Edge);
+                        if (PPIs[2].equals("pd")) {
+                            String parent = PPIs[0];
+                            String[] nodeLabels = PPIs[1].split("\\|");
+                            String DDI_ID = nodeLabels[1] + "_" + nodeLabels[2];
+
+                            if (!DomainList.contains(DDI_ID)){ // Avoid adding duplicated nodes
+                                JSONObject Domain_Node = addNode(DDI_ID, nodeLabels[1], parent, "Domain_Node");
+                                output.put(Domain_Node);
+                                DomainList.add(DDI_ID);
                             }
-                            DomainList.add(DDI_ID1 + DDI_ID2);
+                        }
+                        else if (PPIs[2].equals("dd")) {
+                            String[] nodeLabel1 = PPIs[0].split("\\|");
+                            String DDI_ID1 = nodeLabel1[1] + "_" + nodeLabel1[2];
+                            String[] nodeLabel2 = PPIs[1].split("\\|");
+                            String DDI_ID2 = nodeLabel2[1] + "_" + nodeLabel2[2];
+
+                            if (!DomainList.contains(DDI_ID1 + DDI_ID2)){ // Avoid adding duplicated edges
+                                String proteinPair = nodeLabel1[2] + "_" + nodeLabel2[2];
+
+                                if (proteinPair.matches("(?i).*" + proteinQuery + ".*" )){
+                                    JSONObject DDI_Edge = addEdge(DDI_ID1, DDI_ID2, PPIs[3], "DDI_Edge");
+                                    output.put(DDI_Edge);
+                                }
+                                DomainList.add(DDI_ID1 + DDI_ID2);
+                            }
                         }
                     }
                 }
             }
+        } catch(Exception e){
+            e.printStackTrace();
         }
-
-//        System.out.println(output);
         return output;
     }
 

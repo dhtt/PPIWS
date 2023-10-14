@@ -95,8 +95,11 @@ public class DownloadServlet extends HttpServlet {
         // Define a data local storage on the local server
         String LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
                 : session.getAttribute("LOCAL_STORAGE_PATH").toString();
+        // PROGRAM shows if PPIXpress or PPICompare is being called
+        String PROGRAM = session.getAttribute("PROGRAM") == null ? ""
+                : session.getAttribute("PROGRAM").toString();
 
-        String OUTPUT_PATH = LOCAL_STORAGE_PATH + "/OUTPUT/";
+        String OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
         String OUTPUT_FILENAME = "ResultFiles.zip"; 
         String SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
 
@@ -140,16 +143,21 @@ public class DownloadServlet extends HttpServlet {
                 break;
 
             case "graph":
+                context.log(USER_ID + ": DownloadServlet: CHECK0: " + PROGRAM + "/n" + OUTPUT_PATH);
                 out = response.getWriter();
 
                 try {
-                    String proteinQuery = request.getParameter("proteinQuery");
-                    String expressionQuery = request.getParameter("expressionQuery");
-                    boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
-                    // boolean showDDIs = true;
-
-                    JSONArray subNetworkData = filterProtein(OUTPUT_PATH, proteinQuery, expressionQuery, showDDIs);
-                    out.println(subNetworkData);
+                    if (PROGRAM.equals("PPIXPress")){
+                        String proteinQuery = request.getParameter("proteinQuery");
+                        String expressionQuery = request.getParameter("expressionQuery");
+                        boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
+                        JSONArray subNetworkData = filterProtein(OUTPUT_PATH, proteinQuery, expressionQuery, showDDIs);
+                        out.println(subNetworkData);
+                    }
+                    else if (PROGRAM.equals("PPICompare")){
+                        JSONArray subNetworkData = filterProtein_PPICompare(OUTPUT_PATH);
+                        out.println(subNetworkData);
+                    }
                 } catch (Exception e) {
                     context.log(USER_ID + ": DownloadServlet: Fail to retrieve data for graphs data. ERROR:\n" + e);
                     out.println("Fail to retrieve graphs data. Please contact authors using the ID:\n" + USER_ID);

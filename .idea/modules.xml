@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Webserver.iml" filepath="$PROJECT_DIR$/Webserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PPIXpressWS.iml" filepath="$PROJECT_DIR$/PPIXpressWS.iml" />
     </modules>
   </component>
 </project>

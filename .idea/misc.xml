@@ -11,4 +11,22 @@
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK" />
+  <component name="UnattendedHostPersistenceState">
+    <option name="openedFilesInfos">
+      <list>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="323" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="222" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/test/java/com/webserver/UtilsTest.java" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="225" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/test/java/unit_test/UtilsTest.java" />
+        </OpenedFileInfo>
+      </list>
+    </option>
+  </component>
 </project>

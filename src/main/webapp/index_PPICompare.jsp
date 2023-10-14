@@ -18,7 +18,8 @@
     <script type="module" src="js/jscolor.js"></script>
     <!-- <script type="module" src="js/functionality.js"></script> -->
     <script type="module" src="js/functionality_PPICompare.js"></script>
-    <script type="module" src="js/network_maker.js"></script>
+    <script type="module" src="js/network_maker_PPICompare.js"></script>
+    <!-- <script type="module" src="js/jsTest.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"> </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -28,12 +29,15 @@
     <button name="CSS_Style" id="--cottonblue" style="color: var(--cottonblue)"></button>
     <button name="CSS_Style" id="--darkcottonblue" style="color: var(--darkcottonblue)"></button>
     <button name="CSS_Style" id="--choco" style="color: var(--choco)"></button>
+    <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
     <button name="CSS_Style" id="--lightmintgrey" style="color: var(--lightmintgrey)"></button>
     <button name="CSS_Style" id="--intensemint" style="color: var(--intensemint)"></button>
     <button name="CSS_Style" id="--darkintensemint" style="color: var(--darkintensemint)"></button>
     <button name="CSS_Style" id="--ultradarkmint" style="color: var(--ultradarkmint)"></button>
     <button name="CSS_Style" id="--deeppink" style="color: var(--deeppink)"></button>
     <button name="CSS_Style" id="--darkdeeppink" style="color: var(--darkdeeppink)"></button>
+    <button name="CSS_Style" id="--lostedge" style="color: var(--lostedge)"></button>
+    <button name="CSS_Style" id="--gainededge" style="color: var(--gainededge)"></button>
     <button name="CSS_Style" id="--shadow" style="color: var(--shadow)"></button>
     <button name="CSS_Style" id="--textshadow" style="color: var(--textshadow)"></button>
     <button name="CSS_Style" id="--warning" style="color: var(--warning)"></button>
@@ -135,11 +139,6 @@
                         <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
-                            <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
-                            <datalist id="NetworkSelection_Protein_List"></datalist><br>
-                            <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
-                            <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>
                             <button type="button" name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show</button>
                             <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
@@ -170,9 +169,12 @@
                             <div style="display: flex; flex-direction: row; padding: 0 1em 1em 1em">
                                 <div style="flex-basis: 50%; text-align: right">
                                     <label style="font-size: smaller">Protein </label>
-                                    <button name="changeGraphColor" id="ProteinColor" data-jscolor="{valueElement: '#--deeppink'}"></button><br>
-                                    <label style="font-size: smaller">PPI </label>
-                                    <button name="changeGraphColor" id="PPIColor" data-jscolor="{valueElement: '#--darkdeeppink'}"></button><br>
+                                    <button name="changeGraphColor" id="ProteinColor" data-jscolor="{valueElement: '#--protein'}"></button><br>
+                                    <label style="font-size: smaller">Lost Edge </label>
+                                    <button name="changeGraphColor" id="LostEdgeColor" data-jscolor="{valueElement: '#--lostedge'}"></button><br>
+                                    <label style="font-size: smaller">Gained Edge </label>
+                                    <button name="changeGraphColor" id="GainedEdgeColor" data-jscolor="{valueElement: '#--gainededge'}"></button><br>
+                                
                                 </div>
                                 <div style="flex-basis: 50%; text-align: right">
                                     <label style="font-size: smaller">Domains </label>
