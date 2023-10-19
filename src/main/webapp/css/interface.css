@@ -360,7 +360,7 @@ input[type="range"]::-webkit-slider-runnable-track  {
     height: 100%;
     position: relative;
 }
-#ToggleExpandCollapse, #changeLayout{
+#ToggleExpandCollapse, #ToggleBackgroundColor, #ToggleProteinID, #changeLayout{
     width: fit-content;
     height: 1.5em;
     margin: 0.5em 0;

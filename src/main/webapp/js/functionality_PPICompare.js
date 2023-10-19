@@ -238,6 +238,7 @@ jQuery(document).ready(function() {
     /**
      * Reset all forms & clear all fields for new analysis
      */
+    const NVContent_Graph = $('#NVContent_Graph')
     function resetForm(){
         $("form")[0].reset(); // Reset the form fields
         $("[name='Reset']").click() // Set default settings for all option panels
@@ -315,7 +316,7 @@ jQuery(document).ready(function() {
         'LostEdgeColor': CSS_Style['--lostedge'],
         'GainedEdgeColor': CSS_Style['--gainededge'],
         'nodeSize': 2,
-        'opacity': 0.6
+        'nodeOpacity': 0.8
     }
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
@@ -467,6 +468,12 @@ jQuery(document).ready(function() {
                 return cy
             })
     })
+
+    const ToggleBackgroundColor = $('#ToggleBackgroundColor')
+    ToggleBackgroundColor.on('change', function(){  
+        let BackgroundColor = ToggleBackgroundColor.val()
+        NVContent_Graph.css({'background': BackgroundColor})
+    }) 
 })
 
 

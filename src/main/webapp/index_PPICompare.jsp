@@ -36,8 +36,10 @@
     <button name="CSS_Style" id="--ultradarkmint" style="color: var(--ultradarkmint)"></button>
     <button name="CSS_Style" id="--deeppink" style="color: var(--deeppink)"></button>
     <button name="CSS_Style" id="--darkdeeppink" style="color: var(--darkdeeppink)"></button>
+    <button name="CSS_Style" id="--protein" style="color: var(--protein)"></button>
     <button name="CSS_Style" id="--lostedge" style="color: var(--lostedge)"></button>
     <button name="CSS_Style" id="--gainededge" style="color: var(--gainededge)"></button>
+    <button name="CSS_Style" id="--highlightedprotein" style="color: var(--highlightedprotein)"></button>
     <button name="CSS_Style" id="--shadow" style="color: var(--shadow)"></button>
     <button name="CSS_Style" id="--textshadow" style="color: var(--textshadow)"></button>
     <button name="CSS_Style" id="--warning" style="color: var(--warning)"></button>
@@ -139,60 +141,54 @@
                         <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <button type="button" name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show</button>
+                            <label style="font-weight: bold">Display result</label><br>
+                            <!-- TODO enable button when results available ShowSubnetwork -->
+                            <button type="button" name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show graph</button>
                             <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
 
                         <div class="network-option panel" name="NetworkOptions" id="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label style="font-weight: bold">Customize network display</label>
-
                             <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
                                 <div style="text-align: left; flex: auto">
-                                    <label for="ToggleExpandCollapse" style="font-weight: bold; font-size: smaller">Display mode</label><br>
-                                    <label for="changeLayout" style="font-weight: bold; font-size: smaller">Graph layout</label><br>
+                                    <label for="ToggleProteinID" style="font-weight: bold; font-size: smaller">Protein ID</label><br>
                                     <label for="changeNodeSize" style="font-weight: bold; font-size: smaller">Node size</label>
                                 </div>
                                 <div style="text-align: right; width: min-content">
-                                    <select name="ApplyGraphStyle" id="ToggleExpandCollapse" disabled>
-                                        <option value="collapseAll">Collapse all</option>
-                                        <option value="expandAll">Expand all</option>
-                                    </select><br>
-                                    <select name="ApplyGraphStyle" id="changeLayout" disabled>
-                                        <option value="cose-bilkent">Cose-bilkent</option>
-                                        <option value="circle">Circle</option>
-                                    </select><br>
-                                    <input type="range" name="ApplyGraphStyle" id="changeNodeSize" disabled value="15" min="1" max="50" step="5" style="width: 100%; height: 0.5em"><br>
+                                    <select name="ApplyGraphStyle" id="ToggleProteinID" disabled>
+                                        <option value="UniProtID">UniProt</option>
+                                        <option value="SymbolID">Symbol</option>
+                                    </select><br>    
+                                    <input type="range" name="ApplyGraphStyle" id="changeNodeSize" disabled value="10" min="0.5" max="25" step="1" style="width: 100%; height: 0.5em"><br>
                                 </div>
                             </div>
 
+                            <label for="NetworkSelection_Protein" style="font-weight: bold; font-size: smaller">Highlight a protein by UniProt ID</label>
+                            <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
+                            <datalist id="NetworkSelection_Protein_List"></datalist><br>
+
                             <label style="font-weight: bold; font-size: smaller">Customize colors</label>
-                            <div style="display: flex; flex-direction: row; padding: 0 1em 1em 1em">
-                                <div style="flex-basis: 50%; text-align: right">
-                                    <label style="font-size: smaller">Protein </label>
-                                    <button name="changeGraphColor" id="ProteinColor" data-jscolor="{valueElement: '#--protein'}"></button><br>
-                                    <label style="font-size: smaller">Lost Edge </label>
-                                    <button name="changeGraphColor" id="LostEdgeColor" data-jscolor="{valueElement: '#--lostedge'}"></button><br>
-                                    <label style="font-size: smaller">Gained Edge </label>
-                                    <button name="changeGraphColor" id="GainedEdgeColor" data-jscolor="{valueElement: '#--gainededge'}"></button><br>
-                                
+                            <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
+                                <div style="text-align: left; flex: auto">
+                                    <label for="ToggleBackgroundColor" style="font-size: smaller">Background color</label><br>
+                                    <label for="ProteinColor" style="font-size: smaller">Protein </label><br>
+                                    <label for="LostEdgeColor" style="font-size: smaller">Lost Edge </label><br>
+                                    <label for="GainedEdgeColor" style="font-size: smaller">Gained Edge </label><br>
+                                    <label for="HighlightedProteinColor" style="font-size: smaller">Highlighted Protein </label><br>
                                 </div>
-                                <div style="flex-basis: 50%; text-align: right">
-                                    <label style="font-size: smaller">Domains </label>
-                                    <button name="changeGraphColor" id="DomainColor" data-jscolor="{valueElement: '#--mint'}"></button><br>
-                                    <label style="font-size: smaller">DDI </label>
-                                    <button name="changeGraphColor" id="DDIColor" data-jscolor="{valueElement: '#--darkintensemint'}"></button><br>
+                                <div style="text-align: right; width: min-content">
+                                    <select name="ApplyGraphStyle" id="ToggleBackgroundColor" disabled> 
+                                        <option value="white">White</option>
+                                        <option value="black">Black</option>
+                                    </select><br>
+                                    <button name="changeGraphColor" id="ProteinColor" data-jscolor="{valueElement: '#--protein'}"></button><br>
+                                    <button name="changeGraphColor" id="LostEdgeColor" data-jscolor="{valueElement: '#--lostedge'}"></button><br>
+                                    <button name="changeGraphColor" id="GainedEdgeColor" data-jscolor="{valueElement: '#--gainededge'}"></button><br>
+                                    <button name="changeGraphColor" id="HighlightedProteinColor" data-jscolor="{valueElement: '#--highlightedprotein'}"></button><br>
                                 </div>
                             </div>
                             <button type="button" name="ApplyGraphStyle" id="ApplyGraphColor" disabled value="null" class="button graph-menu-button">Apply color changes</button>
                         </div>
-
-<%--                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">--%>
-<%--                            <label for="NVContentMetricsTable" style="font-weight: bold">Display network properties</label>--%>
-<%--                            <div id="NVContentMetricsTable" class="popup">--%>
-<%--                                <jsp:include page="output/network_table.html"/><br>--%>
-<%--                                <a href="header.html">Download this table</a>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
                     </div>
                     <p id="WarningMessage" style="display: none; flex: 1 1 auto"></p>
                 </div>

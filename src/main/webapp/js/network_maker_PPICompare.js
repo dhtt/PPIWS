@@ -1,5 +1,7 @@
+// colorOpts is defined in functionality_PPICompare.js
+
 export function makePlot(fetchedData, colorOpts){
-    let line_color = 'mapData(weight, 0, 1, ' + colorOpts.LostEdgeColor + ', ' + colorOpts.GainedEdgeColor 
+    let line_color = 'mapData(weight, 0, 1, ' + colorOpts.LostEdgeColor + ', ' + colorOpts.GainedEdgeColor + ')'
     var graph = fetchedData
         .then(res => res.json())
         .then(
@@ -31,7 +33,7 @@ export function makePlot(fetchedData, colorOpts){
                                 'padding': 15,
                                 'height': colorOpts.nodeSize,
                                 'width': colorOpts.nodeSize,
-                                'opacity': colorOpts.opacity
+                                'opacity': colorOpts.nodeOpacity
                             }
                         },
                         { // Node properties for both protein ad domain node when dragged
