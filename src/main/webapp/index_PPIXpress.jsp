@@ -226,7 +226,7 @@
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
-                            <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
+                            <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="UniProt ID">
                             <datalist id="NetworkSelection_Protein_List"></datalist><br>
                             <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
                             <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>

@@ -24,7 +24,7 @@ export function makePlot(fetchedData, colorOpts){
                         {
                             selector: 'node',
                             style: {
-                                'label': 'data(label)', //Show gene id
+                                'label': 'data(id)', 
                                 'color': colorOpts.ProteinColor,
                                 'text-valign': 'bottom',
                                 'text-opacity': 1,

@@ -160,10 +160,23 @@ public class Utils {
         return node_output;
     }
 
-    public static JSONObject addNode_PPICompare(String id_, String label_, String class_){
+    public static JSONObject addNode_PPICompare(String id_, String label_, String class_, Map<String, String[]> proteinAttributeList_){
+        // proteinAttributeList_[0] should be the same as id_
+        String[] proteinAttributeList_node = proteinAttributeList_.get(id_);
+        String geneName = proteinAttributeList_node[1];
+        String partOfMinReasons = proteinAttributeList_node[2];
+        String alterativeType = proteinAttributeList_node[3];
+        String transcriptomicAlteration = proteinAttributeList_node[4];
+        String score = proteinAttributeList_node[5];
+
+        
         JSONObject node_data = new JSONObject();
         node_data.put("id", id_);
-        node_data.put("label", label_);
+        node_data.put("label", geneName);
+        node_data.put("partOfMinReasons", partOfMinReasons);
+        node_data.put("alterativeType", alterativeType);
+        node_data.put("transcriptomicAlteration", transcriptomicAlteration);
+        node_data.put("score", score);
 
         JSONObject node_output = new JSONObject();
         node_output.put("data", node_data);
@@ -178,7 +191,7 @@ public class Utils {
     }
 
 
-    public static JSONArray filterProtein_PPICompare(String LOCAL_STORAGE_PATH) { 
+    public static JSONArray filterProtein_PPICompare(String LOCAL_STORAGE_PATH, Map<String, String[]> proteinAttributeList) { 
         JSONArray output = new JSONArray();  
         Set<String> partners = new HashSet<>();
         File PPI_file = new File(LOCAL_STORAGE_PATH + "differential_network.txt");
@@ -203,7 +216,7 @@ public class Utils {
 
             // Create single nodes that linked to itself
             for (String node : partners) { 
-                JSONObject Protein_Node = addNode_PPICompare(node, node, "Protein_Node");
+                JSONObject Protein_Node = addNode_PPICompare(node, node, "Protein_Node", proteinAttributeList);
                 output.put(Protein_Node);
             }
         } catch(Exception e){

@@ -9,8 +9,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -104,6 +103,8 @@ public class DownloadServlet extends HttpServlet {
         String SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
 
         String resultFileType = request.getParameter("resultFileType");
+        ArrayList<String> proteinList = new ArrayList<>();
+        Map<String, String[]> proteinAttributeList = new HashMap<String, String[]>(); 
         PrintWriter out;
 
         switch (resultFileType) {
@@ -143,7 +144,6 @@ public class DownloadServlet extends HttpServlet {
                 break;
 
             case "graph":
-                context.log(USER_ID + ": DownloadServlet: CHECK0: " + PROGRAM + "/n" + OUTPUT_PATH);
                 out = response.getWriter();
 
                 try {
@@ -155,7 +155,15 @@ public class DownloadServlet extends HttpServlet {
                         out.println(subNetworkData);
                     }
                     else if (PROGRAM.equals("PPICompare")){
-                        JSONArray subNetworkData = filterProtein_PPICompare(OUTPUT_PATH);
+                        // Get graph data for cytoscape.js to display on NVContent_Graph
+                        Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt"));
+                        while (s.hasNext()) {
+                            String[] attributes = s.nextLine().split(" ");
+                            String UniprotID = attributes[0];
+                            proteinAttributeList.put(UniprotID, attributes);
+                        }
+
+                        JSONArray subNetworkData = filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList);
                         out.println(subNetworkData);
                     }
                 } catch (Exception e) {
@@ -169,12 +177,23 @@ public class DownloadServlet extends HttpServlet {
                 out = response.getWriter();
 
                 try {
-                    Scanner s = new Scanner(new File(OUTPUT_PATH + "ProteinList.txt"));
-                    ArrayList<String> proteinList = new ArrayList<>();
-                    while (s.hasNext()) {
-                        proteinList.add(createElement("option", s.next()));
+                    if (PROGRAM.equals("PPIXPress")){
+                        Scanner s = new Scanner(new File(OUTPUT_PATH + "ProteinList.txt"));
+                        while (s.hasNext()) {
+                            proteinList.add(createElement("option", s.next()));
+                        }
+                        out.println(String.join("", proteinList));
                     }
-                    out.println(String.join("", proteinList));
+                    else if (PROGRAM.equals("PPICompare")){
+                        Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt"));
+                        while (s.hasNext()) {
+                            s.nextLine();
+                            String UniprotID = s.nextLine().split(" ")[0];
+                            proteinList.add(createElement("option", UniprotID));
+                        }
+                        out.println(String.join("", proteinList));
+                    }
+                    
                 } catch (Exception e) {
                     context.log(USER_ID + ": DownloadServlet: Fail to retrieve protein list. ERROR:\n" + e);
                     out.println("Fail to retrieve protein list. Please contact authors using the ID:\n" + USER_ID);

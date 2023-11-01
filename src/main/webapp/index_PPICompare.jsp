@@ -163,30 +163,36 @@
                                 </div>
                             </div>
 
-                            <label for="NetworkSelection_Protein" style="font-weight: bold; font-size: smaller">Highlight a protein by UniProt ID</label>
-                            <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller">
-                            <datalist id="NetworkSelection_Protein_List"></datalist><br>
-
-                            <label style="font-weight: bold; font-size: smaller">Customize colors</label>
-                            <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
-                                <div style="text-align: left; flex: auto">
-                                    <label for="ToggleBackgroundColor" style="font-size: smaller">Background color</label><br>
-                                    <label for="ProteinColor" style="font-size: smaller">Protein </label><br>
-                                    <label for="LostEdgeColor" style="font-size: smaller">Lost Edge </label><br>
-                                    <label for="GainedEdgeColor" style="font-size: smaller">Gained Edge </label><br>
-                                    <label for="HighlightedProteinColor" style="font-size: smaller">Highlighted Protein </label><br>
-                                </div>
-                                <div style="text-align: right; width: min-content">
-                                    <select name="ApplyGraphStyle" id="ToggleBackgroundColor" disabled> 
-                                        <option value="white">White</option>
-                                        <option value="black">Black</option>
-                                    </select><br>
-                                    <button name="changeGraphColor" id="ProteinColor" data-jscolor="{valueElement: '#--protein'}"></button><br>
-                                    <button name="changeGraphColor" id="LostEdgeColor" data-jscolor="{valueElement: '#--lostedge'}"></button><br>
-                                    <button name="changeGraphColor" id="GainedEdgeColor" data-jscolor="{valueElement: '#--gainededge'}"></button><br>
-                                    <button name="changeGraphColor" id="HighlightedProteinColor" data-jscolor="{valueElement: '#--highlightedprotein'}"></button><br>
+                            <div>
+                                <label for="NetworkSelection_HighlightProtein" style="font-weight: bold; font-size: smaller">Highlight a protein</label>
+                                <input id="NetworkSelection_HighlightProtein" list="NetworkSelection_HighlightProtein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="UniProt ID">
+                                <datalist id="NetworkSelection_HighlightProtein_List"></datalist>
+                            </div>
+                            
+                            
+                            <div style="padding: 1em">
+                                <label style="font-weight: bold; font-size: smaller">Customize colors</label>
+                                <div style="display: flex; flex-direction: row; line-height: 2em">
+                                    <div style="text-align: left; flex: auto">
+                                        <label for="ToggleBackgroundColor" style="font-size: smaller">Background color</label><br>
+                                        <label for="ProteinColor" style="font-size: smaller">Protein </label><br>
+                                        <label for="LostEdgeColor" style="font-size: smaller">Lost Edge </label><br>
+                                        <label for="GainedEdgeColor" style="font-size: smaller">Gained Edge </label><br>
+                                        <label for="HighlightedProteinColor" style="font-size: smaller">Highlighted Protein </label><br>
+                                    </div>
+                                    <div style="text-align: right; width: min-content">
+                                        <select name="ApplyGraphStyle" id="ToggleBackgroundColor" disabled> 
+                                            <option value="white">White</option>
+                                            <option value="black">Black</option>
+                                        </select><br>
+                                        <button name="changeGraphColor" id="ProteinColor" data-jscolor="{valueElement: '#--protein'}"></button><br>
+                                        <button name="changeGraphColor" id="LostEdgeColor" data-jscolor="{valueElement: '#--lostedge'}"></button><br>
+                                        <button name="changeGraphColor" id="GainedEdgeColor" data-jscolor="{valueElement: '#--gainededge'}"></button><br>
+                                        <button name="changeGraphColor" id="HighlightedProteinColor" data-jscolor="{valueElement: '#--highlightedprotein'}"></button><br>
+                                    </div>
                                 </div>
                             </div>
+                            
                             <button type="button" name="ApplyGraphStyle" id="ApplyGraphColor" disabled value="null" class="button graph-menu-button">Apply color changes</button>
                         </div>
                     </div>

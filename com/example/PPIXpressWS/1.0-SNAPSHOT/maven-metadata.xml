@@ -3,21 +3,21 @@
   <groupId>com.example</groupId>
   <artifactId>PPIXpressWS</artifactId>
   <versioning>
-    <lastUpdated>20231014173310</lastUpdated>
+    <lastUpdated>20231101153511</lastUpdated>
     <snapshot>
-      <timestamp>20231014.173310</timestamp>
-      <buildNumber>77</buildNumber>
+      <timestamp>20231101.153511</timestamp>
+      <buildNumber>135</buildNumber>
     </snapshot>
     <snapshotVersions>
       <snapshotVersion>
         <extension>war</extension>
-        <value>1.0-20231014.173310-77</value>
-        <updated>20231014173310</updated>
+        <value>1.0-20231101.153511-135</value>
+        <updated>20231101153511</updated>
       </snapshotVersion>
       <snapshotVersion>
         <extension>pom</extension>
-        <value>1.0-20231014.173310-77</value>
-        <updated>20231014173310</updated>
+        <value>1.0-20231101.153511-135</value>
+        <updated>20231101153511</updated>
       </snapshotVersion>
     </snapshotVersions>
   </versioning>

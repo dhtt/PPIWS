@@ -149,6 +149,7 @@ jQuery(document).ready(function() {
                             $("#AfterRunOptions").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
 
+                            fetchResult(null, "protein_list", $('#NetworkSelection_HighlightProtein_List')[0], false); // Display the sample protein list 
                           }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
@@ -338,6 +339,11 @@ jQuery(document).ready(function() {
                     body: downloadData
                 })
 
+            // // Output log file
+            // fetchData.then(function(result) {
+            //     console.log(result.text())
+            // })
+
             // If downloadable is true, download file from fetched response under target as filename.
             // Applied for resultFileType of log, output
             if (downloadable) {
@@ -359,6 +365,11 @@ jQuery(document).ready(function() {
                             WarningMessage.css({'display': 'none'});
                             return cy
                         })
+                }
+                else if (resultFileType === "protein_list"){
+                    fetchData
+                        .then(response => response.text())
+                        .then(text => target.innerHTML = text)
                 }
             }
                 
@@ -432,7 +443,7 @@ jQuery(document).ready(function() {
         let nodeSize = changeNodeSize.val()
         ProteinNetwork
             .then(cy => {
-                cy.style()
+                cy.style() //FIXME
                     .selector('node')
                     .style({
                         'height':  nodeSize,
@@ -473,6 +484,22 @@ jQuery(document).ready(function() {
     ToggleBackgroundColor.on('change', function(){  
         let BackgroundColor = ToggleBackgroundColor.val()
         NVContent_Graph.css({'background': BackgroundColor})
+    }) 
+
+    //DOINGt
+    const ToggleProteinID = $('#ToggleProteinID')
+    ToggleProteinID.on('change', function(){  
+        let ProteinIDType = ToggleProteinID.val()
+        ProteinNetwork
+        .then(cy => {
+            // Toggle while keeping current layout
+            const newLayout = {
+                name: changeLayout.val(),
+                animate: true,
+                randomize: false,
+                fit: true
+            }
+        })
     }) 
 })
 
@@ -517,7 +544,6 @@ function showWarningMessage(WarningMessage_, message_, timeout_){
 function activateNetwork(graph, warning){
     graph
         .then(cy => {
-            cy.unbind("grab"); // unbind event to prevent possible mishaps with firing too many events
             cy.$('node').bind('grab', function(node) { // bind with .bind() (synonym to .on() but more intuitive
                 const ele = node.target;
                 ele.addClass('Node_active');
