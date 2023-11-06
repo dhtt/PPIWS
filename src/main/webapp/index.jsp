@@ -220,13 +220,7 @@
                 </div>
             </div>
 
-<%--            <div id="ResultSummaryContent" name="Display" class="display-content non-display">--%>
-<%--&lt;%&ndash;                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>&ndash;%&gt;--%>
-<%--            </div>--%>
-
             <div id="NetworkVisualizationContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
-<%--                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>--%>
-
                 <div id="NVContent" style="display: flex; flex-direction: column; flex: 1 1 auto">
                     <div id="NVContent_Graph" style="flex: 1 1 auto; z-index: 0"></div>
 

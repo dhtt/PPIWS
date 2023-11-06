@@ -489,20 +489,19 @@ jQuery(document).ready(function() {
         NVContent_Graph.css({'background': BackgroundColor})
     }) 
 
-    //DOINGt
     const ToggleProteinID = $('#ToggleProteinID')
     ToggleProteinID.on('change', function(){  
         let ProteinIDType = ToggleProteinID.val()
         ProteinNetwork
-        .then(cy => {
-            // Toggle while keeping current layout
-            const newLayout = {
-                name: changeLayout.val(),
-                animate: true,
-                randomize: false,
-                fit: true
-            }
-        })
+            .then(cy => {
+                cy.style()
+                .selector('node')
+                .style({
+                    'label': ProteinIDType === "UniProtID" ? 'data(id)' :  'data(label)',     
+                })
+                .update()
+                return cy
+            })
     }) 
 })
 
