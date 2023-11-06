@@ -85,6 +85,7 @@ jQuery(document).ready(function() {
     const loader = $('#Loader');
     const leftDisplay = $('#LeftDisplay');
     const NetworkSelection_Protein = $('#NetworkSelection_Protein');
+    const ShowSubnetwork = $('#ShowSubnetwork')
 
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
@@ -148,8 +149,10 @@ jQuery(document).ready(function() {
                             // Submit.prop('disabled', false)
                             $("#AfterRunOptions").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
+                            enableButton(ShowSubnetwork, ['upload'])
 
-                            fetchResult(null, "protein_list", $('#NetworkSelection_HighlightProtein_List')[0], false); // Display the sample protein list 
+                            // Display the sample protein list 
+                            fetchResult(null, "protein_list", $('#NetworkSelection_HighlightProtein_List')[0], false); 
                           }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
@@ -409,7 +412,7 @@ jQuery(document).ready(function() {
         animate: false
     }
 
-    $('#ShowSubnetwork').on("click", function (){
+    ShowSubnetwork.on("click", function (){
             fetchResult(null, "graph", null, false)
             enableButton(ApplyGraphStyle, ['upload'])
             activateNetwork(ProteinNetwork, WarningMessage)
@@ -506,8 +509,8 @@ jQuery(document).ready(function() {
 
 /***
  *
- * @param button_
- * @param classes_
+ * @param button_ the button to enable
+ * @param classes_ a list of style classes to add to the button after enabling it
  */
 function enableButton(button_, classes_){
     if (button_.prop('disabled')){
@@ -517,6 +520,12 @@ function enableButton(button_, classes_){
         }
     }
 }
+
+/***
+ *
+ * @param button_ the button to enable
+ * @param classes_ a list of style classes to remove from the button after disabling it
+ */
 function disableButton(button_, classes_){
     if (!button_.prop('disabled')){
         button_.prop('disabled', true)

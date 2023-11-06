@@ -142,8 +142,8 @@
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label style="font-weight: bold">Display result</label><br>
-                            <!-- TODO enable button when results available ShowSubnetwork -->
-                            <button type="button" name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show graph</button>
+                            <!-- button-typed items are enabled when UPDATE_LONG_PROCESS_SIGNAL === true. Then, class 'upload' is added to style the buttons -->
+                            <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button graph-menu-button">Show graph</button>
                             <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
 

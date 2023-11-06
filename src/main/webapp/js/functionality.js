@@ -143,6 +143,7 @@ jQuery(document).ready(function() {
     let SampleSummaryTable = $('#SampleSummaryTable')
     const NetworkSelection_Protein = $('#NetworkSelection_Protein');
     const NetworkSelection_Expression = $('#NetworkSelection_Expression');
+    const ShowSubnetwork = $('#ShowSubnetwork')
     
 
     $.fn.submit_form = function(submit_type_){
@@ -217,6 +218,7 @@ jQuery(document).ready(function() {
                             // Submit.prop('disabled', false)
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
+                            enableButton(ShowSubnetwork, ['upload'])
 
                             // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
                             NO_EXPRESSION_FILE = json.NO_EXPRESSION_FILE
@@ -483,7 +485,7 @@ jQuery(document).ready(function() {
         animate: false
     }
 
-    $('#ShowSubnetwork').on("click", function (){
+    ShowSubnetwork.on("click", function (){
         if (NetworkSelection_Protein.val() !== "") {
             fetchResult(null, "graph", null, false)
             enableButton(ApplyGraphStyle, ['upload'])
@@ -496,7 +498,7 @@ jQuery(document).ready(function() {
             changeNodeSize.val(15).change()
         }
         else
-            alert("Please choose a protein!")
+            alert("Please select a protein!")
     })
 
 

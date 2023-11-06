@@ -239,7 +239,7 @@
                             <datalist id="NetworkSelection_Protein_List"></datalist><br>
                             <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
                             <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>
-                            <button type="button" name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show</button>
+                            <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show</button>
                             <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
 
