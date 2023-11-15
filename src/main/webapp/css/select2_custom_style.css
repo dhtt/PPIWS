@@ -1,0 +1,43 @@
+
+.select2-container--default .select2-selection--single{
+    border-radius: 0.5em !important;
+    font-size: smaller !important;
+    padding-right: 2em;
+}
+.select2-container{
+    width: 80%;
+    padding-right: 2em;
+    margin-top: 0.5em !important;
+    margin-bottom: 0.5em !important;
+}
+.select2-results, .select2-results--option, .select2-results--message, .select2-search{
+    font-size: small;
+} 
+.select2-dropdown {
+    background: #f4f4f4;
+    border-radius: 0.5em !important;
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    left: -100000px;
+    width: 100%;
+    z-index: 1051;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+    border: 1px solid lightgray;
+    border-radius: 0.5em !important;
+    font-size: smaller !important;
+}
+.select2-results__option--highlighted[aria-selected] {
+    color: var(--darkintensemint) !important;
+    background-color: white !important;
+    font-weight: bold;
+}
+.select2-results__option[aria-selected=true] {
+    color: var(--highlightedprotein) !important;
+    background-color: white !important;
+    font-weight: bold;
+}
+.select2-selection__rendered {
+    padding-right: 2em;
+}

@@ -496,9 +496,9 @@ jQuery(document).ready(function() {
             activateNetwork(ProteinNetwork, WarningMessage, ShowSubnetworkOption)
             $('#NetworkOptions').find('select').prop('selectedIndex', 0).change()
             changeNodeSize.val(15).change()
-        }
-        else
+        } else {
             alert("Please select a protein!")
+        }
     })
 
 

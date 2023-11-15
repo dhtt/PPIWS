@@ -211,13 +211,7 @@
                 </div>
             </div>
 
-<%--            <div id="ResultSummaryContent" name="Display" class="display-content non-display">--%>
-<%--&lt;%&ndash;                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>&ndash;%&gt;--%>
-<%--            </div>--%>
-
             <div id="NetworkVisualizationContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
-<%--                <h4>Please first run PPIXpress and check for progress in Running Progress.</h4>--%>
-
                 <div id="NVContent" style="display: flex; flex-direction: column; flex: 1 1 auto">
                     <div id="NVContent_Graph" style="flex: 1 1 auto; z-index: 0"></div>
 
@@ -230,7 +224,7 @@
                             <datalist id="NetworkSelection_Protein_List"></datalist><br>
                             <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
                             <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>
-                            <button type="button" name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show</button>
+                            <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show</button>
                             <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
 

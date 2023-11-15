@@ -30,7 +30,9 @@ $("[name='CSS_Style']").map(function(){
 }).get()
 
 jQuery(document).ready(function() {
-    // // Test
+    $("#NetworkSelection_HighlightProtein").select2({
+        placeholder: $( this ).data( 'placeholder' )
+    });
 
     /**
      * Set options to default
@@ -84,7 +86,7 @@ jQuery(document).ready(function() {
     const runningProgressContent = $('#RPContent');
     const loader = $('#Loader');
     const leftDisplay = $('#LeftDisplay');
-    const NetworkSelection_Protein = $('#NetworkSelection_Protein');
+    const NetworkSelection_HighlightProtein = $('#NetworkSelection_HighlightProtein');
     const ShowSubnetwork = $('#ShowSubnetwork')
 
     $.fn.submit_form = function(submit_type_){
@@ -152,7 +154,7 @@ jQuery(document).ready(function() {
                             enableButton(ShowSubnetwork, ['upload'])
 
                             // Display the sample protein list 
-                            fetchResult(null, "protein_list", $('#NetworkSelection_HighlightProtein_List')[0], false); 
+                            fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
                           }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
@@ -256,7 +258,7 @@ jQuery(document).ready(function() {
         // Before resubmit, clear existing graphs and graph options
         $('#NVContent_Graph').html('')
         disableButton(ApplyGraphStyle, ['upload'])
-        NetworkSelection_Protein.val('')
+        NetworkSelection_HighlightProtein.val('')
     }
 
     $('#runNewAnalysis').on('click', function (){
@@ -319,6 +321,7 @@ jQuery(document).ready(function() {
         'ProteinColor': CSS_Style['--protein'],
         'LostEdgeColor': CSS_Style['--lostedge'],
         'GainedEdgeColor': CSS_Style['--gainededge'],
+        'HighlightedProteinColor': CSS_Style['--highlightedprotein'],
         'nodeSize': 2,
         'nodeOpacity': 0.8
     }
@@ -332,20 +335,11 @@ jQuery(document).ready(function() {
             const downloadData = new FormData();
             downloadData.append("resultFileType", resultFileType)
 
-            if (resultFileType === "graph"){
-                // Do something
-            }
-
             let fetchData = fetch("DownloadServlet",
                 {
                     method: 'POST',
                     body: downloadData
                 })
-
-            // // Output log file
-            // fetchData.then(function(result) {
-            //     console.log(result.text())
-            // })
 
             // If downloadable is true, download file from fetched response under target as filename.
             // Applied for resultFileType of log, output
@@ -461,9 +455,12 @@ jQuery(document).ready(function() {
     const ProteinColor = $('#ProteinColor')[0]
     const LostEdgeColor = $('#LostEdgeColor')[0]
     const GainedEdgeColor = $('#GainedEdgeColor')[0]
+    const HighlightedProteinColor = $('#HighlightedProteinColor')[0]
     $('#ApplyGraphColor').on('click', function(){
         var LostEdgeColor_updated = LostEdgeColor.getAttribute('data-current-color')
         var GainedEdgeColor_updated = GainedEdgeColor.getAttribute('data-current-color')
+        var ProteinColor_updated = ProteinColor.getAttribute('data-current-color')
+        var HighlightedProteinColor_updated = HighlightedProteinColor.getAttribute('data-current-color')
         var line_color = 'mapData(weight, 0, 1, ' + LostEdgeColor_updated + ', ' + GainedEdgeColor_updated + ')'
 
         ProteinNetwork
@@ -471,12 +468,17 @@ jQuery(document).ready(function() {
                 cy.style()
                     .selector('node')
                     .style({
-                        'background-color': ProteinColor.getAttribute('data-current-color'),
-                        'color': ProteinColor.getAttribute('data-current-color')
+                        'background-color': ProteinColor_updated,
+                        'color': ProteinColor_updated
                     })
                     .selector('.PPI_Edge')
                     .style({
                         'line-color': line_color
+                    })
+                    .selector('.Node_highlight')
+                    .style({
+                        'background-color': HighlightedProteinColor_updated,
+                        'color': HighlightedProteinColor_updated,
                     })
                     .update()
                 return cy
@@ -503,6 +505,37 @@ jQuery(document).ready(function() {
                 return cy
             })
     }) 
+
+    // View a single protein
+    let NetworkSelection_HighlightProtein_All = $('#NetworkSelection_HighlightProtein_All')
+    let NetworkSelection_HighlightProtein_Single = $('#NetworkSelection_HighlightProtein_Single')
+    let NetworkSelection_UnhighlightProtein = $('#NetworkSelection_UnhighlightProtein') 
+    NetworkSelection_HighlightProtein_All.on("click", function(){
+        let highlightedProtein = NetworkSelection_HighlightProtein.val() 
+        NetworkSelection_UnhighlightProtein.trigger('click')
+        ProteinNetwork
+            .then(cy => {
+                const ele = cy.$('#' + highlightedProtein)
+                ele.addClass('Node_highlight');
+                ele.neighborhood().addClass('Node_highlight')
+            })
+    })
+    NetworkSelection_HighlightProtein_Single.on("click", function(){
+        NetworkSelection_HighlightProtein_All.trigger('click')
+        ProteinNetwork
+            .then(cy => {
+                const hidden_eles = cy.$('*').not(cy.$('.Node_highlight'))
+                hidden_eles.addClass('Node_hidden');
+            })
+    })
+    NetworkSelection_UnhighlightProtein.on("click", function(){
+        ProteinNetwork
+            .then(cy => {
+                cy.nodes().removeClass('Node_highlight');
+                cy.nodes().removeClass('Node_hidden');
+            })
+    })
+    //TODO why some ID are not in list NetworkSelection_HighlightProtein
 })
 
 

@@ -10,13 +10,19 @@
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
+    <link rel="stylesheet" href="css/select2_custom_style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"/> -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
     <script src="webjars/cytoscape-cose-bilkent/4.0.0/cytoscape-cose-bilkent.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
     <script type="module" src="js/cytoscape-expand-collapse.js"></script>
     <script type="module" src="js/jscolor.js"></script>
-    <!-- <script type="module" src="js/functionality.js"></script> -->
     <script type="module" src="js/functionality_PPICompare.js"></script>
     <script type="module" src="js/network_maker_PPICompare.js"></script>
     <!-- <script type="module" src="js/jsTest.js"></script> -->
@@ -162,11 +168,14 @@
                             </div>
 
                             <div>
-                                <label for="NetworkSelection_HighlightProtein" style="font-weight: bold; font-size: smaller">Highlight a protein</label>
-                                <input id="NetworkSelection_HighlightProtein" list="NetworkSelection_HighlightProtein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="UniProt ID">
-                                <datalist id="NetworkSelection_HighlightProtein_List"></datalist>
-                            </div>
+                                <label for="NetworkSelection_HighlightProtein" style="font-weight: bold; font-size: smaller">View a protein (UniProt ID)</label><br>
+                                <select id="NetworkSelection_HighlightProtein" class="button upload" style="margin: 0.5em 0; width: min-content; font-size: smaller" data-placeholder="UniProt ID"></select><br>
+                                
+                                <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_HighlightProtein_All" value="null" class="button graph-menu-button">Highlight</button>
+                                <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_HighlightProtein_Single" value="null" class="button graph-menu-button">Focus</button>
                             
+                                <span id="NetworkSelection_UnhighlightProtein" class="subsection-text reset" style="font-size: smaller">Reset</span><br>
+                            </div>                            
                             
                             <div style="padding: 1em">
                                 <label style="font-weight: bold; font-size: smaller">Customize colors</label>

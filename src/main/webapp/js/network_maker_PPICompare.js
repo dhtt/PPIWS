@@ -24,6 +24,7 @@ export function makePlot(fetchedData, colorOpts){
                         {
                             selector: 'node',
                             style: {
+                                'display': 'element',
                                 'label': 'data(id)', 
                                 'color': colorOpts.ProteinColor,
                                 'text-valign': 'bottom',
@@ -42,14 +43,30 @@ export function makePlot(fetchedData, colorOpts){
                                 'font-weight': 'bold'
                             }
                         },
+                        { // Node properties for both protein ad domain node when dragged
+                            selector: ".Node_highlight",
+                            style: {
+                                'background-color': colorOpts.HighlightedProteinColor,
+                                'color': colorOpts.HighlightedProteinColor,
+                                'font-weight': 'bold'
+                            }
+                        },
+                        { // Node properties for both protein ad domain node when dragged
+                            selector: ".Node_hidden",
+                            style: {
+                                'display': 'none'
+                            }
+                        },
                         { // Default edge properties for PPI
                             selector: ".PPI_Edge",
                             style: {
+                                'display': 'element',
                                 'label': '',
                                 'curve-style': 'straight',
                                 'width': 4,
                                 'opacity': 0.8,
-                                'line-color': line_color
+                                'line-color': line_color,
+                                'visibility': 'visible'
                             }
                         }
                     ]
