@@ -618,19 +618,6 @@ jQuery(document).ready(function() {
 
 
 
-/***
- *
- * @param graph
- * @param layoutBy
- */
-function rearrange(graph, layoutBy) {
-    if (layoutBy != null) {
-        let layout = graph.layout(layoutBy);
-        if (layout && layout.run) {
-            layout.run();
-        }
-    }
-}
 
 /***
  *

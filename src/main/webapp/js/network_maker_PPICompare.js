@@ -34,7 +34,11 @@ export function makePlot(fetchedData, colorOpts){
                                 'padding': 15,
                                 'height': colorOpts.nodeSize,
                                 'width': colorOpts.nodeSize,
-                                'opacity': colorOpts.nodeOpacity
+                                'opacity': colorOpts.nodeOpacity,
+                                'shape': 'ellipse',
+                                'border-width': 0,
+                                'border-color': colorOpts.ProteinColor,
+                                'font-size': 15
                             }
                         },
                         { // Node properties for both protein ad domain node when dragged
@@ -48,6 +52,7 @@ export function makePlot(fetchedData, colorOpts){
                             style: {
                                 'background-color': colorOpts.HighlightedProteinColor,
                                 'color': colorOpts.HighlightedProteinColor,
+                                'border-color': colorOpts.HighlightedProteinColor,
                                 'font-weight': 'bold'
                             }
                         },
@@ -55,6 +60,23 @@ export function makePlot(fetchedData, colorOpts){
                             selector: ".Node_hidden",
                             style: {
                                 'display': 'none'
+                            }
+                        },
+                        { 
+                            selector: ".Node_transcriptomicAlteration",
+                            style: {
+                                'shape': function(ele){ 
+                                    return ele.data('transcriptomicAlteration') === 'gain' ? 'rectangle' : 
+                                    (ele.data('transcriptomicAlteration') === 'loss' ? 'triangle' : 'ellipse'); 
+                                }
+                            }
+                        },
+                        { 
+                            selector: ".Node_partOfMinReasons",
+                            style: {
+                                'border-width': 5,
+                                'border-color': 'red',
+                                'font-weight': 'bold'
                             }
                         },
                         { // Default edge properties for PPI

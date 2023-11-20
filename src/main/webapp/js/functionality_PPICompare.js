@@ -417,41 +417,132 @@ jQuery(document).ready(function() {
     /****************************
      * **Graph customization ****
      * **************************/
-    // Change graph layout
-    let changeLayout = $('#changeLayout')
-    changeLayout.on('change', function(){
+
+    // Change Protein ID
+    const ToggleProteinID = $('#ToggleProteinID')
+    ToggleProteinID.on('change', function(){  
+        let ProteinIDType = ToggleProteinID.val()
         ProteinNetwork
             .then(cy => {
-                const newLayout = {
-                    name: changeLayout.val(),
-                    animate: true,
-                    randomize: false,
-                    fit: true
-                }
-                // TODO check expandCollpase api
+                cy.style()
+                .selector('node')
+                .style({
+                    'label': ProteinIDType === "UniProtID" ? 'data(id)' :  'data(label)',     
+                })
+                .update()
                 return cy
             })
-    })
+    }) 
 
 
-    // Change nodes size
+    // Change Node size
     let changeNodeSize = $('#changeNodeSize')
     changeNodeSize.on('change', function(){
         let nodeSize = changeNodeSize.val()
         ProteinNetwork
             .then(cy => {
-                cy.style() //FIXME
+                cy.style()
                     .selector('node')
                     .style({
                         'height':  nodeSize,
                         'width': nodeSize,
+                        'font-size': 15
                     })
                     .update()
-                return cy
+            })
+        $('#ToggleRelativeImportance').prop('checked', false)
+    })
+
+
+    $('.toggle_input').on('change', function(){
+        let ID = this.id;
+        let checked = $(this).prop('checked');
+        
+        if (ID === 'ToggleTranscriptomicAlteration'){
+            if (checked){
+                ProteinNetwork
+                .then(cy => {
+                    cy.nodes('[transcriptomicAlteration = "gain"],[transcriptomicAlteration = "loss"]').addClass('Node_transcriptomicAlteration');
+                })
+            } else {
+                ProteinNetwork
+                .then(cy => {
+                    cy.nodes('[transcriptomicAlteration = "gain"],[transcriptomicAlteration = "loss"]').removeClass('Node_transcriptomicAlteration');
+                })
+            }
+        }
+        else if (ID === 'ToggleRelativeImportance'){
+            if (checked){
+                ProteinNetwork
+                .then(cy => {
+                    cy.style()
+                    .selector('node')
+                    .style({
+                        'height': 'mapData(score, 50, 500, 1, 100)',
+                        'width': 'mapData(score, 50, 500, 1, 100)',
+                        'font-size': 'mapData(score, 50, 500, 15, 30)',
+                    })
+                    .update()
+                    rearrange(cy, 'cose-bilkent')
+                })
+            } else {
+                changeNodeSize.trigger('change')
+            }
+        }
+        else if (ID === 'ToggleMinReasons'){
+            if (checked){
+                ProteinNetwork
+                .then(cy => {
+                    cy.nodes('[partOfMinReasons = "yes"]').addClass('Node_partOfMinReasons');
+                })
+            } else {
+                ProteinNetwork
+                .then(cy => {
+                    cy.nodes('[partOfMinReasons = "yes"]').removeClass('Node_partOfMinReasons');
+                })
+            }
+        }
+    })
+
+    // View a single protein
+    let NetworkSelection_HighlightProtein_All = $('#NetworkSelection_HighlightProtein_All')
+    let NetworkSelection_HighlightProtein_Single = $('#NetworkSelection_HighlightProtein_Single')
+    let NetworkSelection_UnhighlightProtein = $('#NetworkSelection_UnhighlightProtein') 
+    NetworkSelection_HighlightProtein_All.on("click", function(){
+        let highlightedProtein = NetworkSelection_HighlightProtein.val() 
+        NetworkSelection_UnhighlightProtein.trigger('click')
+        ProteinNetwork
+            .then(cy => {
+                const ele = cy.$('#' + highlightedProtein)
+                ele.addClass('Node_highlight');
+                ele.neighborhood().addClass('Node_highlight')
+            })
+    })
+    NetworkSelection_HighlightProtein_Single.on("click", function(){
+        NetworkSelection_HighlightProtein_All.trigger('click')
+        ProteinNetwork
+            .then(cy => {
+                const hidden_eles = cy.$('*').not(cy.$('.Node_highlight'))
+                hidden_eles.addClass('Node_hidden');
+            })
+    })
+    NetworkSelection_UnhighlightProtein.on("click", function(){
+        ProteinNetwork
+            .then(cy => {
+                cy.nodes().removeClass('Node_highlight');
+                cy.nodes().removeClass('Node_hidden');
             })
     })
 
-    //Change nodes color
+    // Customize colors
+    // Background color
+    const ToggleBackgroundColor = $('#ToggleBackgroundColor')
+    ToggleBackgroundColor.on('change', function(){  
+        let BackgroundColor = ToggleBackgroundColor.val()
+        NVContent_Graph.css({'background': BackgroundColor})
+    }) 
+
+    // Node/edge color
     const ProteinColor = $('#ProteinColor')[0]
     const LostEdgeColor = $('#LostEdgeColor')[0]
     const GainedEdgeColor = $('#GainedEdgeColor')[0]
@@ -485,60 +576,26 @@ jQuery(document).ready(function() {
             })
     })
 
-    const ToggleBackgroundColor = $('#ToggleBackgroundColor')
-    ToggleBackgroundColor.on('change', function(){  
-        let BackgroundColor = ToggleBackgroundColor.val()
-        NVContent_Graph.css({'background': BackgroundColor})
-    }) 
 
-    const ToggleProteinID = $('#ToggleProteinID')
-    ToggleProteinID.on('change', function(){  
-        let ProteinIDType = ToggleProteinID.val()
-        ProteinNetwork
-            .then(cy => {
-                cy.style()
-                .selector('node')
-                .style({
-                    'label': ProteinIDType === "UniProtID" ? 'data(id)' :  'data(label)',     
-                })
-                .update()
-                return cy
-            })
-    }) 
-
-    // View a single protein
-    let NetworkSelection_HighlightProtein_All = $('#NetworkSelection_HighlightProtein_All')
-    let NetworkSelection_HighlightProtein_Single = $('#NetworkSelection_HighlightProtein_Single')
-    let NetworkSelection_UnhighlightProtein = $('#NetworkSelection_UnhighlightProtein') 
-    NetworkSelection_HighlightProtein_All.on("click", function(){
-        let highlightedProtein = NetworkSelection_HighlightProtein.val() 
-        NetworkSelection_UnhighlightProtein.trigger('click')
-        ProteinNetwork
-            .then(cy => {
-                const ele = cy.$('#' + highlightedProtein)
-                ele.addClass('Node_highlight');
-                ele.neighborhood().addClass('Node_highlight')
-            })
-    })
-    NetworkSelection_HighlightProtein_Single.on("click", function(){
-        NetworkSelection_HighlightProtein_All.trigger('click')
-        ProteinNetwork
-            .then(cy => {
-                const hidden_eles = cy.$('*').not(cy.$('.Node_highlight'))
-                hidden_eles.addClass('Node_hidden');
-            })
-    })
-    NetworkSelection_UnhighlightProtein.on("click", function(){
-        ProteinNetwork
-            .then(cy => {
-                cy.nodes().removeClass('Node_highlight');
-                cy.nodes().removeClass('Node_hidden');
-            })
-    })
-    // cy.elements("node[weight >= 50][height < 180]"); TODO
     //TODO why some ID are not in list NetworkSelection_HighlightProtein
 })
 
+
+/***
+ *
+ * @param cy_
+ * @param layoutName_
+ */
+function rearrange(cy_, layoutName_) {
+    cy_.layout({
+        name: layoutName_,
+        randomize: false,
+        fit: true,
+        animate: false
+    })
+    .run()
+    return cy_
+}
 
 /***
  *

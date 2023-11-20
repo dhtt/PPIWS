@@ -167,7 +167,7 @@ public class Utils {
         String partOfMinReasons = proteinAttributeList_node[2];
         String alterativeType = proteinAttributeList_node[3];
         String transcriptomicAlteration = proteinAttributeList_node[4];
-        String score = proteinAttributeList_node[5];
+        Integer score = Integer.parseInt(proteinAttributeList_node[5]);
 
         
         JSONObject node_data = new JSONObject();

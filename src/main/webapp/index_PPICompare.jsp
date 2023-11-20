@@ -172,7 +172,7 @@
                                         <input type="checkbox" name="ApplyGraphStyle" id="ToggleTranscriptomicAlteration" disabled value="0" min="0" max="1" step="1" class="toggle_input">
                                         <div style="position: absolute">
                                             <span class="toggle_slider"></span>
-                                            <p class="toggle_button"></p>
+                                            <span class="toggle_button"></span>
                                         </div>
                                     </div>
 
@@ -180,7 +180,7 @@
                                         <input type="checkbox" name="ApplyGraphStyle" id="ToggleRelativeImportance" disabled value="0" min="0" max="1" step="1" class="toggle_input">
                                         <div style="position: absolute">
                                             <span class="toggle_slider"></span>
-                                            <p class="toggle_button"></p>
+                                            <span class="toggle_button"></span>
                                         </div>
                                     </div>
 
@@ -188,7 +188,7 @@
                                         <input type="checkbox" name="ApplyGraphStyle" id="ToggleMinReasons" disabled value="0" min="0" max="1" step="1" class="toggle_input">
                                         <div style="position: absolute">
                                             <span class="toggle_slider"></span>
-                                            <p class="toggle_button"></p>
+                                            <span class="toggle_button"></span>
                                         </div>
                                     </div>
                                 </div>
