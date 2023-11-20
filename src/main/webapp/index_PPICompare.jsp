@@ -141,7 +141,7 @@
                 <div id="NVContent" style="display: flex; flex-direction: column; flex: 1 1 auto">
                     <div id="NVContent_Graph" style="flex: 1 1 auto; z-index: 0"></div>
 
-                    <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
+                    <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto;">
                         <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
@@ -156,14 +156,41 @@
                             <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
                                 <div style="text-align: left; flex: auto">
                                     <label for="ToggleProteinID" style="font-weight: bold; font-size: smaller">Protein ID</label><br>
-                                    <label for="changeNodeSize" style="font-weight: bold; font-size: smaller">Node size</label>
+                                    <label for="changeNodeSize" style="font-weight: bold; font-size: smaller">Node size</label><br>
+                                    <label for="ToggleTranscriptomicAlteration" style="font-weight: bold; font-size: smaller">Alteration type</label><br>
+                                    <label for="ToggleRelativeImportance" style="font-weight: bold; font-size: smaller">Relative importance</label><br>
+                                    <label for="ToggleMinReasons" style="font-weight: bold; font-size: smaller">Min reasons</label>
                                 </div>
                                 <div style="text-align: right; width: min-content">
                                     <select name="ApplyGraphStyle" id="ToggleProteinID" disabled>
                                         <option value="UniProtID">UniProt</option>
                                         <option value="SymbolID">Symbol</option>
                                     </select><br>    
-                                    <input type="range" name="ApplyGraphStyle" id="changeNodeSize" disabled value="10" min="0.5" max="25" step="1" style="width: 100%; height: 0.5em"><br>
+                                    <input type="range" name="ApplyGraphStyle" id="changeNodeSize" disabled value="10" min="0.5" max="25" step="1" style="width: 100%; height: 0.5em">
+                                    
+                                    <div style="display: flex; float: right; position: relative;">
+                                        <input type="checkbox" name="ApplyGraphStyle" id="ToggleTranscriptomicAlteration" disabled value="0" min="0" max="1" step="1" class="toggle_input">
+                                        <div style="position: absolute">
+                                            <span class="toggle_slider"></span>
+                                            <p class="toggle_button"></p>
+                                        </div>
+                                    </div>
+
+                                    <div style="display: flex; float: right; position: relative;">
+                                        <input type="checkbox" name="ApplyGraphStyle" id="ToggleRelativeImportance" disabled value="0" min="0" max="1" step="1" class="toggle_input">
+                                        <div style="position: absolute">
+                                            <span class="toggle_slider"></span>
+                                            <p class="toggle_button"></p>
+                                        </div>
+                                    </div>
+
+                                    <div style="display: flex; float: right; position: relative;">
+                                        <input type="checkbox" name="ApplyGraphStyle" id="ToggleMinReasons" disabled value="0" min="0" max="1" step="1" class="toggle_input">
+                                        <div style="position: absolute">
+                                            <span class="toggle_slider"></span>
+                                            <p class="toggle_button"></p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -174,7 +201,7 @@
                                 <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_HighlightProtein_All" value="null" class="button graph-menu-button">Highlight</button>
                                 <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_HighlightProtein_Single" value="null" class="button graph-menu-button">Focus</button>
                             
-                                <span id="NetworkSelection_UnhighlightProtein" class="subsection-text reset" style="font-size: smaller">Reset</span><br>
+                                <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_UnhighlightProtein" class="subsection-text reset button" style="font-size: smaller; margin: 0">Reset</span><br>
                             </div>                            
                             
                             <div style="padding: 1em">

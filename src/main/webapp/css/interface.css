@@ -266,6 +266,8 @@ footer{
     margin: 0.5em 0 0 0;
 }
 .reset{
+    background: none;
+    border: none;
     text-align: right;
     font-weight: normal;
     color: var(--darkmint);
@@ -336,6 +338,54 @@ input[type="range"]::-webkit-slider-runnable-track  {
     border: none;
     background: transparent;
 }
+
+.toggle_slider, .toggle_button {
+    outline: 1px solid lightgrey;
+    display: block;
+    position: absolute;
+    margin: 0.5em 0 auto auto;
+    background: #dcdcdc;
+    border-radius: 2em;
+    border-color: white;
+    height: 15px;
+    width: 30px;
+    vertical-align: middle;
+    cursor: pointer;
+  }
+
+.toggle_button {
+    position: absolute;
+    background: white;
+    height: 15px;
+    width: 15px;
+    cursor: pointer;
+  }
+
+.toggle_input { 
+    /* Hide checkbox */
+    opacity: 0;
+    position: relative !important;
+    cursor: pointer;
+    width: 15px;
+    height: 15px;
+    left: -15px;
+    z-index: 99;
+    margin-top: 0.5em
+}
+.toggle_input:checked {
+    left: 0;
+}
+
+.toggle_input:checked ~ div .toggle_button{
+    left: 15px;
+    outline: 1px solid var(--deeppink);
+}
+
+.toggle_input:checked ~ div .toggle_slider{
+    background: var(--deeppink);
+    outline: 1px solid var(--deeppink);
+}
+
 
 .highlight{
     color: var(--warning);
@@ -453,4 +503,9 @@ li li::marker {
     padding: 0 1em;
     width: 15%;
     min-width: 200px;
+    overflow: scroll; 
+    text-align: center;
+    height: -moz-available;          /* WebKit-based browsers will ignore this. */
+    height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
+    height: fill-available;
 }

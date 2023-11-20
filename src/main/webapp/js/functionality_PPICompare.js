@@ -535,6 +535,7 @@ jQuery(document).ready(function() {
                 cy.nodes().removeClass('Node_hidden');
             })
     })
+    // cy.elements("node[weight >= 50][height < 180]"); TODO
     //TODO why some ID are not in list NetworkSelection_HighlightProtein
 })
 
