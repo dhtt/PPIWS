@@ -14,6 +14,15 @@ import standalone_tools.PPICompare_Tomcat;
 
 public class PPICompareServlet extends HttpServlet {
     private static ServletContext context;
+    private String USER_ID;
+    private String LOCAL_STORAGE_PATH;
+    private String INPUT_PATH;
+    private String OUTPUT_PATH;
+    private String GROUP1_PATH;
+    private String GROUP2_PATH;
+    String SUBMIT_TYPE;
+    List<String> allArgs = new ArrayList<>();
+
 
     /**
      * Initilize ServletContext log to localhost log files
@@ -61,15 +70,6 @@ public class PPICompareServlet extends HttpServlet {
         }
     }
 
-
-    private String USER_ID;
-    private String LOCAL_STORAGE_PATH;
-    private String INPUT_PATH;
-    private String OUTPUT_PATH;
-    private String GROUP1_PATH;
-    private String GROUP2_PATH;
-    String SUBMIT_TYPE;
-    List<String> allArgs = new ArrayList<>();
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

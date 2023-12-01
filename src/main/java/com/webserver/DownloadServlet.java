@@ -21,7 +21,17 @@ import static standalone_tools.PPIXpress_Tomcat.createElement;
 @MultipartConfig()
 
 public class DownloadServlet extends HttpServlet {
+    private String PROGRAM;
+    private String USER_ID;
+    private String OUTPUT_PATH;
+    private String OUTPUT_FILENAME;
+    private String LOCAL_STORAGE_PATH;
+    private String SAMPLE_FILENAME;
+    private String resultFileType;
     private ServletContext context;
+    private ArrayList<String> proteinList;
+    private Map<String, String[]> proteinAttributeList;
+    private PrintWriter out;
 
     /**
      * Initilize ServletContext log to localhost log files
@@ -86,26 +96,30 @@ public class DownloadServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String USER_ID = session.getId(); // Each user has their own ID
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            HttpSession session = request.getSession();
+            USER_ID = session.getId(); // Each user has their own ID
 
-        // Define a data local storage on the local server
-        String LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
+            // Define a data local storage on the local server
+            LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
                 : session.getAttribute("LOCAL_STORAGE_PATH").toString();
-        // PROGRAM shows if PPIXpress or PPICompare is being called
-        String PROGRAM = session.getAttribute("PROGRAM") == null ? ""
+            // PROGRAM shows if PPIXpress or PPICompare is being called
+            PROGRAM = session.getAttribute("PROGRAM") == null ? ""
                 : session.getAttribute("PROGRAM").toString();
 
-        String OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
-        String OUTPUT_FILENAME = "ResultFiles.zip"; 
-        String SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
+            OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
+            OUTPUT_FILENAME = "ResultFiles.zip"; 
+            SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
 
-        String resultFileType = request.getParameter("resultFileType");
-        ArrayList<String> proteinList = new ArrayList<>();
-        Map<String, String[]> proteinAttributeList = new HashMap<String, String[]>(); 
-        PrintWriter out;
+            resultFileType = request.getParameter("resultFileType");
+            proteinList = new ArrayList<>();
+            proteinAttributeList = new HashMap<String, String[]>(); 
+            context.log(USER_ID + ": DownloadServlet: All info\n" + LOCAL_STORAGE_PATH + "\n" + PROGRAM + "\n" + OUTPUT_PATH + "\n" + resultFileType);
+            
+        } catch(Exception e){
+            context.log(USER_ID + ": DownloadServlet: Fail to retrieve session information. ERROR:\n" + e);
+        }
 
         switch (resultFileType) {
             case "output":
