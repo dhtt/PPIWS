@@ -93,7 +93,6 @@ jQuery(document).ready(function() {
         const form = $("form")[0];
         const data = new FormData(form);
         data.append('SUBMIT_TYPE', submit_type_);
-
         data.append('fdr', "-fdr=" + $('#fdr').val());
 
         $.ajax({
@@ -141,9 +140,9 @@ jQuery(document).ready(function() {
                     }
                     // If job is running on one more or tabs, the main tab (or new tabs)
                     // will all be updated with the process
-                    // json.UPDATE_LONG_PROCESS_SIGNAL is retrieved from ProgressReporter.java
+                    // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
                     else {
-                        if (json.UPDATE_LONG_PROCESS_SIGNAL === true) {
+                        if (json.UPDATE_LONG_PROCESS_STOP_SIGNAL === true) {
                             // Stop updateLongRunningStatus & return to default setting
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
@@ -188,7 +187,7 @@ jQuery(document).ready(function() {
         // Only submit form if user has chosen a protein network file/taxon for protein network retrieval
         // and at least 1 expression file
         if (PPIXpress_network_1.val() === "" || PPIXpress_network_2.val() === ""){
-            alert('Missing input file(s). TODO');
+            alert('Missing input file(s)');
             return false;
         }
 
