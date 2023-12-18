@@ -1,5 +1,19 @@
-export function showNoChosenFiles(inputType, noFiles){
-    $('#' + inputType + "_description").html(noFiles + " file(s) selected")
+/***
+ * Show file name or the number of files to be uploaded. The information will be shown in HTML element which has 
+ * the ID of the input field + "_description". For example, if the input field has ID 'PPIXpress_network_1',
+ * the element which will display the information has to be named 'PPIXpress_network_1_description'
+ * @param inputID the id of form input for file upload
+ * @param {*} noFiles a file name or a number of files 
+ * @param option either 'show_name' or 'show_no_files' for show the name of number of uploaded files.
+ *  
+ */
+export function showNoChosenFiles(inputID, noFiles, option){
+    if (option === 'show_name'){
+        $('#' + inputID + "_description").html(noFiles)
+    }
+    else if (option === 'show_no_files'){
+        $('#' + inputID + "_description").html(noFiles + " file(s) selected")
+    }
 }
 
 /***

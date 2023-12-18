@@ -1,4 +1,8 @@
 import {makePlot} from './network_maker_PPICompare.js'
+import {showNoChosenFiles} from './functionality_helper_functions.js'
+import {enableButton} from './functionality_helper_functions.js'
+import {disableButton} from './functionality_helper_functions.js'
+import {showWarningMessage} from './functionality_helper_functions.js'
 
 // /***
 //  * alert when new window is open
@@ -62,24 +66,16 @@ jQuery(document).ready(function() {
     /**
      * Show number of uploaded files
      */
+    const PPIXpress_network = $("[name='PPIXpress_network']");
     const PPIXpress_network_1 = $('#PPIXpress_network_1');
     const PPIXpress_network_2 = $('#PPIXpress_network_2');
-    let NO_PPIXpress_network_1 = 0;
-    let NO_PPIXpress_network_2 = 0;
+    let PPIXpress_network_name = "";
   
-    // TODO: Shorten this script
-    PPIXpress_network_1.on("change", function(){
-        NO_PPIXpress_network_1 = this.files.length
-        showNoChosenFiles('PPIXpress_network_1', NO_PPIXpress_network_1)
+    PPIXpress_network.on("change", function(){
+        PPIXpress_network_name = this.files.item(0).name
+        let PPIXpress_network_id = this.id;
+        showNoChosenFiles(PPIXpress_network_id, PPIXpress_network_name, 'show_name')
     })
-    PPIXpress_network_2.on("change", function(){
-        NO_PPIXpress_network_2 = this.files.length
-        showNoChosenFiles('PPIXpress_network_2', NO_PPIXpress_network_2)
-    })
-    function showNoChosenFiles(inputType, noFiles){
-        $('#' + inputType + "_description").html(noFiles + " file(s) selected")
-    }
-
 
     // Ajax Handler
     const allPanel = $('#AllPanels');
@@ -384,7 +380,7 @@ jQuery(document).ready(function() {
         let fileName ="PPICompare_graph.png"
         ProteinNetwork
             .then(cy => {
-                saveAs(cy.png(), fileName)
+                saveAs(cy.png({bg: ToggleBackgroundColor.val()}), fileName)
                 return cy
             })
     })
@@ -574,9 +570,6 @@ jQuery(document).ready(function() {
                 return cy
             })
     })
-
-
-    //TODO why some ID are not in list NetworkSelection_HighlightProtein
 })
 
 
@@ -594,48 +587,6 @@ function rearrange(cy_, layoutName_) {
     })
     .run()
     return cy_
-}
-
-/***
- *
- * @param button_ the button to enable
- * @param classes_ a list of style classes to add to the button after enabling it
- */
-function enableButton(button_, classes_){
-    if (button_.prop('disabled')){
-        button_.prop('disabled', false)
-        for (let i = 0; i < classes_.length; i++){
-            button_.addClass(classes_[i])
-        }
-    }
-}
-
-/***
- *
- * @param button_ the button to enable
- * @param classes_ a list of style classes to remove from the button after disabling it
- */
-function disableButton(button_, classes_){
-    if (!button_.prop('disabled')){
-        button_.prop('disabled', true)
-        for (let i = 0; i < classes_.length; i++){
-            button_.removeClass(classes_[i])
-        }
-    }
-}
-/***
- *
- * @param WarningMessage_
- * @param message_
- * @param timeout_
- */
-function showWarningMessage(WarningMessage_, message_, timeout_){
-    WarningMessage_.html(message_)
-    WarningMessage_.css({'display': 'block'})
-    if (timeout_ !== null)
-        setTimeout(function(){
-            WarningMessage_.css({'display': 'none'})
-        }, timeout_)
 }
 
 
@@ -660,12 +611,4 @@ function activateNetwork(graph, warning){
             })
             return cy
         })
-}
-/***
- *
- * @param HTMLElement
- * @returns {*}
- */
-function stripHTML(HTMLElement){
-    return HTMLElement.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
 }

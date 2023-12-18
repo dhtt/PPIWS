@@ -1,4 +1,8 @@
 import {makePlot} from './network_maker.js'
+import {showNoChosenFiles} from './functionality_helper_functions.js'
+import {enableButton} from './functionality_helper_functions.js'
+import {disableButton} from './functionality_helper_functions.js'
+import {showWarningMessage} from './functionality_helper_functions.js'
 
 // /***
 //  * alert when new window is open
@@ -112,9 +116,6 @@ jQuery(document).ready(function() {
         NO_EXPRESSION_FILE = this.files.length
         showNoChosenFiles('expression_file', NO_EXPRESSION_FILE)
     })
-    function showNoChosenFiles(inputType, noFiles){
-        $('#' + inputType + "_description").html(noFiles + " file(s) selected")
-    }
 
     $("label[for='protein_network_web']").on("click", function(){
         $('#protein_network_web_popup').toggle()
@@ -617,45 +618,6 @@ jQuery(document).ready(function() {
 })
 
 
-
-
-/***
- *
- * @param button_
- * @param classes_
- */
-function enableButton(button_, classes_){
-    if (button_.prop('disabled')){
-        button_.prop('disabled', false)
-        for (let i = 0; i < classes_.length; i++){
-            button_.addClass(classes_[i])
-        }
-    }
-}
-function disableButton(button_, classes_){
-    if (!button_.prop('disabled')){
-        button_.prop('disabled', true)
-        for (let i = 0; i < classes_.length; i++){
-            button_.removeClass(classes_[i])
-        }
-    }
-}
-/***
- *
- * @param WarningMessage_
- * @param message_
- * @param timeout_
- */
-function showWarningMessage(WarningMessage_, message_, timeout_){
-    WarningMessage_.html(message_)
-    WarningMessage_.css({'display': 'block'})
-    if (timeout_ !== null)
-        setTimeout(function(){
-            WarningMessage_.css({'display': 'none'})
-        }, timeout_)
-}
-
-
 function activateNetwork (graph, warning, ShowSubnetworkOption){
     let hasDDI = ShowSubnetworkOption['showDDIs']
     let options = ShowSubnetworkOption['options']
@@ -711,15 +673,6 @@ function activateNetwork (graph, warning, ShowSubnetworkOption){
             return cy
         })
 }
-/***
- *
- * @param HTMLElement
- * @returns {*}
- */
-function stripHTML(HTMLElement){
-    return HTMLElement.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
-}
-
 
 /**
  * Add network showing options to NetworkSelection

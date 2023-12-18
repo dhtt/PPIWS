@@ -127,7 +127,7 @@ public class PPICompareServlet extends HttpServlet {
                         String fileName = part.getSubmittedFileName();
 
                         if (fileName != null && !fileName.equals("")) {
-                            if (fileType.startsWith("PPIXpress_network_")) {
+                            if (fileType.startsWith("PPIXpress_network")) {
                                 String inputFilesPath = INPUT_PATH + fileName.substring(fileName.lastIndexOf("\\") + 1);
                                 UtilsServlet.writeOutputStream(part, inputFilesPath);
                                 inputFilesPath = Utils.UnzipFile(inputFilesPath) + '/'; //Extract zip file and remove extension

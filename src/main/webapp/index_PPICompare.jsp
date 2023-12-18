@@ -72,18 +72,21 @@
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
                 <p class="menu header">Upload condition specific<br>networks</p>
-                <div class="menu panel">
-                    <div style="text-align: center; margin: 0">
-                        <label for="PPIXpress_network_1" class="button upload" title="??">First group</label>
-                        <input type="file" name="PPIXpress_network_1" id="PPIXpress_network_1" accept=".zip" style="display: none">
-<%--                        TODO: Make input accept gzip --%>
-                        <label for="PPIXpress_network_2" class="button upload" title="??">Second group</label>
-                        <input type="file" name="PPIXpress_network_2" id="PPIXpress_network_2" accept=".zip" style="display: none">
-<%--                        TODO: Make input accept gzip --%>
-                        
-                        <br><br>&nbsp;or get help&nbsp;
-                        <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
+                <div class="menu panel" style="text-align: center;">
+                    <div style="text-align: center; margin: 0; display: flex; margin-bottom: 0.5em; padding: 0 0.5em">
+                        <div style="flex: 0 0 50%; overflow:hidden"> 
+                            <label for="PPIXpress_network_1" class="button upload" title="??">First group</label>
+                            <input type="file" name="PPIXpress_network" id="PPIXpress_network_1" accept=".zip" style="display: none">
+                            <p id="PPIXpress_network_1_description" class="description-text">&emsp;</p>
+                        </div>
+                        <div style="flex: 0 0 50%; overflow:hidden"> 
+                            <label for="PPIXpress_network_2" class="button upload" title="??">Second group</label>
+                            <input type="file" name="PPIXpress_network" id="PPIXpress_network_2" accept=".zip" style="display: none">
+                            <p id="PPIXpress_network_2_description" class="description-text">&emsp;</p> 
+                        </div>
                     </div>
+                    <span>&nbsp;or get help&nbsp;</span>
+                    <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
                 </div>
             </div>
 
@@ -145,9 +148,9 @@
                         <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <label style="font-weight: bold">Display result</label><br>
+                            <label style="font-weight: bold">Differential PPI network</label><br>
                             <!-- button-typed items are enabled when UPDATE_LONG_PROCESS_SIGNAL === true. Then, class 'upload' is added to style the buttons -->
-                            <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button graph-menu-button">Show graph</button>
+                            <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button graph-menu-button">Show</button>
                             <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
 
