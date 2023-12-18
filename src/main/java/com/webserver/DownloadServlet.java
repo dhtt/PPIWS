@@ -21,7 +21,17 @@ import static standalone_tools.PPIXpress_Tomcat.createElement;
 @MultipartConfig()
 
 public class DownloadServlet extends HttpServlet {
-    private ServletContext context;
+    protected String PROGRAM;
+    protected String USER_ID;
+    protected String OUTPUT_PATH;
+    protected String OUTPUT_FILENAME;
+    protected String LOCAL_STORAGE_PATH;
+    protected String SAMPLE_FILENAME;
+    protected String resultFileType;
+    protected ServletContext context;
+    protected ArrayList<String> proteinList;
+    protected Map<String, String[]> proteinAttributeList;
+    protected PrintWriter out;
 
     /**
      * Initilize ServletContext log to localhost log files
@@ -37,7 +47,7 @@ public class DownloadServlet extends HttpServlet {
      * @param sourceDirPath_ path to folder to be zipped
      * @param zipPath_       path to zipped folder
      * @throws IOException
-     *                     Source: https://stackoverflow.com/a/68439125/9798960
+     * Source: https://stackoverflow.com/a/68439125/9798960
      */
     public static void zip(String sourceDirPath_, String zipPath_) throws IOException {
         Files.deleteIfExists(Paths.get(zipPath_));
@@ -86,26 +96,32 @@ public class DownloadServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String USER_ID = session.getId(); // Each user has their own ID
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
+            HttpSession session = request.getSession();
 
-        // Define a data local storage on the local server
-        String LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
+            // Define a data local storage on the local server
+            LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
                 : session.getAttribute("LOCAL_STORAGE_PATH").toString();
-        // PROGRAM shows if PPIXpress or PPICompare is being called
-        String PROGRAM = session.getAttribute("PROGRAM") == null ? ""
+                
+            String[] splitPath = LOCAL_STORAGE_PATH.split("/");
+            USER_ID = splitPath[splitPath.length - 1];
+            // PROGRAM shows if PPIXpress or PPICompare is being called
+            PROGRAM = session.getAttribute("PROGRAM") == null ? ""
                 : session.getAttribute("PROGRAM").toString();
 
-        String OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
-        String OUTPUT_FILENAME = "ResultFiles.zip"; 
-        String SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
+            OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
+            OUTPUT_FILENAME = "ResultFiles.zip"; 
+            SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
 
-        String resultFileType = request.getParameter("resultFileType");
-        ArrayList<String> proteinList = new ArrayList<>();
-        Map<String, String[]> proteinAttributeList = new HashMap<String, String[]>(); 
-        PrintWriter out;
+            resultFileType = request.getParameter("resultFileType");
+            proteinList = new ArrayList<>();
+            proteinAttributeList = new HashMap<String, String[]>(); 
+            context.log(USER_ID + ": DownloadServlet: All info\n" + LOCAL_STORAGE_PATH + "\n" + PROGRAM + "\n" + OUTPUT_PATH + "\n" + USER_ID);
+            
+        } catch(Exception e){
+            context.log(USER_ID + ": DownloadServlet: Fail to retrieve session information. ERROR:\n" + e);
+        }
 
         switch (resultFileType) {
             case "output":

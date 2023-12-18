@@ -13,7 +13,16 @@ import standalone_tools.PPICompare_Tomcat;
 @MultipartConfig()
 
 public class PPICompareServlet extends HttpServlet {
-    private static ServletContext context;
+    protected static ServletContext context;
+    protected String USER_ID;
+    protected String LOCAL_STORAGE_PATH;
+    protected String INPUT_PATH;
+    protected String OUTPUT_PATH;
+    protected String GROUP1_PATH;
+    protected String GROUP2_PATH;
+    String SUBMIT_TYPE;
+    List<String> allArgs;
+
 
     /**
      * Initilize ServletContext log to localhost log files
@@ -28,10 +37,10 @@ public class PPICompareServlet extends HttpServlet {
      * TODO: Write documentation
      */
     static class LongRunningProcess implements Runnable {
-        private final AtomicBoolean stopSignal;
+        private AtomicBoolean stopSignal;
         // private final PPICompare_Tomcat pipeline = new PPICompare_Tomcat();
         private volatile boolean stop;
-        private final List<String> argList;
+        private List<String> argList;
 
         public LongRunningProcess(List<String> allArgs, AtomicBoolean stopSignal) {
             this.stopSignal = stopSignal;
@@ -62,15 +71,6 @@ public class PPICompareServlet extends HttpServlet {
     }
 
 
-    private String USER_ID;
-    private String LOCAL_STORAGE_PATH;
-    private String INPUT_PATH;
-    private String OUTPUT_PATH;
-    private String GROUP1_PATH;
-    private String GROUP2_PATH;
-    String SUBMIT_TYPE;
-    List<String> allArgs = new ArrayList<>();
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -79,9 +79,9 @@ public class PPICompareServlet extends HttpServlet {
 
         // Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
         // output.zip inside deploy folder (WEBAPP_PATH)
-        USER_ID = request.getSession().getId(); // Each user has their own ID
+        USER_ID = UUID.randomUUID().toString();
+        allArgs = new ArrayList<>();
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
-        allArgs.clear();
         
 
         if (SUBMIT_TYPE.equals("RunExample")) {
@@ -121,6 +121,7 @@ public class PPICompareServlet extends HttpServlet {
                 // Add paths to expression data to argument list. Meanwhile, store user's PPI
                 // network (if uploaded) and expression data to a local storage on server
                 try {
+                    int group_i = 1;
                     for (Part part : request.getParts()) {
                         String fileType = part.getName();
                         String fileName = part.getSubmittedFileName();
@@ -130,40 +131,41 @@ public class PPICompareServlet extends HttpServlet {
                                 String inputFilesPath = INPUT_PATH + fileName.substring(fileName.lastIndexOf("\\") + 1);
                                 UtilsServlet.writeOutputStream(part, inputFilesPath);
                                 inputFilesPath = Utils.UnzipFile(inputFilesPath) + '/'; //Extract zip file and remove extension
-                                allArgs.add(inputFilesPath);
+                                allArgs.add("-group_" + group_i + "=" + inputFilesPath);
+                                group_i+=1;
                             }
                         }
                     }
                 }
                 catch(Exception e){
-                    context.log(USER_ID + ": PPICompareServlet: Fail to retrieve uploaded expression files. ERROR:\n" + e);
+                    context.log(USER_ID + ": PPICompareServlet: Fail to retrieve uploaded PPIXpress networks. ERROR:\n" + e);
                 }
                 // Add output path to arguments set
-                allArgs.add(OUTPUT_PATH);
+                allArgs.add("-output=" + OUTPUT_PATH);
+
+
+                 // Store and show to screen uploaded files
+                allArgs.addAll(List.of(request.getParameterValues("RunOptions")));
+                allArgs.add(request.getParameter("fdr"));
+                allArgs.remove(null);
 
                 context.log(USER_ID + ": PPICompareServlet: User-defined process initiated from Servlet\n" + allArgs);
+
+                // Create and execute PPICompare and update progress periodically to screen
+                // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
+                AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
+                request.getSession().setAttribute("PROGRAM", "PPICompare");
+                request.getSession().setAttribute("LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
+                request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
+            
+                LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
+                Thread lrp = new Thread(myThreads);
+                lrp.start();   
             }
             catch(Exception e){
                 context.log(USER_ID + ": PPICompareServlet: Fail to initiate user-defined run\n" + e);
-            }
-           
+            }  
         }
-
-        // Store and show to screen uploaded files
-        allArgs.addAll(List.of(request.getParameterValues("RunOptions")));
-        allArgs.add(request.getParameter("fdr"));
-        allArgs.remove(null);
-
-        // Create and execute PPICompare and update progress periodically to screen
-        // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
-        AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
-        request.getSession().setAttribute("PROGRAM", "PPICompare");
-        request.getSession().setAttribute("LONG_PROCESS_SIGNAL", STOP_SIGNAL);
-        request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
-       
-        LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
-        Thread lrp = new Thread(myThreads);
-        lrp.start();   
     } 
 
     public static void main(String[] args) throws IOException {
