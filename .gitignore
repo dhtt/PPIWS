@@ -29,6 +29,5 @@ target/
 com/example/Webserver/*
 com/example/PPIWebserver/1.0-SNAPSHOT/*
 com/example/PPIXpressWS/1.0-SNAPSHOT/*
-com/example/PPIXpressWS/maven-metadata.xml
-com/example/PPIXpressWS/maven-metadata.xml.md5
-com/example/PPIXpressWS/maven-metadata.xml.sha1
+com/example/PPIXpressWS/maven-metadata*
+com/example/PPIXpressWS/1.0-SNAPSHOT/maven-metadata*

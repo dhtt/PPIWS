@@ -80,12 +80,11 @@ public class PPICompareServlet extends HttpServlet {
         // Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
         // output.zip inside deploy folder (WEBAPP_PATH)
         USER_ID = UUID.randomUUID().toString();
-        allArgs = new ArrayList<>();
+        allArgs = new ArrayList<String>();
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
         
 
         if (SUBMIT_TYPE.equals("RunExample")) {
-            log("PPICompare is running");
             try {
                 // Define a data local storage on the local server
                 LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/example_run/PPICompare/"; 

@@ -115,9 +115,9 @@ public class DownloadServlet extends HttpServlet {
             SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
 
             resultFileType = request.getParameter("resultFileType");
-            proteinList = new ArrayList<>();
+            proteinList = new ArrayList<String>();
             proteinAttributeList = new HashMap<String, String[]>(); 
-            context.log(USER_ID + ": DownloadServlet: All info\n" + LOCAL_STORAGE_PATH + "\n" + PROGRAM + "\n" + OUTPUT_PATH + "\n" + USER_ID);
+            context.log(USER_ID + ": DownloadServlet: All info\n" + LOCAL_STORAGE_PATH + "\n" + PROGRAM + "\n" + OUTPUT_PATH + "\n" + resultFileType);
             
         } catch(Exception e){
             context.log(USER_ID + ": DownloadServlet: Fail to retrieve session information. ERROR:\n" + e);
@@ -163,10 +163,11 @@ public class DownloadServlet extends HttpServlet {
                 out = response.getWriter();
 
                 try {
-                    if (PROGRAM.equals("PPIXPress")){
+                    if (PROGRAM.equals("PPIXpress")){
                         String proteinQuery = request.getParameter("proteinQuery");
                         String expressionQuery = request.getParameter("expressionQuery");
                         boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
+                        context.log(proteinQuery + " " + expressionQuery + " " + showDDIs);
                         JSONArray subNetworkData = filterProtein(OUTPUT_PATH, proteinQuery, expressionQuery, showDDIs);
                         out.println(subNetworkData);
                     }
@@ -193,7 +194,7 @@ public class DownloadServlet extends HttpServlet {
                 out = response.getWriter();
 
                 try {
-                    if (PROGRAM.equals("PPIXPress")){
+                    if (PROGRAM.equals("PPIXpress")){
                         Scanner s = new Scanner(new File(OUTPUT_PATH + "ProteinList.txt"));
                         while (s.hasNext()) {
                             proteinList.add(createElement("option", s.next()));

@@ -255,7 +255,6 @@ jQuery(document).ready(function() {
      * Reset all forms & clear all fields for new analysis
      */
     const NVContent_Graph = $('#NVContent_Graph')
-    const NVContent_Legend = $('#NVContent_Legend')
     function resetForm(){
         $("form")[0].reset(); // Reset the form fields
         $("[name='Reset']").click() // Set default settings for all option panels

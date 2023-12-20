@@ -1,3 +1,5 @@
+// colorOpts is defined in functionality.js
+
 export function makePlot(fetchedData, colorOpts){
     var graph = fetchedData
         .then(res => res.json())
@@ -18,13 +20,13 @@ export function makePlot(fetchedData, colorOpts){
                         const api = this.expandCollapse({
                             layoutBy: {
                                 name: "cose-bilkent",
-                                animate: true,
+                                animate: false,
                                 randomize: false,
                                 fit: true,
                                 animationDuration: 200,
                             },
                             fisheye: true,
-                            animate: true,
+                            animate: false,
                             undoable: false
                         });
                         api.collapseAll();

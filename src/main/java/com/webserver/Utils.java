@@ -193,7 +193,7 @@ public class Utils {
 
     public static JSONArray filterProtein_PPICompare(String LOCAL_STORAGE_PATH, Map<String, String[]> proteinAttributeList) { 
         JSONArray output = new JSONArray();  
-        Set<String> partners = new HashSet<>();
+        Set<String> partners = new HashSet<String>();
         File PPI_file = new File(LOCAL_STORAGE_PATH + "differential_network.txt");
 
         try {
@@ -238,7 +238,7 @@ public class Utils {
                 emptyList.put("Error", "Protein not found!");
                 output.put(emptyList);
             } else {
-                Set<String> partners = new HashSet<>();
+                Set<String> partners = new HashSet<String>();
 
                 for (Line line : lines) {
                     String[] PPIs = line.getContent().split(" ");
@@ -256,7 +256,7 @@ public class Utils {
                 if (showDDIs){
                     File DDI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ddin.txt");
                     List<Line> DDIs = grep(".*?" + String.join(".*?|.*?", partners) + ".*?", DDI_file).toLineList();
-                    ArrayList<String> DomainList = new ArrayList<>();
+                    ArrayList<String> DomainList = new ArrayList<String>();
 
                     for (Line line : DDIs) {
                         String[] PPIs = line.getContent().split(" ");

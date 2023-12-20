@@ -3,6 +3,8 @@ import {showNoChosenFiles} from './functionality_helper_functions.js'
 import {enableButton} from './functionality_helper_functions.js'
 import {disableButton} from './functionality_helper_functions.js'
 import {showWarningMessage} from './functionality_helper_functions.js'
+import {stripHTML} from './functionality_helper_functions.js'
+
 
 // /***
 //  * alert when new window is open
@@ -175,8 +177,9 @@ jQuery(document).ready(function() {
             success: function (resultText) {
                 updateLongRunningStatus(resultText, 1000)
             },
-            error: function (){
+            error: function (e){
                 alert("An error occurred, check console log!")
+                console.log(e)
             }
         })
     }
@@ -209,9 +212,9 @@ jQuery(document).ready(function() {
                     }
                     // If job is running on one more or tabs, the main tab (or new tabs)
                     // will all be updated with the process
-                    // json.UPDATE_LONG_PROCESS_SIGNAL is retrieved from ProgressReporter.java
+                    // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
                     else {
-                        if (json.UPDATE_LONG_PROCESS_SIGNAL === true) {
+                        if (json.UPDATE_LONG_PROCESS_STOP_SIGNAL === true) {
                             // Stop updateLongRunningStatus & return to default setting
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
@@ -224,8 +227,10 @@ jQuery(document).ready(function() {
                             // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
                             NO_EXPRESSION_FILE = json.NO_EXPRESSION_FILE
                             addNetworkExpressionSelection(NO_EXPRESSION_FILE);
-                            fetchResult(null,"sample_summary", SampleSummaryTable[0], false); // Display the sample summary table
-                            fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample protein list 
+                            Promise.all([
+                                fetchResult(null,"sample_summary", SampleSummaryTable[0], false), // Display the sample summary table
+                                fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false) // Display the sample protein list 
+                            ])
                         }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
