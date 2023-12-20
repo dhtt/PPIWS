@@ -4,6 +4,21 @@ import {enableButton} from './functionality_helper_functions.js'
 import {disableButton} from './functionality_helper_functions.js'
 import {showWarningMessage} from './functionality_helper_functions.js'
 
+let legendData = './resources/legend.json'
+let gridLayoutOptions = {
+    'name': 'grid',
+    'rows': 7,
+    'cols': 1,
+    'fit': true,
+    'animate': false
+}
+let cosebilkentLayoutOptions = {
+    'name': 'cose-bilkent',
+    'randomize': false,
+    'fit': true,
+    'animate': false
+}
+
 // /***
 //  * alert when new window is open
 //  * @type {number}
@@ -240,6 +255,7 @@ jQuery(document).ready(function() {
      * Reset all forms & clear all fields for new analysis
      */
     const NVContent_Graph = $('#NVContent_Graph')
+    const NVContent_Legend = $('#NVContent_Legend')
     function resetForm(){
         $("form")[0].reset(); // Reset the form fields
         $("[name='Reset']").click() // Set default settings for all option panels
@@ -311,7 +327,9 @@ jQuery(document).ready(function() {
      * @param downloadable true or false
      */
     let ProteinNetwork = null;
-    // Default colors for graphs
+    // Default layouts and colors for graphs & legend
+ 
+    
     let colorOpts = {
         'ProteinColor': CSS_Style['--protein'],
         'LostEdgeColor': CSS_Style['--lostedge'],
@@ -351,7 +369,7 @@ jQuery(document).ready(function() {
                     showWarningMessage(WarningMessage,
                         "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
                         null)
-                    ProteinNetwork = makePlot(fetchData, colorOpts);
+                    ProteinNetwork = makePlot(fetchData, colorOpts, cosebilkentLayoutOptions, gridLayoutOptions);
                     ProteinNetwork
                         .then(cy => {
                             WarningMessage.css({'display': 'none'});
@@ -378,17 +396,21 @@ jQuery(document).ready(function() {
 
     $('#DownloadSubnetwork').on("click", function(){
         let fileName ="PPICompare_graph.png"
-        ProteinNetwork
-            .then(cy => {
-                saveAs(cy.png({bg: ToggleBackgroundColor.val()}), fileName)
-                return cy
-            })
+        // ProteinNetwork
+        //     .then(cy => {
+        //         saveAs(cy.png({bg: ToggleBackgroundColor.val()}), fileName)
+        //         return cy
+        //     })
+        domtoimage.toBlob(document.getElementById('NVContent_Graph_with_Legend'), {
+            height:1000, width:2400, quality: 1 })
+        .then(function (blob) {
+            window.saveAs(blob, 'my-node.png');
+        });
     })
 
     $('#toNetworkVisualization').on("click", function (){
         $('#NetworkVisualization').trigger("click");
     })
-    // STOP FROM HERE
 
     /*
         ===================================================================================================================
@@ -449,27 +471,33 @@ jQuery(document).ready(function() {
     })
 
 
+
     $('.toggle_input').on('change', function(){
         let ID = this.id;
         let checked = $(this).prop('checked');
         
-        if (ID === 'ToggleTranscriptomicAlteration'){
-            if (checked){
-                ProteinNetwork
-                .then(cy => {
-                    cy.nodes('[transcriptomicAlteration = "gain"],[transcriptomicAlteration = "loss"]').addClass('Node_transcriptomicAlteration');
-                })
-            } else {
-                ProteinNetwork
-                .then(cy => {
-                    cy.nodes('[transcriptomicAlteration = "gain"],[transcriptomicAlteration = "loss"]').removeClass('Node_transcriptomicAlteration');
-                })
+        if (ID !== 'ToggleRelativeImportance'){
+            let nodeFilter = ''
+            let nodeClass = ''
+
+            if (ID === 'ToggleTranscriptomicAlteration'){
+                nodeFilter = '[alterationType="DE"]'
+                nodeClass = 'Node_transcriptomicAlteration'
+            } else if (ID === 'ToggleMinReasons'){
+                nodeFilter = '[partOfMinReasons="yes"]'
+                nodeClass = 'Node_partOfMinReasons'
             }
-        }
-        else if (ID === 'ToggleRelativeImportance'){
+
             if (checked){
-                ProteinNetwork
-                .then(cy => {
+                ProteinNetwork.then(cy => {cy.nodes(nodeFilter).addClass(nodeClass)})
+                modifyCyElements(window.NVContent_Legend, ID, legendData, 'add', 'grid')
+            } else {
+                ProteinNetwork.then(cy => {cy.nodes(nodeFilter).removeClass(nodeClass)})
+                modifyCyElements(window.NVContent_Legend, ID, legendData, 'remove', 'grid')
+            }
+        } else {
+            if (checked){
+                ProteinNetwork.then(cy => {
                     cy.style()
                     .selector('node')
                     .style({
@@ -478,25 +506,13 @@ jQuery(document).ready(function() {
                         'font-size': 'mapData(score, 50, 500, 15, 30)',
                     })
                     .update()
-                    rearrange(cy, 'cose-bilkent')
+                    rearrange(cy, "cose-bilkent")
                 })
             } else {
                 changeNodeSize.trigger('change')
             }
         }
-        else if (ID === 'ToggleMinReasons'){
-            if (checked){
-                ProteinNetwork
-                .then(cy => {
-                    cy.nodes('[partOfMinReasons = "yes"]').addClass('Node_partOfMinReasons');
-                })
-            } else {
-                ProteinNetwork
-                .then(cy => {
-                    cy.nodes('[partOfMinReasons = "yes"]').removeClass('Node_partOfMinReasons');
-                })
-            }
-        }
+       
     })
 
     // View a single protein
@@ -569,9 +585,49 @@ jQuery(document).ready(function() {
                     .update()
                 return cy
             })
+        
+        window.NVContent_Legend.style()
+                    .selector('node')
+                    .style({
+                        'background-color': ProteinColor_updated
+                    })
+                    .selector('.PPI_Edge')
+                    .style({
+                        'line-color': line_color
+                    })
+                    .selector('.Node_highlight')
+                    .style({
+                        'background-color': HighlightedProteinColor_updated,
+                        'color': HighlightedProteinColor_updated,
+                    })
+                    .update()
+        
     })
 })
 
+
+/***
+ *
+ * @param cy_ Cytoscape graph container
+ * @param type_ 'default', 'ToggleTranscriptomicAlteration' or 'ToggleMinReasons' options in json file containing legend info\
+ * @param jsonPath_ relative path from jsp (!important) to json file containing legend info 
+ * @param option_ 'add' or 'remove' nodes
+ * @param layoutOptions_ layout for the graph update
+ */
+function modifyCyElements(cy_, type_, jsonPath_, option_, layoutOptions_) {
+    if (option_ === 'add'){
+        fetch(jsonPath_)
+            .then(res => res.json())
+            .then(res => res.filter((node) => node.data.type === type_))
+            .then(nodes => {
+                cy_.add(nodes)
+                rearrange(cy_, layoutOptions_)
+            })
+    } else if (option_ === 'remove'){
+        cy_.remove(cy_.nodes('[type="' + type_ + '"]'))
+        rearrange(cy_, layoutOptions_)
+    }
+}
 
 /***
  *
@@ -579,13 +635,11 @@ jQuery(document).ready(function() {
  * @param layoutName_
  */
 function rearrange(cy_, layoutName_) {
-    cy_.layout({
-        name: layoutName_,
-        randomize: false,
-        fit: true,
-        animate: false
-    })
-    .run()
+    if (layoutName_ === "cose-bilkent"){
+        cy_.layout(cosebilkentLayoutOptions).run()
+    } else if (layoutName_ === "grid"){
+        cy_.nodes().layout(gridLayoutOptions).run()
+    }
     return cy_
 }
 

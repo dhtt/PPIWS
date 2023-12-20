@@ -411,12 +411,36 @@ input[type="range"]::-webkit-slider-runnable-track  {
     height: 100%;
     position: relative;
 }
-#ToggleExpandCollapse, #ToggleBackgroundColor, #ToggleProteinID, #changeLayout{
+#ToggleBackgroundColor, #ToggleProteinID {
     width: fit-content;
     height: 1.5em;
     margin: 0.5em 0;
     border: 0;
     text-align: center;
+}
+
+#ShowNetworkOptions{
+    border-radius: 0 0 1em 1em; 
+    background: var(--deeppink); 
+    color: white; 
+    text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); 
+    padding: 0.5em 0 !important;
+    text-align: center !important;
+}
+
+.graph_legend{
+    position: absolute; 
+    bottom: 0;
+    z-index: 999; 
+    width: fit-content;
+    height: fit-content;
+    min-width: 250px;
+    min-height: 200px;
+    background-color: rgba(0, 0, 0, 0);
+} 
+
+#NVContent_Graph{
+    position: absolute;
 }
 
 .graph-menu-button{

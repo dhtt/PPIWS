@@ -165,7 +165,7 @@ public class Utils {
         String[] proteinAttributeList_node = proteinAttributeList_.get(id_);
         String geneName = proteinAttributeList_node[1];
         String partOfMinReasons = proteinAttributeList_node[2];
-        String alterativeType = proteinAttributeList_node[3];
+        String alterationType = proteinAttributeList_node[3];
         String transcriptomicAlteration = proteinAttributeList_node[4];
         Integer score = Integer.parseInt(proteinAttributeList_node[5]);
 
@@ -174,7 +174,7 @@ public class Utils {
         node_data.put("id", id_);
         node_data.put("label", geneName);
         node_data.put("partOfMinReasons", partOfMinReasons);
-        node_data.put("alterativeType", alterativeType);
+        node_data.put("alterationType", alterationType);
         node_data.put("transcriptomicAlteration", transcriptomicAlteration);
         node_data.put("score", score);
 

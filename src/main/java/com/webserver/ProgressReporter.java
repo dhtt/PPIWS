@@ -79,7 +79,6 @@ public class ProgressReporter extends HttpServlet {
                                         : session.getAttribute("LOCAL_STORAGE_PATH").toString();
                         String[] splitPath = LOCAL_STORAGE_PATH.split("/");
                         USER_ID = splitPath[splitPath.length - 1];
-                        context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS\n" + LOCAL_STORAGE_PATH);
                         
                         // Get the process log stored in "/OUTPUT/PPIXpress_log.html". Log is updated by the process from standalone_tools:PPIXpress or PPIXCompare
                         // The file name must be the same as defined for log_file in PPICompare_Tomcat.java or PPIXpress_Tomcat.java and 

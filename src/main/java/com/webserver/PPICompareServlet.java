@@ -95,11 +95,12 @@ public class PPICompareServlet extends HttpServlet {
                 GROUP2_PATH = INPUT_PATH + "MPP/";
 
                 // Add path to input protein network to arguments set
-                allArgs.add(GROUP1_PATH);
-                allArgs.add(GROUP2_PATH);
+                allArgs.add("-group_1=" + GROUP1_PATH);
+                allArgs.add("-group_2=" + GROUP2_PATH);
 
                 // Add output path to arguments set
-                allArgs.add(OUTPUT_PATH);
+                allArgs.add("-output=" + OUTPUT_PATH);
+                allArgs.add("-fdr=0.05");
 
                 context.log(USER_ID + ": PPICompareServlet: Example process initiated from Servlet\n" + allArgs);
             }
@@ -151,20 +152,26 @@ public class PPICompareServlet extends HttpServlet {
 
                 context.log(USER_ID + ": PPICompareServlet: User-defined process initiated from Servlet\n" + allArgs);
 
-                // Create and execute PPICompare and update progress periodically to screen
-                // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
-                AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
-                request.getSession().setAttribute("PROGRAM", "PPICompare");
-                request.getSession().setAttribute("LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
-                request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
-            
-                LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
-                Thread lrp = new Thread(myThreads);
-                lrp.start();   
             }
             catch(Exception e){
                 context.log(USER_ID + ": PPICompareServlet: Fail to initiate user-defined run\n" + e);
             }  
+        }
+        try {
+            // Create and execute PPICompare and update progress periodically to screen
+            // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
+            AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
+            request.getSession().setAttribute("PROGRAM", "PPICompare");
+            request.getSession().setAttribute("LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
+            request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
+        
+            if (SUBMIT_TYPE.equals("RunNormal")) {
+                LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
+                Thread lrp = new Thread(myThreads);
+                lrp.start();   
+            }
+        } catch (Exception e) {
+            context.log(USER_ID + ": PPICompareServlet: Fail to initialize PPICompare process.\n" + e);
         }
     } 
 

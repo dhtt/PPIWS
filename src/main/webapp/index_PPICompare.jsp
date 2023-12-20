@@ -14,6 +14,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"/> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
@@ -142,10 +143,13 @@
 
             <div id="NetworkVisualizationContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
                 <div id="NVContent" style="display: flex; flex-direction: column; flex: 1 1 auto">
-                    <div id="NVContent_Graph" style="flex: 1 1 auto; z-index: 0"></div>
+                    <div id="NVContent_Graph_with_Legend" style="flex: 1 1 auto; z-index: 0">
+                        <div id="NVContent_Graph" style="position: absolute;"></div>
+                        <div id="NVContent_Legend" class="graph_legend"></div>
+                    </div>
 
                     <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto;">
-                        <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
+                        <div class="network-option panel" id="ShowNetworkOptions">Show / Collapse Options</div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label style="font-weight: bold">Differential PPI network</label><br>

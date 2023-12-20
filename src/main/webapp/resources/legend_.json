@@ -1,0 +1,94 @@
+[
+    {
+        "data": {
+            "id": "gained_node",
+            "label": "Alteration type: Gain",
+            "alterationType": "DE",
+            "transcriptomicAlteration": "gain",
+            "type": "ToggleTranscriptomicAlteration"
+        },
+        "classes": "Node_transcriptomicAlteration"
+    },
+
+    {
+        "data": {
+            "id": "lost_node",
+            "label": "Alteration type: Loss",
+            "alterationType": "DE",
+            "transcriptomicAlteration": "loss",
+            "type": "ToggleTranscriptomicAlteration"
+        },
+        "classes": "Node_transcriptomicAlteration"
+    },
+
+    {
+        "data": {
+            "id": "min_reason_node",
+            "label": "Part of min reasons",
+            "alterationType": "",
+            "transcriptomicAlteration": "",
+            "type": "ToggleMinReasons"
+        },
+        "classes": "Node_partOfMinReasons"
+    },
+
+
+    {
+        "data": {
+            "id": "gained_edge_1",
+            "label": "",
+            "alterationType": "DE",
+            "transcriptomicAlteration": "",
+            "type": "default"
+        }
+    },
+    {
+        "data": {
+            "id": "gained_edge_2",
+            "label": "Gained interaction",
+            "alterationType": "DE",
+            "transcriptomicAlteration": "",
+            "type": "default"
+        }
+    },
+    {
+        "data": {
+            "label": "",
+            "weight": 1,
+            "source": "gained_edge_1",
+            "target": "gained_edge_2",
+            "type": "default"
+        },
+        "classes": "PPI_Edge"
+    },
+
+
+    {
+        "data": {
+            "id": "lost_edge_1",
+            "label": "",
+            "alterationType": "DE",
+            "transcriptomicAlteration": "",
+            "type": "default"
+        }
+    },
+    {
+        "data": {
+            "id": "lost_edge_2",
+            "label": "Lost interaction",
+            "alterationType": "DE",
+            "transcriptomicAlteration": "",
+            "type": "default"
+        }
+    },
+    {
+        "data": {
+            "label": "",
+            "weight": 0,
+            "source": "lost_edge_1",
+            "target": "lost_edge_2",
+            "type": "default"
+        },
+        "classes": "PPI_Edge"
+    }
+]
