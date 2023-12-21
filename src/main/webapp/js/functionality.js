@@ -4,7 +4,10 @@ import {enableButton} from './functionality_helper_functions.js'
 import {disableButton} from './functionality_helper_functions.js'
 import {showWarningMessage} from './functionality_helper_functions.js'
 import {stripHTML} from './functionality_helper_functions.js'
-
+import {gridLayoutOptions} from '../resources/PPIXpress/graph_properties.js';
+import {cosebilkentLayoutOptions} from '../resources/PPIXpress/graph_properties.js';
+import {colorOpts} from '../resources/PPIXpress/graph_properties.js';
+import {updateColorScheme} from './functionality_helper_functions.js';
 
 // /***
 //  * alert when new window is open
@@ -24,23 +27,8 @@ import {stripHTML} from './functionality_helper_functions.js'
 //     }
 // }, false);
 
-/***
- * Define values for button holding CSS style before the document is ready
- * @type {{}}
- */
-const CSS_Style = {};
-$("[name='CSS_Style']").map(function(){
-    const col = window.getComputedStyle(this, null).getPropertyValue("color"); // Get CS value of variable
-    this.value = col // Set value of style to value of CSS variable
-    CSS_Style[this.id] = col; // Return an JSON entry for variable with value as item
-}).get()
-
+updateColorScheme('CSS_Style')
 jQuery(document).ready(function() {
-    // // Test
-    // addNetworkExpressionSelection(2);
-    // // fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false); // Display the sample summary table
-
-
     /**
      * Set options to default
      */
@@ -388,16 +376,6 @@ jQuery(document).ready(function() {
      * @param downloadable true or false
      */
     let ProteinNetwork = null;
-    // Default colors for graphs
-    let colorOpts = {
-        'ProteinColor': CSS_Style['--deeppink'],
-        'DomainColor': CSS_Style['--intensemint'],
-        'PPIColor': CSS_Style['--darkdeeppink'],
-        'DDIColor': CSS_Style['--darkintensemint'],
-        'parentNodeBackgroundColor': 'lightgray',
-        'nodeSize': 15,
-        'opacity': 1
-    }
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
             let blob = new Blob([pureText])
@@ -434,7 +412,7 @@ jQuery(document).ready(function() {
                     showWarningMessage(WarningMessage,
                         "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
                         null)
-                    ProteinNetwork = makePlot(fetchData, colorOpts);
+                    ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
                     ProteinNetwork
                         .then(cy => {
                             WarningMessage.css({'display': 'none'});
@@ -469,11 +447,8 @@ jQuery(document).ready(function() {
 
     $('#DownloadSubnetwork').on("click", function(){
         let fileName = NetworkSelection_Protein.val() + "_" + NetworkSelection_Expression.val() + ".png"
-        ProteinNetwork
-            .then(cy => {
-                saveAs(cy.png(), fileName)
-                return cy
-            })
+        domtoimage.toBlob(document.getElementById('NVContent_Graph_with_Legend'), {quality: 1})
+            .then(blob => window.saveAs(blob, fileName))
     })
 
     $('#toNetworkVisualization').on("click", function (){
@@ -582,6 +557,31 @@ jQuery(document).ready(function() {
                     .update()
                 return cy
             })
+        
+        window.NVContent_Legend.style()
+            .selector('node')
+            .style({
+                'background-color': ProteinColor.getAttribute('data-current-color'),
+                'color': ProteinColor.getAttribute('data-current-color')
+            })
+            .selector('.Domain_Node')
+            .style({
+                'background-color': DomainColor.getAttribute('data-current-color'),
+                'color': DomainColor.getAttribute('data-current-color')
+            })
+            .selector('.PPI_Edge')
+            .style({
+                'line-color': PPIColor.getAttribute('data-current-color')
+            })
+            .selector('.DDI_Edge')
+            .style({
+                'line-color': DDIColor.getAttribute('data-current-color')
+            })
+            .selector(':parent')
+            .style({
+                'background-color': colorOpts.parentNodeBackgroundColor,
+            })
+            .update()
     })
 
 
@@ -607,13 +607,11 @@ jQuery(document).ready(function() {
                 const api = cy.expandCollapse({layoutBy: newLayout});
                 if (ToggleExpandCollapse.val() === "expandAll"){
                     api.expandAll()
-                    cy.$('.PPI_Edge').addClass('PPI_Edge_inactive')
                     cy.$('.DDI_Edge').addClass('DDI_Edge_active')
                     cy.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
                 }
                 else {
                     api.collapseAll()
-                    cy.$('.PPI_Edge').removeClass('PPI_Edge_inactive')
                     cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
                     cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
                 }

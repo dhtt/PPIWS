@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
     <script src="webjars/cytoscape-cose-bilkent/4.0.0/cytoscape-cose-bilkent.js"></script>
@@ -213,7 +214,10 @@
 
             <div id="NetworkVisualizationContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
                 <div id="NVContent" style="display: flex; flex-direction: column; flex: 1 1 auto">
-                    <div id="NVContent_Graph" style="flex: 1 1 auto; z-index: 0"></div>
+                    <div id="NVContent_Graph_with_Legend" style="flex: 1 1 auto; z-index: 0">
+                        <div id="NVContent_Graph" style="position: absolute;"></div>
+                        <div id="NVContent_Legend" class="graph_legend"></div>
+                    </div>
 
                     <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
                         <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
@@ -237,12 +241,13 @@
                                     <label for="changeLayout" style="font-weight: bold; font-size: smaller">Graph layout</label><br>
                                     <label for="changeNodeSize" style="font-weight: bold; font-size: smaller">Node size</label>
                                 </div>
+
                                 <div style="text-align: right; width: min-content">
-                                    <select name="ApplyGraphStyle" id="ToggleExpandCollapse" disabled>
+                                    <select name="ApplyGraphStyle" id="ToggleExpandCollapse" style="width: auto" disabled>
                                         <option value="collapseAll">Collapse all</option>
                                         <option value="expandAll">Expand all</option>
                                     </select><br>
-                                    <select name="ApplyGraphStyle" id="changeLayout" disabled>
+                                    <select name="ApplyGraphStyle" id="changeLayout" style="width: 100%" disabled>
                                         <option value="cose-bilkent">Cose-bilkent</option>
                                         <option value="circle">Circle</option>
                                     </select><br>

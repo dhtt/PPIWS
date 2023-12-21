@@ -1,6 +1,9 @@
-// colorOpts is defined in functionality.js
+import {styleSheet} from '../resources/PPIXpress/graph_properties.js';
+import {styleSheetLegend} from '../resources/PPIXpress/graph_properties.js';
 
-export function makePlot(fetchedData, colorOpts){
+// colorOpts is defined in functionality.js
+export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
+    // Make plot
     var graph = fetchedData
         .then(res => res.json())
         .then(
@@ -11,12 +14,7 @@ export function makePlot(fetchedData, colorOpts){
                     autounselectify: true,
 
                     ready: function () {
-                        this.layout({
-                            name: 'cose-bilkent',
-                            randomize: true,
-                            fit: true,
-                            animate: false
-                        }).run();
+                        this.layout(graphLayoutOptions).run();
                         const api = this.expandCollapse({
                             layoutBy: {
                                 name: "cose-bilkent",
@@ -32,96 +30,53 @@ export function makePlot(fetchedData, colorOpts){
                         api.collapseAll();
                     },
 
-                    style: [
-                        {
-                            selector: 'node',
-                            style: {
-                                'label': 'data(label)', //Show gene id
-                                'color': colorOpts.ProteinColor,
-                                'text-valign': 'bottom',
-                                'background-color': colorOpts.ProteinColor,
-                                'text-margin-y': 5,
-                                'padding': 10,
-                                'line-color': colorOpts.PPIColor,
-                                'line-height': 2,
-                                'height': colorOpts.nodeSize,
-                                'width': colorOpts.nodeSize,
-                                'opacity': colorOpts.opacity
-                            }
-                        },
-                        { // Node properties for both protein ad domain node when dragged
-                            selector: ".Node_active",
-                            style: {
-                                'font-weight': 'bold'
-                            }
-                        },
-                        { // Node properties for domain node
-                            selector: ".Domain_Node",
-                            style: {
-                                'color': colorOpts.DDIColor,
-                                'background-color': colorOpts.DomainColor
-                            }
-                        },
-                        { // Node properties for parents (compound nodes)
-                            selector: ':parent',
-                            style: {
-                                'background-opacity': 0.4,
-                                'background-color': colorOpts.parentNodeBackgroundColor,
-                                'text-margin-y': 5,
-                                'border-width': 0,
-                                'shape' : 'round-rectangle',
-                            }
-                        },
-                        { // Collapsed nodes properties
-                            selector: "node.cy-expand-collapse-collapsed-node",
-                            style: {
-                                "background-color": colorOpts.ProteinColor,
-                                "shape": "round-triangle"
-                            }
-                        },
-                        { // Default edge properties for PPI
-                            selector: ".PPI_Edge",
-                            style: {
-                                'label': '',
-                                'curve-style': 'straight',
-                                'width': "mapData(weight, 0, 5, 1, 10)",
-                                'opacity': 0.4,
-                                'line-color': colorOpts.PPIColor
-                            }
-                        },
-                        { // Default edge properties for DDI
-                            selector: ".DDI_Edge",
-                            style: {
-                                'line-color': colorOpts.DDIColor
-                            }
-                        },
-                        {  // Edge properties for DDI in expand mode
-                            selector: ".DDI_Edge_active",
-                            style: {
-                                'opacity': 0.4
-                            }
-                        },
-                        { // Edge properties for DDI in collapse mode
-                            selector: ".DDI_Edge_inactive",
-                            style: {
-                                'opacity': 0 // Do not show DDI edge in the default collapsed mode
-                            }
-                        },
-                        { // Edge properties for PPI in expand mode
-                            selector: ".PPI_Edge_inactive",
-                            style: {
-                                'line-style': 'dashed'
-                            }
-                        },
-                        { // Edge properties for both PPI and DDI while a connected node is selected
-                            selector: ".Edge_highlight",
-                            style: {
-                                'opacity': 1
-                            }
-                        }
-                    ]
+                    style: styleSheet
                 })
         )
+
+    
+    // Make legend for plot
+    var NVContent_Legend_cy = window.NVContent_Legend = cytoscape({
+        container: $('#NVContent_Legend'),
+
+        elements: fetch('./resources/PPIXpress/legend.json')
+            .then(res => res.json())
+            .then(res => res.filter((node) => node.data.type === "default")),
+
+        layout: legendLayoutOptions,
+
+        style: styleSheetLegend
+    })
+
+    NVContent_Legend_cy.on('layoutstop', function(data){
+        let cy = data.cy;
+        var PPI_node_1 = cy.$('#PPI_node_1')
+        var PPI_node_2 = cy.$('#PPI_node_2')
+        var DDI_node_1 = cy.$('#DDI_node_1')
+        var DDI_node_2 = cy.$('#DDI_node_2')
+
+        //The initial layout draws 4 nodes PPI_node_1, PPI_node_2, DDI_node_1, DDI_node_2 in such order
+
+        DDI_node_1.position({
+            x: DDI_node_1.position().x - 50,
+            y: PPI_node_2.position().y // Move to the 4th node which is DDI_node_2
+        })
+        DDI_node_2.position({
+            x: DDI_node_1.position().x + 50,
+            y: PPI_node_2.position().y // Move to the 4th node which is DDI_node_2
+        })
+
+
+        PPI_node_2.position({
+            x: PPI_node_1.position().x,
+            y: PPI_node_1.position().y // Move to the 3rd node which is DDI_node_1
+        })
+        PPI_node_1.position({
+            x: PPI_node_1.position().x - 50,
+            y: PPI_node_1.position().y // Move to the 3rd node which is DDI_node_1
+        })
+    })
+
     return graph;
 }
 

@@ -69,3 +69,29 @@ export function showWarningMessage(WarningMessage_, message_, timeout_){
 export function stripHTML(HTMLElement){
     return HTMLElement.html().replace(/(<([^>]+)>)/gi, '\n').replace(/\n\s*\n/g, '\n');
 }
+
+/***
+ *
+ * @param array_ an array of Objects
+ * @returns {*}
+ */
+export function deepCopyArray(array_){
+    let newArray_ = []
+    array_.forEach(function(item){
+        newArray_.push(JSON.parse(JSON.stringify(item)))
+    })
+    return newArray_
+}
+
+/***
+ * Define values for button holding CSS style before the document is ready
+ */
+export function updateColorScheme(colorSchemeName){
+    let colorScheme = {};
+    $("[name='" + colorSchemeName + "']").map(function(){
+        let col = window.getComputedStyle(this, null).getPropertyValue("color"); // Get CS value of variable
+        this.value = col // Set value of style to value of CSS variable
+        colorScheme[this.id] = col; // Return an JSON entry for variable with value as item
+    }).get()
+    return colorScheme
+}

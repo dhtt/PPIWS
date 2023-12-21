@@ -1,0 +1,70 @@
+[
+    {
+        "data": {
+            "id": "collapsed_protein_node",
+            "label": "Protein",
+            "type": "default"
+        },
+        "classes": "collapsed_node"
+    },
+    {
+        "data": {
+            "id": "domain_node",
+            "label": "Domain",
+            "type": "default"
+        },
+        "classes": "Domain_Node"
+    },
+    {
+        "data": {
+            "id": "PPI_node_1",
+            "label": "",
+            "type": "default"
+        },
+        "classes": "collapsed_node"
+    },
+    {
+        "data": {
+            "id": "PPI_node_2",
+            "label": "Protein-protein interaction",
+            "type": "default"
+        },
+        "classes": "collapsed_node"
+    },
+    {
+        "data": {
+            "label": "",
+            "weight": 1,
+            "source": "PPI_node_1",
+            "target": "PPI_node_2",
+            "type": "default"
+        },
+        "classes": "PPI_Edge"
+    },
+    {
+        "data": {
+            "id": "DDI_node_1",
+            "label": "",
+            "type": "default"
+        },
+        "classes": "Domain_Node"
+    },
+    {
+        "data": {
+            "id": "DDI_node_2",
+            "label": "Domain-domain interaction",
+            "type": "default"
+        },
+        "classes": "Domain_Node"
+    },
+    {
+        "data": {
+            "label": "",
+            "weight": 1,
+            "source": "DDI_node_1",
+            "target": "DDI_node_2",
+            "type": "default"
+        },
+        "classes": "DDI_Edge"
+    }
+]

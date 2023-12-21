@@ -3,21 +3,12 @@ import {showNoChosenFiles} from './functionality_helper_functions.js'
 import {enableButton} from './functionality_helper_functions.js'
 import {disableButton} from './functionality_helper_functions.js'
 import {showWarningMessage} from './functionality_helper_functions.js'
-
-let legendData = './resources/legend.json'
-let gridLayoutOptions = {
-    'name': 'grid',
-    'rows': 7,
-    'cols': 1,
-    'fit': true,
-    'animate': false
-}
-let cosebilkentLayoutOptions = {
-    'name': 'cose-bilkent',
-    'randomize': false,
-    'fit': true,
-    'animate': false
-}
+import {stripHTML} from './functionality_helper_functions.js'
+import {gridLayoutOptions} from '../resources/PPICompare/graph_properties.js';
+import {cosebilkentLayoutOptions} from '../resources/PPICompare/graph_properties.js';
+import {colorOpts} from '../resources/PPIXpress/graph_properties.js';
+import {updateColorScheme} from './functionality_helper_functions.js';
+const legendData = './resources/PPICompare/legend.json'
 
 // /***
 //  * alert when new window is open
@@ -37,17 +28,7 @@ let cosebilkentLayoutOptions = {
 //     }
 // }, false);
 
-/***
- * Define values for button holding CSS style before the document is ready
- * @type {{}}
- */
-const CSS_Style = {};
-$("[name='CSS_Style']").map(function(){
-    const col = window.getComputedStyle(this, null).getPropertyValue("color"); // Get CS value of variable
-    this.value = col // Set value of style to value of CSS variable
-    CSS_Style[this.id] = col; // Return an JSON entry for variable with value as item
-}).get()
-
+updateColorScheme('CSS_Style')
 jQuery(document).ready(function() {
     $("#NetworkSelection_HighlightProtein").select2({
         placeholder: $( this ).data( 'placeholder' )
@@ -329,14 +310,6 @@ jQuery(document).ready(function() {
     // Default layouts and colors for graphs & legend
  
     
-    let colorOpts = {
-        'ProteinColor': CSS_Style['--protein'],
-        'LostEdgeColor': CSS_Style['--lostedge'],
-        'GainedEdgeColor': CSS_Style['--gainededge'],
-        'HighlightedProteinColor': CSS_Style['--highlightedprotein'],
-        'nodeSize': 2,
-        'nodeOpacity': 0.8
-    }
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
             let blob = new Blob([pureText])
@@ -368,7 +341,7 @@ jQuery(document).ready(function() {
                     showWarningMessage(WarningMessage,
                         "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
                         null)
-                    ProteinNetwork = makePlot(fetchData, colorOpts, cosebilkentLayoutOptions, gridLayoutOptions);
+                    ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
                     ProteinNetwork
                         .then(cy => {
                             WarningMessage.css({'display': 'none'});
@@ -394,17 +367,8 @@ jQuery(document).ready(function() {
     })
 
     $('#DownloadSubnetwork').on("click", function(){
-        let fileName ="PPICompare_graph.png"
-        // ProteinNetwork
-        //     .then(cy => {
-        //         saveAs(cy.png({bg: ToggleBackgroundColor.val()}), fileName)
-        //         return cy
-        //     })
-        domtoimage.toBlob(document.getElementById('NVContent_Graph_with_Legend'), {
-            height:1000, width:2400, quality: 1 })
-        .then(function (blob) {
-            window.saveAs(blob, 'my-node.png');
-        });
+        domtoimage.toBlob(document.getElementById('NVContent_Graph_with_Legend'), {quality: 1})
+        .then(blob => window.saveAs(blob, fileName))
     })
 
     $('#toNetworkVisualization').on("click", function (){
@@ -468,7 +432,6 @@ jQuery(document).ready(function() {
             })
         $('#ToggleRelativeImportance').prop('checked', false)
     })
-
 
 
     $('.toggle_input').on('change', function(){
