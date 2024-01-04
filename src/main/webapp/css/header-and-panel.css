@@ -71,9 +71,12 @@
     background-color: var(--mint);
     color: var(--choco);
 }
-.button-tab:focus, .tab-active {
+.button-tab:focus, .tab-active, .button-active {
     color: #EDF2F4;
     background-color: var(--choco);
+}
+.button-active{
+    background-color: var(--deeppink);
 }
 
 .display-content{

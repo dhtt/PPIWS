@@ -207,8 +207,11 @@
                                 
                                 <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_HighlightProtein_All" value="null" class="button graph-menu-button">Highlight</button>
                                 <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_HighlightProtein_Single" value="null" class="button graph-menu-button">Focus</button>
-                            
-                                <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_UnhighlightProtein" class="subsection-text reset button" style="font-size: smaller; margin: 0">Reset</span><br>
+                                <!-- TODO -->
+                                <input type="checkbox" id="ToggleNetworkSelection_HighlightProtein" value="0" min="0" max="1" step="1" class="toggle_input">
+                                <span class="toggle_button_with_text button" style="width: fit-content; background: var(--deeppink); position: absolute">Highlight</span>
+                                
+                                <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_UnhighlightProtein" class="subsection-text reset button" style="font-size: smaller; margin: 0" title="Reset">❌<br>
                             </div>                            
                             
                             <div style="padding: 1em">
