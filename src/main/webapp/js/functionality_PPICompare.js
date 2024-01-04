@@ -520,6 +520,7 @@ jQuery(document).ready(function() {
     let NetworkSelection_HighlightProtein_Single = $('#NetworkSelection_HighlightProtein_Single')
     let NetworkSelection_UnhighlightProtein = $('#NetworkSelection_UnhighlightProtein') 
     NetworkSelection_HighlightProtein_All.on("click", function(){
+        // TODO: if ( cy.$('.Node_highlight') length > 0) then do this
         let highlightedProtein = NetworkSelection_HighlightProtein.val() 
         NetworkSelection_UnhighlightProtein.trigger('click')
         ProteinNetwork
@@ -528,8 +529,10 @@ jQuery(document).ready(function() {
                 ele.addClass('Node_highlight');
                 ele.neighborhood().addClass('Node_highlight')
             })
+        // TODO: else NetworkSelection_UnhighlightProtein.trigger('click')
     })
     NetworkSelection_HighlightProtein_Single.on("click", function(){
+        // TODO: if ( cy.$('.Node_highlight') length > 0) then do this
         NetworkSelection_HighlightProtein_All.trigger('click')
         ProteinNetwork
             .then(cy => {

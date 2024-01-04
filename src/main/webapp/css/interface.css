@@ -118,7 +118,7 @@ footer{
 .button{
     font-weight: bold;
     display: inline-block;
-    padding: 0.3em 1.5em;
+    padding: 0.3em 1em;
     margin: 0 0.1em 0.1em 0;
     border: var(--choco);
     border-radius:2em;
@@ -340,7 +340,7 @@ input[type="range"]::-webkit-slider-runnable-track  {
     background: transparent;
 }
 
-.toggle_slider, .toggle_button {
+.toggle_slider, .toggle_slider_with_text, .toggle_button, .toggle_button_with_text {
     outline: 1px solid lightgrey;
     display: block;
     position: absolute;
@@ -361,6 +361,14 @@ input[type="range"]::-webkit-slider-runnable-track  {
     width: 15px;
     cursor: pointer;
   }
+.toggle_button_with_text {
+    position: absolute;
+    background: white;
+    height: 15px;
+    width: fit-content;
+    cursor: pointer;
+    padding: 0.3em 1em;
+  }
 
 .toggle_input { 
     /* Hide checkbox */
@@ -379,6 +387,14 @@ input[type="range"]::-webkit-slider-runnable-track  {
 
 .toggle_input:checked ~ div .toggle_button{
     left: 15px;
+    outline: 1px solid var(--deeppink);
+}
+.toggle_input:checked ~ div .toggle_button_with_text{
+    left: 9em;
+    outline: 1px solid var(--deeppink);
+}
+
+.toggle_input:checked ~ div .toggle_slider_with_text{
     outline: 1px solid var(--deeppink);
 }
 
