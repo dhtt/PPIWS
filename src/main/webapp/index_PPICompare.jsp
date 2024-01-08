@@ -170,7 +170,7 @@
                                 </div>
                                 <div style="text-align: right; width: min-content">
                                     <select name="ApplyGraphStyle" id="ToggleProteinID" disabled>
-                                        <option value="UniProtID">UniProt</option>
+                                        <option value="UniProtID" selected="selected">UniProt</option>
                                         <option value="SymbolID">Symbol</option>
                                     </select><br>    
                                     <input type="range" name="ApplyGraphStyle" id="changeNodeSize" disabled value="10" min="0.5" max="25" step="1" style="width: 100%; height: 0.5em">
@@ -205,13 +205,10 @@
                                 <label for="NetworkSelection_HighlightProtein" style="font-weight: bold; font-size: smaller">View a protein (UniProt ID)</label><br>
                                 <select id="NetworkSelection_HighlightProtein" class="button upload" style="margin: 0.5em 0; width: min-content; font-size: smaller" data-placeholder="UniProt ID"></select><br>
                                 
-                                <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_HighlightProtein_All" value="null" class="button graph-menu-button">Highlight</button>
-                                <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_HighlightProtein_Single" value="null" class="button graph-menu-button">Focus</button>
-                                <!-- TODO -->
-                                <input type="checkbox" id="ToggleNetworkSelection_HighlightProtein" value="0" min="0" max="1" step="1" class="toggle_input">
-                                <span class="toggle_button_with_text button" style="width: fit-content; background: var(--deeppink); position: absolute">Highlight</span>
-                                
-                                <button type="button" disabled name="ApplyGraphStyle" id="NetworkSelection_UnhighlightProtein" class="subsection-text reset button" style="font-size: smaller; margin: 0" title="Reset">❌<br>
+                               
+                                <label for="NetworkSelection_HighlightProtein_All" class="button graph-menu-button radio-button">Highlight <input type="radio" name="NetworkSelection_HighlightProtein_Option" value="all" id="NetworkSelection_HighlightProtein_All" style="display: none;"></label>
+                                <label for="NetworkSelection_HighlightProtein_Focus" class="button graph-menu-button radio-button">Focus <input type="radio" name="NetworkSelection_HighlightProtein_Option" value="focus" id="NetworkSelection_HighlightProtein_Focus" style="display: none;"></label>
+                                <label for="NetworkSelection_UnhighlightProtein" class="button graph-menu-button radio-button">Reset <input type="radio" name="NetworkSelection_HighlightProtein_Option" value="reset" id="NetworkSelection_UnhighlightProtein" style="display: none;"></label>
                             </div>                            
                             
                             <div style="padding: 1em">

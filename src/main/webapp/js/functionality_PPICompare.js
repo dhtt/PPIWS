@@ -368,7 +368,7 @@ jQuery(document).ready(function() {
 
     $('#DownloadSubnetwork').on("click", function(){
         domtoimage.toBlob(document.getElementById('NVContent_Graph_with_Legend'), {quality: 1})
-        .then(blob => window.saveAs(blob, fileName))
+        .then(blob => window.saveAs(blob, "PPICompareDifferentialNetwork.png"))
     })
 
     $('#toNetworkVisualization').on("click", function (){
@@ -389,6 +389,24 @@ jQuery(document).ready(function() {
     ShowSubnetwork.on("click", function (){
             fetchResult(null, "graph", null, false)
             enableButton(ApplyGraphStyle, ['upload'])
+
+            // Reset all input fields. 'checkbox' and 'radio' are unchecked. 'select-one' is reset to first opotion 
+            $('#NetworkOptions').find(':input').each(function(){
+                let type = this.type
+                if ($(this).prop('checked')){
+                    $(this).prop('checked', false)
+                }
+            
+                if (type === 'select-one'){
+                    $(this).prop("selectedIndex", 0);
+                    $(this).change()
+                }
+            })
+            
+            // Reset NetworkSelection_HighlightProtein
+            NetworkSelection_HighlightProtein_Option.value = 'reset'
+            NetworkSelection_HighlightProtein_Option.change()
+
             activateNetwork(ProteinNetwork, WarningMessage)
             changeNodeSize.val(colorOpts.nodeSize).change()
       })
@@ -478,37 +496,50 @@ jQuery(document).ready(function() {
     })
 
     // View a single protein
-    let NetworkSelection_HighlightProtein_All = $('#NetworkSelection_HighlightProtein_All')
-    let NetworkSelection_HighlightProtein_Single = $('#NetworkSelection_HighlightProtein_Single')
-    let NetworkSelection_UnhighlightProtein = $('#NetworkSelection_UnhighlightProtein') 
-    NetworkSelection_HighlightProtein_All.on("click", function(){
-        // TODO: if ( cy.$('.Node_highlight') length > 0) then do this
-        let highlightedProtein = NetworkSelection_HighlightProtein.val() 
-        NetworkSelection_UnhighlightProtein.trigger('click')
-        ProteinNetwork
-            .then(cy => {
-                const ele = cy.$('#' + highlightedProtein)
-                ele.addClass('Node_highlight');
-                ele.neighborhood().addClass('Node_highlight')
-            })
-        // TODO: else NetworkSelection_UnhighlightProtein.trigger('click')
-    })
-    NetworkSelection_HighlightProtein_Single.on("click", function(){
-        // TODO: if ( cy.$('.Node_highlight') length > 0) then do this
-        NetworkSelection_HighlightProtein_All.trigger('click')
-        ProteinNetwork
-            .then(cy => {
-                const hidden_eles = cy.$('*').not(cy.$('.Node_highlight'))
-                hidden_eles.addClass('Node_hidden');
-            })
-    })
-    NetworkSelection_UnhighlightProtein.on("click", function(){
+    let NetworkSelection_HighlightProtein_Option =  $("[name='NetworkSelection_HighlightProtein_Option']")
+    let unhighlightProtein = function(){
         ProteinNetwork
             .then(cy => {
                 cy.nodes().removeClass('Node_highlight');
                 cy.nodes().removeClass('Node_hidden');
             })
+    }
+    let highlightPPIN = function(proteinName){
+        ProteinNetwork
+        .then(cy => {
+            const ele = cy.$('#' + proteinName)
+            ele.addClass('Node_highlight');
+            ele.neighborhood().addClass('Node_highlight')
+        })
+    }
+
+    NetworkSelection_HighlightProtein_Option.on('change', function(){
+        NetworkSelection_HighlightProtein_Option.each(function(){
+            if ($(this).prop('checked')){
+                let option = $(this).val()
+
+                if (option === 'all' | option === 'focus'){
+                    $(this).parent('label').addClass("button-active") // Only show Highlight/Focus button if selected, not Reset
+                    unhighlightProtein()
+                    highlightPPIN(NetworkSelection_HighlightProtein.val())
+                    if (option === 'focus'){
+                        ProteinNetwork
+                        .then(cy => {
+                            const hidden_eles = cy.$('*').not(cy.$('.Node_highlight'))
+                            hidden_eles.addClass('Node_hidden');
+                        })
+                    }
+                } else {
+                    unhighlightProtein()
+                }
+            }
+            else {
+                $(this).parent('label').removeClass('button-active')
+            }
+        })
+        
     })
+
 
     // Customize colors
     // Background color
@@ -523,7 +554,8 @@ jQuery(document).ready(function() {
     const LostEdgeColor = $('#LostEdgeColor')[0]
     const GainedEdgeColor = $('#GainedEdgeColor')[0]
     const HighlightedProteinColor = $('#HighlightedProteinColor')[0]
-    $('#ApplyGraphColor').on('click', function(){
+    let ApplyGraphColor = $('#ApplyGraphColor') 
+    ApplyGraphColor.on('click', function(){
         var LostEdgeColor_updated = LostEdgeColor.getAttribute('data-current-color')
         var GainedEdgeColor_updated = GainedEdgeColor.getAttribute('data-current-color')
         var ProteinColor_updated = ProteinColor.getAttribute('data-current-color')

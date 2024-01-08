@@ -278,6 +278,12 @@ footer{
     color: var(--choco);
     cursor: pointer;
 }
+
+.radio-button {
+    background: white;
+    text-align: var(--choco);
+    line-height: normal;
+}
 input[type="checkbox"]{
     vertical-align: middle;
     position: relative;
@@ -340,7 +346,7 @@ input[type="range"]::-webkit-slider-runnable-track  {
     background: transparent;
 }
 
-.toggle_slider, .toggle_slider_with_text, .toggle_button, .toggle_button_with_text {
+.toggle_slider, .toggle_button {
     outline: 1px solid lightgrey;
     display: block;
     position: absolute;
@@ -360,14 +366,6 @@ input[type="range"]::-webkit-slider-runnable-track  {
     height: 15px;
     width: 15px;
     cursor: pointer;
-  }
-.toggle_button_with_text {
-    position: absolute;
-    background: white;
-    height: 15px;
-    width: fit-content;
-    cursor: pointer;
-    padding: 0.3em 1em;
   }
 
 .toggle_input { 
@@ -389,15 +387,6 @@ input[type="range"]::-webkit-slider-runnable-track  {
     left: 15px;
     outline: 1px solid var(--deeppink);
 }
-.toggle_input:checked ~ div .toggle_button_with_text{
-    left: 9em;
-    outline: 1px solid var(--deeppink);
-}
-
-.toggle_input:checked ~ div .toggle_slider_with_text{
-    outline: 1px solid var(--deeppink);
-}
-
 .toggle_input:checked ~ div .toggle_slider{
     background: var(--deeppink);
     outline: 1px solid var(--deeppink);
