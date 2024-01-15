@@ -72,22 +72,26 @@
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
-                <p class="menu header">Upload condition specific<br>networks</p>
+                <p class="menu header">
+                    Upload condition specific<br>networks
+                    <button type="button" name="protein_network_example" id="protein_network_example" class="help" style="margin: auto 0.5em; scale: 0.85" title="Example input">?</button>
+                </p>
                 <div class="menu panel" style="text-align: center;">
                     <div style="text-align: center; margin: 0; display: flex; margin-bottom: 0.5em; padding: 0 0.5em">
                         <div style="flex: 0 0 50%; overflow:hidden"> 
-                            <label for="PPIXpress_network_1" class="button upload" title="??">First group</label>
+                            <label for="PPIXpress_network_1" class="button upload" title="Control group">First group</label>
                             <input type="file" name="PPIXpress_network" id="PPIXpress_network_1" accept=".zip" style="display: none">
                             <p id="PPIXpress_network_1_description" class="description-text">&emsp;</p>
                         </div>
                         <div style="flex: 0 0 50%; overflow:hidden"> 
-                            <label for="PPIXpress_network_2" class="button upload" title="??">Second group</label>
+                            <label for="PPIXpress_network_2" class="button upload" title="Experiment group">Second group</label>
                             <input type="file" name="PPIXpress_network" id="PPIXpress_network_2" accept=".zip" style="display: none">
                             <p id="PPIXpress_network_2_description" class="description-text">&emsp;</p> 
                         </div>
                     </div>
-                    <span>&nbsp;or get help&nbsp;</span>
-                    <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
+                    <span style="display:flex; margin-top: -1em">
+                        <span name="Reset" id="ResetRunOptions" class="reset" style="flex:1; margin-top: 1em; text-align: center">Reset</span><br>
+                    </span>
                 </div>
             </div>
 
