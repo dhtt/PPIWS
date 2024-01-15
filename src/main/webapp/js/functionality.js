@@ -1,7 +1,6 @@
 import {makePlot} from './network_maker.js'
 import {showNoChosenFiles} from './functionality_helper_functions.js'
-import {enableButton} from './functionality_helper_functions.js'
-import {disableButton} from './functionality_helper_functions.js'
+import {switchButton} from './functionality_helper_functions.js'
 import {showWarningMessage} from './functionality_helper_functions.js'
 import {stripHTML} from './functionality_helper_functions.js'
 import {gridLayoutOptions} from '../resources/PPIXpress/graph_properties.js';
@@ -57,6 +56,7 @@ jQuery(document).ready(function() {
         make_all_checked('report_gene_abundance','output_major_transcripts')
     })
 
+    // TODO might be integrated with reset fields below
     /**
      * Set checkboxes and input values to default
      */
@@ -210,7 +210,7 @@ jQuery(document).ready(function() {
                             // Submit.prop('disabled', false)
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
-                            enableButton(ShowSubnetwork, ['upload'])
+                            switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
 
                             // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
                             NO_EXPRESSION_FILE = json.NO_EXPRESSION_FILE
@@ -228,14 +228,17 @@ jQuery(document).ready(function() {
         }, updateInterval);
     }
 
+    let showDDIs = false
+    const NVContent_Graph = $('#NVContent_Graph')
+    const NVContent = $('#NVContent');
+    const NetworkOptions = $('#NetworkOptions')
+    let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
+    let Submit = $("[name='Submit']")
+
     /***
      * Submit form and run analysis
      * @type {boolean}
      */
-    let showDDIs = false
-    const NVContent = $('#NVContent');
-    let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
-    let Submit = $("[name='Submit']")
     $('#RunNormal').on('click', function (){
         // Reset displayed result from previous run
         resetDisplay()
@@ -285,7 +288,7 @@ jQuery(document).ready(function() {
         disabling_window.toggle()
 
         //Show current files and settings on the new tab
-        disableButton(ApplyGraphStyle, ['upload'])
+        switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
         Submit.prop('disabled', true)
         loader.css({'display': 'block'});
 
@@ -302,6 +305,11 @@ jQuery(document).ready(function() {
     })
 
 
+    /* 
+    ===================================================================================================================
+    ================================================= Reset functions =================================================
+    ===================================================================================================================
+    */
     /**
      * Reset all forms & clear all fields for new analysis
      */
@@ -310,20 +318,68 @@ jQuery(document).ready(function() {
         $("[name='Reset']").click() // Set default settings for all option panels
         $("[name='ScrollToTop']").css({'display': 'none'})
     }
+
+    /**
+     * Reset display with old output
+     */
     function resetDisplay(){
         // Reset display message (clear message from the previous run)
         $("#AfterRunOptions, #RightDisplay").css({'display': 'none'})
         runningProgressContent.html("")
 
         // Before resubmit, clear existing graphs and graph options
-        $('#NVContent_Graph').html('')
-        disableButton(ApplyGraphStyle, ['upload'])
+        NVContent_Graph.html('')
         NetworkSelection_Protein.val('')
+    }
+
+
+    /**
+     * In case changes have been made, reset all input fields. 'checkbox' and 'radio' are unchecked. 
+     * 'select-one' is reset to first option 
+     * @param {*} field_ div containing input fields to reset
+     * @param {*} disable_ where input fields should be disabled after reset
+     */
+    function resetInputFields(field_, disable_){
+        field_.find(':input').each(function(){
+            let type = this.type
+            if ($(this).prop('checked')){
+                $(this).prop('checked', false)
+            }
+        
+            if (type === 'select-one'){
+                $(this).prop("selectedIndex", 0);
+                $(this).change()
+            }
+            console.log(type);
+            console.log($(this));
+            (disable_ === true) ? $(this).prop('disabled', true) : $(this).prop('disabled', false)
+        })
+    }
+
+    /**
+     * Reset and enable/disable the modification of NetworkOptions
+     * @param {*} option_ 'off' or 'on' 
+      */
+    function switchShowSubnetwork(option_){
+        if (option_ === 'off'){
+               // Disable buttons in Customize network display   
+            switchButton(ShowSubnetwork, 'off', ['upload'], 'removeClasses')
+            switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
+            
+            // In case changes have been made, reset all input fields and disable modification
+            resetInputFields(NetworkOptions, true)
+        } else if (option_ === 'on'){
+            switchButton(ApplyGraphStyle, 'on', ['upload'], 'addClasses')
+
+            // In case changes have been made, reset all input fields but keep them modifiable
+            resetInputFields(NetworkOptions, false)
+        }
     }
 
     $('#runNewAnalysis').on('click', function (){
         resetForm()
         resetDisplay()
+        switchShowSubnetwork('off')
         Submit.prop('disabled', false)
     })
 
@@ -469,13 +525,14 @@ jQuery(document).ready(function() {
     ShowSubnetwork.on("click", function (){
         if (NetworkSelection_Protein.val() !== "") {
             fetchResult(null, "graph", null, false)
-            enableButton(ApplyGraphStyle, ['upload'])
+            switchShowSubnetwork('on')
+            
             let ShowSubnetworkOption = {
                 'expandCollapseOptions': cyOpts,
                 'showDDIs': showDDIs
             }
             activateNetwork(ProteinNetwork, WarningMessage, ShowSubnetworkOption)
-            $('#NetworkOptions').find('select').prop('selectedIndex', 0).change()
+            NetworkOptions.find('select').prop('selectedIndex', 0).change()
             changeNodeSize.val(15).change()
         } else {
             alert("Please select a protein!")

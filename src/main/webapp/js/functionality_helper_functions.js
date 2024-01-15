@@ -19,28 +19,20 @@ export function showNoChosenFiles(inputID, noFiles, option){
 /***
  *
  * @param button_
- * @param classes_
+ * @param switch_ : 'on' or 'off'
+ * @param classes_ : a list of CSS classes to be added or removed from the button. This will not work for <label + input> type button
+ * @param option_ : 'addClasses' or 'removeClasses'
  */
-export function enableButton(button_, classes_){
-    if (button_.prop('disabled')){
+export function switchButton(button_, switch_, classes_, option_){
+    if (switch_ === 'on' & button_.prop('disabled')){
         button_.prop('disabled', false)
         for (let i = 0; i < classes_.length; i++){
-            button_.addClass(classes_[i])
+            (option_ === 'addClasses') ? button_.addClass(classes_[i]) : (option_ === 'removeClasses') ? button_.removeClass(classes_[i]) : console.log('');
         }
-    }
-}
-
-
-/***
- *
- * @param button_ the button to enable
- * @param classes_ a list of style classes to remove from the button after disabling it
- */
-export function disableButton(button_, classes_){
-    if (!button_.prop('disabled')){
+    } else if (switch_ === 'off' & !button_.prop('disabled')) {
         button_.prop('disabled', true)
         for (let i = 0; i < classes_.length; i++){
-            button_.removeClass(classes_[i])
+            (option_ === 'addClasses') ? button_.addClass(classes_[i]) : (option_ === 'removeClasses') ? button_.removeClass(classes_[i]) : console.log('');
         }
     }
 }

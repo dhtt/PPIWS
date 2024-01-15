@@ -210,9 +210,9 @@
                                 <select id="NetworkSelection_HighlightProtein" class="button upload" style="margin: 0.5em 0; width: min-content; font-size: smaller" data-placeholder="UniProt ID"></select><br>
                                 
                                
-                                <label for="NetworkSelection_HighlightProtein_All" class="button graph-menu-button radio-button">Highlight <input type="radio" name="NetworkSelection_HighlightProtein_Option" value="all" id="NetworkSelection_HighlightProtein_All" style="display: none;"></label>
-                                <label for="NetworkSelection_HighlightProtein_Focus" class="button graph-menu-button radio-button">Focus <input type="radio" name="NetworkSelection_HighlightProtein_Option" value="focus" id="NetworkSelection_HighlightProtein_Focus" style="display: none;"></label>
-                                <label for="NetworkSelection_UnhighlightProtein" class="button graph-menu-button radio-button">Reset <input type="radio" name="NetworkSelection_HighlightProtein_Option" value="reset" id="NetworkSelection_UnhighlightProtein" style="display: none;"></label>
+                                <label for="NetworkSelection_HighlightProtein_All" class="button graph-menu-button radio-button disabled">Highlight<input type="radio" disabled name="NetworkSelection_HighlightProtein_Option" value="all" id="NetworkSelection_HighlightProtein_All" style="display: none;"></label>
+                                <label for="NetworkSelection_HighlightProtein_Focus" class="button graph-menu-button radio-button disabled">Focus<input type="radio" disabled name="NetworkSelection_HighlightProtein_Option" value="focus" id="NetworkSelection_HighlightProtein_Focus" style="display: none;"></label><br>
+                                <label for="NetworkSelection_UnhighlightProtein" class="button reset disabled" style="font-size: smaller;">Reset<input type="radio" disabled name="NetworkSelection_HighlightProtein_Option" value="reset" id="NetworkSelection_UnhighlightProtein" style="display: none;"></label>
                             </div>                            
                             
                             <div style="padding: 1em">
@@ -221,9 +221,9 @@
                                     <div style="text-align: left; flex: auto">
                                         <label for="ToggleBackgroundColor" style="font-size: smaller">Background color</label><br>
                                         <label for="ProteinColor" style="font-size: smaller">Protein </label><br>
-                                        <label for="LostEdgeColor" style="font-size: smaller">Lost Edge </label><br>
-                                        <label for="GainedEdgeColor" style="font-size: smaller">Gained Edge </label><br>
-                                        <label for="HighlightedProteinColor" style="font-size: smaller">Highlighted Protein </label><br>
+                                        <label for="LostEdgeColor" style="font-size: smaller">Lost edge </label><br>
+                                        <label for="GainedEdgeColor" style="font-size: smaller">Gained edge </label><br>
+                                        <label for="HighlightedProteinColor" style="font-size: smaller">Highlighted protein </label><br>
                                     </div>
                                     <div style="text-align: right; width: min-content">
                                         <select name="ApplyGraphStyle" id="ToggleBackgroundColor" disabled> 

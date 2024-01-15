@@ -1,7 +1,6 @@
 import {makePlot} from './network_maker_PPICompare.js'
 import {showNoChosenFiles} from './functionality_helper_functions.js'
-import {enableButton} from './functionality_helper_functions.js'
-import {disableButton} from './functionality_helper_functions.js'
+import {switchButton} from './functionality_helper_functions.js'
 import {showWarningMessage} from './functionality_helper_functions.js'
 import {stripHTML} from './functionality_helper_functions.js'
 import {gridLayoutOptions} from '../resources/PPICompare/graph_properties.js';
@@ -43,7 +42,7 @@ jQuery(document).ready(function() {
     }
     set_default()
 
-
+    // TODO might be integrated with reset fields below
     /**
      * Set checkboxes and input values to default
      */
@@ -80,6 +79,7 @@ jQuery(document).ready(function() {
     const leftDisplay = $('#LeftDisplay');
     const NetworkSelection_HighlightProtein = $('#NetworkSelection_HighlightProtein');
     const ShowSubnetwork = $('#ShowSubnetwork')
+    const NetworkSelection_HighlightProtein_Option =  $("[name='NetworkSelection_HighlightProtein_Option']")
 
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
@@ -142,7 +142,7 @@ jQuery(document).ready(function() {
                             // Submit.prop('disabled', false)
                             $("#AfterRunOptions").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
-                            enableButton(ShowSubnetwork, ['upload'])
+                            switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
 
                             // Display the sample protein list 
                             fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
@@ -160,13 +160,16 @@ jQuery(document).ready(function() {
         }, updateInterval);
     }
 
+    const NVContent_Graph = $('#NVContent_Graph')
+    const NetworkOptions = $('#NetworkOptions')
+    const NVContent = $('#NVContent');
+    let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
+    let Submit = $("[name='Submit']")
+
     /***
      * Submit form and run analysis
      * @type {boolean}
      */
-    const NVContent = $('#NVContent');
-    let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
-    let Submit = $("[name='Submit']")
     $('#RunNormal').on('click', function (){
         // Reset displayed result from previous run
         resetDisplay()
@@ -215,7 +218,7 @@ jQuery(document).ready(function() {
         disabling_window.toggle()
 
         //Show current files and settings on the new tab
-        disableButton(ApplyGraphStyle, ['upload'])
+        switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
         Submit.prop('disabled', true)
         loader.css({'display': 'block'});
 
@@ -231,30 +234,87 @@ jQuery(document).ready(function() {
         $(this).parent()[0].scrollTop = 0
     })
 
-
+    /* 
+    ===================================================================================================================
+    ================================================= Reset functions =================================================
+    ===================================================================================================================
+    */
     /**
      * Reset all forms & clear all fields for new analysis
      */
-    const NVContent_Graph = $('#NVContent_Graph')
     function resetForm(){
         $("form")[0].reset(); // Reset the form fields
         $("[name='Reset']").click() // Set default settings for all option panels
         $("[name='ScrollToTop']").css({'display': 'none'})
     }
+
+    /**
+     * Reset display with old output
+     */
     function resetDisplay(){
         // Reset display message (clear message from the previous run)
         $("#AfterRunOptions").css({'display': 'none'})
         runningProgressContent.html("")
 
         // Before resubmit, clear existing graphs and graph options
-        $('#NVContent_Graph').html('')
-        disableButton(ApplyGraphStyle, ['upload'])
+        NVContent_Graph.html('')
         NetworkSelection_HighlightProtein.val('')
+    }
+
+    /**
+     * In case changes have been made, reset all input fields. 'checkbox' and 'radio' are unchecked. 
+     * 'select-one' is reset to first option 
+     * @param {*} field_ div containing input fields to reset
+     * @param {*} disable_ where input fields should be disabled after reset
+     */
+    function resetInputFields(field_, disable_){
+        field_.find(':input').each(function(){
+            let type = this.type
+            if ($(this).prop('checked')){
+                $(this).prop('checked', false)
+            }
+        
+            if (type === 'select-one'){
+                $(this).prop("selectedIndex", 0);
+                $(this).change()
+            }
+
+            (disable_ === true) ? $(this).prop('disabled', true) : $(this).prop('disabled', false)
+        })
+    }
+
+    /**
+     * Reset and enable/disable the modification of NetworkOptions
+     * @param {*} option_ 'off' or 'on' 
+      */
+    function switchShowSubnetwork(option_){
+        if (option_ === 'off'){
+               // Disable buttons in Customize network display   
+            switchButton(ShowSubnetwork, 'off', ['upload'], 'removeClasses')
+            switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
+            NetworkSelection_HighlightProtein_Option.each(function(){
+                switchButton($(this), 'off', [''], 'removeClasses')
+                $(this).parent('label').addClass('disabled')
+            })
+
+            // In case changes have been made, reset all input fields and disable modification
+            resetInputFields(NetworkOptions, true)
+        } else if (option_ === 'on'){
+            switchButton(ApplyGraphStyle, 'on', ['upload'], 'addClasses')
+            NetworkSelection_HighlightProtein_Option.each(function(){
+                switchButton($(this), 'on', [''], 'addClasses')
+                $(this).parent('label').removeClass('disabled')
+            })
+
+            // In case changes have been made, reset all input fields but keep them modifiable
+            resetInputFields(NetworkOptions, false)
+        }
     }
 
     $('#runNewAnalysis').on('click', function (){
         resetForm()
         resetDisplay()
+        switchShowSubnetwork('off')
         Submit.prop('disabled', false)
     })
 
@@ -277,7 +337,7 @@ jQuery(document).ready(function() {
     })
 
 
-    /* CONTINUE FROM HERE
+    /* 
     ===================================================================================================================
     ============================ Actions after finishing PPICompare on Running Progress tab ============================
     ===================================================================================================================
@@ -387,21 +447,9 @@ jQuery(document).ready(function() {
     }
 
     ShowSubnetwork.on("click", function (){
+            // Fetch graph data, enable buttons in Customize network display   
             fetchResult(null, "graph", null, false)
-            enableButton(ApplyGraphStyle, ['upload'])
-
-            // Reset all input fields. 'checkbox' and 'radio' are unchecked. 'select-one' is reset to first opotion 
-            $('#NetworkOptions').find(':input').each(function(){
-                let type = this.type
-                if ($(this).prop('checked')){
-                    $(this).prop('checked', false)
-                }
-            
-                if (type === 'select-one'){
-                    $(this).prop("selectedIndex", 0);
-                    $(this).change()
-                }
-            })
+            switchShowSubnetwork('on')
             
             // Reset NetworkSelection_HighlightProtein
             NetworkSelection_HighlightProtein_Option.value = 'reset'
@@ -496,7 +544,6 @@ jQuery(document).ready(function() {
     })
 
     // View a single protein
-    let NetworkSelection_HighlightProtein_Option =  $("[name='NetworkSelection_HighlightProtein_Option']")
     let unhighlightProtein = function(){
         ProteinNetwork
             .then(cy => {
