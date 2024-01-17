@@ -21,7 +21,7 @@ public class PPICompareServlet extends HttpServlet {
     protected String GROUP1_PATH;
     protected String GROUP2_PATH;
     String SUBMIT_TYPE;
-    List<String> allArgs;
+    ArrayList<String> allArgs;
 
 
     /**

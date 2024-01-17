@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
+    <link rel="stylesheet" href="css/animation.css">
     <link rel="stylesheet" href="css/select2_custom_style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"/> -->
@@ -136,6 +137,7 @@
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
+                            <div class="star" name="Star" id="toNetworkVisualization_star"></div>
                             <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Differential Networks</button><br>
                             <button type="button" name="transit" id="runNewAnalysis" value="null" class="button download">Run a new analysis</button><br>
                         </div>
@@ -156,6 +158,7 @@
                         <div class="network-option panel" id="ShowNetworkOptions">Show / Collapse Options</div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
+                            <div class="star" name="Star" id="ShowSubnetwork_star"></div>
                             <label style="font-weight: bold">Differential PPI network</label><br>
                             <!-- button-typed items are enabled when UPDATE_LONG_PROCESS_SIGNAL === true. Then, class 'upload' is added to style the buttons -->
                             <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button graph-menu-button">Show</button>

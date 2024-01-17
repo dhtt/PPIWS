@@ -25,7 +25,7 @@ export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
     var NVContent_Legend_cy = window.NVContent_Legend = cytoscape({
         container: $('#NVContent_Legend'),
 
-        elements: fetch('./resources/legend.json')
+        elements: fetch('./resources/PPICompare/legend.json')
             .then(res => res.json())
             .then(res => res.filter((node) => node.data.type === "default")),
 

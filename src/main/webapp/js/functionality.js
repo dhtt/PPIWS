@@ -97,14 +97,14 @@ jQuery(document).ready(function() {
      * protein_network_web (if chosen) will be invalidated to empty string
      */
     protein_network_file.on("change", function(){
-        showNoChosenFiles('protein_network_file', 1)
+        showNoChosenFiles('protein_network_file', 1, 'show_no_files')
         // alert("Use user-uploaded network file.")
         protein_network_web.val("")
     })
 
     expression_file.on("change", function(){
         NO_EXPRESSION_FILE = this.files.length
-        showNoChosenFiles('expression_file', NO_EXPRESSION_FILE)
+        showNoChosenFiles('expression_file', NO_EXPRESSION_FILE, 'show_no_files')
     })
 
     $("label[for='protein_network_web']").on("click", function(){
@@ -211,6 +211,7 @@ jQuery(document).ready(function() {
                             $("#AfterRunOptions, #RightDisplay").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
                             switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
+                            StarContents.css({'display': 'inline-block'});
 
                             // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
                             NO_EXPRESSION_FILE = json.NO_EXPRESSION_FILE
@@ -233,6 +234,7 @@ jQuery(document).ready(function() {
     const NVContent = $('#NVContent');
     const NetworkOptions = $('#NetworkOptions')
     let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
+    let StarContents = $("[name='Star'")
     let Submit = $("[name='Submit']")
 
     /***
@@ -350,8 +352,7 @@ jQuery(document).ready(function() {
                 $(this).prop("selectedIndex", 0);
                 $(this).change()
             }
-            console.log(type);
-            console.log($(this));
+            
             (disable_ === true) ? $(this).prop('disabled', true) : $(this).prop('disabled', false)
         })
     }
@@ -365,6 +366,7 @@ jQuery(document).ready(function() {
                // Disable buttons in Customize network display   
             switchButton(ShowSubnetwork, 'off', ['upload'], 'removeClasses')
             switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
+            StarContents.css({'display': 'none'});
             
             // In case changes have been made, reset all input fields and disable modification
             resetInputFields(NetworkOptions, true)

@@ -23,7 +23,7 @@ public class PPIXpressServlet extends HttpServlet {
     private String ORIGINAL_NETWORK_PATH;
     int NO_EXPRESSION_FILE;
     String SUBMIT_TYPE;
-    List<String> allArgs = new ArrayList<String>();
+    ArrayList<String> allArgs;
 
     /**
      * Initilize ServletContext log to localhost log files
@@ -102,7 +102,8 @@ public class PPIXpressServlet extends HttpServlet {
                 // Add output path to arguments set
                 allArgs.add("-output=" + OUTPUT_PATH);
 
-                // Add paths to expression data to argument list
+                // Add paths to expression data to argument list 
+                // TODO WHYYYYYY
                 try {
                     File inputFiles = new File(INPUT_PATH);
                     File[] inputFilesPaths = inputFiles.listFiles();
@@ -171,33 +172,38 @@ public class PPIXpressServlet extends HttpServlet {
                 
                 // Set number of expression files
                 NO_EXPRESSION_FILE = Integer.parseInt(request.getParameter("NO_EXPRESSION_FILE"));
+
+                // Store and show to screen uploaded files
+                allArgs.addAll(List.of(request.getParameterValues("PPIOptions")));
+                allArgs.addAll(List.of(request.getParameterValues("ExpOptions")));
+                allArgs.addAll(List.of(request.getParameterValues("RunOptions")));
+                allArgs.add(request.getParameter("threshold"));
+                allArgs.add(request.getParameter("percentile"));
+                allArgs.removeIf(n -> (n.equals("null")));
                 context.log(USER_ID + ": PPIXpressServlet: User-defined process initiated from Servlet\n" + allArgs);
             } catch(Exception e){
                 context.log(USER_ID + ": PPIXpressServlet: Fail to initiate user-defined run\n" + e);
             }
         }
+        try {
+            // Create and execute PPIXpress and update progress periodically to screen
+            // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
+            AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
+            request.getSession().setAttribute("PROGRAM", "PPIXpress");
+            request.getSession().setAttribute("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
+            request.getSession().setAttribute("LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
+            request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
 
-        // Store and show to screen uploaded files
-        allArgs.addAll(List.of(request.getParameterValues("PPIOptions")));
-        allArgs.addAll(List.of(request.getParameterValues("ExpOptions")));
-        allArgs.addAll(List.of(request.getParameterValues("RunOptions")));
-        allArgs.add(request.getParameter("threshold"));
-        allArgs.add(request.getParameter("percentile"));
-        allArgs.remove(null);
-
-        // Create and execute PPIXpress and update progress periodically to screen
-        // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
-        AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
-        request.getSession().setAttribute("PROGRAM", "PPIXpress");
-        request.getSession().setAttribute("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
-        request.getSession().setAttribute("LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
-        request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
-
-        if (SUBMIT_TYPE.equals("RunNormal")) {
-            LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
-            Thread lrp = new Thread(myThreads);
-            lrp.start();   
+            if (SUBMIT_TYPE.equals("RunNormal")) {
+                LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
+                Thread lrp = new Thread(myThreads);
+                lrp.start();   
+            }
+        } catch (Exception e) {
+            context.log(USER_ID + ": PPIXpressServlet: Fail to initialize PPICompare process.\n" + e);
         }
+
+
     }
 
     public static void main(String[] args) throws IOException {

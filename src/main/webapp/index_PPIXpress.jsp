@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
+    <link rel="stylesheet" href="css/animation.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
@@ -176,7 +177,7 @@
             </div>
 
             <div name="LeftPanel4" id="LeftPanel4" style="text-align: center">
-                <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPIXPress</button>
+                <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPIXpress</button>
                 <button type="submit" name="Submit" id="RunExample" value="null" class="button try">or Try with example data!</button>
 <%--                <button type="button" name="SubmitExample" id="RunExample" value="Run example" class="button try">or Try with example data!</button>--%>
             </div>
@@ -198,6 +199,7 @@
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
+                            <div class="star" name="Star" id="toNetworkVisualization_star"></div>
                             <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Condition-Specific Networks</button><br>
                             <button type="button" name="transit" id="runNewAnalysis" value="null" class="button download">Run a new analysis</button><br>
                         </div>
@@ -223,12 +225,13 @@
                         <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
+                            <div class="star" name="Star" id="ShowSubnetwork_star"></div>
                             <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
                             <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="UniProt ID">
                             <datalist id="NetworkSelection_Protein_List"></datalist><br>
                             <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
                             <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>
-                            <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button upload graph-menu-button">Show</button>
+                            <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button graph-menu-button">Show</button>
                             <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
 

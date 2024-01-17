@@ -5,7 +5,7 @@ import {showWarningMessage} from './functionality_helper_functions.js'
 import {stripHTML} from './functionality_helper_functions.js'
 import {gridLayoutOptions} from '../resources/PPICompare/graph_properties.js';
 import {cosebilkentLayoutOptions} from '../resources/PPICompare/graph_properties.js';
-import {colorOpts} from '../resources/PPIXpress/graph_properties.js';
+import {colorOpts} from '../resources/PPICompare/graph_properties.js';
 import {updateColorScheme} from './functionality_helper_functions.js';
 const legendData = './resources/PPICompare/legend.json'
 
@@ -143,6 +143,7 @@ jQuery(document).ready(function() {
                             $("#AfterRunOptions").css({'display': 'block'})
                             $("[name='ScrollToTop']").css({'display': 'block'})
                             switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
+                            StarContents.css({'display': 'inline-block'});
 
                             // Display the sample protein list 
                             fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
@@ -164,6 +165,7 @@ jQuery(document).ready(function() {
     const NetworkOptions = $('#NetworkOptions')
     const NVContent = $('#NVContent');
     let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
+    let StarContents = $("[name='Star'")
     let Submit = $("[name='Submit']")
 
     /***
@@ -292,6 +294,8 @@ jQuery(document).ready(function() {
                // Disable buttons in Customize network display   
             switchButton(ShowSubnetwork, 'off', ['upload'], 'removeClasses')
             switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
+            StarContents.css({'display': 'none'});
+            
             NetworkSelection_HighlightProtein_Option.each(function(){
                 switchButton($(this), 'off', [''], 'removeClasses')
                 $(this).parent('label').addClass('disabled')
