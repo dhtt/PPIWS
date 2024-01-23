@@ -73,8 +73,7 @@
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
-                <p class="menu header">
-                    Upload condition specific<br>networks
+                <p class="menu header">Step 1. Upload condition-specific<br>networks
                     <button type="button" name="protein_network_example" id="protein_network_example" class="help" style="margin: auto 0.5em; scale: 0.85" title="Example input">?</button>
                 </p>
                 <div class="menu panel" style="text-align: center;">
@@ -97,7 +96,7 @@
             </div>
 
             <div name="LeftPanel2" id="LeftPanel2">
-                <p class="menu header">Run Options</p>
+                <p class="menu header">Step 2. Adjust Run Options</p>
                 <div class="menu panel">
                     <span style="display:flex; width: 280px; margin-top: -1em">
                         <span class="subsection-text" style="flex:1;">Options</span>

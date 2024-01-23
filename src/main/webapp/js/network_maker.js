@@ -12,6 +12,7 @@ export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
                     elements: data,
                     boxSelectionEnabled: false,
                     autounselectify: true,
+                    minZoom: 0.1,
 
                     ready: function () {
                         this.layout(graphLayoutOptions).run();

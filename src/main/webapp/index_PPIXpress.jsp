@@ -60,7 +60,7 @@
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
-                <p class="menu header">Load Protein Interaction Data</p>
+                <p class="menu header">Step 1. Load Protein Interaction Data</p>
                 <div class="menu panel">
                     <div style="text-align: center; margin: 0">
                         <label for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
@@ -106,7 +106,7 @@
             </div>
 
             <div name="LeftPanel2" id="LeftPanel2">
-                <p class="menu header">Load Processed Expression Data</p>
+                <p class="menu header">Step 2. Load Expression Data</p>
                 <div class="menu panel">
                     <p style="text-align: center; margin: 0">
                         <label for="expression_file" class="button upload" title="Upload one or more expression datasets">Upload file(s)</label>
@@ -149,7 +149,7 @@
             </div>
 
             <div name="LeftPanel3" id="LeftPanel3">
-                <p class="menu header">Run Options</p>
+                <p class="menu header">Step 3. Adjust Run Options</p>
                 <div class="menu panel">
                     <span style="display:flex; width: 280px; margin-top: -1em">
                         <span class="subsection-text" style="flex:1;">Options</span>
@@ -159,7 +159,7 @@
                         <input type="checkbox" name="RunOptions" id="remove_decay_transcripts" value="-x">Remove decay transcripts
                     </label><br>
                     <label>
-                        <input type="checkbox" name="RunOptions" id="report_reference" value="reference">Output reference network
+                        <input type="checkbox" name="RunOptions" id="report_reference" value="-reference">Output reference network
                     </label><br>
                     <label>
                         <input type="checkbox" name="RunOptions" id="output_DDINs" value="-d">Output DDINs
