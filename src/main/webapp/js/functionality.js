@@ -505,7 +505,8 @@ jQuery(document).ready(function() {
 
     $('#DownloadSubnetwork').on("click", function(){
         let fileName = NetworkSelection_Protein.val() + "_" + NetworkSelection_Expression.val() + ".png"
-        domtoimage.toBlob(document.getElementById('NVContent_Graph_with_Legend'), {quality: 1})
+        domtoimage
+            .toBlob(document.getElementById('NVContent_Graph_with_Legend'), {quality: 1})
             .then(blob => window.saveAs(blob, fileName))
     })
 
@@ -548,20 +549,22 @@ jQuery(document).ready(function() {
     // Change graph layout
     let changeLayout = $('#changeLayout')
     changeLayout.on('change', function(){
-        ProteinNetwork
-            .then(cy => {
-                const newLayout = {
-                    name: changeLayout.val(),
-                    animate: true,
-                    randomize: false,
-                    fit: true
-                }
-                const api = cy.expandCollapse({
-                    layoutBy: newLayout
+        if (ProteinNetwork !== null){
+            ProteinNetwork
+                .then(cy => {
+                    const newLayout = {
+                        name: changeLayout.val(),
+                        animate: true,
+                        randomize: false,
+                        fit: true
+                    }
+                    const api = cy.expandCollapse({
+                        layoutBy: newLayout
+                    })
+                    cy.$('node').eq(0).trigger('tap')
+                    return cy
                 })
-                cy.$('node').eq(0).trigger('tap')
-                return cy
-            })
+        }
     })
 
 
@@ -569,7 +572,8 @@ jQuery(document).ready(function() {
     let changeNodeSize = $('#changeNodeSize')
     changeNodeSize.on('change', function(){
         let nodeSize = changeNodeSize.val()
-        ProteinNetwork
+        if (ProteinNetwork !== null){
+            ProteinNetwork
             .then(cy => {
                 cy.style()
                     .selector('node')
@@ -580,6 +584,7 @@ jQuery(document).ready(function() {
                     .update()
                 return cy
             })
+        }
     })
 
     //Change nodes color
@@ -588,34 +593,37 @@ jQuery(document).ready(function() {
     const PPIColor = $('#PPIColor')[0]
     const DDIColor = $('#DDIColor')[0]
     $('#ApplyGraphColor').on('click', function(){
-        ProteinNetwork
-            .then(cy => {
-                cy.style()
-                    .selector('node')
-                    .style({
-                        'background-color': ProteinColor.getAttribute('data-current-color'),
-                        'color': ProteinColor.getAttribute('data-current-color')
-                    })
-                    .selector('.Domain_Node')
-                    .style({
-                        'background-color': DomainColor.getAttribute('data-current-color'),
-                        'color': DomainColor.getAttribute('data-current-color')
-                    })
-                    .selector('.PPI_Edge')
-                    .style({
-                        'line-color': PPIColor.getAttribute('data-current-color')
-                    })
-                    .selector('.DDI_Edge')
-                    .style({
-                        'line-color': DDIColor.getAttribute('data-current-color')
-                    })
-                    .selector(':parent')
-                    .style({
-                        'background-color': colorOpts.parentNodeBackgroundColor,
-                    })
-                    .update()
-                return cy
-            })
+        if (ProteinNetwork !== null){
+            ProteinNetwork
+                .then(cy => {
+                    cy.style()
+                        .selector('node')
+                        .style({
+                            'background-color': ProteinColor.getAttribute('data-current-color'),
+                            'color': ProteinColor.getAttribute('data-current-color')
+                        })
+                        .selector('.Domain_Node')
+                        .style({
+                            'background-color': DomainColor.getAttribute('data-current-color'),
+                            'color': DomainColor.getAttribute('data-current-color')
+                        })
+                        .selector('.PPI_Edge')
+                        .style({
+                            'line-color': PPIColor.getAttribute('data-current-color')
+                        })
+                        .selector('.DDI_Edge')
+                        .style({
+                            'line-color': DDIColor.getAttribute('data-current-color')
+                        })
+                        .selector(':parent')
+                        .style({
+                            'background-color': colorOpts.parentNodeBackgroundColor,
+                        })
+                        .update()
+                    return cy
+                })
+        }
+       
         
         window.NVContent_Legend.style()
             .selector('node')
@@ -654,28 +662,30 @@ jQuery(document).ready(function() {
         }
     })
     ToggleExpandCollapse.on('change', function(){
-        ProteinNetwork
-            .then(cy => {
-                // Toggle while keeping current layout
-                const newLayout = {
-                    name: changeLayout.val(),
-                    animate: true,
-                    randomize: false,
-                    fit: true
-                }
-                const api = cy.expandCollapse({layoutBy: newLayout});
-                if (ToggleExpandCollapse.val() === "expandAll"){
-                    api.expandAll()
-                    cy.$('.DDI_Edge').addClass('DDI_Edge_active')
-                    cy.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
-                }
-                else {
-                    api.collapseAll()
-                    cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
-                    cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
-                }
-                return cy
-            })
+        if (ProteinNetwork !== null){
+            ProteinNetwork
+                .then(cy => {
+                    // Toggle while keeping current layout
+                    const newLayout = {
+                        name: changeLayout.val(),
+                        animate: true,
+                        randomize: false,
+                        fit: true
+                    }
+                    const api = cy.expandCollapse({layoutBy: newLayout});
+                    if (ToggleExpandCollapse.val() === "expandAll"){
+                        api.expandAll()
+                        cy.$('.DDI_Edge').addClass('DDI_Edge_active')
+                        cy.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
+                    }
+                    else {
+                        api.collapseAll()
+                        cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
+                        cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
+                    }
+                    return cy
+                })
+        }
     })
 })
 
@@ -683,57 +693,61 @@ jQuery(document).ready(function() {
 function activateNetwork (graph, warning, ShowSubnetworkOption){
     let hasDDI = ShowSubnetworkOption['showDDIs']
     let options = ShowSubnetworkOption['options']
-    graph
-        .then(cy => {
-            cy.unbind("grab"); // unbind event to prevent possible mishaps with firing too many events
-            cy.$('node').bind('grab', function(node) { // bind with .bind() (synonym to .on() but more intuitive
-                const ele = node.target;
-                ele.addClass('Node_active');
-                ele.connectedEdges().addClass('Edge_highlight');
-            });
 
-            cy.$('node').bind('free', function(node) { // bind with .bind() (synonym to .on() but more intuitive
-                const ele = node.target;
-                ele.removeClass('Node_active');
-                ele.connectedEdges().removeClass('Edge_highlight')
-            });
+    if (graph !== null){
+        graph
+            .then(cy => {
+                cy.unbind("grab"); // unbind event to prevent possible mishaps with firing too many events
+                cy.$('node').bind('grab', function(node) { // bind with .bind() (synonym to .on() but more intuitive
+                    const ele = node.target;
+                    ele.addClass('Node_active');
+                    ele.connectedEdges().addClass('Edge_highlight');
+                });
 
-            cy.unbind("tap"); // unbind event to prevent possible mishaps with firing too many events
-            cy.$('node').bind('tap', function(node) { // bind with .bind() (synonym to .on() but more intuitive
-                if (!hasDDI){
-                    showWarningMessage(warning,
-                        '⚠️ Protein nodes are not expandable because "Output DDINs" options was not selected.',
-                        3000)
-                }
+                cy.$('node').bind('free', function(node) { // bind with .bind() (synonym to .on() but more intuitive
+                    const ele = node.target;
+                    ele.removeClass('Node_active');
+                    ele.connectedEdges().removeClass('Edge_highlight')
+                });
 
-                const api = cy.expandCollapse('get');
-                const ele = node.target;
-
-                let connectedEdges = ele.connectedEdges()
-                if (api.isExpandable(ele)) {
-                    api.expand(ele, options)
-                    for (let i = 0; i < connectedEdges.length; i++){
-                        let child_edge = connectedEdges[i]
-                        if (child_edge.hasClass('DDI_Edge')){
-                            child_edge.removeClass('DDI_Edge_inactive')
-                            child_edge.addClass('DDI_Edge_active')
-                        }
+                cy.unbind("tap"); // unbind event to prevent possible mishaps with firing too many events
+                cy.$('node').bind('tap', function(node) { // bind with .bind() (synonym to .on() but more intuitive
+                    if (!hasDDI){
+                        showWarningMessage(warning,
+                            '⚠️ Protein nodes are not expandable because "Output DDINs" options was not selected.',
+                            3000)
                     }
-                }
-                else {
-                    api.collapse(ele, options)
+
+                    const api = cy.expandCollapse('get');
+                    const ele = node.target;
+
                     let connectedEdges = ele.connectedEdges()
-                    for (let i = 0; i < connectedEdges.length; i++){
-                        let child_edge = connectedEdges[i]
-                        if (child_edge.hasClass('DDI_Edge')){
-                            child_edge.addClass('DDI_Edge_inactive')
-                            child_edge.removeClass('DDI_Edge_active')
+                    if (api.isExpandable(ele)) {
+                        api.expand(ele, options)
+                        for (let i = 0; i < connectedEdges.length; i++){
+                            let child_edge = connectedEdges[i]
+                            if (child_edge.hasClass('DDI_Edge')){
+                                child_edge.removeClass('DDI_Edge_inactive')
+                                child_edge.addClass('DDI_Edge_active')
+                            }
                         }
                     }
-                }
+                    else {
+                        api.collapse(ele, options)
+                        let connectedEdges = ele.connectedEdges()
+                        for (let i = 0; i < connectedEdges.length; i++){
+                            let child_edge = connectedEdges[i]
+                            if (child_edge.hasClass('DDI_Edge')){
+                                child_edge.addClass('DDI_Edge_inactive')
+                                child_edge.removeClass('DDI_Edge_active')
+                            }
+                        }
+                    }
+                })
+                return cy
             })
-            return cy
-        })
+    }
+ 
 }
 
 /**

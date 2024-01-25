@@ -431,8 +431,9 @@ jQuery(document).ready(function() {
     })
 
     $('#DownloadSubnetwork').on("click", function(){
-        domtoimage.toBlob(document.getElementById('NVContent_Graph_with_Legend'), {quality: 1})
-        .then(blob => window.saveAs(blob, "PPICompareDifferentialNetwork.png"))
+        domtoimage
+            .toBlob(document.getElementById('NVContent_Graph_with_Legend'), {quality: 1})
+            .then(blob => window.saveAs(blob, "PPICompareDifferentialNetwork.png"))
     })
 
     $('#toNetworkVisualization').on("click", function (){
@@ -472,16 +473,18 @@ jQuery(document).ready(function() {
     const ToggleProteinID = $('#ToggleProteinID')
     ToggleProteinID.on('change', function(){  
         let ProteinIDType = ToggleProteinID.val()
-        ProteinNetwork
-            .then(cy => {
-                cy.style()
-                .selector('node')
-                .style({
-                    'label': ProteinIDType === "UniProtID" ? 'data(id)' :  'data(label)',     
+        if (ProteinNetwork !== null){
+            ProteinNetwork
+                .then(cy => {
+                    cy.style()
+                    .selector('node')
+                    .style({
+                        'label': ProteinIDType === "UniProtID" ? 'data(id)' :  'data(label)',     
+                    })
+                    .update()
+                    return cy
                 })
-                .update()
-                return cy
-            })
+        }
     }) 
 
 
@@ -489,17 +492,21 @@ jQuery(document).ready(function() {
     let changeNodeSize = $('#changeNodeSize')
     changeNodeSize.on('change', function(){
         let nodeSize = changeNodeSize.val()
-        ProteinNetwork
-            .then(cy => {
-                cy.style()
-                    .selector('node')
-                    .style({
-                        'height':  nodeSize,
-                        'width': nodeSize,
-                        'font-size': 15
-                    })
-                    .update()
-            })
+
+        if (ProteinNetwork !== null){
+            ProteinNetwork
+                .then(cy => {
+                    cy.style()
+                        .selector('node')
+                        .style({
+                            'height':  nodeSize,
+                            'width': nodeSize,
+                            'font-size': 15
+                        })
+                        .update()
+                })
+        }
+      
         $('#ToggleRelativeImportance').prop('checked', false)
     })
 
@@ -557,11 +564,11 @@ jQuery(document).ready(function() {
     }
     let highlightPPIN = function(proteinName){
         ProteinNetwork
-        .then(cy => {
-            const ele = cy.$('#' + proteinName)
-            ele.addClass('Node_highlight');
-            ele.neighborhood().addClass('Node_highlight')
-        })
+            .then(cy => {
+                const ele = cy.$('#' + proteinName)
+                ele.addClass('Node_highlight');
+                ele.neighborhood().addClass('Node_highlight')
+            })
     }
 
     NetworkSelection_HighlightProtein_Option.on('change', function(){
@@ -575,10 +582,10 @@ jQuery(document).ready(function() {
                     highlightPPIN(NetworkSelection_HighlightProtein.val())
                     if (option === 'focus'){
                         ProteinNetwork
-                        .then(cy => {
-                            const hidden_eles = cy.$('*').not(cy.$('.Node_highlight'))
-                            hidden_eles.addClass('Node_hidden');
-                        })
+                            .then(cy => {
+                                const hidden_eles = cy.$('*').not(cy.$('.Node_highlight'))
+                                hidden_eles.addClass('Node_hidden');
+                            })
                     }
                 } else {
                     unhighlightProtein()
@@ -613,27 +620,30 @@ jQuery(document).ready(function() {
         var HighlightedProteinColor_updated = HighlightedProteinColor.getAttribute('data-current-color')
         var line_color = 'mapData(weight, 0, 1, ' + LostEdgeColor_updated + ', ' + GainedEdgeColor_updated + ')'
 
-        ProteinNetwork
-            .then(cy => {
-                cy.style()
-                    .selector('node')
-                    .style({
-                        'background-color': ProteinColor_updated,
-                        'color': ProteinColor_updated
-                    })
-                    .selector('.PPI_Edge')
-                    .style({
-                        'line-color': line_color
-                    })
-                    .selector('.Node_highlight')
-                    .style({
-                        'background-color': HighlightedProteinColor_updated,
-                        'color': HighlightedProteinColor_updated,
-                    })
-                    .update()
-                return cy
-            })
-        
+
+        if (ProteinNetwork !== null){
+            ProteinNetwork
+                .then(cy => {
+                    cy.style()
+                        .selector('node')
+                        .style({
+                            'background-color': ProteinColor_updated,
+                            'color': ProteinColor_updated
+                        })
+                        .selector('.PPI_Edge')
+                        .style({
+                            'line-color': line_color
+                        })
+                        .selector('.Node_highlight')
+                        .style({
+                            'background-color': HighlightedProteinColor_updated,
+                            'color': HighlightedProteinColor_updated,
+                        })
+                        .update()
+                    return cy
+                })
+        }
+      
         window.NVContent_Legend.style()
                     .selector('node')
                     .style({
@@ -693,7 +703,8 @@ function rearrange(cy_, layoutName_) {
 
 
 function activateNetwork(graph, warning){
-    graph
+    if (graph !== null){
+        graph
         .then(cy => {
             cy.$('node').bind('grab', function(node) { // bind with .bind() (synonym to .on() but more intuitive
                 const ele = node.target;
@@ -713,4 +724,5 @@ function activateNetwork(graph, warning){
             })
             return cy
         })
+    }
 }
