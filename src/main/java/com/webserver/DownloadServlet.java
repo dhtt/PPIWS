@@ -112,111 +112,96 @@ public class DownloadServlet extends HttpServlet {
 
             OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
             OUTPUT_FILENAME = "ResultFiles.zip"; 
-            SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
 
             resultFileType = request.getParameter("resultFileType");
-            proteinList = new ArrayList<String>();
-            proteinAttributeList = new HashMap<String, String[]>(); 
-            context.log(USER_ID + ": DownloadServlet: All info\n" + LOCAL_STORAGE_PATH + "\n" + PROGRAM + "\n" + OUTPUT_PATH + "\n" + resultFileType);
             
-        } catch(Exception e){
-            context.log(USER_ID + ": DownloadServlet: Fail to retrieve session information. ERROR:\n" + e);
-        }
+            out = response.getWriter();
+            context.log(USER_ID + ": DownloadServlet: All info:\n" + LOCAL_STORAGE_PATH + "\n" + PROGRAM + "\n" + OUTPUT_PATH + "\n" + resultFileType);
 
-        switch (resultFileType) {
-            case "output":
-                response.setHeader("Content-Disposition", "attachment; filename=\"" + OUTPUT_FILENAME + "\"");
-                response.setContentType("application/zip");
-                response.setHeader("Cache-Control", "max-age=60");
-                response.setHeader("Cache-Control", "must-revalidate");
+            switch (resultFileType) {
+                case "output":
+                    response.setHeader("Content-Disposition", "attachment; filename=\"" + OUTPUT_FILENAME + "\"");
+                    response.setContentType("application/zip");
+                    response.setHeader("Cache-Control", "max-age=60");
+                    response.setHeader("Cache-Control", "must-revalidate");
 
-                try {
-                    zip(OUTPUT_PATH, OUTPUT_PATH + OUTPUT_FILENAME);
-                } catch (IOException e) {
-                    context.log(USER_ID + ": DownloadServlet: Fail to compress output. ERROR:\n" + e);
-                }
-
-                writeFile(response, OUTPUT_PATH + OUTPUT_FILENAME);
-                break;
-
-            case "sample_summary":
-                out = response.getWriter();
-
-                try {
-                    File HTMLText = new File(OUTPUT_PATH + SAMPLE_FILENAME);
-                    Scanner file = new Scanner(HTMLText);
-
-                    while (file.hasNext()) {
-                        String s = file.nextLine();
-                        out.println(s);
+                    try {
+                        zip(OUTPUT_PATH, OUTPUT_PATH + OUTPUT_FILENAME);
+                    } catch (IOException e) {
+                        context.log(USER_ID + ": DownloadServlet: Fail to compress output. ERROR:\n" + e);
                     }
 
-                    file.close();
-                } catch (Exception e) {
-                    context.log(USER_ID + ": DownloadServlet: Fail to retrieve sample summary. ERROR:\n" + e);
-                    out.println("Fail to retrieve sample summary. Please contact authors using the ID:\n" + USER_ID);
-                }
+                    writeFile(response, OUTPUT_PATH + OUTPUT_FILENAME);
+                    break;
 
-                break;
-
-            case "graph":
-                out = response.getWriter();
-
-                try {
-                    if (PROGRAM.equals("PPIXpress")){
-                        String proteinQuery = request.getParameter("proteinQuery");
-                        String expressionQuery = request.getParameter("expressionQuery");
-                        boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
-                        context.log(proteinQuery + " " + expressionQuery + " " + showDDIs);
-                        JSONArray subNetworkData = filterProtein(OUTPUT_PATH, proteinQuery, expressionQuery, showDDIs);
-                        out.println(subNetworkData);
-                    }
-                    else if (PROGRAM.equals("PPICompare")){
-                        // Get graph data for cytoscape.js to display on NVContent_Graph
-                        Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt"));
-                        while (s.hasNext()) {
-                            String[] attributes = s.nextLine().split(" ");
-                            String UniprotID = attributes[0];
-                            proteinAttributeList.put(UniprotID, attributes);
-                        }
-
-                        JSONArray subNetworkData = filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList);
-                        out.println(subNetworkData);
-                    }
-                } catch (Exception e) {
-                    context.log(USER_ID + ": DownloadServlet: Fail to retrieve data for graphs data. ERROR:\n" + e);
-                    out.println("Fail to retrieve graphs data. Please contact authors using the ID:\n" + USER_ID);
-                }
-
-                break;
-
-            case "protein_list":
-                out = response.getWriter();
-
-                try {
-                    if (PROGRAM.equals("PPIXpress")){
-                        Scanner s = new Scanner(new File(OUTPUT_PATH + "ProteinList.txt"));
-                        while (s.hasNext()) {
-                            proteinList.add(createElement("option", s.next()));
-                        }
-                        out.println(String.join("", proteinList));
-                    }
-                    else if (PROGRAM.equals("PPICompare")){
-                        Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt"));
-                        while (s.hasNext()) {
-                            s.nextLine();
-                            String UniprotID = s.nextLine().split(" ")[0];
-                            proteinList.add(createElement("option", UniprotID));
-                        }
-                        out.println(String.join("", proteinList));
-                    }
+                case "sample_summary":
+                    SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
                     
-                } catch (Exception e) {
-                    context.log(USER_ID + ": DownloadServlet: Fail to retrieve protein list. ERROR:\n" + e);
-                    out.println("Fail to retrieve protein list. Please contact authors using the ID:\n" + USER_ID);
-                }
-                break;
-        }
+                    try (BufferedReader br = new BufferedReader(new FileReader(OUTPUT_PATH + SAMPLE_FILENAME))) {
+                        while (br.ready()) {
+                            out.println(br.readLine());
+                        }
+                    } catch (Exception e) {
+                        context.log(USER_ID + ": DownloadServlet: Fail to retrieve sample summary. ERROR:\n" + e);
+                    }
 
+                    break;
+
+                case "graph":
+                    try {
+                        if (PROGRAM.equals("PPIXpress")){
+                            String proteinQuery = request.getParameter("proteinQuery");
+                            String expressionQuery = request.getParameter("expressionQuery");
+                            boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
+                            
+                            JSONArray subNetworkData = filterProtein(OUTPUT_PATH, proteinQuery, expressionQuery, showDDIs);
+                            out.println(subNetworkData);
+                        } else if (PROGRAM.equals("PPICompare")){
+                            // Get graph data for cytoscape.js to display on NVContent_Graph
+                            proteinAttributeList = new HashMap<String, String[]>(); 
+                            Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt"));
+
+                            while (s.hasNext()) {
+                                String[] attributes = s.nextLine().split(" ");
+                                String UniprotID = attributes[0];
+                                proteinAttributeList.put(UniprotID, attributes);
+                            }
+
+                            JSONArray subNetworkData = filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList);
+                            out.println(subNetworkData);
+                        }
+                    } catch (Exception e) {
+                            context.log(USER_ID + ": DownloadServlet: Fail to retrieve data for graphs data. ERROR:\n" + e);
+                            out.println("Fail to retrieve graphs data. Please contact authors using the ID:\n" + USER_ID);
+                    }
+                    break;
+
+                case "protein_list":
+                    proteinList = new ArrayList<String>();
+                    SAMPLE_FILENAME = PROGRAM.equals("PPIXpress") ? "ProteinList.txt" : PROGRAM.equals("PPICompare") ? "protein_attributes.txt" : null; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
+                    
+                    try (BufferedReader br = new BufferedReader(new FileReader(OUTPUT_PATH + SAMPLE_FILENAME))) { 
+                        if (PROGRAM.equals("PPIXpress")){
+                            while (br.ready()) {
+                                proteinList.add(createElement("option", br.readLine()));
+                            }
+                            out.println(String.join("", proteinList));
+                        }
+                        else if (PROGRAM.equals("PPICompare")){
+                            while (br.ready()) {
+                                String UniprotID = br.readLine().split(" ")[0];
+                                proteinList.add(createElement("option", UniprotID));
+                            }
+                            out.println(String.join("", proteinList));
+                        }
+                    } catch (Exception e) {
+                        context.log(USER_ID + ": DownloadServlet: Fail to retrieve protein list. ERROR:\n" + e);
+                    }
+
+                    break;
+                }
+            } catch(Exception e){
+                context.log(USER_ID + ": DownloadServlet: Fail to retrieve session information. ERROR:\n" + e);
+            }
+        }
     }
-}

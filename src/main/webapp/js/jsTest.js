@@ -67,3 +67,75 @@ function activateNetwork(graph, warning){
             return cy
         })
 }
+
+// Test fetchResult
+
+function fetchResult(pureText, resultFileType, target, downloadable){
+    if (pureText !== null){
+        let blob = new Blob([pureText])
+        createDownloadLink(blob, target)
+    }
+
+    else {
+        const downloadData = new FormData();
+        downloadData.append("resultFileType", resultFileType)
+
+        if (resultFileType === "graph"){
+            downloadData.append("proteinQuery", NetworkSelection_Protein.val())
+            downloadData.append("expressionQuery", NetworkSelection_Expression.val())
+            downloadData.append("showDDIs", showDDIs)
+        }
+        // Display the values
+        for (const value of downloadData.values()) {
+            console.log(value);
+        }
+        let fetchData = fetch("DownloadServlet",
+            {
+                method: 'POST',
+                body: downloadData
+            })
+
+        // If downloadable is true, download file from fetched response under target as filename.
+        // Applied for resultFileType of log, sample_summary, output
+        if (downloadable)
+            fetchData
+                .then(response => response.blob())
+                .then(blob => createDownloadLink(blob, target))
+
+        // If downloadable is false, display the fetched response in target as container HTML element
+        // Applied for resultFileType of graph, sample_summary
+        else
+            if (resultFileType === "graph"){
+                showWarningMessage(WarningMessage,
+                    "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
+                    null)
+                ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
+                ProteinNetwork
+                    .then(cy => {
+                        WarningMessage.css({'display': 'none'});
+                        return cy
+                    })
+            }
+            else if (resultFileType === "sample_summary"){
+                fetchData
+                    .then(response => response.text())
+                    .then(text => target.innerHTML = text)
+            }
+            else if (resultFileType === "protein_list"){
+                fetchData
+                    .then(response => response.text())
+                    .then(text => target.innerHTML = text)
+            }
+    }
+}
+
+
+fetchResult(null,"sample_summary", SampleSummaryTable[0], false)
+
+
+
+
+
+
+
+

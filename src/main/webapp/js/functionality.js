@@ -216,10 +216,17 @@ jQuery(document).ready(function() {
                             // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
                             NO_EXPRESSION_FILE = json.NO_EXPRESSION_FILE
                             addNetworkExpressionSelection(NO_EXPRESSION_FILE);
-                            Promise.all([
-                                fetchResult(null,"sample_summary", SampleSummaryTable[0], false), // Display the sample summary table
-                                fetchResult(null,"protein_list", $('#NetworkSelection_Protein_List')[0], false) // Display the sample protein list 
-                            ])
+
+                            // Display the sample summary table
+                            fetchResult(null, "sample_summary", SampleSummaryTable[0], false).then(
+                                response => {
+                                    // Display the sample protein list
+                                    return fetchResult(null, "protein_list", $('#NetworkSelection_Protein_List')[0], false) 
+                                }
+                            ).catch(err => {
+                                console.log("An error occur while fetching sample_summary/protein_list.")
+                            })
+                                                  
                         }
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
@@ -438,6 +445,8 @@ jQuery(document).ready(function() {
         if (pureText !== null){
             let blob = new Blob([pureText])
             createDownloadLink(blob, target)
+
+            return Promise.resolve()
         }
 
         else {
@@ -449,7 +458,7 @@ jQuery(document).ready(function() {
                 downloadData.append("expressionQuery", NetworkSelection_Expression.val())
                 downloadData.append("showDDIs", showDDIs)
             }
-
+            
             let fetchData = fetch("DownloadServlet",
                 {
                     method: 'POST',
@@ -458,15 +467,16 @@ jQuery(document).ready(function() {
 
             // If downloadable is true, download file from fetched response under target as filename.
             // Applied for resultFileType of log, sample_summary, output
-            if (downloadable)
+            if (downloadable){
                 fetchData
                     .then(response => response.blob())
                     .then(blob => createDownloadLink(blob, target))
+                }
 
             // If downloadable is false, display the fetched response in target as container HTML element
             // Applied for resultFileType of graph, sample_summary
-            else
-                if (resultFileType === "graph"){
+            else {
+                   if (resultFileType === "graph"){
                     showWarningMessage(WarningMessage,
                         "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
                         null)
@@ -477,18 +487,17 @@ jQuery(document).ready(function() {
                             return cy
                         })
                 }
-                else if (resultFileType === "sample_summary"){
+                else if (resultFileType === "sample_summary" | resultFileType === "protein_list"){
                     fetchData
                         .then(response => response.text())
                         .then(text => target.innerHTML = text)
                 }
-                else if (resultFileType === "protein_list"){
-                    fetchData
-                        .then(response => response.text())
-                        .then(text => target.innerHTML = text)
-                }
+            }
+
+            return fetchData
         }
     }
+
     $('#downloadLogFile').on("click", function(){
         const logContent = stripHTML(runningProgressContent)
         fetchResult(logContent, "log","LogFile.txt", true);
