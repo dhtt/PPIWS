@@ -217,7 +217,8 @@ jQuery(document).ready(function() {
                             NO_EXPRESSION_FILE = json.NO_EXPRESSION_FILE
                             addNetworkExpressionSelection(NO_EXPRESSION_FILE);
 
-                            // Display the sample summary table
+                            // Display the sample summary table and then protein list
+                            // here a promise chain must be used because of concurrency/synchronous fetches
                             fetchResult(null, "sample_summary", SampleSummaryTable[0], false).then(
                                 response => {
                                     // Display the sample protein list

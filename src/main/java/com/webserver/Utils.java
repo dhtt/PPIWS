@@ -35,16 +35,15 @@ public class Utils {
     }
 
     
-    public static String UnzipFile(String zipFilePath_) {
+    public static String UnzipFile(String zipFilePath_, String prefix_, String sep_) {
         // Define the directory where you want to extract the contents
-        Path parentDir = Paths.get(zipFilePath_).getParent();
-        Path targetDir = Paths.get(RemoveFileExtension(zipFilePath_));
+        Path zipFilePath = Paths.get(RemoveFileExtension(zipFilePath_));
         try {
-            if (!Files.exists(targetDir)) {
-                Files.createDirectories(targetDir);
+            if (!Files.exists(zipFilePath)) {
+                Files.createDirectories(zipFilePath);
             } else {
-                Utils.deleteDir(targetDir.toString());
-                Files.createDirectories(targetDir);
+                Utils.deleteDir(zipFilePath.toString());
+                Files.createDirectories(zipFilePath);
             }
         } catch(Exception e){
             System.out.println(e);
@@ -59,9 +58,11 @@ public class Utils {
                 ZipEntry entry;
                 while ((entry = stream.getNextEntry()) != null) {
                     
-                    String entryName = entry.getName();
-                    if (!entryName.startsWith("__MACOSX")){
-                        Path filePath = parentDir.resolve(entry.getName());
+                    String[] entryNames = entry.getName().split("/");
+                    String entryName = entryNames[entryNames.length - 1];
+                    if (!entryName.startsWith("__MACOSX") & !entryName.startsWith(".") 
+                        & (entryName.endsWith(".txt") | entryName.endsWith(".gz"))){
+                        Path filePath = zipFilePath.resolve(prefix_ + sep_ + entryName);
                         
                         try {
                             File newFile = filePath.toFile();
@@ -85,7 +86,7 @@ public class Utils {
         catch(Exception e){
             e.printStackTrace();
         }
-        return(targetDir.toString());
+        return(zipFilePath.toString());
     }
 
 

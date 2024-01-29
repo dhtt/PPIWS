@@ -130,7 +130,7 @@ public class PPICompareServlet extends HttpServlet {
                             if (fileType.startsWith("PPIXpress_network")) {
                                 String inputFilesPath = INPUT_PATH + fileName.substring(fileName.lastIndexOf("\\") + 1);
                                 UtilsServlet.writeOutputStream(part, inputFilesPath);
-                                inputFilesPath = Utils.UnzipFile(inputFilesPath) + '/'; //Extract zip file and remove extension
+                                inputFilesPath = Utils.UnzipFile(inputFilesPath, "group_" + group_i, ".") + '/'; //Extract zip file and remove extension
                                 allArgs.add("-group_" + group_i + "=" + inputFilesPath);
                                 group_i+=1;
                             }
