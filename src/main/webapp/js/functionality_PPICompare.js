@@ -77,6 +77,7 @@ jQuery(document).ready(function() {
     const runningProgressContent = $('#RPContent');
     const loader = $('#Loader');
     const leftDisplay = $('#LeftDisplay');
+    const LeftPanel = $('#LeftPanel')
     const NetworkSelection_HighlightProtein = $('#NetworkSelection_HighlightProtein');
     const ShowSubnetwork = $('#ShowSubnetwork')
     const NetworkSelection_HighlightProtein_Option =  $("[name='NetworkSelection_HighlightProtein_Option']")
@@ -127,7 +128,7 @@ jQuery(document).ready(function() {
                         // Stop updateLongRunningStatus & make allPanel cursor default
                         clearInterval(interval)
                         allPanel.css({'cursor': 'default'})
-                        loader.css({'display': 'none'})
+                        loader.hide()
                         // Submit.prop('disabled', false)
                     }
                     // If job is running on one more or tabs, the main tab (or new tabs)
@@ -138,10 +139,10 @@ jQuery(document).ready(function() {
                             // Stop updateLongRunningStatus & return to default setting
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
-                            loader.css({'display': 'none'})
+                            loader.hide()
                             // Submit.prop('disabled', false)
-                            $("#AfterRunOptions").css({'display': 'block'})
-                            $("[name='ScrollToTop']").css({'display': 'block'})
+                            $("#AfterRunOptions").show()
+                            $("[name='ScrollToTop']").show()
                             switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
                             StarContents.css({'display': 'inline-block'});
 
@@ -167,6 +168,8 @@ jQuery(document).ready(function() {
     let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
     let StarContents = $("[name='Star'")
     let Submit = $("[name='Submit']")
+    let runNewAnalysis = $('#runNewAnalysis')
+    let runNewAnalysis_popup = $('#runNewAnalysis_popup')
 
     /***
      * Submit form and run analysis
@@ -189,8 +192,9 @@ jQuery(document).ready(function() {
         }
 
         Submit.prop('disabled', true)
-        loader.css({'display': 'block'})
+        loader.show()
         $.fn.submit_form("RunNormal")
+        resetInputFields(LeftPanel, true, runNewAnalysis_popup)
         NVContent.removeClass("non-display")
         return false;
     })
@@ -205,8 +209,9 @@ jQuery(document).ready(function() {
 
 
         Submit.prop('disabled', true)
-        loader.css({'display': 'block'})
+        loader.show()
         $.fn.submit_form("RunExample")
+        resetInputFields(LeftPanel, true, runNewAnalysis_popup)
         NVContent.removeClass("non-display")
         return false;
     })
@@ -222,7 +227,7 @@ jQuery(document).ready(function() {
         //Show current files and settings on the new tab
         switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
         Submit.prop('disabled', true)
-        loader.css({'display': 'block'});
+        loader.hide()
 
         //Fetch current process on the new tab
         updateLongRunningStatus("resultText", 1000)
@@ -247,7 +252,7 @@ jQuery(document).ready(function() {
     function resetForm(){
         $("form")[0].reset(); // Reset the form fields
         $("[name='Reset']").click() // Set default settings for all option panels
-        $("[name='ScrollToTop']").css({'display': 'none'})
+        $("[name='ScrollToTop']").hide()
     }
 
     /**
@@ -255,7 +260,7 @@ jQuery(document).ready(function() {
      */
     function resetDisplay(){
         // Reset display message (clear message from the previous run)
-        $("#AfterRunOptions").css({'display': 'none'})
+        $("#AfterRunOptions").hide()
         runningProgressContent.html("")
 
         // Before resubmit, clear existing graphs and graph options
@@ -268,8 +273,9 @@ jQuery(document).ready(function() {
      * 'select-one' is reset to first option 
      * @param {*} field_ div containing input fields to reset
      * @param {*} disable_ where input fields should be disabled after reset
+     * @param {*} popup_ a popup window showing warnings/messages if field_ is clicked
      */
-    function resetInputFields(field_, disable_){
+    function resetInputFields(field_, disable_, popup_){
         field_.find(':input').each(function(){
             let type = this.type
             if ($(this).prop('checked')){
@@ -283,6 +289,15 @@ jQuery(document).ready(function() {
 
             (disable_ === true) ? $(this).prop('disabled', true) : $(this).prop('disabled', false)
         })
+
+        if (popup_ !== null) {
+            if (disable_ === true){  
+                field_.on("click", function(){ popup_.show()})
+            } else {
+                field_.off("click")
+                popup_.hide()
+            }
+        }
     }
 
     /**
@@ -294,7 +309,7 @@ jQuery(document).ready(function() {
                // Disable buttons in Customize network display   
             switchButton(ShowSubnetwork, 'off', ['upload'], 'removeClasses')
             switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
-            StarContents.css({'display': 'none'});
+            StarContents.hide()
             
             NetworkSelection_HighlightProtein_Option.each(function(){
                 switchButton($(this), 'off', [''], 'removeClasses')
@@ -302,7 +317,7 @@ jQuery(document).ready(function() {
             })
 
             // In case changes have been made, reset all input fields and disable modification
-            resetInputFields(NetworkOptions, true)
+            resetInputFields(NetworkOptions, true, null)
         } else if (option_ === 'on'){
             switchButton(ApplyGraphStyle, 'on', ['upload'], 'addClasses')
             NetworkSelection_HighlightProtein_Option.each(function(){
@@ -311,17 +326,25 @@ jQuery(document).ready(function() {
             })
 
             // In case changes have been made, reset all input fields but keep them modifiable
-            resetInputFields(NetworkOptions, false)
+            resetInputFields(NetworkOptions, false, null)
         }
     }
 
-    $('#runNewAnalysis').on('click', function (){
+    runNewAnalysis.on('click', function (){
         resetForm()
         resetDisplay()
         switchShowSubnetwork('off')
+        resetInputFields(LeftPanel, false, runNewAnalysis_popup)
         Submit.prop('disabled', false)
     })
 
+    $('#runNewAnalysis_yes').on('click', function(){
+        runNewAnalysis.trigger('click')
+        runNewAnalysis_popup.hide()
+    })
+    $('#runNewAnalysis_no').on('click', function(){
+        runNewAnalysis_popup.hide()
+    })
 
     /***
      * Switch and highlight tabs
@@ -408,7 +431,7 @@ jQuery(document).ready(function() {
                     ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
                     ProteinNetwork
                         .then(cy => {
-                            WarningMessage.css({'display': 'none'});
+                            WarningMessage.hide()
                             return cy
                         })
                 }

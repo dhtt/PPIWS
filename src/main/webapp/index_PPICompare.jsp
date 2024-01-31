@@ -69,6 +69,17 @@
     </p>
 </div>
 
+<div name="runNewAnalysis_popup" id="runNewAnalysis_popup" class="popup center-pop" style="display: none">
+    <div class="menu header" style="width: fit-content;font-size: small;padding: 1em;min-width: 200px;">
+        Run a new analysis
+    </div>
+    <p class="menu panel shadow" style="text-align: center;width: fit-content;font-weight: normal;min-width: 200px;padding: 1em">
+        <span>Do you wish to run a new analysis?<br><br></span>
+        <button type="button" id="runNewAnalysis_yes" class="button upload" style="width: fit-content; margin: 0 1em">Yes</button>
+        <button type="button" id="runNewAnalysis_no" class="button upload" style="width: fit-content; margin: 0 1em">No</button>
+    </p>
+</div>
+
 <div id="AllPanels" class="container-body">
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
