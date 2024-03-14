@@ -57,11 +57,11 @@
 </div>
 
 <div name="runNewAnalysis_popup" id="runNewAnalysis_popup" class="popup center-pop" style="display: none">
-    <div class="menu header" style="width: fit-content;font-size: small;padding: 1em;min-width: 200px;">
+    <div class="menu header" style="width: fit-content;font-size: small;padding: 1em;min-width: 250px;">
         Run a new analysis
     </div>
-    <p class="menu panel shadow" style="text-align: center;width: fit-content;font-weight: normal;min-width: 200px;padding: 1em">
-        <span>Do you wish to run a new analysis?<br><br></span>
+    <p class="menu panel shadow" style="text-align: center;width: fit-content;font-weight: normal;min-width: 250px;padding: 1em">
+        <span>Do you wish to run a new analysis?<br>(All current results will be removed)<br><br></span>
         <button type="button" id="runNewAnalysis_yes" class="button upload" style="width: fit-content; margin: 0 1em">Yes</button>
         <button type="button" id="runNewAnalysis_no" class="button upload" style="width: fit-content; margin: 0 1em">No</button>
     </p>
@@ -109,10 +109,6 @@
                     <label>
                         <input type="checkbox" name="PPIOptions" id="include_ELM" value="-elm">Include ELM data
                     </label><br>
-                    <label>
-                        <input type="checkbox" name="PPIOptions" class="hidden-checkbox" style="display: none" value=null checked>
-                    </label>
-
                 </div>
             </div>
 
@@ -150,12 +146,6 @@
                         <label for="percentile" style="display: none">Percentile</label>
                         <input type="number" id="percentile" value="0.00" min="0" max="100.0" step="1" style="display: none">
                     </span>
-
-
-                    <label>
-                        <input type="checkbox" name="ExpOptions" class="hidden-checkbox" style="display: none" value=null checked>
-                    </label>
-
                 </div>
             </div>
 
@@ -181,9 +171,6 @@
                     <label>
                         <input type="checkbox" name="RunOptions" id="report_gene_abundance" value="-mg">Report gene abundance
                     </label><br>
-                    <label>
-                        <input type="checkbox" name="RunOptions" class="hidden-checkbox" style="display: none" value=null checked>
-                    </label>
                 </div>
             </div>
 

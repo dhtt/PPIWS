@@ -113,6 +113,7 @@
     cursor: default;
 }
 .popup{
+    z-index: 1000 !important;
     text-align: center;
     padding: 1em
 }

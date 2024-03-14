@@ -77,7 +77,8 @@ public class DownloadServlet extends HttpServlet {
 
     public static void writeFile(HttpServletResponse response_, String OutputFilePath) {
         File outputFile = new File(OutputFilePath);
-        response_.setContentLength((int) outputFile.length());
+        // Do not set the response headers. Source: https://stackoverflow.com/a/14385142
+        // response_.setContentLength((int) outputFile.length());
 
         try {
             FileInputStream InStream = new FileInputStream(outputFile);
@@ -96,7 +97,7 @@ public class DownloadServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             HttpSession session = request.getSession();
 
@@ -115,7 +116,6 @@ public class DownloadServlet extends HttpServlet {
 
             resultFileType = request.getParameter("resultFileType");
             
-            out = response.getWriter();
             context.log(USER_ID + ": DownloadServlet: All info:\n" + LOCAL_STORAGE_PATH + "\n" + PROGRAM + "\n" + OUTPUT_PATH + "\n" + resultFileType);
 
             switch (resultFileType) {
@@ -136,6 +136,7 @@ public class DownloadServlet extends HttpServlet {
 
                 case "sample_summary":
                     SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
+                    out = response.getWriter();
                     
                     try (BufferedReader br = new BufferedReader(new FileReader(OUTPUT_PATH + SAMPLE_FILENAME))) {
                         while (br.ready()) {
@@ -148,6 +149,7 @@ public class DownloadServlet extends HttpServlet {
                     break;
 
                 case "graph":
+                    out = response.getWriter();
                     try {
                         if (PROGRAM.equals("PPIXpress")){
                             String proteinQuery = request.getParameter("proteinQuery");
@@ -166,6 +168,7 @@ public class DownloadServlet extends HttpServlet {
                                 String UniprotID = attributes[0];
                                 proteinAttributeList.put(UniprotID, attributes);
                             }
+                            s.close();
 
                             JSONArray subNetworkData = filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList);
                             out.println(subNetworkData);
@@ -177,6 +180,7 @@ public class DownloadServlet extends HttpServlet {
                     break;
 
                 case "protein_list":
+                    out = response.getWriter();
                     proteinList = new ArrayList<String>();
                     SAMPLE_FILENAME = PROGRAM.equals("PPIXpress") ? "ProteinList.txt" : PROGRAM.equals("PPICompare") ? "protein_attributes.txt" : null; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
                     

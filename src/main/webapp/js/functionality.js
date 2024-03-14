@@ -143,6 +143,10 @@ jQuery(document).ready(function() {
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
+        data.append('ExpOptions', 'null')
+        data.append('RunOptions', 'null')
+        data.append('PPIOptions', 'null')
+        
         data.get('ExpOptions')
         data.append('SUBMIT_TYPE', submit_type_);
         data.append('NO_EXPRESSION_FILE', NO_EXPRESSION_FILE);
@@ -156,7 +160,9 @@ jQuery(document).ready(function() {
             data.append('threshold', "-t=1.0");
             data.append('percentile', "-tp=" + $('#percentile').val());
         }
-
+        for (const pair of data.entries()) {
+            console.log(pair[0], pair[1]);
+          }
 
         $.ajax({
             url: "PPIXpress",

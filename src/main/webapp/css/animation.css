@@ -9,12 +9,20 @@
 
 .star {
   display: none;
-  background-image: url("star1.svg");
+  background-image: url("../resources/gif/starwink.gif");
   position: sticky;
   background-size: 15px;
   width: 15px;
   height: 15px;  
   animation: zoomShrink 2s infinite;
   margin: 0 1em 0 0em;
-  z-index: 9999
+  z-index: 999
+}
+
+#Loader {
+  position: fixed;
+  width: 45px;
+  height: 45px;
+  background-image: url("../resources/gif/relay-race.gif");
+  background-size: 45px;
 }
