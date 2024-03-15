@@ -164,20 +164,24 @@
                     </label><br>
                     <label>
                         <input type="checkbox" name="RunOptions" id="output_DDINs" value="-d">Output DDINs
+                        <sup name="usePPICompareOptionsTag" style="display:none; font-size: x-small; font-weight: bold; color: var(--deeppink);">PPICompare</sup>
                     </label><br>
                     <label>
                         <input type="checkbox" name="RunOptions" id="output_major_transcripts" value="-m">Output major transcripts
+                        <sup name="usePPICompareOptionsTag" style="display:none; font-size: x-small; font-weight: bold; color: var(--deeppink);">PPICompare</sup>
                     </label><br>
                     <label>
                         <input type="checkbox" name="RunOptions" id="report_gene_abundance" value="-mg">Report gene abundance
                     </label><br>
                 </div>
             </div>
+            
 
             <div name="LeftPanel4" id="LeftPanel4" style="text-align: center">
+                <label for="usePPICompareOptions" value="null" class="button submit" style="font-size: small;margin-bottom: 0.5em;background: var(--mint);color: var(--choco);min-height: fit-content; height:2em;padding: 0.5em;">Include PPICompare-required options</label>
+                <input type="checkbox" id="usePPICompareOptions" style="display: none;">
                 <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPIXpress</button>
                 <button type="submit" name="Submit" id="RunExample" value="null" class="button try">or Try with example data!</button>
-<%--                <button type="button" name="SubmitExample" id="RunExample" value="Run example" class="button try">or Try with example data!</button>--%>
             </div>
         </form>
     </div>

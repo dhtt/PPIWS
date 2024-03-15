@@ -29,32 +29,35 @@ import {updateColorScheme} from './functionality_helper_functions.js';
 updateColorScheme('CSS_Style')
 jQuery(document).ready(function() {
     /**
-     * Set options to default
-     */
-    let set_default = function () {
-        $('#remove_decay_transcripts').prop('checked', true)
-        $('#threshold').val(1.0)
-        $('#percentile').val(0.0)
-    }
-    set_default()
-
-    /**
-     * Make output_major_transcripts true when report_gene_abundance
-     * @param source_
-     * @param target_
+     * Makes all checkboxes in the target array checked or unchecked based on the state of the source checkbox.
+     *
+     * @param {string} source_ - The ID of the source checkbox.
+     * @param {string[]} target_ - An array of IDs of the target checkboxes.
      */
     let make_all_checked = function (source_, target_) {
         const parent = $('#' + source_)
-        const children = $('#' + target_)
-        if (parent.is(':checked') === true) {
-            children.prop("checked", true)
-        } else {
-            children.prop("checked", false)
+        for (let i = 0; i < target_.length; i++){
+            let children = $('#' + target_[i])
+            parent.is(':checked') === true ? children.prop("checked", true) : children.prop("checked", false)
         }
     }
+
+    // Make output_major_transcripts true when report_gene_abundance
     $('#report_gene_abundance').on('click', function(){
-        make_all_checked('report_gene_abundance','output_major_transcripts')
+        make_all_checked('report_gene_abundance',['output_major_transcripts'])
     })
+    let PPICompareOptions = ['output_DDINs', 'output_major_transcripts']
+    $('#usePPICompareOptions').on('click', function(){
+        make_all_checked('usePPICompareOptions', PPICompareOptions);
+        if ($(this).is(':checked') === true){
+            $("[name='usePPICompareOptionsTag']").show()
+            $("label[for='usePPICompareOptions']").html("Remove PPICompare-required options")
+        } else{
+            $("[name='usePPICompareOptionsTag']").hide()
+            $("label[for='usePPICompareOptions']").html("Include PPICompare-required options")
+        }
+    });
+    
 
     // TODO might be integrated with reset fields below
     /**
@@ -160,9 +163,6 @@ jQuery(document).ready(function() {
             data.append('threshold', "-t=1.0");
             data.append('percentile', "-tp=" + $('#percentile').val());
         }
-        for (const pair of data.entries()) {
-            console.log(pair[0], pair[1]);
-          }
 
         $.ajax({
             url: "PPIXpress",
@@ -334,6 +334,16 @@ jQuery(document).ready(function() {
     ===================================================================================================================
     */
     /**
+     * Set options to default
+     */
+    function set_default () {
+        $('#remove_decay_transcripts').prop('checked', true)
+        $('#threshold').val(1.0)
+        $('#percentile').val(0.0)
+    }
+    set_default()
+
+    /**
      * Reset all forms & clear all fields for new analysis
      */
     function resetForm(){
@@ -414,6 +424,7 @@ jQuery(document).ready(function() {
         resetDisplay()
         switchShowSubnetwork('off')
         resetInputFields(LeftPanel, false, runNewAnalysis_popup)
+        set_default()
         Submit.prop('disabled', false)
     })
 

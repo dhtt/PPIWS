@@ -36,6 +36,7 @@ public class UtilsTest {
                 String UniprotID = attributes[0];
                 proteinAttributeList.put(UniprotID, attributes);
             }
+            s.close();
         } catch(Exception e){
             e.printStackTrace();
         }
@@ -58,6 +59,7 @@ public class UtilsTest {
             while (s.hasNext()) {
                 proteinList.add(s.next());
             }
+            s.close();
         } catch(Exception e){
             e.printStackTrace();
         }
