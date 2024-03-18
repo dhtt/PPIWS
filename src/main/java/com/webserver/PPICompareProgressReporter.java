@@ -35,7 +35,7 @@ public class PPICompareProgressReporter extends HttpServlet {
                 response.setContentType("application/json");
                 PrintWriter out = response.getWriter();
                 HttpSession session = request.getSession(); 
-
+                
                 try {   
                         // PROGRAM shows if PPIXpress or PPICompare is being called
                         PROGRAM = session.getAttribute("PROGRAM") == null ? ""

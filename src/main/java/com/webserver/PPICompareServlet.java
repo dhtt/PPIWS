@@ -103,9 +103,9 @@ public class PPICompareServlet extends HttpServlet {
 
                 context.log(USER_ID + ": PPICompareServlet: Example process initiated from Servlet\n" + allArgs);
             }
-             catch(Exception e){
-                context.log(USER_ID + ": PPICompareServlet: Fail to initiate example run\n" + e);
-             }
+            catch(Exception e){
+                context.log(USER_ID + ": PPICompareServlet: Fail to initiate example run\n" + e.toString());
+            }
         } 
         else if (SUBMIT_TYPE.equals("RunNormal")) {
             try {

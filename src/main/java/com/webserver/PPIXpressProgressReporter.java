@@ -39,31 +39,20 @@ public class PPIXpressProgressReporter extends HttpServlet {
 
                 try {   
                         // PROGRAM shows if PPIXpress or PPICompare is being called
-                        // PROGRAM = session.getAttribute("PROGRAM") == null ? ""
-                        //                 : session.getAttribute("PROGRAM").toString();
-                        // // LONG_PROCESS_STOP_SIGNAL is a boolean value where "true" will stop PPIXpress process from standalone_tools:PPIXpress
-                        // // and "false" keeps the process running. At the end of the process, LONG_PROCESS_STOP_SIGNAL is switched to true
-                        // LONG_PROCESS_STOP_SIGNAL = session.getAttribute("LONG_PROCESS_STOP_SIGNAL") == null ||
-                        //                 Boolean.parseBoolean(session.getAttribute("LONG_PROCESS_STOP_SIGNAL").toString());
-                        // 
-                        // // LOCAL_STORAGE_PATH is the path to the folder where INPUT and OUTPUT are stored for each user/example run
-                        // LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
-                        //                 : session.getAttribute("LOCAL_STORAGE_PATH").toString();
-
-                        // String[] splitPath = LOCAL_STORAGE_PATH.split("/");
-                        // USER_ID = splitPath[splitPath.length - 2];
-
-
-                        LOCAL_STORAGE_PATH = request.getParameter("LOCAL_STORAGE_PATH") == null ? ""
-                                        : request.getParameter("LOCAL_STORAGE_PATH").toString();
-                                        USER_ID = request.getParameter("UserID");
-                        LONG_PROCESS_STOP_SIGNAL = request.getParameter("LONG_PROCESS_STOP_SIGNAL") == null ||
-                                Boolean.parseBoolean(request.getParameter("LONG_PROCESS_STOP_SIGNAL").toString());
-                        PROGRAM = request.getParameter("PROGRAM") == null ? ""
+                        PROGRAM = session.getAttribute("PROGRAM") == null ? ""
                                         : session.getAttribute("PROGRAM").toString();
-                        USER_ID = request.getParameter("UserID");
-                        context.log(USER_ID + ": PPIXpressProgressReporter SESSION PARAMETERS\n" + LOCAL_STORAGE_PATH + "\n" + LONG_PROCESS_STOP_SIGNAL + "\n" + PROGRAM);
+                        // LONG_PROCESS_STOP_SIGNAL is a boolean value where "true" will stop PPIXpress process from standalone_tools:PPIXpress
+                        // and "false" keeps the process running. At the end of the process, LONG_PROCESS_STOP_SIGNAL is switched to true
+                        LONG_PROCESS_STOP_SIGNAL = session.getAttribute("LONG_PROCESS_STOP_SIGNAL") == null ||
+                                        Boolean.parseBoolean(session.getAttribute("LONG_PROCESS_STOP_SIGNAL").toString());
                         
+                        // LOCAL_STORAGE_PATH is the path to the folder where INPUT and OUTPUT are stored for each user/example run
+                        LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
+                                        : session.getAttribute("LOCAL_STORAGE_PATH").toString();
+
+                        String[] splitPath = LOCAL_STORAGE_PATH.split("/");
+                        USER_ID = splitPath[splitPath.length - 2];
+
                         
                         // Get the process log stored in "/OUTPUT/PPIXpress_log.html". Log is updated by the process from standalone_tools:PPIXpress or PPIXCompare
                         // The file name must be the same as defined for log_file in PPICompare_Tomcat.java or PPIXpress_Tomcat.java and 
