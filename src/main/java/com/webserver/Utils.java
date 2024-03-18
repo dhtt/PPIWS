@@ -7,14 +7,75 @@ import org.unix4j.unix.Grep;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.Stream;
 import java.nio.file.*;
 import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 import java.util.zip.ZipEntry;
 
 import static org.unix4j.Unix4j.grep;
 
 
 public class Utils {
+    /**
+     * Zip output files in the result folder
+     * 
+     * @param sourceDirPath_ path to folder to be zipped
+     * @param zipPath_       path to zipped folder
+     * @throws IOException
+     * Source: https://stackoverflow.com/a/68439125/9798960
+     */
+    public static void zip(String sourceDirPath_, String zipPath_) throws IOException {
+        Files.deleteIfExists(Paths.get(zipPath_));
+        Path zipFile = Files.createFile(Paths.get(zipPath_));
+
+        Path sourceDirPath = Paths.get(sourceDirPath_);
+        try (
+                ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
+                Stream<Path> paths = Files.walk(sourceDirPath)) {
+            paths
+                    .filter(path -> !Files.isDirectory(path))
+                    .forEach(path -> {
+                        if (path.toString().endsWith(".gz") || path.toString().endsWith(".txt")) {
+                            ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
+                            try {
+                                zipOutputStream.putNextEntry(zipEntry);
+                                Files.copy(path, zipOutputStream);
+                                zipOutputStream.closeEntry();
+                            } catch (IOException e) {
+                                System.out.println(e.getMessage());
+                            }
+                        }
+                    });
+            zipOutputStream.finish();
+        }
+    }
+    
+    /**
+     * Appends the given string to the specified file.
+     *
+     * @param str      the string to be appended
+     * @param fileName the name of the file to append the string to
+     */
+    public static void appendStrToFile(String str, String fileName) {
+        try {
+                // Open given file in append mode by creating an
+                // object of BufferedWriter class
+                BufferedWriter out = new BufferedWriter(new FileWriter(fileName, true));
+
+                // Writing on output stream
+                out.write(str);
+                // Closing the connection
+                out.close();
+        }
+        // Catch block to handle the exceptions
+        catch (IOException e) {
+
+                // Display message when exception occurs
+                System.out.println("Exception occured in ProgressReporter:appendStrToFile: " + e);
+        }
+    }
+
     public static String RemoveFileExtension(String FileName) {
         String nameWithoutExtension = null;
         // Find the last occurrence of the period character.

@@ -107,15 +107,15 @@ jQuery(document).ready(function() {
 
 
     /**
-     * Dynamically print PPIXpress progress run in PPIXpressServlet to RPContent
-     * @param resultText Messages from PPIXpressServlet
+     * Dynamically print PPICompare progress run in PPICompareServlet to RPContent
+     * @param resultText Responses from PPICompareServlet
      * @param updateInterval Update interval in millisecond
      */
     let updateLongRunningStatus = function (resultText, updateInterval) {
         const interval = setInterval(function (json) {
             $.ajax({
                 type: "POST",
-                url: 'ProgressReporter',
+                url: 'PPICompareProgressReporter',
                 cache: false,
                 contentType: "application/json",
                 dataType: "json",
@@ -123,7 +123,7 @@ jQuery(document).ready(function() {
                     allPanel.css({'cursor': 'progress'})
 
                     // When new tab is open but no job is currently running for this user
-                    // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from ProgressReporter.java
+                    // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from PPICompareProgressReporter.java
                     if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
                         // Stop updateLongRunningStatus & make allPanel cursor default
                         clearInterval(interval)
@@ -133,7 +133,7 @@ jQuery(document).ready(function() {
                     }
                     // If job is running on one more or tabs, the main tab (or new tabs)
                     // will all be updated with the process
-                    // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
+                    // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from PPICompareProgressReporter.java
                     else {
                         if (json.UPDATE_LONG_PROCESS_STOP_SIGNAL === true) {
                             // Stop updateLongRunningStatus & return to default setting
@@ -407,7 +407,7 @@ jQuery(document).ready(function() {
             const downloadData = new FormData();
             downloadData.append("resultFileType", resultFileType)
 
-            let fetchData = fetch("DownloadServlet",
+            let fetchData = fetch("PPICompareDownloadServlet",
                 {
                     method: 'POST',
                     body: downloadData

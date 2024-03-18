@@ -191,7 +191,7 @@ jQuery(document).ready(function() {
         const interval = setInterval(function (json) {
             $.ajax({
                 type: "POST",
-                url: 'ProgressReporter',
+                url: 'PPIXpressProgressReporter',
                 cache: false,
                 contentType: "application/json",
                 dataType: "json",
@@ -502,7 +502,7 @@ jQuery(document).ready(function() {
                 downloadData.append("showDDIs", showDDIs)
             }
             
-            let fetchData = fetch("DownloadServlet",
+            let fetchData = fetch("PPIXpressDownloadServlet",
                 {
                     method: 'POST',
                     body: downloadData
