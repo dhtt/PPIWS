@@ -8,6 +8,8 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.json.JSONObject;
+
 import standalone_tools.PPIXpress_Tomcat;
 
 @WebServlet(name = "PPIXpress", value = "/PPIXpress")
@@ -21,6 +23,7 @@ public class PPIXpressServlet extends HttpServlet {
     private String OUTPUT_PATH;
     private String FILENAME_PPI;
     private String ORIGINAL_NETWORK_PATH;
+    protected JSONObject POSTData = new JSONObject();
     int NO_EXPRESSION_FILE;
     String SUBMIT_TYPE;
     ArrayList<String> allArgs;
@@ -35,7 +38,7 @@ public class PPIXpressServlet extends HttpServlet {
 
 
     /**
-     * TODO: Write documentation
+     * A long-running process that runs the analysis pipeline in a separate thread.
      */
     static class LongRunningProcess implements Runnable {
         private AtomicBoolean stopSignal;
@@ -43,11 +46,22 @@ public class PPIXpressServlet extends HttpServlet {
         private volatile boolean stop;
         private List<String> argList;
 
+        /**
+         * Constructs a LongRunningProcess object with PPIXpress arguments
+         *
+         * @param allArgs the list of arguments for the analysis pipeline
+         * @param stopSignal the stop signal to indicate when the pipeline should stop
+         */
         public LongRunningProcess(List<String> allArgs, AtomicBoolean stopSignal) {
             this.stopSignal = stopSignal;
             this.argList = allArgs;
         }
 
+        /**
+         * Runs the analysis pipeline in a separate thread.
+         * This method continuously runs the analysis pipeline until the stop signal is received.
+         * If the stop signal is received, it sets the stop flag to true, indicating that the pipeline should stop.
+         */
         @Override
         public void run() {
             try {
@@ -63,10 +77,20 @@ public class PPIXpressServlet extends HttpServlet {
             
         }
 
+        /**
+         * Gets the stop flag value.
+         *
+         * @return true if the pipeline should stop, false otherwise
+         */
         public boolean getStop() {
             return stop;
         }
 
+        /**
+         * Sets the stop flag value.
+         *
+         * @param stop the stop flag value to set
+         */
         public void setStop(boolean stop) {
             this.stop = stop;
         }
@@ -78,15 +102,16 @@ public class PPIXpressServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Main pipeline
-        response.setContentType("text/html");
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
 
         // Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
         // output.zip inside deploy folder (WEBAPP_PATH)
-        USER_ID = UUID.randomUUID().toString();
-        allArgs = new ArrayList<String>();
+        // USER_ID = UUID.randomUUID().toString();
+        USER_ID = request.getParameter("USER_ID");
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
+        allArgs = new ArrayList<String>();
         
-
         if (SUBMIT_TYPE.equals("RunExample")) {
             try {
                 // Define a data local storage on the local server
@@ -189,10 +214,20 @@ public class PPIXpressServlet extends HttpServlet {
             // Create and execute PPIXpress and update progress periodically to screen
             // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
             AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
-            request.getSession().setAttribute("PROGRAM", "PPIXpress");
-            request.getSession().setAttribute("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
-            request.getSession().setAttribute("LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
-            request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
+            // request.getSession().setAttribute("PROGRAM", "PPIXpress");
+            // request.getSession().setAttribute("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
+            // request.getSession().setAttribute("LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
+            // request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH); //TODO: Replace by USER_ID & for example 
+            // request.getSession().setAttribute("USER_ID", USER_ID);
+
+
+            POSTData.put("USER_ID", USER_ID);
+            POSTData.put("PROGRAM", "PPIXpress");
+            POSTData.put("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE); 
+            POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", "");
+            POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
+            out.println(POSTData);
+
 
             if (SUBMIT_TYPE.equals("RunNormal")) {
                 LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
@@ -200,7 +235,7 @@ public class PPIXpressServlet extends HttpServlet {
                 lrp.start();   
             }
         } catch (Exception e) {
-            context.log(USER_ID + ": PPIXpressServlet: Fail to initialize PPICompare process.\n" + e);
+            context.log(USER_ID + ": PPIXpressServlet: Fail to initialize PPICompare process.\n" + e.toString());
         }
 
 

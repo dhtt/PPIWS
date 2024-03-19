@@ -28,6 +28,20 @@ import {updateColorScheme} from './functionality_helper_functions.js';
 
 updateColorScheme('CSS_Style')
 jQuery(document).ready(function() {
+    function generateRandomString(length) {
+        let result = '';
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        for (let i = 0; i < length; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    }
+    let USER_ID = generateRandomString(12);
+    console.log(USER_ID);
+    window.sessionStorage.setItem('USER_ID', USER_ID);
+
+
     /**
      * Makes all checkboxes in the target array checked or unchecked based on the state of the source checkbox.
      *
@@ -146,6 +160,9 @@ jQuery(document).ready(function() {
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
+        
+        if (submit_type_ === "RunExample") { USER_ID = "EXAMPLE_USER"; }
+        data.append('USER_ID', USER_ID);
         data.append('ExpOptions', 'null')
         data.append('RunOptions', 'null')
         data.append('PPIOptions', 'null')
@@ -171,7 +188,9 @@ jQuery(document).ready(function() {
             data: data,
             processData : false,
             contentType : false,
-            success: function (resultText) {
+            dataType: "json",
+            success: function (resultText) {                   
+                console.log(resultText);
                 updateLongRunningStatus(resultText, 1000)
             },
             error: function (e){
@@ -187,14 +206,14 @@ jQuery(document).ready(function() {
      * @param resultText Messages from PPIXpressServlet
      * @param updateInterval Update interval in millisecond
      */
-    let updateLongRunningStatus = function (resultText, updateInterval) {
+    let updateLongRunningStatus = function (res, updateInterval) {
         const interval = setInterval(function (json) {
             $.ajax({
                 type: "POST",
                 url: 'PPIXpressProgressReporter',
                 cache: false,
-                contentType: "application/json",
                 dataType: "json",
+                data: res,
                 success: function (json) {
                     allPanel.css({'cursor': 'progress'})
 
@@ -241,6 +260,9 @@ jQuery(document).ready(function() {
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
                     }
+
+                    console.log(res); 
+                    res = json
                 }
             })
         }, updateInterval);
@@ -494,6 +516,8 @@ jQuery(document).ready(function() {
 
         else {
             const downloadData = new FormData();
+            downloadData.append("USER_ID", USER_ID)
+            downloadData.append("PROGRAM", "PPIXpress")
             downloadData.append("resultFileType", resultFileType)
 
             if (resultFileType === "graph"){

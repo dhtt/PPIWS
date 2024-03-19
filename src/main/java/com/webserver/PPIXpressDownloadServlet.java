@@ -20,6 +20,7 @@ public class PPIXpressDownloadServlet extends HttpServlet {
     protected String OUTPUT_FILENAME;
     protected String LOCAL_STORAGE_PATH;
     protected String SAMPLE_FILENAME;
+    protected String SUBMIT_TYPE;
     protected String resultFileType;
     protected ServletContext context;
     protected ArrayList<String> proteinList;
@@ -37,18 +38,23 @@ public class PPIXpressDownloadServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
+            // HttpSession session = request.getSession();
 
-            // Define a data local storage on the local server
-            LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
-                : session.getAttribute("LOCAL_STORAGE_PATH").toString();
+            // // Define a data local storage on the local server
+            // LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
+            //     : session.getAttribute("LOCAL_STORAGE_PATH").toString();
                 
-            String[] splitPath = LOCAL_STORAGE_PATH.split("/");
-            USER_ID = splitPath[splitPath.length - 2];
-            // PROGRAM shows if PPIXpress or PPICompare is being called
-            PROGRAM = session.getAttribute("PROGRAM") == null ? ""
-                : session.getAttribute("PROGRAM").toString();
+            // String[] splitPath = LOCAL_STORAGE_PATH.split("/");
+            // USER_ID = splitPath[splitPath.length - 2];
+            // // PROGRAM shows if PPIXpress or PPICompare is being called
+            // PROGRAM = session.getAttribute("PROGRAM") == null ? ""
+            //     : session.getAttribute("PROGRAM").toString();
 
+            PROGRAM = request.getParameter("PROGRAM") == null ? "" : request.getParameter("PROGRAM").toString();
+            USER_ID = request.getParameter("USER_ID") == null ? "" : request.getParameter("USER_ID").toString();
+            LOCAL_STORAGE_PATH = USER_ID.equals("EXAMPLE_USER") ? 
+                "/home/trang/PPIWS/repository/example_run/PPIXpress/" : "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/PPIXpress/"; 
+                   
             OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
             OUTPUT_FILENAME = "ResultFiles.zip"; 
 

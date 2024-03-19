@@ -82,6 +82,7 @@ public class PPICompareServlet extends HttpServlet {
         USER_ID = UUID.randomUUID().toString();
         allArgs = new ArrayList<String>();
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
+        context.log("PPICompareServlet CHECK: " + LOCAL_STORAGE_PATH);
         
 
         if (SUBMIT_TYPE.equals("RunExample")) {

@@ -35,7 +35,8 @@ public class PPICompareProgressReporter extends HttpServlet {
                 response.setContentType("application/json");
                 PrintWriter out = response.getWriter();
                 HttpSession session = request.getSession(); 
-                
+                context.log("PPICompareProgressReporter CHECK 1: " + LOCAL_STORAGE_PATH);
+
                 try {   
                         // PROGRAM shows if PPIXpress or PPICompare is being called
                         PROGRAM = session.getAttribute("PROGRAM") == null ? ""
@@ -51,6 +52,7 @@ public class PPICompareProgressReporter extends HttpServlet {
                                         : session.getAttribute("LOCAL_STORAGE_PATH").toString();
                         String[] splitPath = LOCAL_STORAGE_PATH.split("/");
                         USER_ID = splitPath[splitPath.length - 2];
+                        context.log("PPICompareProgressReporter CHECK 2: " + LOCAL_STORAGE_PATH);
                         
                         // Get the process log stored in "/OUTPUT/PPIXpress_log.html". Log is updated by the process from standalone_tools:PPIXpress or PPIXCompare
                         // The file name must be the same as defined for log_file in PPICompare_Tomcat.java or PPIXpress_Tomcat.java and 
@@ -61,9 +63,6 @@ public class PPICompareProgressReporter extends HttpServlet {
                         if (Files.exists(LOG_FILE)){
                                 RUN_PROGRESS_LOG = Files.readString(LOG_FILE);
                         }
-
-                        // Different to PPIXpressProgressReporter
-                        context.log(USER_ID + ": PPICompareProgressReporter SESSION PARAMETERS\n" + LOCAL_STORAGE_PATH);
 
                         // Send response to show on display
                         POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", RUN_PROGRESS_LOG);
