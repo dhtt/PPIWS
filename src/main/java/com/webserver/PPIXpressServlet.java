@@ -7,7 +7,6 @@ import jakarta.servlet.annotation.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import org.json.JSONObject;
 
 import standalone_tools.PPIXpress_Tomcat;
@@ -23,10 +22,11 @@ public class PPIXpressServlet extends HttpServlet {
     private String OUTPUT_PATH;
     private String FILENAME_PPI;
     private String ORIGINAL_NETWORK_PATH;
-    protected JSONObject POSTData = new JSONObject();
     int NO_EXPRESSION_FILE;
     String SUBMIT_TYPE;
     ArrayList<String> allArgs;
+    static AtomicBoolean STOP_SIGNAL;
+    protected JSONObject POSTData = new JSONObject();
 
     /**
      * Initilize ServletContext log to localhost log files
@@ -68,6 +68,7 @@ public class PPIXpressServlet extends HttpServlet {
                 while (!stop) {
                     pipeline.runAnalysis(this.argList, stopSignal);
                     if (stopSignal.get()) {
+                        context.log("PPIXpress pipeline is finished!\n"+ this.stopSignal);
                         setStop(true);
                     }
                 }    
@@ -213,13 +214,7 @@ public class PPIXpressServlet extends HttpServlet {
         try {
             // Create and execute PPIXpress and update progress periodically to screen
             // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
-            AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
-            // request.getSession().setAttribute("PROGRAM", "PPIXpress");
-            // request.getSession().setAttribute("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
-            // request.getSession().setAttribute("LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
-            // request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH); //TODO: Replace by USER_ID & for example 
-            // request.getSession().setAttribute("USER_ID", USER_ID);
-
+            STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
 
             POSTData.put("USER_ID", USER_ID);
             POSTData.put("PROGRAM", "PPIXpress");
@@ -227,7 +222,6 @@ public class PPIXpressServlet extends HttpServlet {
             POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", "");
             POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
             out.println(POSTData);
-
 
             if (SUBMIT_TYPE.equals("RunNormal")) {
                 LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);

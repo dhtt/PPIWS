@@ -6,15 +6,8 @@ import jakarta.servlet.annotation.*;
 import org.json.JSONArray;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
-import static com.webserver.Utils.*;
 import static framework.UtilitiesWebserver.createElement;
 
 @WebServlet(name = "DownloadServlet", value = "/DownloadServlet")
@@ -27,6 +20,7 @@ public class DownloadServlet extends HttpServlet {
     protected String OUTPUT_FILENAME;
     protected String LOCAL_STORAGE_PATH;
     protected String SAMPLE_FILENAME;
+    protected String SUBMIT_TYPE;
     protected String resultFileType;
     protected ServletContext context;
     protected ArrayList<String> proteinList;
@@ -41,75 +35,14 @@ public class DownloadServlet extends HttpServlet {
         context = getServletContext();
     }
 
-    /**
-     * Zip output files in the result folder
-     * 
-     * @param sourceDirPath_ path to folder to be zipped
-     * @param zipPath_       path to zipped folder
-     * @throws IOException
-     * Source: https://stackoverflow.com/a/68439125/9798960
-     */
-    public static void zip(String sourceDirPath_, String zipPath_) throws IOException {
-        Files.deleteIfExists(Paths.get(zipPath_));
-        Path zipFile = Files.createFile(Paths.get(zipPath_));
-
-        Path sourceDirPath = Paths.get(sourceDirPath_);
-        try (
-                ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
-                Stream<Path> paths = Files.walk(sourceDirPath)) {
-            paths
-                    .filter(path -> !Files.isDirectory(path))
-                    .forEach(path -> {
-                        if (path.toString().endsWith(".gz") || path.toString().endsWith(".txt")) {
-                            ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
-                            try {
-                                zipOutputStream.putNextEntry(zipEntry);
-                                Files.copy(path, zipOutputStream);
-                                zipOutputStream.closeEntry();
-                            } catch (IOException e) {
-                                System.out.println(e.getMessage());
-                            }
-                        }
-                    });
-            zipOutputStream.finish();
-        }
-    }
-
-    public static void writeFile(HttpServletResponse response_, String OutputFilePath) {
-        File outputFile = new File(OutputFilePath);
-        // Do not set the response headers. Source: https://stackoverflow.com/a/14385142
-        // response_.setContentLength((int) outputFile.length());
-
-        try {
-            FileInputStream InStream = new FileInputStream(outputFile);
-            try (BufferedInputStream BufInStream = new BufferedInputStream(InStream)) {
-                ServletOutputStream ServletOutStream = response_.getOutputStream();
-                int readBytes = 0;
-
-                // read from the file; write to the ServletOutputStream
-                while ((readBytes = BufInStream.read()) != -1) {
-                    ServletOutStream.write(readBytes);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
-
-            // Define a data local storage on the local server
-            LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
-                : session.getAttribute("LOCAL_STORAGE_PATH").toString();
-                
-            String[] splitPath = LOCAL_STORAGE_PATH.split("/");
-            USER_ID = splitPath[splitPath.length - 1];
-            // PROGRAM shows if PPIXpress or PPICompare is being called
-            PROGRAM = session.getAttribute("PROGRAM") == null ? ""
-                : session.getAttribute("PROGRAM").toString();
+            PROGRAM = request.getParameter("PROGRAM") == null ? "" : request.getParameter("PROGRAM").toString();
+            USER_ID = request.getParameter("USER_ID") == null ? "" : request.getParameter("USER_ID").toString();
+            LOCAL_STORAGE_PATH = USER_ID.equals("EXAMPLE_USER") ? 
+                "/home/trang/PPIWS/repository/example_run/" + PROGRAM + "/" : "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/" + PROGRAM + "/"; 
+               
 
             OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
             OUTPUT_FILENAME = "ResultFiles.zip"; 
@@ -126,12 +59,12 @@ public class DownloadServlet extends HttpServlet {
                     response.setHeader("Cache-Control", "must-revalidate");
 
                     try {
-                        zip(OUTPUT_PATH, OUTPUT_PATH + OUTPUT_FILENAME);
+                        Utils.zip(OUTPUT_PATH, OUTPUT_PATH + OUTPUT_FILENAME);
                     } catch (IOException e) {
                         context.log(USER_ID + ": DownloadServlet: Fail to compress output. ERROR:\n" + e);
                     }
 
-                    writeFile(response, OUTPUT_PATH + OUTPUT_FILENAME);
+                    UtilsServlet.writeFile(response, OUTPUT_PATH + OUTPUT_FILENAME);
                     break;
 
                 case "sample_summary":
@@ -156,7 +89,7 @@ public class DownloadServlet extends HttpServlet {
                             String expressionQuery = request.getParameter("expressionQuery");
                             boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
                             
-                            JSONArray subNetworkData = filterProtein(OUTPUT_PATH, proteinQuery, expressionQuery, showDDIs);
+                            JSONArray subNetworkData = Utils.filterProtein(OUTPUT_PATH, proteinQuery, expressionQuery, showDDIs);
                             out.println(subNetworkData);
                         } else if (PROGRAM.equals("PPICompare")){
                             // Get graph data for cytoscape.js to display on NVContent_Graph
@@ -170,7 +103,7 @@ public class DownloadServlet extends HttpServlet {
                             }
                             s.close();
 
-                            JSONArray subNetworkData = filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList);
+                            JSONArray subNetworkData = Utils.filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList);
                             out.println(subNetworkData);
                         }
                     } catch (Exception e) {

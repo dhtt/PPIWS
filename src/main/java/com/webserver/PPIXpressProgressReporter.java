@@ -3,7 +3,6 @@ package com.webserver;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
-
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -15,12 +14,12 @@ import java.nio.file.*;
 //TODO When fail these step, do not display "PPIXpress pipeline is finished!""
 public class PPIXpressProgressReporter extends HttpServlet {
         protected String PROGRAM;
-        protected String RUN_PROGRESS_LOG;
-        protected String LOCAL_STORAGE_PATH;
-        protected Boolean LONG_PROCESS_STOP_SIGNAL;
-        protected int NO_EXPRESSION_FILE;
         protected String USER_ID;
         protected String SUBMIT_TYPE;
+        protected String RUN_PROGRESS_LOG;
+        protected String LOCAL_STORAGE_PATH;
+        protected Boolean UPDATE_LONG_PROCESS_STOP_SIGNAL;
+        protected int NO_EXPRESSION_FILE;
         protected ServletContext context;
         protected JSONObject POSTData = new JSONObject();
 
@@ -55,7 +54,7 @@ public class PPIXpressProgressReporter extends HttpServlet {
                         // String[] splitPath = LOCAL_STORAGE_PATH.split("/");
                         // USER_ID = splitPath[splitPath.length - 2];
 
-                        LONG_PROCESS_STOP_SIGNAL = request.getParameter("UPDATE_LONG_PROCESS_STOP_SIGNAL") == null ||
+                        UPDATE_LONG_PROCESS_STOP_SIGNAL = request.getParameter("UPDATE_LONG_PROCESS_STOP_SIGNAL") == null ||
                                 Boolean.parseBoolean(request.getParameter("UPDATE_LONG_PROCESS_STOP_SIGNAL").toString());
                         context.log(USER_ID + ": PPIXpressProgressReporter: CHECK 0:\n" + request.getParameter("UPDATE_LONG_PROCESS_STOP_SIGNAL").toString());
                  
@@ -87,7 +86,7 @@ public class PPIXpressProgressReporter extends HttpServlet {
                         POSTData.put("PROGRAM", "PPIXpress");
                         POSTData.put("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE); 
                         POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", RUN_PROGRESS_LOG);
-                        POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", LONG_PROCESS_STOP_SIGNAL);
+                        POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", UPDATE_LONG_PROCESS_STOP_SIGNAL);
                         out.println(POSTData);
                         
                 } catch (Exception e) {

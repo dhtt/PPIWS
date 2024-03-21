@@ -2,6 +2,7 @@ import {makePlot} from './network_maker.js'
 import {showNoChosenFiles} from './functionality_helper_functions.js'
 import {switchButton} from './functionality_helper_functions.js'
 import {showWarningMessage} from './functionality_helper_functions.js'
+import {generateRandomString} from './functionality_helper_functions.js'
 import {stripHTML} from './functionality_helper_functions.js'
 import {gridLayoutOptions} from '../resources/PPIXpress/graph_properties.js';
 import {cosebilkentLayoutOptions} from '../resources/PPIXpress/graph_properties.js';
@@ -28,17 +29,7 @@ import {updateColorScheme} from './functionality_helper_functions.js';
 
 updateColorScheme('CSS_Style')
 jQuery(document).ready(function() {
-    function generateRandomString(length) {
-        let result = '';
-        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        const charactersLength = characters.length;
-        for (let i = 0; i < length; i++) {
-            result += characters.charAt(Math.floor(Math.random() * charactersLength));
-        }
-        return result;
-    }
     let USER_ID = generateRandomString(12);
-    console.log(USER_ID);
     window.sessionStorage.setItem('USER_ID', USER_ID);
 
 
@@ -161,7 +152,11 @@ jQuery(document).ready(function() {
         const form = $("form")[0];
         const data = new FormData(form);
         
-        if (submit_type_ === "RunExample") { USER_ID = "EXAMPLE_USER"; }
+        if (submit_type_ === "RunExample") { 
+            USER_ID = "EXAMPLE_USER"; 
+        } else { 
+            USER_ID = window.sessionStorage.getItem('USER_ID');
+        }
         data.append('USER_ID', USER_ID);
         data.append('ExpOptions', 'null')
         data.append('RunOptions', 'null')
@@ -210,59 +205,61 @@ jQuery(document).ready(function() {
         const interval = setInterval(function (json) {
             $.ajax({
                 type: "POST",
-                url: 'PPIXpressProgressReporter',
+                url: 'ProgressReporter',
                 cache: false,
                 dataType: "json",
                 data: res,
                 success: function (json) {
-                    allPanel.css({'cursor': 'progress'})
+                    if (json.USER_ID === res.USER_ID){
+                        allPanel.css({'cursor': 'progress'})
 
-                    // When new tab is open but no job is currently running for this user
-                    // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from ProgressReporter.java
-                    if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
-                        // Stop updateLongRunningStatus & make allPanel cursor default
-                        clearInterval(interval)
-                        allPanel.css({'cursor': 'default'})
-                        loader.hide()
-                        // Submit.prop('disabled', false)
-                    }
-                    // If job is running on one more or tabs, the main tab (or new tabs)
-                    // will all be updated with the process
-                    // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
-                    else {
-                        if (json.UPDATE_LONG_PROCESS_STOP_SIGNAL === true) {
-                            // Stop updateLongRunningStatus & return to default setting
+                        // When new tab is open but no job is currently running for this user
+                        // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from ProgressReporter.java
+                        if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
+                            // Stop updateLongRunningStatus & make allPanel cursor default
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.hide()
                             // Submit.prop('disabled', false)
-                            $("#AfterRunOptions, #RightDisplay").show()
-                            $("[name='ScrollToTop']").show()
-                            switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
-                            StarContents.css({'display': 'inline-block'});
-
-                            // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
-                            NO_EXPRESSION_FILE = json.NO_EXPRESSION_FILE
-                            addNetworkExpressionSelection(NO_EXPRESSION_FILE);
-
-                            // Display the sample summary table and then protein list
-                            // here a promise chain must be used because of concurrency/synchronous fetches
-                            fetchResult(null, "sample_summary", SampleSummaryTable[0], false).then(
-                                response => {
-                                    // Display the sample protein list
-                                    return fetchResult(null, "protein_list", $('#NetworkSelection_Protein_List')[0], false) 
-                                }
-                            ).catch(err => {
-                                console.log("An error occur while fetching sample_summary/protein_list.")
-                            })
-                                                  
                         }
-                        runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
-                        leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
+                        // If job is running on one more or tabs, the main tab (or new tabs)
+                        // will all be updated with the process
+                        // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
+                        else {
+                            if (Boolean(json.UPDATE_LONG_PROCESS_STOP_SIGNAL) === true) {
+                                // Stop updateLongRunningStatus & return to default setting
+                                clearInterval(interval)
+                                allPanel.css({'cursor': 'default'})
+                                loader.hide()
+                                // Submit.prop('disabled', false)
+                                $("#AfterRunOptions, #RightDisplay").show()
+                                $("[name='ScrollToTop']").show()
+                                switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
+                                StarContents.css({'display': 'inline-block'});
+    
+                                // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
+                                addNetworkExpressionSelection(json.NO_EXPRESSION_FILE);
+    
+                                // Display the sample summary table and then protein list
+                                // here a promise chain must be used because of concurrency/synchronous fetches
+                                fetchResult(null, "sample_summary", SampleSummaryTable[0], false).then(
+                                    response => {
+                                        // Display the sample protein list
+                                        return fetchResult(null, "protein_list", $('#NetworkSelection_Protein_List')[0], false) 
+                                    }
+                                ).catch(err => {
+                                    console.log("An error occur while fetching sample_summary/protein_list.")
+                                })
+                                                      
+                            }
+                            runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
+                            leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
+                        }
+    
+                        res = json
+                    } else {
+                        console.log("New session ID: " + json.USER_ID + " // " + res.USER_ID); 
                     }
-
-                    console.log(res); 
-                    res = json
                 }
             })
         }, updateInterval);
@@ -526,7 +523,7 @@ jQuery(document).ready(function() {
                 downloadData.append("showDDIs", showDDIs)
             }
             
-            let fetchData = fetch("PPIXpressDownloadServlet",
+            let fetchData = fetch("DownloadServlet",
                 {
                     method: 'POST',
                     body: downloadData

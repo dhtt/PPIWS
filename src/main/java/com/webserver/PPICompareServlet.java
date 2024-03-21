@@ -7,6 +7,8 @@ import jakarta.servlet.annotation.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.json.JSONObject;
+
 import standalone_tools.PPICompare_Tomcat;
 
 @WebServlet(name = "PPICompare", value = "/PPICompare")
@@ -22,6 +24,8 @@ public class PPICompareServlet extends HttpServlet {
     protected String GROUP2_PATH;
     String SUBMIT_TYPE;
     ArrayList<String> allArgs;
+    static AtomicBoolean STOP_SIGNAL;
+    protected JSONObject POSTData = new JSONObject();
 
 
     /**
@@ -34,7 +38,7 @@ public class PPICompareServlet extends HttpServlet {
 
 
     /**
-     * TODO: Write documentation
+     * A long-running process that runs the analysis pipeline in a separate thread.
      */
     static class LongRunningProcess implements Runnable {
         private AtomicBoolean stopSignal;
@@ -42,17 +46,31 @@ public class PPICompareServlet extends HttpServlet {
         private volatile boolean stop;
         private List<String> argList;
 
+
+        /**
+         * Constructs a LongRunningProcess object with PPICompare arguments
+         *
+         * @param allArgs the list of arguments for the analysis pipeline
+         * @param stopSignal the stop signal to indicate when the pipeline should stop
+         */
+
         public LongRunningProcess(List<String> allArgs, AtomicBoolean stopSignal) {
             this.stopSignal = stopSignal;
             this.argList = allArgs;
         }
 
+        /**
+         * Runs the analysis pipeline in a separate thread.
+         * This method continuously runs the analysis pipeline until the stop signal is received.
+         * If the stop signal is received, it sets the stop flag to true, indicating that the pipeline should stop.
+         */
         @Override
         public void run() {
             try {
                 while (!stop) {
                     PPICompare_Tomcat.runAnalysis(this.argList, stopSignal);
                     if (stopSignal.get()) {
+                        context.log("PPICompare pipeline is finished!\n"+ this.stopSignal + "\n" + STOP_SIGNAL.get());
                         setStop(true);
                     }
                 }
@@ -61,10 +79,21 @@ public class PPICompareServlet extends HttpServlet {
             }
         }
 
+        /**
+         * Gets the stop flag value.
+         *
+         * @return true if the pipeline should stop, false otherwise
+         */
         public boolean getStop() {
             return stop;
         }
 
+
+        /**
+         * Sets the stop flag value.
+         *
+         * @param stop the stop flag value to set
+         */
         public void setStop(boolean stop) {
             this.stop = stop;
         }
@@ -75,14 +104,14 @@ public class PPICompareServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Main pipeline
-        response.setContentType("text/html");
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
 
         // Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
         // output.zip inside deploy folder (WEBAPP_PATH)
-        USER_ID = UUID.randomUUID().toString();
+        USER_ID = request.getParameter("USER_ID");
         allArgs = new ArrayList<String>();
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
-        context.log("PPICompareServlet CHECK: " + LOCAL_STORAGE_PATH);
         
 
         if (SUBMIT_TYPE.equals("RunExample")) {
@@ -160,10 +189,13 @@ public class PPICompareServlet extends HttpServlet {
         try {
             // Create and execute PPICompare and update progress periodically to screen
             // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
-            AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
-            request.getSession().setAttribute("PROGRAM", "PPICompare");
-            request.getSession().setAttribute("LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
-            request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
+            STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
+            
+            POSTData.put("USER_ID", USER_ID);
+            POSTData.put("PROGRAM", "PPICompare");
+            POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", "");
+            POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
+            out.println(POSTData);
         
             if (SUBMIT_TYPE.equals("RunNormal")) {
                 LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
