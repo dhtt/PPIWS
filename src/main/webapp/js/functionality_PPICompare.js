@@ -2,6 +2,7 @@ import {makePlot} from './network_maker_PPICompare.js'
 import {showNoChosenFiles} from './functionality_helper_functions.js'
 import {switchButton} from './functionality_helper_functions.js'
 import {showWarningMessage} from './functionality_helper_functions.js'
+import {generateRandomString} from './functionality_helper_functions.js'
 import {stripHTML} from './functionality_helper_functions.js'
 import {gridLayoutOptions} from '../resources/PPICompare/graph_properties.js';
 import {cosebilkentLayoutOptions} from '../resources/PPICompare/graph_properties.js';
@@ -29,6 +30,9 @@ const legendData = './resources/PPICompare/legend.json'
 
 updateColorScheme('CSS_Style')
 jQuery(document).ready(function() {
+    let USER_ID = generateRandomString(12);
+    window.sessionStorage.setItem('USER_ID', USER_ID);
+
     $("#NetworkSelection_HighlightProtein").select2({
         placeholder: $( this ).data( 'placeholder' )
     });
@@ -85,6 +89,9 @@ jQuery(document).ready(function() {
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
         const data = new FormData(form);
+
+        if (submit_type_ === "RunExample") { USER_ID = "EXAMPLE_USER"; }
+        data.append('USER_ID', USER_ID);   
         data.append('SUBMIT_TYPE', submit_type_);
         data.append('fdr', "-fdr=" + $('#fdr').val());
 
@@ -95,7 +102,8 @@ jQuery(document).ready(function() {
             data: data,
             processData : false,
             contentType : false,
-            success: function (resultText) {
+            dataType: "json",
+            success: function (resultText) {   
                 updateLongRunningStatus(resultText, 1000)
             },
             error: function (e){
@@ -107,57 +115,61 @@ jQuery(document).ready(function() {
 
 
     /**
-     * Dynamically print PPIXpress progress run in PPIXpressServlet to RPContent
-     * @param resultText Messages from PPIXpressServlet
+     * Dynamically print PPICompare progress run in PPICompareServlet to RPContent
+     * @param resultText Responses from PPICompareServlet
      * @param updateInterval Update interval in millisecond
      */
-    let updateLongRunningStatus = function (resultText, updateInterval) {
+    let updateLongRunningStatus = function (res, updateInterval) {
         const interval = setInterval(function (json) {
             $.ajax({
                 type: "POST",
                 url: 'ProgressReporter',
                 cache: false,
-                contentType: "application/json",
                 dataType: "json",
+                data: res,
                 success: function (json) {
-                    allPanel.css({'cursor': 'progress'})
-
-                    // When new tab is open but no job is currently running for this user
-                    // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from ProgressReporter.java
-                    if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
-                        // Stop updateLongRunningStatus & make allPanel cursor default
-                        clearInterval(interval)
-                        allPanel.css({'cursor': 'default'})
-                        loader.hide()
-                        // Submit.prop('disabled', false)
-                    }
-                    // If job is running on one more or tabs, the main tab (or new tabs)
-                    // will all be updated with the process
-                    // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
-                    else {
-                        if (json.UPDATE_LONG_PROCESS_STOP_SIGNAL === true) {
-                            // Stop updateLongRunningStatus & return to default setting
+                    if (json.USER_ID === res.USER_ID){
+                        allPanel.css({'cursor': 'progress'})
+    
+                        // When new tab is open but no job is currently running for this user
+                        // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from ProgressReporter.java
+                        if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
+                            // Stop updateLongRunningStatus & make allPanel cursor default
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.hide()
                             // Submit.prop('disabled', false)
-                            $("#AfterRunOptions").show()
-                            $("[name='ScrollToTop']").show()
-                            switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
-                            StarContents.css({'display': 'inline-block'});
+                        }
+                        // If job is running on one more or tabs, the main tab (or new tabs)
+                        // will all be updated with the process
+                        // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
+                        else {
+                            if (Boolean(json.UPDATE_LONG_PROCESS_STOP_SIGNAL) === true) {
+                                // Stop updateLongRunningStatus & return to default setting
+                                clearInterval(interval)
+                                allPanel.css({'cursor': 'default'})
+                                loader.hide() 
 
-                            // Display the sample protein list 
-                            fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
-                          }
-                        runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
-                        leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
-                    }
+                                $("#AfterRunOptions").show()
+                                $("[name='ScrollToTop']").show()
+                                switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
+                                StarContents.css({'display': 'inline-block'});
+    
+                                // Display the sample protein list 
+                                fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
+                            }
+                            
+                            // Update running progress to runningProgressContent
+                            runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
+                            leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
+                        }
+                        res = json
+                    } 
                 },
                 error: function(e){
                     alert("An error occurred in updateLongRunningStatus, check console log!")
                     console.log(e)
                 }
-                
             })
         }, updateInterval);
     }
@@ -405,6 +417,8 @@ jQuery(document).ready(function() {
 
         else {
             const downloadData = new FormData();
+            downloadData.append("USER_ID", USER_ID)
+            downloadData.append("PROGRAM", "PPICompare")
             downloadData.append("resultFileType", resultFileType)
 
             let fetchData = fetch("DownloadServlet",

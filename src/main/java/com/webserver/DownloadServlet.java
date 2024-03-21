@@ -6,15 +6,8 @@ import jakarta.servlet.annotation.*;
 import org.json.JSONArray;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
-import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
 
-import static com.webserver.Utils.*;
 import static framework.UtilitiesWebserver.createElement;
 
 @WebServlet(name = "DownloadServlet", value = "/DownloadServlet")
@@ -27,6 +20,7 @@ public class DownloadServlet extends HttpServlet {
     protected String OUTPUT_FILENAME;
     protected String LOCAL_STORAGE_PATH;
     protected String SAMPLE_FILENAME;
+    protected String SUBMIT_TYPE;
     protected String resultFileType;
     protected ServletContext context;
     protected ArrayList<String> proteinList;
@@ -41,114 +35,62 @@ public class DownloadServlet extends HttpServlet {
         context = getServletContext();
     }
 
-    /**
-     * Zip output files in the result folder
-     * 
-     * @param sourceDirPath_ path to folder to be zipped
-     * @param zipPath_       path to zipped folder
-     * @throws IOException
-     * Source: https://stackoverflow.com/a/68439125/9798960
-     */
-    public static void zip(String sourceDirPath_, String zipPath_) throws IOException {
-        Files.deleteIfExists(Paths.get(zipPath_));
-        Path zipFile = Files.createFile(Paths.get(zipPath_));
-
-        Path sourceDirPath = Paths.get(sourceDirPath_);
-        try (
-                ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
-                Stream<Path> paths = Files.walk(sourceDirPath)) {
-            paths
-                    .filter(path -> !Files.isDirectory(path))
-                    .forEach(path -> {
-                        if (path.toString().endsWith(".gz") || path.toString().endsWith(".txt")) {
-                            ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
-                            try {
-                                zipOutputStream.putNextEntry(zipEntry);
-                                Files.copy(path, zipOutputStream);
-                                zipOutputStream.closeEntry();
-                            } catch (IOException e) {
-                                System.out.println(e.getMessage());
-                            }
-                        }
-                    });
-            zipOutputStream.finish();
-        }
-    }
-
-    public static void writeFile(HttpServletResponse response_, String OutputFilePath) {
-        File outputFile = new File(OutputFilePath);
-        // Do not set the response headers. Source: https://stackoverflow.com/a/14385142
-        // response_.setContentLength((int) outputFile.length());
-
-        try {
-            FileInputStream InStream = new FileInputStream(outputFile);
-            try (BufferedInputStream BufInStream = new BufferedInputStream(InStream)) {
-                ServletOutputStream ServletOutStream = response_.getOutputStream();
-                int readBytes = 0;
-
-                // read from the file; write to the ServletOutputStream
-                while ((readBytes = BufInStream.read()) != -1) {
-                    ServletOutStream.write(readBytes);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            HttpSession session = request.getSession();
-
-            // Define a data local storage on the local server
-            LOCAL_STORAGE_PATH = session.getAttribute("LOCAL_STORAGE_PATH") == null ? ""
-                : session.getAttribute("LOCAL_STORAGE_PATH").toString();
-                
-            String[] splitPath = LOCAL_STORAGE_PATH.split("/");
-            USER_ID = splitPath[splitPath.length - 1];
-            // PROGRAM shows if PPIXpress or PPICompare is being called
-            PROGRAM = session.getAttribute("PROGRAM") == null ? ""
-                : session.getAttribute("PROGRAM").toString();
-
+            // USER_ID and PROGRAM are retrieved from request parameter
+            USER_ID = request.getParameter("USER_ID") == null ? "" : request.getParameter("USER_ID").toString();
+            PROGRAM = request.getParameter("PROGRAM") == null ? "" : request.getParameter("PROGRAM").toString();
+            resultFileType =  request.getParameter("resultFileType") == null ? "" : request.getParameter("resultFileType").toString();
+            
+            // Define the path to the folder where INPUT and OUTPUT are stored for each user/example run
+            LOCAL_STORAGE_PATH = USER_ID.equals("EXAMPLE_USER") ? 
+                "/home/trang/PPIWS/repository/example_run/" + PROGRAM + "/" : "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/" + PROGRAM + "/"; 
             OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
             OUTPUT_FILENAME = "ResultFiles.zip"; 
 
-            resultFileType = request.getParameter("resultFileType");
-            
-            context.log(USER_ID + ": DownloadServlet: All info:\n" + LOCAL_STORAGE_PATH + "\n" + PROGRAM + "\n" + OUTPUT_PATH + "\n" + resultFileType);
+            // Internal log 
+            context.log(USER_ID + ": DownloadServlet: All info:" + 
+                "\n-PATH: " + LOCAL_STORAGE_PATH + 
+                "\n-PROGRAM: " + PROGRAM + 
+                "\n-RESULT FILE TYPE: " + resultFileType);
 
             switch (resultFileType) {
                 case "output":
+                    //  Download the zipped output file
                     response.setHeader("Content-Disposition", "attachment; filename=\"" + OUTPUT_FILENAME + "\"");
                     response.setContentType("application/zip");
                     response.setHeader("Cache-Control", "max-age=60");
                     response.setHeader("Cache-Control", "must-revalidate");
 
+                    // Compress output
                     try {
-                        zip(OUTPUT_PATH, OUTPUT_PATH + OUTPUT_FILENAME);
+                        Utils.zip(OUTPUT_PATH, OUTPUT_PATH + OUTPUT_FILENAME);
                     } catch (IOException e) {
-                        context.log(USER_ID + ": DownloadServlet: Fail to compress output. ERROR:\n" + e);
+                        context.log(USER_ID + ": DownloadServlet: Fail to compress output. ERROR:\n" + e.toString());
                     }
 
-                    writeFile(response, OUTPUT_PATH + OUTPUT_FILENAME);
+                    // Write output to response
+                    UtilsServlet.writeFile(response, OUTPUT_PATH + OUTPUT_FILENAME);
                     break;
 
                 case "sample_summary":
+                    // Retrieve sample summary for PPIXpress
                     SAMPLE_FILENAME = "SampleTable.html"; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
                     out = response.getWriter();
                     
+                    // Read and write output to response
                     try (BufferedReader br = new BufferedReader(new FileReader(OUTPUT_PATH + SAMPLE_FILENAME))) {
                         while (br.ready()) {
                             out.println(br.readLine());
                         }
                     } catch (Exception e) {
-                        context.log(USER_ID + ": DownloadServlet: Fail to retrieve sample summary. ERROR:\n" + e);
+                        context.log(USER_ID + ": DownloadServlet: Fail to retrieve sample summary. ERROR:\n" + e.toString());
                     }
-
                     break;
 
                 case "graph":
+                    // Retrieve graph data to display on NVContent_Graph
                     out = response.getWriter();
                     try {
                         if (PROGRAM.equals("PPIXpress")){
@@ -156,10 +98,12 @@ public class DownloadServlet extends HttpServlet {
                             String expressionQuery = request.getParameter("expressionQuery");
                             boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
                             
-                            JSONArray subNetworkData = filterProtein(OUTPUT_PATH, proteinQuery, expressionQuery, showDDIs);
-                            out.println(subNetworkData);
+                            JSONArray subNetworkData = Utils.filterProtein(OUTPUT_PATH, proteinQuery, expressionQuery, showDDIs);
+
+
+                            // Write output to response
+                            out.println(subNetworkData);                    
                         } else if (PROGRAM.equals("PPICompare")){
-                            // Get graph data for cytoscape.js to display on NVContent_Graph
                             proteinAttributeList = new HashMap<String, String[]>(); 
                             Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt"));
 
@@ -170,20 +114,27 @@ public class DownloadServlet extends HttpServlet {
                             }
                             s.close();
 
-                            JSONArray subNetworkData = filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList);
+                            JSONArray subNetworkData = Utils.filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList);
+
+                            // Write output to response
                             out.println(subNetworkData);
                         }
                     } catch (Exception e) {
-                            context.log(USER_ID + ": DownloadServlet: Fail to retrieve data for graphs data. ERROR:\n" + e);
+                            context.log(USER_ID + ": DownloadServlet: Fail to retrieve data for graphs data. ERROR:\n" + e.toString());
                             out.println("Fail to retrieve graphs data. Please contact authors using the ID:\n" + USER_ID);
                     }
                     break;
 
                 case "protein_list":
+                    // Retrieve the protein list for PPIXpress graph query or PPICompare protein highlight
                     out = response.getWriter();
                     proteinList = new ArrayList<String>();
-                    SAMPLE_FILENAME = PROGRAM.equals("PPIXpress") ? "ProteinList.txt" : PROGRAM.equals("PPICompare") ? "protein_attributes.txt" : null; // This file name must be the same as defined for sample_table in PPIXpress_tomcat.java
                     
+                    // Define protein list source (the same as defined for sample_table in PPIXpress/PPICompare_Tomcat.java)
+                    SAMPLE_FILENAME = PROGRAM.equals("PPIXpress") ? "ProteinList.txt" : PROGRAM.equals("PPICompare") ? "protein_attributes.txt" : null; 
+
+
+                    // Read and write output to response
                     try (BufferedReader br = new BufferedReader(new FileReader(OUTPUT_PATH + SAMPLE_FILENAME))) { 
                         if (PROGRAM.equals("PPIXpress")){
                             while (br.ready()) {
@@ -199,13 +150,13 @@ public class DownloadServlet extends HttpServlet {
                             out.println(String.join("", proteinList));
                         }
                     } catch (Exception e) {
-                        context.log(USER_ID + ": DownloadServlet: Fail to retrieve protein list. ERROR:\n" + e);
+                        context.log(USER_ID + ": DownloadServlet: Fail to retrieve protein list. ERROR:\n" + e.toString());
                     }
 
                     break;
                 }
             } catch(Exception e){
-                context.log(USER_ID + ": DownloadServlet: Fail to retrieve session information. ERROR:\n" + e);
+                context.log(USER_ID + ": DownloadServlet: Fail to retrieve session information. ERROR:\n" + e.toString());
             }
         }
     }

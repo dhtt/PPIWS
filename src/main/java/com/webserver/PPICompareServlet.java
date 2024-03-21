@@ -7,6 +7,8 @@ import jakarta.servlet.annotation.*;
 import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.json.JSONObject;
+
 import standalone_tools.PPICompare_Tomcat;
 
 @WebServlet(name = "PPICompare", value = "/PPICompare")
@@ -22,6 +24,8 @@ public class PPICompareServlet extends HttpServlet {
     protected String GROUP2_PATH;
     String SUBMIT_TYPE;
     ArrayList<String> allArgs;
+    static AtomicBoolean STOP_SIGNAL = new AtomicBoolean(false);
+    protected JSONObject POSTData = new JSONObject();
 
 
     /**
@@ -34,7 +38,7 @@ public class PPICompareServlet extends HttpServlet {
 
 
     /**
-     * TODO: Write documentation
+     * A long-running process that runs the analysis pipeline in a separate thread.
      */
     static class LongRunningProcess implements Runnable {
         private AtomicBoolean stopSignal;
@@ -42,17 +46,31 @@ public class PPICompareServlet extends HttpServlet {
         private volatile boolean stop;
         private List<String> argList;
 
+
+        /**
+         * Constructs a LongRunningProcess object with PPICompare arguments
+         *
+         * @param allArgs the list of arguments for the analysis pipeline
+         * @param stopSignal the stop signal to indicate when the pipeline should stop
+         */
+
         public LongRunningProcess(List<String> allArgs, AtomicBoolean stopSignal) {
             this.stopSignal = stopSignal;
             this.argList = allArgs;
         }
 
+        /**
+         * Runs the analysis pipeline in a separate thread.
+         * This method continuously runs the analysis pipeline until the stop signal is received.
+         * If the stop signal is received, it sets the stop flag to true, indicating that the pipeline should stop.
+         */
         @Override
         public void run() {
             try {
                 while (!stop) {
                     PPICompare_Tomcat.runAnalysis(this.argList, stopSignal);
                     if (stopSignal.get()) {
+                        context.log("PPICompare pipeline is finished!");
                         setStop(true);
                     }
                 }
@@ -61,10 +79,21 @@ public class PPICompareServlet extends HttpServlet {
             }
         }
 
+        /**
+         * Gets the stop flag value.
+         *
+         * @return true if the pipeline should stop, false otherwise
+         */
         public boolean getStop() {
             return stop;
         }
 
+
+        /**
+         * Sets the stop flag value.
+         *
+         * @param stop the stop flag value to set
+         */
         public void setStop(boolean stop) {
             this.stop = stop;
         }
@@ -75,11 +104,12 @@ public class PPICompareServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         // Main pipeline
-        response.setContentType("text/html");
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
 
         // Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
         // output.zip inside deploy folder (WEBAPP_PATH)
-        USER_ID = UUID.randomUUID().toString();
+        USER_ID = request.getParameter("USER_ID");
         allArgs = new ArrayList<String>();
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
         
@@ -103,9 +133,9 @@ public class PPICompareServlet extends HttpServlet {
 
                 context.log(USER_ID + ": PPICompareServlet: Example process initiated from Servlet\n" + allArgs);
             }
-             catch(Exception e){
-                context.log(USER_ID + ": PPICompareServlet: Fail to initiate example run\n" + e);
-             }
+            catch(Exception e){
+                context.log(USER_ID + ": PPICompareServlet: Fail to initiate example run\n" + e.toString());
+            }
         } 
         else if (SUBMIT_TYPE.equals("RunNormal")) {
             try {
@@ -138,7 +168,7 @@ public class PPICompareServlet extends HttpServlet {
                     }
                 }
                 catch(Exception e){
-                    context.log(USER_ID + ": PPICompareServlet: Fail to retrieve uploaded PPIXpress networks. ERROR:\n" + e);
+                    context.log(USER_ID + ": PPICompareServlet: Fail to retrieve uploaded PPIXpress networks. ERROR:\n" + e.toString());
                 }
                 // Add output path to arguments set
                 allArgs.add("-output=" + OUTPUT_PATH);
@@ -153,24 +183,32 @@ public class PPICompareServlet extends HttpServlet {
 
             }
             catch(Exception e){
-                context.log(USER_ID + ": PPICompareServlet: Fail to initiate user-defined run\n" + e);
+                context.log(USER_ID + ": PPICompareServlet: Fail to initiate user-defined run\n" + e.toString());
             }  
         }
         try {
             // Create and execute PPICompare and update progress periodically to screen
             // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
-            AtomicBoolean STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
-            request.getSession().setAttribute("PROGRAM", "PPICompare");
-            request.getSession().setAttribute("LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
-            request.getSession().setAttribute("LOCAL_STORAGE_PATH", LOCAL_STORAGE_PATH);
-        
+            STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
+            
+            // Send Servlet response to PPICompare_functionality.js:$.fn.submit_form. This response is used as request for 
+            // ProgressReporter.java in PPICompare_functionality.js:updateLongRunningStatus.
+            // Very important as the essential parameters for run/update progress are communicated between this 
+            // servlet, PPICompare_functionality.js and ProgressReporter.java 
+            POSTData.put("USER_ID", USER_ID);
+            POSTData.put("PROGRAM", "PPICompare");
+            POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", "");
+            POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
+            out.println(POSTData);
+            
+            // Run PPICompare
             if (SUBMIT_TYPE.equals("RunNormal")) {
                 LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
                 Thread lrp = new Thread(myThreads);
                 lrp.start();   
             }
         } catch (Exception e) {
-            context.log(USER_ID + ": PPICompareServlet: Fail to initialize PPICompare process.\n" + e);
+            context.log(USER_ID + ": PPICompareServlet: Fail to initialize PPICompare process.\n" + e.toString());
         }
     } 
 
