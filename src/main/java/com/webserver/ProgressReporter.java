@@ -37,24 +37,25 @@ public class ProgressReporter extends HttpServlet {
                 PrintWriter out = response.getWriter();
                 
                 try {   
+                        // USER_ID is retrieved from request parameter
                         USER_ID = request.getParameter("USER_ID") == null ? "" : request.getParameter("USER_ID").toString();
-                        // UPDATE_LONG_PROCESS_STOP_SIGNAL is a boolean value where "true" will stop PPIXpress process from standalone_tools:PPIXpress
-                        // and "false" keeps the process running. At the end of the process, UPDATE_LONG_PROCESS_STOP_SIGNAL is switched to true
-
-                        // PROGRAM shows if PPIXpress or PPICompare is being called
+                      
+                        // PROGRAM is retrieved from request parameter, indicating PPPXpress or PPICompare is making request
                         PROGRAM = request.getParameter("PROGRAM") == null ? "" : request.getParameter("PROGRAM").toString();
 
+                        // UPDATE_LONG_PROCESS_STOP_SIGNAL is the boolean value of AtomicBoolean STOP_SIGNAL from PPIXpress_/PPICompare_Tomcat
+                        // "true" will stop sending request to update PPI-Servelets and vice versa. 
+                        // At the end of the process or in case of error, UPDATE_LONG_PROCESS_STOP_SIGNAL is switched to "true"
                         if (PROGRAM.equals("PPIXpress")){   
                                 UPDATE_LONG_PROCESS_STOP_SIGNAL = PPIXpressServlet.STOP_SIGNAL.get();
                         } else if (PROGRAM.equals("PPICompare")){
                                 UPDATE_LONG_PROCESS_STOP_SIGNAL = PPICompareServlet.STOP_SIGNAL.get();
                         }
-                        // UPDATE_LONG_PROCESS_STOP_SIGNAL = request.getParameter("UPDATE_LONG_PROCESS_STOP_SIGNAL") == null ||
-                        //         Boolean.parseBoolean(request.getParameter("UPDATE_LONG_PROCESS_STOP_SIGNAL").toString());
 
                         // LOCAL_STORAGE_PATH is the path to the folder where INPUT and OUTPUT are stored for each user/example run
                         LOCAL_STORAGE_PATH = USER_ID.equals("EXAMPLE_USER") ? 
-                                "/home/trang/PPIWS/repository/example_run/" + PROGRAM + "/" : "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/" + PROGRAM + "/"; 
+                                "/home/trang/PPIWS/repository/example_run/" + PROGRAM + "/" : 
+                                "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/" + PROGRAM + "/"; 
 
                         // Get the process log stored in "/OUTPUT/PPIXpress_log.html". Log is updated by the process from standalone_tools:PPIXpress or PPIXCompare
                         // The file name must be the same as defined for log_file in PPICompare_Tomcat.java or PPIXpress_Tomcat.java and 
@@ -66,21 +67,24 @@ public class ProgressReporter extends HttpServlet {
                                 RUN_PROGRESS_LOG = Files.readString(LOG_FILE);
                         }
 
+                        // Internal progress log
                         if (PROGRAM.equals("PPIXpress")){
                                 NO_EXPRESSION_FILE = request.getParameter("NO_EXPRESSION_FILE") == null ? 
                                         0 : Integer.parseInt(request.getParameter("NO_EXPRESSION_FILE"));
                         
-                                context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS:\n-PROGRAM: " + PROGRAM + 
+                                context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS:" +
+                                        "\n-PROGRAM: " + PROGRAM + 
                                         "\n-PATH: " + LOCAL_STORAGE_PATH + 
                                         "\n-NO_EXP_FILES: " + String.valueOf(NO_EXPRESSION_FILE) +
                                         "\n-STOP_SIGNAL: " + UPDATE_LONG_PROCESS_STOP_SIGNAL);
                         } else if (PROGRAM.equals("PPICompare")){
-                                context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS:\n-PROGRAM: " + PROGRAM + 
+                                context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS:" +
+                                        "\n-PROGRAM: " + PROGRAM + 
                                         "\n-PATH: " + LOCAL_STORAGE_PATH +
                                         "\n-STOP_SIGNAL: " + UPDATE_LONG_PROCESS_STOP_SIGNAL);
                         }
-                   
-                        // Send response to show on display
+                                
+                        // Send progress as response to functionality.js/PPICompare_functionality:updateLongRunningStatus 
                         POSTData.put("USER_ID", USER_ID);
                         POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", RUN_PROGRESS_LOG);
                         POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", UPDATE_LONG_PROCESS_STOP_SIGNAL);
@@ -93,6 +97,7 @@ public class ProgressReporter extends HttpServlet {
 
                         out.println(POSTData);
                 } catch (Exception e) {
+                        // In case of error, stop updating progress
                         POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", true);
                         context.log(USER_ID + ": ProgressReporter: ERROR:\n" + e.toString());
                 }

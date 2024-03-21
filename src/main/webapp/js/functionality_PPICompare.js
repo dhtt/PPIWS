@@ -104,7 +104,6 @@ jQuery(document).ready(function() {
             contentType : false,
             dataType: "json",
             success: function (resultText) {   
-                console.log(resultText);
                 updateLongRunningStatus(resultText, 1000)
             },
             error: function (e){
@@ -149,8 +148,8 @@ jQuery(document).ready(function() {
                                 // Stop updateLongRunningStatus & return to default setting
                                 clearInterval(interval)
                                 allPanel.css({'cursor': 'default'})
-                                loader.hide()
-                                // Submit.prop('disabled', false)
+                                loader.hide() 
+
                                 $("#AfterRunOptions").show()
                                 $("[name='ScrollToTop']").show()
                                 switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
@@ -158,14 +157,14 @@ jQuery(document).ready(function() {
     
                                 // Display the sample protein list 
                                 fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
-                              }
+                            }
+                            
+                            // Update running progress to runningProgressContent
                             runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                             leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
                         }
                         res = json
-                    } else {
-                        console.log("New session ID: " + json.USER_ID + " // " + res.USER_ID); 
-                    }
+                    } 
                 },
                 error: function(e){
                     alert("An error occurred in updateLongRunningStatus, check console log!")

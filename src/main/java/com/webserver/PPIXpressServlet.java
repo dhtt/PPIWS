@@ -25,7 +25,7 @@ public class PPIXpressServlet extends HttpServlet {
     int NO_EXPRESSION_FILE;
     String SUBMIT_TYPE;
     ArrayList<String> allArgs;
-    static AtomicBoolean STOP_SIGNAL;
+    static AtomicBoolean STOP_SIGNAL = new AtomicBoolean(false);
     protected JSONObject POSTData = new JSONObject();
 
     /**
@@ -68,7 +68,7 @@ public class PPIXpressServlet extends HttpServlet {
                 while (!stop) {
                     pipeline.runAnalysis(this.argList, stopSignal);
                     if (stopSignal.get()) {
-                        context.log("PPIXpress pipeline is finished!\n"+ this.stopSignal);
+                        context.log("PPIXpress pipeline is finished!");
                         setStop(true);
                     }
                 }    
@@ -108,7 +108,6 @@ public class PPIXpressServlet extends HttpServlet {
 
         // Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
         // output.zip inside deploy folder (WEBAPP_PATH)
-        // USER_ID = UUID.randomUUID().toString();
         USER_ID = request.getParameter("USER_ID");
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
         allArgs = new ArrayList<String>();
@@ -129,7 +128,6 @@ public class PPIXpressServlet extends HttpServlet {
                 allArgs.add("-output=" + OUTPUT_PATH);
 
                 // Add paths to expression data to argument list 
-                // TODO WHYYYYYY
                 try {
                     File inputFiles = new File(INPUT_PATH);
                     File[] inputFilesPaths = inputFiles.listFiles();
@@ -143,12 +141,12 @@ public class PPIXpressServlet extends HttpServlet {
                         }
                     }
                 } catch (Exception e) {
-                    context.log(USER_ID + ": PPIXpressServlet: Fail to retrieve example expression files. ERROR:\n" + e);
+                    context.log(USER_ID + ": PPIXpressServlet: Fail to retrieve example expression files. ERROR:\n" + e.toString());
                 }
 
                 context.log(USER_ID + ": PPIXpressServlet: Example process initiated from Servlet\n" + allArgs);
             } catch(Exception e){
-                context.log(USER_ID + ": PPIXpressServlet: Fail to initiate example run\n" + e);
+                context.log(USER_ID + ": PPIXpressServlet: Fail to initiate example run\n" + e.toString());
              }
         } 
         else if (SUBMIT_TYPE.equals("RunNormal")) {
@@ -193,7 +191,7 @@ public class PPIXpressServlet extends HttpServlet {
                         }
                     }
                 } catch(Exception e){
-                    context.log(USER_ID + ": PPIXpressServlet: Fail to retrieve uploaded expression files. ERROR:\n" + e);
+                    context.log(USER_ID + ": PPIXpressServlet: Fail to retrieve uploaded expression files. ERROR:\n" + e.toString());
                 }
                 
                 // Set number of expression files
@@ -206,9 +204,10 @@ public class PPIXpressServlet extends HttpServlet {
                 allArgs.add(request.getParameter("threshold"));
                 allArgs.add(request.getParameter("percentile"));
                 allArgs.removeIf(n -> (n.equals("null")));
+
                 context.log(USER_ID + ": PPIXpressServlet: User-defined process initiated from Servlet\n" + allArgs);
             } catch(Exception e){
-                context.log(USER_ID + ": PPIXpressServlet: Fail to initiate user-defined run\n" + e);
+                context.log(USER_ID + ": PPIXpressServlet: Fail to initiate user-defined run\n" + e.toString());
             }
         }
         try {
@@ -216,6 +215,10 @@ public class PPIXpressServlet extends HttpServlet {
             // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
             STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
 
+            // Send Servlet response to functionality.js:$.fn.submit_form. This response is used as request for 
+            // ProgressReporter.java in functionality.js:updateLongRunningStatus.
+            // Very important as the essential parameters for run/update progress are communicated between this 
+            // servlet, PPICompare_functionality.js and ProgressReporter.java 
             POSTData.put("USER_ID", USER_ID);
             POSTData.put("PROGRAM", "PPIXpress");
             POSTData.put("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE); 
@@ -223,6 +226,7 @@ public class PPIXpressServlet extends HttpServlet {
             POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", STOP_SIGNAL);
             out.println(POSTData);
 
+            // Run PPIXpress
             if (SUBMIT_TYPE.equals("RunNormal")) {
                 LongRunningProcess myThreads = new LongRunningProcess(allArgs, STOP_SIGNAL);
                 Thread lrp = new Thread(myThreads);

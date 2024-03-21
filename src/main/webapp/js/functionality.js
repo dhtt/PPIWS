@@ -184,12 +184,11 @@ jQuery(document).ready(function() {
             processData : false,
             contentType : false,
             dataType: "json",
-            success: function (resultText) {                   
-                console.log(resultText);
+            success: function (resultText) {            
                 updateLongRunningStatus(resultText, 1000)
             },
             error: function (e){
-                alert("An error occurred, check console log!")
+                alert("An error occurred in PPIXpress Webserver, check console log!")
                 console.log(e)
             }
         })
@@ -230,8 +229,8 @@ jQuery(document).ready(function() {
                                 // Stop updateLongRunningStatus & return to default setting
                                 clearInterval(interval)
                                 allPanel.css({'cursor': 'default'})
-                                loader.hide()
-                                // Submit.prop('disabled', false)
+                                loader.hide()  
+
                                 $("#AfterRunOptions, #RightDisplay").show()
                                 $("[name='ScrollToTop']").show()
                                 switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
@@ -249,17 +248,19 @@ jQuery(document).ready(function() {
                                     }
                                 ).catch(err => {
                                     console.log("An error occur while fetching sample_summary/protein_list.")
-                                })
-                                                      
+                                })               
                             }
+
+                            // Update running progress to runningProgressContent
                             runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                             leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
                         }
-    
                         res = json
-                    } else {
-                        console.log("New session ID: " + json.USER_ID + " // " + res.USER_ID); 
                     }
+                },
+                error: function(e){
+                    alert("An error occurred in updateLongRunningStatus, check console log!")
+                    console.log(e)
                 }
             })
         }, updateInterval);
