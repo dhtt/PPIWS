@@ -6,6 +6,7 @@
 <html lang="en">
 <head>
     <title>PPIXpress</title>
+    <!-- <link rel="shortcut icon" href="resources/leaf.png"> // TODO -->
     <link rel="stylesheet" href="css/theme_mint.css">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
@@ -24,7 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="header.html"/>
+<jsp:include page="html/header.html"/>
 <div style="display: none">
     <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
     <button name="CSS_Style" id="--darkmint" style="color: var(--darkmint)"></button>
@@ -178,7 +179,7 @@
             
 
             <div name="LeftPanel4" id="LeftPanel4" style="text-align: center">
-                <label for="usePPICompareOptions" value="null" class="button submit" style="font-size: small;margin-bottom: 0.5em;background: var(--mint);color: var(--choco);min-height: fit-content; height:2em;padding: 0.5em;">Include PPICompare-required options</label>
+                <label for="usePPICompareOptions" value="null" class="button submit" style="font-size: small;margin-bottom: 0.5em;background: var(--lightmintgrey);color: var(--choco);min-height: fit-content; height:2em;padding: 0.5em;">Include PPICompare-required options</label>
                 <input type="checkbox" id="usePPICompareOptions" style="display: none;">
                 <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPIXpress</button>
                 <button type="submit" name="Submit" id="RunExample" value="null" class="button try">or Try with example data!</button>
@@ -285,7 +286,7 @@
     </div>
 </div><br>
 <footer>
-    Thorsten Will & Volkhard Helms. Chair of Computational Biology
+    Hoang Thu Trang Do & Volkhard Helms. Chair of Computational Biology
 </footer>
 </body>
 </html>
