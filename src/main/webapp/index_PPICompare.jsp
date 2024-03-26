@@ -6,6 +6,7 @@
 <html lang="en">
 <head>
     <title>PPICompare</title>
+    <!-- <link rel="shortcut icon" href="resources/leaf.png"> // TODO -->
     <link rel="stylesheet" href="css/theme_blue.css">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
@@ -32,7 +33,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="header_PPICompare.html"/>
+<jsp:include page="html/header_PPICompare.html"/>
 <div style="display: none">
     <button name="CSS_Style" id="--cottonblue" style="color: var(--cottonblue)"></button>
     <button name="CSS_Style" id="--darkcottonblue" style="color: var(--darkcottonblue)"></button>
@@ -261,7 +262,7 @@
     </div>
 </div><br>
 <footer>
-    Thorsten Will & Volkhard Helms. Chair of Computational Biology
+    Hoang Thu Trang Do & Volkhard Helms. Chair of Computational Biology
 </footer>
 </body>
 </html>

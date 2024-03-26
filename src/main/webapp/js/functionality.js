@@ -52,7 +52,8 @@ jQuery(document).ready(function() {
         make_all_checked('report_gene_abundance',['output_major_transcripts'])
     })
     let PPICompareOptions = ['output_DDINs', 'output_major_transcripts']
-    $('#usePPICompareOptions').on('click', function(){
+    let usePPICompareOptions = $('#usePPICompareOptions')
+    usePPICompareOptions.on('click', function(){
         make_all_checked('usePPICompareOptions', PPICompareOptions);
         if ($(this).is(':checked') === true){
             $("[name='usePPICompareOptionsTag']").show()
