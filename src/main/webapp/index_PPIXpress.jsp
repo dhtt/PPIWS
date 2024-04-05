@@ -7,7 +7,6 @@
 <head>
     <title>PPIXpress</title>
     <!-- <link rel="shortcut icon" href="resources/leaf.png"> // TODO -->
-    <link rel="stylesheet" href="css/theme_mint.css">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
@@ -26,20 +25,6 @@
 </head>
 <body>
 <jsp:include page="html/header.html"/>
-<div style="display: none">
-    <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
-    <button name="CSS_Style" id="--darkmint" style="color: var(--darkmint)"></button>
-    <button name="CSS_Style" id="--choco" style="color: var(--choco)"></button>
-    <button name="CSS_Style" id="--lightmintgrey" style="color: var(--lightmintgrey)"></button>
-    <button name="CSS_Style" id="--intensemint" style="color: var(--intensemint)"></button>
-    <button name="CSS_Style" id="--darkintensemint" style="color: var(--darkintensemint)"></button>
-    <button name="CSS_Style" id="--ultradarkmint" style="color: var(--ultradarkmint)"></button>
-    <button name="CSS_Style" id="--deeppink" style="color: var(--deeppink)"></button>
-    <button name="CSS_Style" id="--darkdeeppink" style="color: var(--darkdeeppink)"></button>
-    <button name="CSS_Style" id="--shadow" style="color: var(--shadow)"></button>
-    <button name="CSS_Style" id="--textshadow" style="color: var(--textshadow)"></button>
-    <button name="CSS_Style" id="--warning" style="color: var(--warning)"></button>
-</div>
 
 <div class="disabling_layer" id="disabling_window"></div>
 <div id="already_open_window_popup" class="popup center-pop" style="display: none">
@@ -77,10 +62,14 @@
                     <div style="text-align: center; margin: 0">
                         <label for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
                         <input type="file" name="protein_network_file" id="protein_network_file" accept=".sif" style="display: none">
-<%--                        TODO: Make input accept gzip --%>
+                        <!--TODO: Make input accept gzip -->
                         &nbsp;or&nbsp;
                         <label for="protein_network_web" class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
-                        <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
+                        
+                        <!-- TODO: Open page to ProteinInteractionData section -->
+                        <a href="./info_page.jsp" target="_blank"> 
+                            <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
+                        </a>
                         <div id="protein_network_web_popup" class="popup center-pop" style="display: none">
                             <div class="menu header" style="width: 300px; font-size: small">
                                 <button type="button" name="close" class="help close">x</button>
@@ -119,7 +108,11 @@
                     <p style="text-align: center; margin: 0">
                         <label for="expression_file" class="button upload" title="Upload one or more expression datasets">Upload file(s)</label>
                         <input type="file" name="expression_file" id="expression_file" accept=".txt,.gz" style="display: none" multiple>
-                        <button type="button" name="expression_example" id="expression_example" class="help" title="Example input">?</button>
+
+                        <!-- TODO: Open page to ExpressionData section -->
+                        <a href="./info_page.jsp" target="_blank"> 
+                            <button type="button" name="expression_example" id="expression_example" class="help" title="Example input">?</button>
+                        </a>
                     </p>
                     <p id="expression_file_description" class="description-text">&emsp;</p>
                     <span style="display:flex; width: 280px">

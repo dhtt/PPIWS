@@ -14,7 +14,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="header.html"/>
+<jsp:include page="html/header_PPICompare.html"/>
 <div>
 <%--    TODO: Add link o download example file--%>
     <div id="AllPanels" class="container-body">

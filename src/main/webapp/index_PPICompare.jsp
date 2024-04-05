@@ -7,7 +7,6 @@
 <head>
     <title>PPICompare</title>
     <!-- <link rel="shortcut icon" href="resources/leaf.png"> // TODO -->
-    <link rel="stylesheet" href="css/theme_blue.css">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
@@ -34,25 +33,6 @@
 </head>
 <body>
 <jsp:include page="html/header_PPICompare.html"/>
-<div style="display: none">
-    <button name="CSS_Style" id="--cottonblue" style="color: var(--cottonblue)"></button>
-    <button name="CSS_Style" id="--darkcottonblue" style="color: var(--darkcottonblue)"></button>
-    <button name="CSS_Style" id="--choco" style="color: var(--choco)"></button>
-    <button name="CSS_Style" id="--mint" style="color: var(--mint)"></button>
-    <button name="CSS_Style" id="--lightmintgrey" style="color: var(--lightmintgrey)"></button>
-    <button name="CSS_Style" id="--intensemint" style="color: var(--intensemint)"></button>
-    <button name="CSS_Style" id="--darkintensemint" style="color: var(--darkintensemint)"></button>
-    <button name="CSS_Style" id="--ultradarkmint" style="color: var(--ultradarkmint)"></button>
-    <button name="CSS_Style" id="--deeppink" style="color: var(--deeppink)"></button>
-    <button name="CSS_Style" id="--darkdeeppink" style="color: var(--darkdeeppink)"></button>
-    <button name="CSS_Style" id="--protein" style="color: var(--protein)"></button>
-    <button name="CSS_Style" id="--lostedge" style="color: var(--lostedge)"></button>
-    <button name="CSS_Style" id="--gainededge" style="color: var(--gainededge)"></button>
-    <button name="CSS_Style" id="--highlightedprotein" style="color: var(--highlightedprotein)"></button>
-    <button name="CSS_Style" id="--shadow" style="color: var(--shadow)"></button>
-    <button name="CSS_Style" id="--textshadow" style="color: var(--textshadow)"></button>
-    <button name="CSS_Style" id="--warning" style="color: var(--warning)"></button>
-</div>
 
 <div class="disabling_layer" id="disabling_window"></div>
 <div id="already_open_window_popup" class="popup center-pop" style="display: none">

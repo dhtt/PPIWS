@@ -1,0 +1,40 @@
+<div style="display:flex; flex-direction: row; justify-content: space-evenly">
+    <div style="display:flex; flex-direction: column; max-width:30%; align-items: center; flex-direction: column">
+        <div class="network-option panel" style="text-align: center; border-radius: 1em; border: solid white 2px; width:200px; box-shadow: var(--shadow);">
+            <label style="font-weight: bold">Select a protein</label>
+            <!-- Highlight protein query -->
+            <input disabled class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller; border-color:deeppink" placeholder="Q9UKT9">
+            <label style="font-weight: bold; padding-top: 1em">Select an expression data</label>
+            <input disabled class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="">
+            <button type="button" disabled="" value="null" style="font-size: smaller" class="button">Show</button>
+            <button type="button" disabled="" value="null" style="font-size: smaller" class="button">Download</button>
+        </div>
+        <p style="padding: 1em; text-align: center"><strong>Step 1</strong>: Select a protein to view its PPI network</p>
+    </div>
+     <div style="display:flex; max-width:30%; align-items: center; flex-direction: column">
+        <div class="network-option panel" style="text-align: center; border-radius: 1em; border: solid white 2px; width:200px; box-shadow: var(--shadow);">
+            <label style="font-weight: bold">Select a protein</label>
+            <input disabled class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="Q9UKT9">
+            <label style="font-weight: bold; padding-top: 1em">Select an expression data</label>
+            <!-- Highlight expression file query -->
+            <input disabled class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller; border-color:deeppink" placeholder="Expression 1">
+            <button type="button" disabled="" value="null" style="font-size: smaller" class="button">Show</button>
+            <button type="button" disabled="" value="null" style="font-size: smaller" class="button">Download</button>
+        </div>
+        <p style="padding: 1em; text-align: center"><strong>Step 2</strong>: Select an expression file that the PPI network should be built on</p>
+    </div>
+     <div style="display:flex; max-width:30%; align-items: center; flex-direction: column">
+        <div class="network-option panel" style="text-align: center; border-radius: 1em; border: solid white 2px; width:200px; box-shadow: var(--shadow);">
+            <label style="font-weight: bold">Select a protein</label>
+            <input disabled class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="Q9UKT9">
+            <label style="font-weight: bold; padding-top: 1em">Select an expression data</label>      
+            <input disabled class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="Expression 1">
+            <!-- Highlight Show button -->
+            <button type="button" disabled="" value="null" style="font-size: smaller; background: deeppink; color: white" class="button">Show</button>
+            <button type="button" disabled="" value="null" style="font-size: smaller" class="button">Download</button>
+        </div>
+        <p style="padding: 1em; text-align: center"><strong>Step 3</strong>: Show the PPI network constructed using the chosen expression data that contain the queried protein</p>
+    </div>
+
+ 
+</div>

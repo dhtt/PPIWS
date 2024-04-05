@@ -167,7 +167,7 @@
     text-transform: uppercase;
 }
 .help-section-body{
-    padding: 0 1em;
+    padding: 0 2em;
 }
 .DefaultHelpMenu{
 }
@@ -191,7 +191,7 @@
     border-collapse: collapse;
     width: fit-content;
     table-layout: auto;
-    box-shadow: none;
+    box-shadow: var(--shadow);
     font-size: medium;
 }
 table.table-2#Table-Cufflinks, table.table-2#Table-GTF{

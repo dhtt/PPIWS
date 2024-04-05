@@ -1,4 +1,7 @@
 jQuery(document).ready(function() {
+    $("#ShowNetworkTopions_Example").load('./html/ShowNetworkOptions_PPIXpress.html')
+    $("#AfterRunOptions_Example").load('./html/AfterRunOptions_PPIXpress.html')
+
     $(".help-panel").on('click', function(){
         const neighbors = $('#MenuPanel').find('.help-panel')
         neighbors.removeClass('help-panel-highlight'); // Unhighlight all options

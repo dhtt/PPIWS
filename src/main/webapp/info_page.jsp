@@ -14,9 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="header.html"/>
+<jsp:include page="html/header.html"/>
 <div>
-<%--    TODO: Add link o download example file--%>
     <div id="AllPanels" class="container-body">
         <div style="flex: 0 0 280px; margin-left: 1em; position: fixed">
             <div id="MenuPanel" class="menu panel shadow" style="position: relative; padding: 0; border-radius: 1em; margin-top: 1em">
@@ -29,9 +28,9 @@
                 </div>
                 <div>
                     <p name="HelpMenu" id="PPIXpressOutput" class="help-panel">PPIXpress Output</p>
-                    <p name="HelpMenu" id="MainOutputFile" class="help-panel-sub">Main output file</p>
-                    <p name="HelpMenu" id="PipelineLogFile" class="help-panel-sub">Pipeline log file</p>
                     <p name="HelpMenu" id="SampleSummaryFile" class="help-panel-sub">Sample summary file</p>
+                    <p name="HelpMenu" id="PipelineLogFile" class="help-panel-sub">Pipeline log file</p>
+                    <p name="HelpMenu" id="MainOutputFile" class="help-panel-sub">Main output file</p>
                     <p name="HelpMenu" id="SubnetworkVisualization" class="help-panel-sub">Subnetwork visualization</p>
                 </div>
                 <div>
@@ -53,7 +52,9 @@
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
                         <span id="toProteinInteractionData" class="level-1-heading">Protein interaction data</span><br>
-                        <span>Generally, transcripts or genes in all files (with the exception of the TCGA formats) are assumed to be given as Ensembl identifiers, proteins are assumed to be UniProt accessions or HGNC/Ensembl genes in the input network. Furthermore, compressed files should have the ending .gz.</span>
+                        <span>Generally, transcripts or genes in all files (with the exception of the TCGA formats) are assumed to be given as Ensembl identifiers. 
+                            Proteins are assumed to be UniProt accessions or HGNC/Ensembl genes in the input network. 
+                            Furthermore, compressed files should have the ending .gz.</span>
                         <br><br>
                         <ul>
                             <li>
@@ -91,13 +92,17 @@
                                     </table>
                                     </span>
                                 </span>
+                                <span>
+                                    <strong>Example</strong>: A protein-protein interaction network of physical interactions in human merged from data of IntAct (release 186), BioGRID (3.2.120) 
+                                    and HPRD (r9) <a href="./resources/PPIXpress/example_data/example_ppi_data.sif" download="example_ppi_data.sif" class="href_to_section">example_ppi_data.sif</a>.
+                                </span>
                             </li>
+                            
                             <li>
                                 <span class="level-2-heading">From web<br></span>
                                 <span>
-                                    Alternatively a network can be automatically retrieved from the current Mentha or IntAct databases. For example, type 9606 for a network in human.
-<%--                                    TODO set example file to demonstrate --%>
-                                    <br>A protein-protein interaction network of physical interactions in human merged from data of IntAct (release 186), BioGRID (3.2.120) and HPRD (r9) can be found in <a href="" class="href_to_section">human ppin.sif.gz</a>.
+                                    Alternatively a network can be automatically retrieved from the current Mentha or IntAct databases.<br>
+                                    <strong>Example</strong>: Type 9606 for a network in human.
                                 </span>
                             </li>
                         </ul><br>
@@ -108,9 +113,11 @@
                             <li>
                                 <span class="level-2-heading">Cufflinks (isoform/gene) FPKM tracking files<br></span>
                                 <span>
-                                    Cufflinks (V2.x) creates FPKM tracking files with annotations according to a specified genome-annotation GTF file.
-                                    <br>If Ensembl/GENCODE annotation is used, those files can be immediately used by PPIXpress.
-                                    <br><a href="" class="href_to_section">brain.fpkm_tracking.gz</a> is an example for such a file built from the publicly available Illumina Human BodyMap 2.0 data. The file follows the format belows:<br>
+                                    Cufflinks (V2.x) creates FPKM tracking files with annotations according to a specified genome-annotation GTF file.<br>
+                                    If Ensembl/GENCODE annotation is used, those files can be immediately used by PPIXpress.<br>
+                                    <strong>Example</strong>: A FPKM tracking file built from publicly available Illumina Human BodyMap 2.0 data 
+                                    <a href="./resources/PPIXpress/example_data/brain.fpkm_tracking.gz" class="href_to_section" download="brain.fpkm_tracking.gz">brain.fpkm_tracking.gz</a> 
+                                    with the format:<br>
                                     <table id="Table-Cufflinks" class="table-2">
                                         <thead>
                                             <tr>
@@ -137,13 +144,13 @@
                             <li>
                                 <span class="level-2-heading">GENCODE GTF (transcript/gene) files<br></span>
                                 <span>
-                                    Example data can be found by the ENCODE project, for example on:
+                                    GENCODE GTF (transcript/gene) files from ENCODE project are accepted.<br>
+                                    <strong>Example</strong>:
                                     <ul>
                                         <li><a href="http://genome.ucsc.edu/cgi-bin/hgFileUi?db=hg19&g=wgEncodeCaltechRnaSeq" class="href_to_section">RNA-seq from ENCODE/Caltech</a> (filter to genes/transcript GENCODE V3c)</li>
-                                        or
                                         <li><a href="http://genome.ucsc.edu/cgi-bin/hgFileUi?db=mm9&g=wgEncodeCshlLongRnaSeq" class="href_to_section">Long RNA-seq from ENCODE/Cold Spring Harbor Lab</a> (filter to Transcript Ensembl V65).</li>
-                                    </ul>
-                                    <a href="" class="href_to_section">mouse_brain.gtf.gz</a> is an example for such a file with the format as follows:<br>
+                                        <li><a href="./resources/PPIXpress/example_data/mouse_brain.gtf.gz" class="href_to_section" download="mouse_brain.gtf.gz">mouse_brain.gtf.gz</a> from ENCODE with the format:<br></li>
+                                    </ul> 
                                     <table id="Table-GTF" class="table-2">
                                         <thead>
                                             <tr>
@@ -172,15 +179,16 @@
                             <li>
                                 <span class="level-2-heading">RSEM (transcript/gene) files<br></span>
                                 <span>
-                                    Example data can be found by the BLUEPRINT project, for example on <a href="http://dcc.blueprint-epigenome.eu/#/home" class="href_to_section">BLUEPRINT DCC PORTAL</a>. Here, PPIXpress also uses the reported TPM value (rather than FPKM) to quantify the abundance.<br>
+                                    <strong>Example</strong>: data from BLUEPRINT project (<a href="http://dcc.blueprint-epigenome.eu/#/home" class="href_to_section">BLUEPRINT DCC PORTAL</a>). 
+                                    Here, PPIXpress also uses the reported TPM value (rather than FPKM) to quantify the abundance.<br>
                                 </span><br>
                             </li>
                             <li>
                                 <span class="level-2-heading">TCGA (RNA-seq V2) (isoform/gene) RSEM files<br></span>
                                 <span>
-                                    Normalized RNA-seq V2 files from TCGA are also a suitable expression input for the tool.
-                                    <br>The files are assumed to hold TCGA expression data if the associated headers and identifier descriptions are found.
-                                    <br>Gene expression data from TCGA looks like the following example:
+                                    Normalized RNA-seq V2 files from TCGA are also a suitable expression input for the tool.<br>
+                                    The files are assumed to hold TCGA expression data if the associated headers and identifier descriptions are found.<br>
+                                    Specifically, gene expression data from TCGA should have the header:
                                     <table class="table-2">
                                         <thead>
                                             <tr>
@@ -199,7 +207,7 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    and transcript expression data from TCGA is assumed to look like this:
+                                    and transcript expression data from TCGA should have the header:
                                     <table class="table-2">
                                         <thead>
                                             <tr>
@@ -218,10 +226,13 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    Gene annotations are converted from HGNC identifiers to Ensembl genes using the genenames.org-webservice, transcripts are converted from UCSC transcripts to Ensembl transcripts using UCSC’s hg19 MySQL (including all updates to transcript versions).
-                                    <br>To ensure the best mapping possible, Ensembl data for assembly GRCh37 is automatically enforced.
-                                    <br>If Ensembl identifiers are found instead, a plain expression file (see below) with a header is assumed by PPIXpress.
-                                    <br><a href="" class="href_to_section">BRCA_tumor.normalized RSEM.gz</a> is a BRCA tumor sample taken from TCGA.<br>
+                                    <i>Note:</i><br> 
+                                    - Gene annotations are converted from HGNC identifiers to Ensembl genes using the genenames.org-webservice<br> 
+                                    - Transcripts are converted from UCSC transcripts to Ensembl transcripts using UCSC’s hg19 MySQL (including all updates to transcript versions).<br>
+                                    - To ensure the best mapping possible, Ensembl data for assembly GRCh37 is automatically enforced.<br>
+                                    - If Ensembl identifiers are found instead, a plain expression file (see below) with a header is assumed by PPIXpress.<br><br>
+
+                                    <strong>Example</strong>: <a href="./resources/PPIXpress/example_data/BRCA_tumor.normalized_RSEM.gz" class="href_to_section">BRCA_tumor.normalized RSEM.gz</a> is a BRCA tumor sample taken from TCGA.<br>
                                 </span><br>
                             </li>
                             <li>
@@ -248,9 +259,11 @@
                                             </tr>
                                         </tbody>
                                     </table>
-                                    Here, genes/transcript are assumed to be given as Ensembl identifiers and a header is not necessary. In the best case, every gene/transcript should only be reported once in the file.
-                                    <br>If the user’s original data contains multiple probes for the same gene/transcript, for example, he/she can decide in prior how those should be used (average, max,... ).
-                                    <br>However, if an identifier occurs multiple times throughout the file, only the last expression value is assigned to the gene/transcript and no processing takes place.<br>
+                                    <i>Note:</i><br> 
+                                    - Genes/transcript are assumed to be given as Ensembl identifiers and a header is not necessary.<br>
+                                    - In the best case, every gene/transcript should only be reported once in the file.<br>
+                                    - If the user’s original data contains multiple probes for the same gene/transcript, for example, he/she can decide in prior how those should be used (average, max,... ).<br>
+                                    - However, if an identifier occurs multiple times throughout the file, only the last expression value is assigned to the gene/transcript and no processing takes place.<br>
                                 </span>
                             </li>
                         </ul><br>
@@ -338,7 +351,7 @@
                                     </li>
                                     <li>
                                         <span class="level-3-heading">Report gene abundance: </span>
-                                        <span>Outputs major transcript per protein but reports the abundance as the sum of all its expressed coding transcripts.</span>
+                                        <span>Outputs major transcript per protein but reports the abundance as the sum of all its expressed coding transcripts. Major transcripts will also be included in outputs</span>
                                         <br>
                                     </li>
                                 </ul>
@@ -346,27 +359,36 @@
                         </ul><br>
                     </div>
                     <div class="help-section-body">
-                        <span id="toExampleRunSetting" class="level-1-heading">Example run setting</span><br>
+                        <span id="toExampleRunSetting" class="level-1-heading">Examples for run set-up</span><br>
                         <div style="display: flex; flex-direction: row; align-items: center">
                             <div style="flex: 1">
                                 <table name="TableExampleRunSetting" class="table-2">
                                     <tbody>
                                     <tr><th style="font-weight: bold">Protein network data</th></tr>
-                                    <tr><th>&emsp;- taxon: 10090</th></tr>
+                                    <tr><th>&emsp;- <a href="./resources/PPIXpress/example_data/example_ppi_data.sif" download="example_ppi_data.sif" class="href_to_section">example_ppi_data.sif</a> </th></tr>
                                     <tr><th style="font-weight: bold">Expression data</th></tr>
-                                    <tr><th>&emsp;- mouse_brain.gtf.gz</th></tr>
-                                    <tr><th class="level-3-heading">Only local DDI data</th></tr>
+                                    <tr><th>&emsp;- <a href="./resources/PPIXpress/example_data/expression_1.txt" download="expression_1.txt" class="href_to_section">expression_1.txt</a> </th></tr>
+                                    <tr><th>&emsp;- <a href="./resources/PPIXpress/example_data/expression_2.txt" download="expression_2.txt" class="href_to_section">expression_2.txt</a> </th></tr>
+                                    <tr><th class="level-3-heading">Remove decay transcripts</th></tr>
                                     <tr><th class="level-3-heading">Output DDINs</th></tr>
                                     <tr><th class="level-3-heading">Output major transcripts</th></tr>
-                                    <tr><th class="level-3-heading">Expression level: percentile = 50</th></tr>
+                                    <tr><th class="level-3-heading">Report gene abundance</th></tr>
+                                    <tr><th class="level-3-heading">Compress output</th></tr>
+                                    <tr><th class="level-3-heading">Expression level: Use threshold: 1.0</th></tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div style="flex: 2.8">
-                                <span class="level-2-heading">EXAMPLE 1 </span>(Try PPIXpress with this data on our main page!)<br>
-                                <br>PPIXpress will download the current Mentha protein interaction network for mouse (IntAct if the organism is not available in Mentha) and construct the domain mapping using the most recent Ensembl data, but will neither retrieve nor use current 3did/iPfam data.
-                                <br>Then a condition-specific network for the mouse brain is built whereas transcripts are thought to be expressed if they have expression values above the median.
-                                <br>The output consists of the resulting protein interaction network but also files for the condition-specific domain-domain interaction network and the most abundant transcript for each protein.
+                                <span class="level-2-heading">EXAMPLE 1</span>(Try PPIXpress with this configuration on our main page!)<br>
+                                <ul>
+                                    <li>PPIXpress will use the given human protein interaction network example_ppi_data.sif to build internal data structures. 
+                                        This step is done with annotation from Ensembl (if available on the server) and current 3did data.</li>
+                                    <li>Then PPIXpress will build two condition-specific networks according to the expression data given by expression_1.txt 
+                                        and expression_2.txt. Transcripts are considered to be expressed if they have expression values above 1.0.</li>
+                                    <li>The output consists of the resulting protein interaction networks, condition-specific domain-domain interaction networks 
+                                        and the most abundant transcript for each protein.</li>
+                                </ul> 
+                                
                             </div>
                         </div>
                         <div style="display: flex; flex-direction: row; align-items: center">
@@ -374,21 +396,24 @@
                                 <table name="TableExampleRunSetting" class="table-2">
                                     <tbody>
                                     <tr><th style="font-weight: bold">Protein network data</th></tr>
-                                    <tr><th>&emsp;- human_ppin.sif</th></tr>
+                                    <tr><th>&emsp;- <a href="./resources/PPIXpress/example_data/example_ppi_data.sif" download="example_ppi_data.sif" class="href_to_section">example_ppi_data.sif</a></th></tr>
                                     <tr><th style="font-weight: bold">Expression data</th></tr>
-                                    <tr><th>&emsp;- brain.fpkm_tracking.gz</th></tr>
-                                    <tr><th>&emsp;- BRCA_tumor.normalized_RSEM.gz</th></tr>
+                                    <tr><th>&emsp;- <a href="./resources/PPIXpress/example_data/brain.fpkm_tracking.gz" class="href_to_section" download="brain.fpkm_tracking.gz">brain.fpkm_tracking.gz</a> </th></tr>
+                                    <tr><th>&emsp;- <a href="./resources/PPIXpress/example_data/BRCA_tumor.normalized_RSEM.gz" class="href_to_section">BRCA_tumor.normalized RSEM.gz</a> </th></tr>
                                     <tr><th class="level-3-heading">Add STRING weights</th></tr>
                                     <tr><th class="level-3-heading">Update UniProt accessions</th></tr>
-                                    <tr><th class="level-3-heading">Expression level: threshold = 0.3</th></tr>
+                                    <tr><th class="level-3-heading">Expression level: Use threshold: 0.3</th></tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div style="flex: 2.8">
-                                <span class="level-2-heading">EXAMPLE 2 </span><br>
-                                <br>PPIXpress will first update the UniProt accessions in the given human protein interaction network human ppin.sif and then annotate it with weights from STRING.
-                                <br>Then PPIXpress will build internal data structures using data from Ensembl release 80 retrieved from the US server (if available on the server) and current 3did data.
-                                <br>This knowledge is then used to independently build two condition-specific networks according to the expression data given by brain.fpkm tracking.gz and BRCA tumor.normalized RSEM.gz whereas transcripts are thought to be expressed if they have expression values above 0.3.
+                                <span class="level-2-heading">EXAMPLE 2</span><br>
+                                <ul>
+                                    <li>PPIXpress will first update the UniProt accessions in the given human protein interaction network human ppin.sif and then annotate it with weights from STRING.</li>
+                                    <li>Then PPIXpress will build internal data structures using data from Ensembl release 80 retrieved from the US server (if available on the server) and current 3did data.</li>
+                                    <li>This knowledge is then used to independently build two condition-specific networks according to the expression data given by 
+                                        brain.fpkm_tracking.gz and BRCA_tumor.normalized RSEM.gz whereas transcripts are thought to be expressed if they have expression values above 0.3.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -399,21 +424,64 @@
                 <p class="menu header help-section-title">PPIXpress Output</p>
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
-                        <span id="toMainOutputFile" class="level-1-heading">Main output file</span><br>
-                        <span>Text</span>
-                    </div>
-                    <div class="help-section-body">
-                        <span id="toPipelineLogFile" class="level-1-heading">Pipeline log file</span><br>
-                        <span>Text</span>
-                    </div>
-                    <div class="help-section-body">
                         <span id="toSampleSummaryFile" class="level-1-heading">Sample summary file</span><br>
-                        <span>Text</span>
-                    </div>
-                    <div class="help-section-body">
+                        <span>  
+                            Sample summary file can be viewed and downloaded from the window on the right side of <strong>Running Progress</strong> tab 
+                            once the PPIXpress run is finished. It gives an overview of the condition-specific protein networks built using each expression data.
+                        </span>
+                        <table style="width:auto; margin: 1em auto">
+                            <thead>
+                                <tr><td>Sample</td><td>Matched output</td><td>#Proteins</td><td>#Interactions</td><td>Threshold</td></tr>
+                            </thead>
+                            <tbody style="text-align: center;">
+                                <tr><th>expression_1.txt</th><th>1_ppin.txt</th><th>5770</th><th>69923</th><th>1.0</th></tr>
+                                <tr><th>expression_2.txt</th><th>2_ppin.txt</th><th>3983</th><th>39304</th><th>1.0</th></tr>
+                            </tbody>
+                        </table>
+    
+                        <span>
+                            <ul>
+                                <li><strong>Sample</strong>: Name of the input expression data file</li>
+                                <li><strong>Matched output</strong>: Name of the output file containing the protein network specifically build using each expression data (<span class="highlight">Condition-specific protein network)</span></li>
+                                <li><strong>#Proteins</strong>: Number of proteins in the condition-specific protein network</li>
+                                <li><strong>#Interactions</strong>: Number of interactions in the condition-specific protein network</li>
+                                <li><strong>Threshold</strong>: Expression threshold used to filter the transcripts/genes expression</li>
+                            </ul> 
+                        </span><br>
+
+                        <div id="AfterRunOptions_Example"></div><br>
+
+                        <span id="toPipelineLogFile" class="level-1-heading">Pipeline log file</span><br>
+                        Once the PPIXpress run is finished, select <strong>Download Log File</strong> on the left side of <strong>Running Progress</strong> tab to download the log containing
+                        run configurations.<br><br>
+            
+                        <span id="toMainOutputFile" class="level-1-heading">Main output file</span><br>
+                        Select <strong>Download Result Files</strong> to download main output files, including:<br>
+                        <ul>
+                            <li><strong>1_ppin.txt</strong>: Condition-specific protein interaction network built using <strong>expression_1.txt</strong></li>
+                            <li><strong>1_ddin.txt</strong>: Condition-specific domain-domain interaction network built using <strong>expression_1.txt</strong></li>
+                            <li><strong>1_major-transcripts.txt</strong>: Major transcript per protein in the condition-specific protein interaction network built using <strong>expression_1.txt</strong>
+                                <span class="highlight"> - requires <strong>Output major transcripts</strong></span></li>
+                            <li><strong>reference_ppin.txt</strong>: Unpruned reference protein interaction network 
+                                <span class="highlight"> - requires <strong>Output reference network</strong></span></li>
+                            <li><strong>reference_ddin.txt</strong>: Unpruned reference domain-domain interaction network 
+                                <span class="highlight"> - requires <strong>Output reference network</strong> and <strong>Output DDINs</strong></span></li>
+                            <li><strong>reference_major-transcripts.txt</strong>: Major transcript per protein in the unpruned reference protein interaction network 
+                                <span class="highlight"> - requires <strong>Output reference network</strong> and <strong>Output major transcripts</strong></span></li>
+                        </ul><br>
+            
                         <span id="toSubnetworkVisualization" class="level-1-heading">Subnetwork visualization</span><br>
-                        <span>Text</span>
-                    </div>
+                        Select <strong>Visualize Condition-Specific Networks</strong> to open <strong>Network Visualization</strong> tab 
+                        where user can select a protein and inspect the condition-specific network which the protein involves in.<br>
+                    
+                        <div id="ShowNetworkTopions_Example"></div>
+                        Once the PPI network is rendered and displayed, the queried protein will be shown in the center. User can toggle between network layouts,
+                        customize the PPI network and expand the protein node to see its domains and DDI network. (Domains and DDI network display <span class="highlight">requires <strong>Output DDINs</strong></span>).
+
+                        <div style="display: flex; flex-direction: column; align-items: center; padding: 1em">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/VumJvP242H0?si=ZCroIjcYJtvlETvU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                    </div><br>
                 </div>
             </div>
 
@@ -422,16 +490,12 @@
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
                         <span id="toDownload" class="level-1-heading">Download</span><br>
-                        <span>The standalone tool for PPIXpress is available on <a href="https://sourceforge.net/projects/ppixpress/" class="href_to_section">SourceForge</a>.</span>
+                        <span>The PPIXpress standalone version is available on <a href="https://sourceforge.net/projects/ppixpress/" class="href_to_section">SourceForge</a>.</span>
                         <br>
                     </div>
                     <div class="help-section-body">
                         <span id="toDocumentation" class="level-1-heading">Documentation</span><br>
-                        <span class="level-2-heading">
-                            PPIXpress: construction of condition-specific protein interaction networks based on transcript expression
-                            <br>Thorsten Will, Volkhard Helms
-                        </span>
-                        <br>
+                        <span>The documentation to PPIXpress standalone version is available on <a href="https://sourceforge.net/projects/ppixpress/" class="href_to_section">SourceForge</a>.</span>
                     </div>
                 </div>
             </div>
@@ -440,14 +504,22 @@
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
                         <span id="toCitation" class="level-1-heading">Citation</span><br>
-                        <span>Will, T., & Helms, V. (2016). PPIXpress: construction of condition-specific protein interaction networks based on transcript expression. Bioinformatics, 32(4), 571-578.</span>
-                        <br>
+                        <span>
+                            <strong>Stand-alone software version</strong>: 
+                            Will, T., & Helms, V. (2016). PPIXpress: construction of condition-specific protein interaction networks based on transcript expression. Bioinformatics, 32(4), 571-578.
+                            <a href="https://academic.oup.com/bioinformatics/article/32/4/571/1744136" target="_blank" class="href_to_section">[Link to paper]</a><br>
+                            <!-- TODO: Add citation -->
+                            <strong>Webserver version</strong>:
+                            Do, H.T.T., & Helms, V. (2024)
+                            <a href="" target="_blank" class="href_to_section">[Link to paper]</a><br>
+                        </span> 
                     </div>
                     <div class="help-section-body">
                         <span id="toContact" class="level-1-heading">Contact</span><br>
-                        <span class="level-2-heading">Webserver support: </span>dhthutrang@bioinformatik.uni-saarland.de<br>
-                        <span class="level-2-heading">Corresponding author: </span>volkhard.helms@bioinformatik.uni-saarland.de
-                        <br>
+                        <span>
+                            <strong>Webserver support</strong>: dhttrang[at]bioinformatik.uni-saarland.de<br>
+                            <strong>Corresponding author</strong>: volkhard.helms[at]bioinformatik.uni-saarland.de
+                        </span>
                     </div>
                 </div>
             </div>
