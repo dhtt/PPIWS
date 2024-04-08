@@ -24,7 +24,7 @@
                     <p name="HelpMenu" id="ProteinInteractionData" class="help-panel-sub">Protein interaction data</p>
                     <p name="HelpMenu" id="ExpressionData" class="help-panel-sub">Expression data</p>
                     <p name="HelpMenu" id="PPIXpressRunOptions" class="help-panel-sub">PPIXpress run options</p>
-                    <p name="HelpMenu" id="ExampleRunSetting" class="help-panel-sub">Example data</p>
+                    <p name="HelpMenu" id="ExampleRunSetting" class="help-panel-sub">Example set-up</p>
                 </div>
                 <div>
                     <p name="HelpMenu" id="PPIXpressOutput" class="help-panel">PPIXpress Output</p>
@@ -40,7 +40,7 @@
                 </div>
                 <div>
                     <p name="HelpMenu" id="CitationAndContact" class="help-panel">Citation & Contact</p>
-                    <p name="HelpMenu" id="Citation" class="help-panel-sub" style="border-radius: 0 0 1em 1em;">Citation</p>
+                    <p name="HelpMenu" id="Citation" class="help-panel-sub">Citation</p>
                     <p name="HelpMenu" id="Contact" class="help-panel-sub" style="border-radius: 0 0 1em 1em;">Contact</p>
                 </div>
             </div>
@@ -356,6 +356,10 @@
                                     </li>
                                 </ul>
                             </li>
+                            <li>
+                                <span class="level-2-heading">Include PPICompare-required options: </span> Include options required for PPICompare (
+                                <span class="highlight"><strong>Output DDINs</strong> and <strong>Output major transcripts</strong></span>).
+                            </li>
                         </ul><br>
                     </div>
                     <div class="help-section-body">
@@ -458,10 +462,18 @@
                         <span id="toMainOutputFile" class="level-1-heading">Main output file</span><br>
                         Select <strong>Download Result Files</strong> to download main output files, including:<br>
                         <ul>
-                            <li><strong>1_ppin.txt</strong>: Condition-specific protein interaction network built using <strong>expression_1.txt</strong></li>
-                            <li><strong>1_ddin.txt</strong>: Condition-specific domain-domain interaction network built using <strong>expression_1.txt</strong></li>
-                            <li><strong>1_major-transcripts.txt</strong>: Major transcript per protein in the condition-specific protein interaction network built using <strong>expression_1.txt</strong>
+                            <li><strong>*_ppin.txt</strong>: Condition-specific protein interaction network.</li>
+                            <li><strong>*_ddin.txt</strong>: Condition-specific domain-domain interaction network built using <strong>expression_1.txt</strong></li>
+                            <li><strong>*_major-transcripts.txt</strong>: Major transcript per protein in the condition-specific protein interaction network built using <strong>expression_1.txt</strong>
                                 <span class="highlight"> - requires <strong>Output major transcripts</strong></span></li>
+                            
+                            <i>Note:</i><br>  
+                            The asterisk (*) is a number (1, 2, 3,...) indicating the expression data which the reference network uses to prune.<br>
+                            This number corresponds to the <strong>Sample</strong> and <strong>Matched output field</strong> in 
+                            <strong>Sample summary file</strong><br>
+                            For example: <strong>1_ppin.txt</strong>, <strong>1_ddin.txt</strong> and <strong>1_major-transcripts.txt</strong> are the condition-specific 
+                            protein interaction network, domain-domain interaction network and list of major transcript per protein built using <strong>expression_1.txt</strong>.<br><br>
+
                             <li><strong>reference_ppin.txt</strong>: Unpruned reference protein interaction network 
                                 <span class="highlight"> - requires <strong>Output reference network</strong></span></li>
                             <li><strong>reference_ddin.txt</strong>: Unpruned reference domain-domain interaction network 
@@ -479,7 +491,7 @@
                         customize the PPI network and expand the protein node to see its domains and DDI network. (Domains and DDI network display <span class="highlight">requires <strong>Output DDINs</strong></span>).
 
                         <div style="display: flex; flex-direction: column; align-items: center; padding: 1em">
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/VumJvP242H0?si=ZCroIjcYJtvlETvU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/VumJvP242H0?si=ZCroIjcYJtvlETvU" title="Network Visualization in PPIXpress" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
                     </div><br>
                 </div>

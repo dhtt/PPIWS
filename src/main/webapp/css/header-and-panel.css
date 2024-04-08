@@ -146,7 +146,7 @@
 }
 .help-panel:hover, .help-panel-sub:hover{
     color: var(--choco);
-    background: rgba(104, 211, 170, 0.5);
+    background: var(--intensemint75);
     font-weight: bolder;
     letter-spacing: 0.1em;
 }
@@ -154,13 +154,13 @@
     display: none;
 }
 .help-panel-sub:hover{
-    background: rgba(104, 211, 170, 0.3);
+    background: var(--intensemint30);
 }
 .help-panel-highlight{
-    background: rgba(104, 211, 170, 0.75);
+    background: var(--intensemint75);
 }
 .help-section-title{
-    background: rgba(104, 211, 170, 0.5);
+    background: var(--intensemint50);
     width: 100%;
     font-size: small;
     line-height: 1.5em;
@@ -168,8 +168,6 @@
 }
 .help-section-body{
     padding: 0 2em;
-}
-.DefaultHelpMenu{
 }
 
 .level-1-heading, .level-2-heading, .level-3-heading{

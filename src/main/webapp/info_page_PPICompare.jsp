@@ -10,29 +10,29 @@
     <link rel="stylesheet" href="css/header-and-panel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"> </script>
-    <script type="module" src="js/help-page-functionality.js"></script>
+    <script type="module" src="js/help-page-functionality_PPICompare.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
 <jsp:include page="html/header_PPICompare.html"/>
 <div>
-<%--    TODO: Add link o download example file--%>
     <div id="AllPanels" class="container-body">
         <div style="flex: 0 0 280px; margin-left: 1em; position: fixed">
             <div id="MenuPanel" class="menu panel shadow" style="position: relative; padding: 0; border-radius: 1em; margin-top: 1em">
                 <div>
                     <p name="HelpMenu" id="Instruction" class="help-panel DefaultHelpMenu" style="border-radius: 1em 1em 0 0;">Instruction</p>
-                    <p name="HelpMenu" id="ProteinInteractionData" class="help-panel-sub">Protein interaction data</p>
-                    <p name="HelpMenu" id="ExpressionData" class="help-panel-sub">Expression data</p>
-                    <p name="HelpMenu" id="PPICompareRunOptions" class="help-panel-sub">PPICompare run options</p>
-                    <p name="HelpMenu" id="ExampleRunSetting" class="help-panel-sub">Example data</p>
+                    <p name="HelpMenu" id="CondPPINData" class="help-panel-sub">PPIXpress condition-specific network</p>
+                    <p name="HelpMenu" id="PPINData" class="help-panel-sub">Protein-protein interaction network</p>
+                    <p name="HelpMenu" id="DDINData" class="help-panel-sub">Domain-domain interaction network</p>
+                    <p name="HelpMenu" id="MajorTranscriptData" class="help-panel-sub">Major transcript file</p>
+                    <p name="HelpMenu" id="ExampleRunSetting" class="help-panel-sub">Example set-up</p>
+                    
                 </div>
                 <div>
                     <p name="HelpMenu" id="PPICompareOutput" class="help-panel">PPICompare Output</p>
-                    <p name="HelpMenu" id="MainOutputFile" class="help-panel-sub">Main output file</p>
                     <p name="HelpMenu" id="PipelineLogFile" class="help-panel-sub">Pipeline log file</p>
-                    <p name="HelpMenu" id="SampleSummaryFile" class="help-panel-sub">Sample summary file</p>
-                    <p name="HelpMenu" id="SubnetworkVisualization" class="help-panel-sub">Subnetwork visualization</p>
+                    <p name="HelpMenu" id="MainOutputFile" class="help-panel-sub">Main output file</p>
+                    <p name="HelpMenu" id="NetworkVisualization" class="help-panel-sub">Network visualization</p>
                 </div>
                 <div>
                     <p name="HelpMenu" id="PPICompareStandaloneTool" class="help-panel">PPICompare Standalone Tool</p>
@@ -41,7 +41,7 @@
                 </div>
                 <div>
                     <p name="HelpMenu" id="CitationAndContact" class="help-panel">Citation & Contact</p>
-                    <p name="HelpMenu" id="Citation" class="help-panel-sub" style="border-radius: 0 0 1em 1em;">Citation</p>
+                    <p name="HelpMenu" id="Citation" class="help-panel-sub">Citation</p>
                     <p name="HelpMenu" id="Contact" class="help-panel-sub" style="border-radius: 0 0 1em 1em;">Contact</p>
                 </div>
             </div>
@@ -52,345 +52,174 @@
                 <p class="menu header help-section-title">Instruction</p>
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
-                        <span id="toProteinInteractionData" class="level-1-heading">Protein interaction data</span><br>
-                        <span>Generally, transcripts or genes in all files (with the exception of the TCGA formats) are assumed to be given as Ensembl identifiers, proteins are assumed to be UniProt accessions or HGNC/Ensembl genes in the input network. Furthermore, compressed files should have the ending .gz.</span>
-                        <br><br>
+                        <span id="toCondPPINData" class="level-1-heading">Condition-specific networks interaction data</span><br>
+                    
+                        The mandatory input consists of <strong>two</strong> groups of networks constructed with PPIXpress in zipped format (.gz/.gzip).
+                        The PPIXpress output data needs to comprise the according 
+                        <a href="./info_page_PPICompare.jsp#toCondPPINData" class="href_to_section">protein-protein interaction networks</a>, 
+                        <a href="./info_page_PPICompare.jsp#toCondDDINData" class="href_to_section">domain-domain interaction networks</a>, and the
+                        <a href="./info_page_PPICompare.jsp#toMajorTranscriptData" class="href_to_section">major transcript files</a> 
+                        with the file suffixes as predefined by 
+                        <a href="./index_PPIXpress.jsp" class="href_to_section">PPIXpress webserver</a> or 
+                        <a href="https://sourceforge.net/projects/ppixpress/" class="href_to_section">PPIXpress standalone tool</a>.<br><br>
+
+                        <strong>Example</strong>:
+                        <a href="./resources/PPICompare/HSC.zip" download="HSC.zip" class="href_to_section">HSC.zip</a> and 
+                        <a href="./resources/PPICompare/MPP.zip" download="MPP.zip" class="href_to_section">MPP.zip</a> are two groups of networks constructed with PPIXpress in zipped format. 
                         <ul>
-                            <li>
-                                <span class="level-2-heading">From file<br></span>
-                                <span>
-                                    PPICompare accepts protein interaction data of Simple Interaction Format (SIF). SIF is a convenient format to describe a graph as a list of interactions.
-                                    <br>PPICompare expects interacting proteins pairs (UniProt accessions, Ensembl genes or HGNC gene symbols) line-by-line and optionally a weight.
-                                    <br>A header is not necessary, if there is one it should be of the following form:
-                                    <span style="text-align: center">
-                                    <table class="table-2">
-                                        <thead>
-                                            <tr>
-                                                <td>Protein 1</td>
-                                                <td>Protein 2</td>
-                                                <td>weight</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th>Q9NUQ3</th>
-                                                <th>Q9UNE7</th>
-                                                <th>1.0</th>
-                                            </tr>
-                                            <tr>
-                                                <th>Q9NXF1</th>
-                                                <th>Q9UL18</th>
-                                                <th>1.0</th>
-                                            </tr>
-                                            <tr>
-                                                <th>...</th>
-                                                <th>...</th>
-                                                <th>...</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    </span>
-                                </span>
-                            </li>
-                            <li>
-                                <span class="level-2-heading">From web<br></span>
-                                <span>
-                                    Alternatively a network can be automatically retrieved from the current Mentha or IntAct databases. For example, type 9606 for a network in human.
-<%--                                    TODO set example file to demonstrate --%>
-                                    <br>A protein-protein interaction network of physical interactions in human merged from data of IntAct (release 186), BioGRID (3.2.120) and HPRD (r9) can be found in <a href="" class="href_to_section">human ppin.sif.gz</a>.
-                                </span>
-                            </li>
+                            <li><strong>HSC.zip</strong> contains 5 samples (<i>Cord_blood-M-C002UU, Cord_blood-U-C07002, Cord_blood-U-C12001_ddin, Cord_blood-U-S001FX, Cord_blood-U-S001QB and Cord_blood-U-S0025C</i>).
+                                The names of those samples are used as the suffix of the PPIN, DDIN and major transcripts list files.</li>
+                            <li>Similarly, <strong>MPP.zip</strong> contains 3 samples (<i>Cord_blood-M-C002UU, Cord_blood-U-C07015 and Cord_blood-U-S001FX</i>). 
+                                Their PPINs, DDINs and major transcripts list are named accordingly.</li>
+                            <li><strong>*_ppin.txt</strong>, <strong>*_ddin.txt</strong> and <strong>*_major-transcripts.txt</strong> are the condition-specific 
+                                protein interaction network, domain-domain interaction network and list of major transcript per protein built using the listed samples.</li>
                         </ul><br>
+
+
+                        <i>Note:</i><br>  
+                        If the inputs are forwarded from PPIXpress Webserver, by default, the asterisk (*) is a number (1, 2, 3,...) indicating the expression data which the reference network uses to prune.<br>
+                        This number corresponds to the <strong>Sample</strong> and <strong>Matched output field</strong> in <strong>Sample summary file</strong>.<br>
+                        Read more about PPIXpress output <a href="./info_page.jsp#toMainOutputFile" class="href_to_section">here</a>.<br><br>
+          
                     </div>
                     <div class="help-section-body">
-                        <span id="toExpressionData" class="level-1-heading">Expression data</span><br>
-                        <ul>
-                            <li>
-                                <span class="level-2-heading">Cufflinks (isoform/gene) FPKM tracking files<br></span>
-                                <span>
-                                    Cufflinks (V2.x) creates FPKM tracking files with annotations according to a specified genome-annotation GTF file.
-                                    <br>If Ensembl/GENCODE annotation is used, those files can be immediately used by PPICompare.
-                                    <br><a href="" class="href_to_section">brain.fpkm_tracking.gz</a> is an example for such a file built from the publicly available Illumina Human BodyMap 2.0 data. The file follows the format belows:<br>
-                                    <table id="Table-Cufflinks" class="table-2">
-                                        <thead>
-                                            <tr>
-                                                <td>tracking_id</td><td>class_code</td><td>nearest_ref_id</td><td>gene_id</td>
-                                                <td>gene_short_name</td><td>tss_id</td><td>locus</td><td>length</td>
-                                                <td>coverage</td><td>FPKM</td><td>FPKM_conf_lo</td><td>FPKM_conf_hi</td><td>FPKM_status</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th>ENST00000368372</th><th>-</th><th>-</th><th>ENSG00000229631</th>
-                                                <th>AL603926.1</th><th>TSS84330</th><th>GL000223.1:149786-180454</th><th>1789</th>
-                                                <th>6.76132</th><th>0.67731</th><th>0.55584</th><th>0.798781</th><th>OK</th>
-                                            </tr>
-                                            <tr>
-                                                <th>...</th><th>...</th><th>...</th><th>...</th>
-                                                <th>...</th><th>...</th><th>...</th><th>...</th>
-                                                <th>...</th><th>...</th><th>...</th><th>...</th><th>...</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </span><br>
-                            </li>
-                            <li>
-                                <span class="level-2-heading">GENCODE GTF (transcript/gene) files<br></span>
-                                <span>
-                                    Example data can be found by the ENCODE project, for example on:
-                                    <ul>
-                                        <li><a href="http://genome.ucsc.edu/cgi-bin/hgFileUi?db=hg19&g=wgEncodeCaltechRnaSeq" class="href_to_section">RNA-seq from ENCODE/Caltech</a> (filter to genes/transcript GENCODE V3c)</li>
-                                        or
-                                        <li><a href="http://genome.ucsc.edu/cgi-bin/hgFileUi?db=mm9&g=wgEncodeCshlLongRnaSeq" class="href_to_section">Long RNA-seq from ENCODE/Cold Spring Harbor Lab</a> (filter to Transcript Ensembl V65).</li>
-                                    </ul>
-                                    <a href="" class="href_to_section">mouse_brain.gtf.gz</a> is an example for such a file with the format as follows:<br>
-                                    <table id="Table-GTF" class="table-2">
-                                        <thead>
-                                            <tr>
-                                                <th>chr9</th><th>ENSEMBL65</th><th>transcript</th><th>65952282</th><th>65953531</th><th>0.030601</th><th>-</th><th>.</th>
-                                                <th>gene_id "ENSMUSG00000032382"; transcript_id "ENSMUST00000146893"; RPKM1 "0.023032"; RPKM2 "0.078775"; iIDR "0.072";</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th>chr2</th><th>ENSEMBL65</th><th>transcript</th><th>32218530</th><th>32223048</th><th>1.581027</th><th>+</th><th>.</th>
-                                                <th>gene_id "ENSMUSG00000039205"; transcript_id "ENSMUST00000132028"; RPKM1 "1.463149"; RPKM2 "3.796865"; iIDR "0.009";</th>
-                                            </tr>
-                                            <tr>
-                                                <th>...</th><th>...</th><th>...</th><th>...</th><th>...</th><th>...</th><th>...</th><th>...</th><th>...</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </span><br>
-                            </li>
-                            <li>
-                                <span class="level-2-heading">Kallisto (transcript/gene) files<br></span>
-                                <span>
-                                    PPICompare uses the reported TPM value to quantify abundance.<br>
-                                </span><br>
-                            </li>
-                            <li>
-                                <span class="level-2-heading">RSEM (transcript/gene) files<br></span>
-                                <span>
-                                    Example data can be found by the BLUEPRINT project, for example on <a href="http://dcc.blueprint-epigenome.eu/#/home" class="href_to_section">BLUEPRINT DCC PORTAL</a>. Here, PPICompare also uses the reported TPM value (rather than FPKM) to quantify the abundance.<br>
-                                </span><br>
-                            </li>
-                            <li>
-                                <span class="level-2-heading">TCGA (RNA-seq V2) (isoform/gene) RSEM files<br></span>
-                                <span>
-                                    Normalized RNA-seq V2 files from TCGA are also a suitable expression input for the tool.
-                                    <br>The files are assumed to hold TCGA expression data if the associated headers and identifier descriptions are found.
-                                    <br>Gene expression data from TCGA looks like the following example:
-                                    <table class="table-2">
-                                        <thead>
-                                            <tr>
-                                                <td>gene_id</td>
-                                                <td>normalized_count</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th>A1BG|1</th>
-                                                <th>108.8347</th>
-                                            </tr>
-                                            <tr>
-                                                <th>...</th>
-                                                <th>...</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    and transcript expression data from TCGA is assumed to look like this:
-                                    <table class="table-2">
-                                        <thead>
-                                            <tr>
-                                                <td>isoform_id</td>
-                                                <td>normalized_count</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th>uc010uoa.1</th>
-                                                <th>0.0000</th>
-                                            </tr>
-                                            <tr>
-                                                <th>...</th>
-                                                <th>...</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    Gene annotations are converted from HGNC identifiers to Ensembl genes using the genenames.org-webservice, transcripts are converted from UCSC transcripts to Ensembl transcripts using UCSC’s hg19 MySQL (including all updates to transcript versions).
-                                    <br>To ensure the best mapping possible, Ensembl data for assembly GRCh37 is automatically enforced.
-                                    <br>If Ensembl identifiers are found instead, a plain expression file (see below) with a header is assumed by PPICompare.
-                                    <br><a href="" class="href_to_section">BRCA_tumor.normalized RSEM.gz</a> is a BRCA tumor sample taken from TCGA.<br>
-                                </span><br>
-                            </li>
-                            <li>
-                                <span class="level-2-heading">Plain transcript/gene expression text files<br></span>
-                                <span>
-                                    Expression data can also be supplied line-wise in a text file of the following format with arbitrary whitespaces:
-                                    <table class="table-2">
-                                        <tbody>
-                                            <tr>
-                                                <th>ENST00000584459</th>
-                                                <th>123.456</th>
-                                            </tr>
-                                            <tr>
-                                                <th>ENST00000451927</th>
-                                                <th>42</th>
-                                            </tr>
-                                            <tr>
-                                                <th>ENST00000582791</th>
-                                                <th>0.0000021</th>
-                                            </tr>
-                                            <tr>
-                                                <th>...</th>
-                                                <th>...</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    Here, genes/transcript are assumed to be given as Ensembl identifiers and a header is not necessary. In the best case, every gene/transcript should only be reported once in the file.
-                                    <br>If the user’s original data contains multiple probes for the same gene/transcript, for example, he/she can decide in prior how those should be used (average, max,... ).
-                                    <br>However, if an identifier occurs multiple times throughout the file, only the last expression value is assigned to the gene/transcript and no processing takes place.<br>
-                                </span>
-                            </li>
-                        </ul><br>
+                        <span id="toPPINData" class="level-1-heading">Protein-protein interaction network</span><br>
+                        Condition-specific protein interaction network file must be named <strong>*_ppin.txt(.gz)</strong> and contain the tab-separated information as below:<br>
+                        <span style="text-align: center">
+                            <table class="table-2">
+                                <thead>
+                                    <tr>
+                                        <td>Protein 1</td>
+                                        <td>Protein 2</td>
+                                        <td>weight</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Q9NUQ3</th>
+                                        <th>Q9UNE7</th>
+                                        <th>1.0</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Q9NXF1</th>
+                                        <th>Q9UL18</th>
+                                        <th>1.0</th>
+                                    </tr>
+                                    <tr>
+                                        <th>...</th>
+                                        <th>...</th>
+                                        <th>...</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </span>
                     </div>
                     <div class="help-section-body">
-                        <span id="toPPICompareRunOptions" class="level-1-heading">PPICompare run options</span><br>
-                        <ul>
-                            <li>
-                                <span class="level-2-heading">Protein Interaction Data Options<br></span>
-                                <ul>
-                                    <li>
-                                        <span class="level-3-heading">Add STRING weights: </span>
-                                        <span>Adds weights to the original network using <a href="http://string-db.org/" class="href_to_section">STRING v10</a> (STRING weights are probabilities of functional association). Interactions that are not in STRING are removed from the network.</span>
-                                        <br>
-                                    </li>
-                                    <li>
-                                        <span class="level-3-heading">Update UniProt accessions: </span>
-                                        <span>Update outdated UniProt accessions to their current primary accessions.</span>
-                                        <br>
-                                    </li>
-                                    <li>
-                                        <span class="level-3-heading">Only local DDI data: </span>
-                                        <span>Only use local domain interaction data, thus current 3did data is not retrieved and only the precompiled set from DOMINE/IDDI/iPfam is used.</span>
-                                        <br>
-                                    </li>
-                                    <li>
-                                        <span class="level-3-heading">Include ELM data: </span>
-                                        <span>Retrieve and integrate ELM motifs and interactions.</span>
-                                        <br>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <span class="level-2-heading">Processed Expression Data Options<br></span>
-                                <ul>
-                                    <li>
-                                        <span class="level-3-heading">Gene-level only: </span>
-                                        <span>Enforces gene-level processing even if transcript expression data is given.</span>
-                                        <br>
-                                    </li>
-                                    <li>
-                                        <span class="level-3-heading">Normalize transcripts: </span>
-                                        <span>Normalizes abundance of transcripts by the length of the transcript (only for major transcript file, applied after threshold, useful for count data).</span>
-                                        <br>
-                                    </li>
-                                    <li>
-                                        <span class="level-3-heading">Expression level: </span>
-                                        <ul>
-                                            <li>
-                                                <span class="level-3-heading">Use threshold: </span>
-                                                <span>Changes the expression-level threshold to [threshold]. (default)</span>
-                                                <br>
-                                            </li>
-                                            <li>
-                                                <span class="level-3-heading">Use percentage: </span>
-                                                <span>Changes the expression-level threshold to the [percentile]-th percentile of the expression data.</span>
-                                                <br>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <span class="level-2-heading">Run Options<br></span>
-                                <ul>
-                                    <li>
-                                        <span class="level-3-heading">Remove decay transcripts: </span>
-                                        <span>Proteins whose coding transcript is subject to degradation are not removed from the constructed network (default: remove if tagged as ’nonsense-mediated decay’ or ’non-stop decay’).</span>
-                                        <br>
-                                    </li>
-                                    <li>
-                                        <span class="level-3-heading">Output reference network: </span>
-                                        <span>Report the according unpruned reference protein interaction network (and optionally the domain interaction network and the longest isoforms assumed) from the mapping stage of the method.</span>
-                                        <br>
-                                    </li>
-                                    <li>
-                                        <span class="level-3-heading">Output DDINs: </span>
-                                        <span>Enables the output of underlying condition-specific domain-domain interaction network(s).</span>
-                                        <br>
-                                    </li>
-                                    <li>
-                                        <span class="level-3-heading">Output major transcripts: </span>
-                                        <span>Enables the output of the major transcript per protein (including its abundance).</span>
-                                        <br>
-                                    </li>
-                                    <li>
-                                        <span class="level-3-heading">Report gene abundance: </span>
-                                        <span>Outputs major transcript per protein but reports the abundance as the sum of all its expressed coding transcripts.</span>
-                                        <br>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul><br>
+                        <span id="toDDINData" class="level-1-heading">Domain-domain interaction network</span><br>
+                        Condition-specific domain interaction network file must be named <strong>*_ddin.txt(.gz)</strong> and contain the tab-separated information as below:<br>
+                        <span style="text-align: center">
+                            <table class="table-2">
+                                <thead>
+                                    <tr>
+                                        <td>Protein/Domain1</td>
+                                        <td>Domain2</td>
+                                        <td>IAType</td>
+                                        <td>Weight</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Q9UKT9</th>
+                                        <th>0|FB|Q9UKT9</th>
+                                        <th>pd</th>
+                                        <th>10</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Q9UKT9</th>
+                                        <th>1|PF00096|Q9UKT9</th>
+                                        <th>pd</th>
+                                        <th>10</th>
+                                    </tr>
+                                    <tr>
+                                        <th>...</th>
+                                        <th>...</th>
+                                        <th>...</th>
+                                        <th>...</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </span>
                     </div>
                     <div class="help-section-body">
-                        <span id="toExampleRunSetting" class="level-1-heading">Example run setting</span><br>
+                        <span id="toMajorTranscriptData" class="level-1-heading">Major transcript files</span><br>
+                        The list of major transcript per protein in the condition-specific protein interaction network must be named 
+                        <strong>*_major-transcripts.txt(.gz)</strong> and contain the tab-separated information as below:<br>
+                        <span style="text-align: center">
+                            <table class="table-2">
+                                <thead>
+                                    <tr>
+                                        <td>Protein</td>
+                                        <td>EnsemblID</td>
+                                        <td>Expression</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th>Q9UKT9</th>
+                                        <th>ENST00000346872</th>
+                                        <th>8.425746</th>
+                                        </th>
+                                    </tr>
+                                    <tr>
+                                        <th>Q9UKT8</th>
+                                        <th>ENST00000608872</th>
+                                        <th>13.324804</th>
+                                    </tr>
+                                    <tr>
+                                        <th>P54852</th>
+                                        <th>ENST00000597279</th>
+                                        <th>6.8656335</th>
+                                    </tr>
+                                    <tr>
+                                        <th>...</th>
+                                        <th>...</th>
+                                        <th>...</th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </span>
+                    </div>
+                    <div class="help-section-body">
+                        <span id="toExampleRunSetting" class="level-1-heading">Examples for run set-up</span><br>
                         <div style="display: flex; flex-direction: row; align-items: center">
                             <div style="flex: 1">
                                 <table name="TableExampleRunSetting" class="table-2">
                                     <tbody>
-                                    <tr><th style="font-weight: bold">Protein network data</th></tr>
-                                    <tr><th>&emsp;- taxon: 10090</th></tr>
-                                    <tr><th style="font-weight: bold">Expression data</th></tr>
-                                    <tr><th>&emsp;- mouse_brain.gtf.gz</th></tr>
-                                    <tr><th class="level-3-heading">Only local DDI data</th></tr>
-                                    <tr><th class="level-3-heading">Output DDINs</th></tr>
-                                    <tr><th class="level-3-heading">Output major transcripts</th></tr>
-                                    <tr><th class="level-3-heading">Expression level: percentile = 50</th></tr>
+                                    <tr><th style="font-weight: bold">Group1</th></tr>
+                                    <tr><th>&emsp;- <a href="./resources/PPICompare/MPP.zip" download="MPP.zip" class="href_to_section">MPP.zip</a></th></tr>
+                                    <tr><th style="font-weight: bold">Group 2</th></tr>
+                                    <tr><th>&emsp;- <a href="./resources/PPICompare/HSC.zip" download="HSC.zip" class="href_to_section">HSC.zip</a></th></tr>
+                                    <tr><th class="level-3-heading">Return protein attribute table</th></tr>
+                                    <tr><th class="level-3-heading">FDR: 0.05</th></tr>
                                     </tbody>
                                 </table>
                             </div>
                             <div style="flex: 2.8">
-                                <span class="level-2-heading">EXAMPLE 1 </span>(Try PPICompare with this data on our main page!)<br>
-                                <br>PPICompare will download the current Mentha protein interaction network for mouse (IntAct if the organism is not available in Mentha) and construct the domain mapping using the most recent Ensembl data, but will neither retrieve nor use current 3did/iPfam data.
-                                <br>Then a condition-specific network for the mouse brain is built whereas transcripts are thought to be expressed if they have expression values above the median.
-                                <br>The output consists of the resulting protein interaction network but also files for the condition-specific domain-domain interaction network and the most abundant transcript for each protein.
+                                <span class="level-2-heading">EXAMPLE</span> (Try PPICompare with these data on our main page!)<br>
+                                <ul>
+                                    <li><strong>HSC.zip</strong> and <strong>MPP.zip</strong> contain the PPINs, DDINs and major transcripts lists specific for samples of hematopoietic stem cells (HSC) and 
+                                        multipotent progenitors (MPP), respectively. Those PPIN, DDIN and major transcripts list are outputs from PPIXpress analysis.</li>
+                                    <li><strong>HSC.zip</strong> contains 6 samples (Cord_blood-M-C002UU, Cord_blood-U-C07002, Cord_blood-U-C12001_ddin, Cord_blood-U-S001FX, Cord_blood-U-S001QB and Cord_blood-U-S0025C).
+                                        The names of those samples are used as the suffix of the PPIN, DDIN and major transcripts list files.</li>
+                                    <li>Similarly, <strong>MPP.zip</strong> contains 3 samples (Cord_blood-M-C002UU, Cord_blood-U-C07015 and Cord_blood-U-S001FX). 
+                                        Their PPINs, DDINs and major transcripts list are named accordingly.</li>
+                                    <li>PPICompare then determines all significantly rewired interactions between the groups defined by the input data with a false discovery rate of 0.05
+                                        and returns the differential network between HSC and MPP samples. The protein attributes are retrieved from Ensembl database.</li>
+                                </ul> 
+                                
                             </div>
                         </div>
-                        <div style="display: flex; flex-direction: row; align-items: center">
-                            <div style="flex: 1">
-                                <table name="TableExampleRunSetting" class="table-2">
-                                    <tbody>
-                                    <tr><th style="font-weight: bold">Protein network data</th></tr>
-                                    <tr><th>&emsp;- human_ppin.sif</th></tr>
-                                    <tr><th style="font-weight: bold">Expression data</th></tr>
-                                    <tr><th>&emsp;- brain.fpkm_tracking.gz</th></tr>
-                                    <tr><th>&emsp;- BRCA_tumor.normalized_RSEM.gz</th></tr>
-                                    <tr><th class="level-3-heading">Add STRING weights</th></tr>
-                                    <tr><th class="level-3-heading">Update UniProt accessions</th></tr>
-                                    <tr><th class="level-3-heading">Expression level: threshold = 0.3</th></tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                            <div style="flex: 2.8">
-                                <span class="level-2-heading">EXAMPLE 2 </span><br>
-                                <br>PPICompare will first update the UniProt accessions in the given human protein interaction network human ppin.sif and then annotate it with weights from STRING.
-                                <br>Then PPICompare will build internal data structures using data from Ensembl release 80 retrieved from the US server (if available on the server) and current 3did data.
-                                <br>This knowledge is then used to independently build two condition-specific networks according to the expression data given by brain.fpkm tracking.gz and BRCA tumor.normalized RSEM.gz whereas transcripts are thought to be expressed if they have expression values above 0.3.
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -399,22 +228,39 @@
                 <p class="menu header help-section-title">PPICompare Output</p>
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
-                        <span id="toMainOutputFile" class="level-1-heading">Main output file</span><br>
-                        <span>Text</span>
-                    </div>
-                    <div class="help-section-body">
+                        <div id="AfterRunOptions_Example"></div>
+
                         <span id="toPipelineLogFile" class="level-1-heading">Pipeline log file</span><br>
-                        <span>Text</span>
-                    </div>
-                    <div class="help-section-body">
-                        <span id="toSampleSummaryFile" class="level-1-heading">Sample summary file</span><br>
-                        <span>Text</span>
-                    </div>
-                    <div class="help-section-body">
-                        <span id="toSubnetworkVisualization" class="level-1-heading">Subnetwork visualization</span><br>
-                        <span>Text</span>
-                    </div>
-                </div>
+                        Once the PPICompare run is finished, select <strong>Download Log File</strong> to download the log containing
+                        run configurations.<br><br>
+            
+                        <span id="toMainOutputFile" class="level-1-heading">Main output file</span><br>
+                        Select <strong>Download Result Files</strong> to download main output files, including:<br>
+                        <ul>
+                            <li><strong>differential network.txt</strong>: List of all significantly rewired interactions between the groups.</li>
+                            <li><strong>min_reasons.txt.txt</strong>: A minimal set of transcriptomic alterations that explain all the significant rewiring and is most likely given the data is determined.</li>
+                            <li><strong>protein_attributes.txt</strong>: Protein attributes retrieved from Ensembl database, including: 
+                                <ul>
+                                    <li><i>UniProt ACC</i>: UniProt accession of the protein.</li>
+                                    <li><i>Gene name</i>: Gene name associated with the protein.</li>
+                                    <li><i>Part of min reasons</i>: Is a transcriptomic alteration of this protein part of the min. reasons set (yes/no).</li>
+                                    <li><i>Alteration type</i>: The type of the most relevant transcriptomic alteration (DE/AS, if any).</li>
+                                    <li><i>Transcriptomic alteration</i>: Exact transcriptomic alteration as loss/gain (DE) between groups or exact transcript switch (AS).</li>
+                                    <li><i>Score</i>: Internally used importance-score defined by the number of occurrences of the alteration above across all comparisons and all rewiring events.</li>
+                                </ul>
+                            </li>
+                        </ul><br>
+            
+                        <span id="toNetworkVisualization" class="level-1-heading">Network visualization</span><br>
+                        Select <strong>Visualize Condition-Specific Networks</strong> to open <strong>Network Visualization</strong> tab and click 
+                        <button type="button" value="null" class="button graph-menu-button upload">Show</button>
+                        to display the differential PPI network that distinguish two samples or conditions.<br>
+                    
+                        <!-- TODO: New video -->
+                        <div style="display: flex; flex-direction: column; align-items: center; padding: 1em">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/dtd_xM0fgQI?si=VAcQl8u6Jm-qS-qc" title="Network Visualization in PPICompare" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                    </div><br>
             </div>
 
             <div id="toPPICompareStandaloneTool">
@@ -422,16 +268,12 @@
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
                         <span id="toDownload" class="level-1-heading">Download</span><br>
-                        <span>The standalone tool for PPICompare is available on <a href="https://sourceforge.net/projects/ppixpress/" class="href_to_section">SourceForge</a>.</span>
+                        <span>The PPICompare standalone version is available on <a href="https://sourceforge.net/projects/ppicompare/" class="href_to_section">SourceForge</a>.</span>
                         <br>
                     </div>
                     <div class="help-section-body">
                         <span id="toDocumentation" class="level-1-heading">Documentation</span><br>
-                        <span class="level-2-heading">
-                            PPICompare: construction of condition-specific protein interaction networks based on transcript expression
-                            <br>Thorsten Will, Volkhard Helms
-                        </span>
-                        <br>
+                        <span>The documentation to PPICompare standalone version is available on <a href="https://sourceforge.net/projects/ppicompare/" class="href_to_section">SourceForge</a>.</span>
                     </div>
                 </div>
             </div>
@@ -440,14 +282,22 @@
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
                         <span id="toCitation" class="level-1-heading">Citation</span><br>
-                        <span>Will, T., & Helms, V. (2016). PPICompare: construction of condition-specific protein interaction networks based on transcript expression. Bioinformatics, 32(4), 571-578.</span>
-                        <br>
+                        <span>
+                            <strong>Stand-alone software version</strong>: 
+                            Will, T., & Helms, V. (2017). Rewiring of the inferred protein interactome during blood development studied with the tool PPICompare. BMC Systems Biology, 11, 1-19.
+                            <a href="https://bmcsystbiol.biomedcentral.com/articles/10.1186/s12918-017-0400-x" target="_blank" class="href_to_section">[Link to paper]</a><br>
+                            <!-- TODO: Add citation -->
+                            <strong>Webserver version</strong>:
+                            Do, H.T.T., & Helms, V. (2024)
+                            <a href="" target="_blank" class="href_to_section">[Link to paper]</a><br>
+                        </span> 
                     </div>
                     <div class="help-section-body">
                         <span id="toContact" class="level-1-heading">Contact</span><br>
-                        <span class="level-2-heading">Webserver support: </span>dhthutrang@bioinformatik.uni-saarland.de<br>
-                        <span class="level-2-heading">Corresponding author: </span>volkhard.helms@bioinformatik.uni-saarland.de
-                        <br>
+                        <span>
+                            <strong>Webserver support</strong>: dhttrang[at]bioinformatik.uni-saarland.de<br>
+                            <strong>Corresponding author</strong>: volkhard.helms[at]bioinformatik.uni-saarland.de
+                        </span>
                     </div>
                 </div>
             </div>

@@ -40,7 +40,7 @@ public class PPICompareServlet extends HttpServlet {
     /**
      * A long-running process that runs the analysis pipeline in a separate thread.
      */
-    static class LongRunningProcess implements Runnable {
+    public static class LongRunningProcess implements Runnable {
         private AtomicBoolean stopSignal;
         // private final PPICompare_Tomcat pipeline = new PPICompare_Tomcat();
         private volatile boolean stop;

@@ -1,6 +1,9 @@
 :root{
     --mint: #b4e8c6;
-    --darkmint: rgba(114, 159, 130, 0.7);
+    --darkmint: rgba(104, 211, 170);
+    --intensemint30:  rgba(104, 211, 170, 0.3);
+    --intensemint50:  rgba(104, 211, 170, 0.5);
+    --intensemint75:  rgba(104, 211, 170, 0.75);
     --choco: rgb(67, 60, 57);
     --lightmintgrey: #EDF2F4;
     --intensemint: #68d3aa;
