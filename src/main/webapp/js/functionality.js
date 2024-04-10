@@ -118,10 +118,10 @@ jQuery(document).ready(function() {
 
     expression_file.on("change", function(){
         NO_EXPRESSION_FILE = this.files.length
+        NAMES_EXPRESSION_FILE.length = 0
         for (var i = 0; i < this.files.length; i++){
             NAMES_EXPRESSION_FILE.push(this.files.item(i).name)
         }
-        console.log(NAMES_EXPRESSION_FILE);
         showNoChosenFiles('expression_file', NO_EXPRESSION_FILE, 'show_no_files')
     })
 
@@ -164,6 +164,14 @@ jQuery(document).ready(function() {
         
         if (submit_type_ === "RunExample") { 
             USER_ID = "EXAMPLE_USER"; 
+
+            // In case of RunExample, the NAMES_EXPRESSION_FILE_ are not defined and NO_EXPRESSION_FILE_ is retrieved by PPIXpressServlet
+            // In this case, the NAMES_EXPRESSION_FILE_ is generated from NO_EXPRESSION_FILE_
+            NO_EXPRESSION_FILE = 2
+            NAMES_EXPRESSION_FILE.length = 0 
+            for (let i = 0; i < NO_EXPRESSION_FILE; i++){
+                NAMES_EXPRESSION_FILE.push("expression_" + (i+1) + ".txt")
+            }
         } else { 
             USER_ID = window.sessionStorage.getItem('USER_ID');
         }
@@ -279,7 +287,8 @@ jQuery(document).ready(function() {
     let showDDIs = false
     const NVContent_Graph = $('#NVContent_Graph')
     const NVContent = $('#NVContent');
-    const NetworkOptions = $('#NetworkOptions')
+    const CustomizeNetworkOptions = $('#CustomizeNetworkOptions')
+    const NetworkOptions = $("[name='NetworkOptions']")
     let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
     let StarContents = $("[name='Star'")
     let Submit = $("[name='Submit']")
@@ -393,6 +402,8 @@ jQuery(document).ready(function() {
         // Before resubmit, clear existing graphs and graph options
         NVContent_Graph.html('')
         NetworkSelection_Protein.val('')
+        NetworkSelection_Protein.empty()
+        NetworkSelection_Expression.empty()
     }
 
 
@@ -440,12 +451,12 @@ jQuery(document).ready(function() {
             StarContents.hide()
             
             // In case changes have been made, reset all input fields and disable modification
-            resetInputFields(NetworkOptions, true, null)
+            resetInputFields(CustomizeNetworkOptions, true, null)
         } else if (option_ === 'on'){
             switchButton(ApplyGraphStyle, 'on', ['upload'], 'addClasses')
 
             // In case changes have been made, reset all input fields but keep them modifiable
-            resetInputFields(NetworkOptions, false, null)
+            resetInputFields(CustomizeNetworkOptions, false, null)
         }
     }
 
@@ -480,7 +491,7 @@ jQuery(document).ready(function() {
 
 
     $("#ShowNetworkOptions").on("click", function (){
-        $("[name='NetworkOptions']").toggle()
+        NetworkOptions.toggle()
     })
 
 
@@ -626,7 +637,7 @@ jQuery(document).ready(function() {
                 'showDDIs': showDDIs
             }
             activateNetwork(ProteinNetwork, WarningMessage, ShowSubnetworkOption)
-            NetworkOptions.find('select').prop('selectedIndex', 0).change()
+            CustomizeNetworkOptions.find('select').prop('selectedIndex', 0).change()
             changeNodeSize.val(15).change()
         } else {
             alert("Please select a protein!")
@@ -849,14 +860,6 @@ function activateNetwork (graph, warning, ShowSubnetworkOption){
 function addNetworkExpressionSelection(NAMES_EXPRESSION_FILE_, NO_EXPRESSION_FILE_){
     const NetworkSelection_Expression = document.getElementById('NetworkSelection_Expression');
     NetworkSelection_Expression.innerHTML = '';
-
-    // In case of RunExample, the NAMES_EXPRESSION_FILE_ are not defined and NO_EXPRESSION_FILE_ is retrieved by PPIXpressServlet
-    // In this case, the NAMES_EXPRESSION_FILE_ is generated from NO_EXPRESSION_FILE_
-    if (NAMES_EXPRESSION_FILE_.length === 0 && NO_EXPRESSION_FILE_ !== 0){
-        for (let i = 0; i < NO_EXPRESSION_FILE_; i++){
-            NAMES_EXPRESSION_FILE_.push("expression_" + (i+1) + ".txt")
-        }
-    }
 
     for (let i = 0; i < NAMES_EXPRESSION_FILE_.length; i++){
         const opt = document.createElement('option');

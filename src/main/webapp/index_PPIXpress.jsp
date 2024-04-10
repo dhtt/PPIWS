@@ -62,7 +62,7 @@
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
-                <p class="menu header">Step 1. Load Protein Interactions</p>
+                <p class="menu header">Step 1. Load Protein Interactions Data</p>
                 <div class="menu panel">
                     <div style="text-align: center; margin: 0">
                         <label for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
@@ -203,6 +203,7 @@
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
                             <div class="star" name="Star" id="toNetworkVisualization_star"></div>
                             <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Condition-Specific Networks</button><br>
+                            <button type="button" name="transit" id="toPPICompare" value="null" class="button download">Build differential network (PPICompare)</button><br>
                             <button type="button" name="transit" id="runNewAnalysis" value="null" class="button download">Run a new analysis</button><br>
                         </div>
                     </div>
@@ -243,7 +244,7 @@
                             <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
 
-                        <div class="network-option panel" name="NetworkOptions" id="NetworkOptions" style="text-align: center; border-radius: 1em">
+                        <div class="network-option panel" name="NetworkOptions" id="CustomizeNetworkOptions" style="text-align: center; border-radius: 1em">
                             <label style="font-weight: bold">Customize network display</label>
 
                             <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
