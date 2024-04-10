@@ -6,16 +6,21 @@
 <html lang="en">
 <head>
     <title>PPIXpress</title>
-    <!-- <link rel="shortcut icon" href="resources/leaf.png"> // TODO -->
+    <link rel="shortcut icon" href="resources/PPIN_logo.png">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
     <link rel="stylesheet" href="css/animation.css">
+    <link rel="stylesheet" href="css/select2_custom_style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
     <script src="webjars/cytoscape-cose-bilkent/4.0.0/cytoscape-cose-bilkent.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
     <script type="module" src="js/cytoscape-expand-collapse.js"></script>
     <script type="module" src="js/jscolor.js"></script>
     <script type="module" src="js/functionality.js"></script>
@@ -57,7 +62,7 @@
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
-                <p class="menu header">Step 1. Load Protein Interaction Data</p>
+                <p class="menu header">Step 1. Load Protein Interactions</p>
                 <div class="menu panel">
                     <div style="text-align: center; margin: 0">
                         <label for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
@@ -67,7 +72,7 @@
                         <label for="protein_network_web" class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
                         
                         <!-- TODO: Open page to ProteinInteractionData section -->
-                        <a href="./info_page.jsp" target="_blank"> 
+                        <a href="./info_page.jsp#toProteinInteractionData" target="_blank"> 
                             <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
                         </a>
                         <div id="protein_network_web_popup" class="popup center-pop" style="display: none">
@@ -110,7 +115,7 @@
                         <input type="file" name="expression_file" id="expression_file" accept=".txt,.gz" style="display: none" multiple>
 
                         <!-- TODO: Open page to ExpressionData section -->
-                        <a href="./info_page.jsp" target="_blank"> 
+                        <a href="./info_page.jsp#toExpressionData" target="_blank"> 
                             <button type="button" name="expression_example" id="expression_example" class="help" title="Example input">?</button>
                         </a>
                     </p>
@@ -175,7 +180,7 @@
                 <label for="usePPICompareOptions" value="null" class="button submit" style="font-size: small;margin-bottom: 0.5em;background: var(--lightmintgrey);color: var(--choco);min-height: fit-content; height:2em;padding: 0.5em;">Include PPICompare-required options</label>
                 <input type="checkbox" id="usePPICompareOptions" style="display: none;">
                 <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPIXpress</button>
-                <button type="submit" name="Submit" id="RunExample" value="null" class="button try">or Try with example data!</button>
+                <button type="submit" name="Submit" id="RunExample" value="null" class="button try">Try with example data!</button>
             </div>
         </form>
     </div>
@@ -188,6 +193,7 @@
         <div id="Display" class="display" style="flex: 1 1 auto; position: relative">
             <div id="RunningProgressContent" name="Display" class="display-content" style="display: flex; flex-direction: row">
                 <div id="LeftDisplay" class="display-part" style="flex-basis: 60%">
+                    <p id="WarningMessage_RunningProgressContent" class="warning" style="display: none;"></p>
                     <div id="RPContent" name="RunningProgress"></div>
                     <div id="Loader" name="RunningProgress" style="display: none; position: relative;"></div>
                     <div name="AfterRunOptions" name="RunningProgress" id="AfterRunOptions" class="shadow" style="display: none; max-width: 55%; margin: 1em auto; border-radius: 1em">
@@ -222,11 +228,17 @@
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <div class="star" name="Star" id="ShowSubnetwork_star"></div>
-                            <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
+                            
+                            <!-- <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
                             <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="UniProt ID">
                             <datalist id="NetworkSelection_Protein_List"></datalist><br>
+                             -->
+                            <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label><br>
+                            <select id="NetworkSelection_Protein" class="button upload" style="margin: 0.5em 0; width: min-content; font-size: smaller" data-placeholder="UniProt ID"></select><br>
+                            
+                            
                             <label for="NetworkSelection_Expression" style="font-weight: bold; padding-top: 1em">Select an expression data</label>
-                            <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select>
+                            <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select><br>
                             <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button graph-menu-button">Show</button>
                             <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
@@ -272,7 +284,7 @@
                             <button type="button" name="ApplyGraphStyle" id="ApplyGraphColor" disabled value="null" class="button graph-menu-button">Apply color changes</button>
                         </div>
                     </div>
-                    <p id="WarningMessage" style="display: none; flex: 1 1 auto"></p>
+                    <p id="WarningMessage" class="warning" style="display: none; flex: 1 1 auto"></p>
                 </div>
             </div>
         </div>

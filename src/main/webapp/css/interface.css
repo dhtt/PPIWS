@@ -187,7 +187,7 @@ footer{
 }
 .try{
     background-color: white;
-    color: var(--intensemint);
+    color: var(--darkintensemint);
     text-decoration: underline;
     cursor: pointer;
 }
@@ -216,7 +216,7 @@ footer{
 .close{
     display: inline-block;
     background: white;
-    float: right;
+    /* float: right; */
     margin-right: 0.5em;
     margin-bottom: 0.5em;
 }
@@ -477,7 +477,7 @@ input[type="range"]::-webkit-slider-runnable-track  {
     background: var(--deeppink);
     color: white;
 }
-#WarningMessage{
+.warning{
     position: absolute;
     left: 0;
     width: 30%;
@@ -489,7 +489,7 @@ input[type="range"]::-webkit-slider-runnable-track  {
     background-color: var(--warning);
     padding: 1em;
     margin: 0.5em;
-    opacity: 0.8;
+    opacity: 0.9;
     transition: all ease-in-out 0.2s;
 }
 
@@ -506,7 +506,7 @@ button[name='Submit']:disabled {
 ol, ul, li {
     list-style-position: inside;
     margin-left: 1em;
-    text-indent: -2em;
+    /* text-indent: -2em; */
 }
 
 ul {

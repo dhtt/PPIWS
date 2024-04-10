@@ -6,6 +6,7 @@
 <html lang="en">
 <head>
     <title>PPIXpress</title>
+    <link rel="shortcut icon" href="resources/PPIN_logo.png">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

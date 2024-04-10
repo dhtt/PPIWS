@@ -33,6 +33,10 @@ jQuery(document).ready(function() {
     window.sessionStorage.setItem('USER_ID', USER_ID);
 
 
+    $("#NetworkSelection_Protein").select2({
+        placeholder: $( this ).data( 'placeholder' )
+    });
+
     /**
      * Makes all checkboxes in the target array checked or unchecked based on the state of the source checkbox.
      *
@@ -90,6 +94,7 @@ jQuery(document).ready(function() {
     const protein_network_file = $('#protein_network_file')
     const expression_file = $('#expression_file')
     let NO_EXPRESSION_FILE = 0;
+    let NAMES_EXPRESSION_FILE = []
     /**
      * Confirm the use of taxon for protein network retrieval. After confirming,
      * filepath for protein_network_file is set to empty string.
@@ -113,6 +118,10 @@ jQuery(document).ready(function() {
 
     expression_file.on("change", function(){
         NO_EXPRESSION_FILE = this.files.length
+        for (var i = 0; i < this.files.length; i++){
+            NAMES_EXPRESSION_FILE.push(this.files.item(i).name)
+        }
+        console.log(NAMES_EXPRESSION_FILE);
         showNoChosenFiles('expression_file', NO_EXPRESSION_FILE, 'show_no_files')
     })
 
@@ -238,14 +247,14 @@ jQuery(document).ready(function() {
                                 StarContents.css({'display': 'inline-block'});
     
                                 // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
-                                addNetworkExpressionSelection(json.NO_EXPRESSION_FILE);
+                                addNetworkExpressionSelection(NAMES_EXPRESSION_FILE, json.NO_EXPRESSION_FILE);
     
                                 // Display the sample summary table and then protein list
                                 // here a promise chain must be used because of concurrency/synchronous fetches
                                 fetchResult(null, "sample_summary", SampleSummaryTable[0], false).then(
                                     response => {
                                         // Display the sample protein list
-                                        return fetchResult(null, "protein_list", $('#NetworkSelection_Protein_List')[0], false) 
+                                        return fetchResult(null, "protein_list", NetworkSelection_Protein[0], false) 
                                     }
                                 ).catch(err => {
                                     console.log("An error occur while fetching sample_summary/protein_list.")
@@ -505,6 +514,7 @@ jQuery(document).ready(function() {
      * @param downloadable true or false
      */
     let ProteinNetwork = null;
+    let WarningMessage_RunningProgressContent = $('#WarningMessage_RunningProgressContent')
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
             let blob = new Blob([pureText])
@@ -534,9 +544,15 @@ jQuery(document).ready(function() {
             // If downloadable is true, download file from fetched response under target as filename.
             // Applied for resultFileType of log, sample_summary, output
             if (downloadable){
+                if (resultFileType === "output"){
+                    showWarningMessage(WarningMessage_RunningProgressContent,
+                        "⏳ Please wait: Compressing files for download...",
+                        null)
+                    }
                 fetchData
                     .then(response => response.blob())
                     .then(blob => createDownloadLink(blob, target))
+                    .finally(() => {WarningMessage_RunningProgressContent.hide()})
                 }
 
             // If downloadable is false, display the fetched response in target as container HTML element
@@ -575,7 +591,7 @@ jQuery(document).ready(function() {
     })
 
     $('#downloadResultFiles').on("click", function(){
-        fetchResult(null,"output", "ResultFiles.zip", true);
+        fetchResult(null, "output", "ResultFiles.zip", true);
     })
 
     $('#DownloadSubnetwork').on("click", function(){
@@ -830,13 +846,22 @@ function activateNetwork (graph, warning, ShowSubnetworkOption){
  * based on the number of uploaded expression files
  * @param NO_EXPRESSION_FILE_ Number of expression file
  */
-function addNetworkExpressionSelection(NO_EXPRESSION_FILE_){
+function addNetworkExpressionSelection(NAMES_EXPRESSION_FILE_, NO_EXPRESSION_FILE_){
     const NetworkSelection_Expression = document.getElementById('NetworkSelection_Expression');
     NetworkSelection_Expression.innerHTML = '';
-    for (let i = 1; i <= NO_EXPRESSION_FILE_; i++){
+
+    // In case of RunExample, the NAMES_EXPRESSION_FILE_ are not defined and NO_EXPRESSION_FILE_ is retrieved by PPIXpressServlet
+    // In this case, the NAMES_EXPRESSION_FILE_ is generated from NO_EXPRESSION_FILE_
+    if (NAMES_EXPRESSION_FILE_.length === 0 && NO_EXPRESSION_FILE_ !== 0){
+        for (let i = 0; i < NO_EXPRESSION_FILE_; i++){
+            NAMES_EXPRESSION_FILE_.push("expression_" + (i+1) + ".txt")
+        }
+    }
+
+    for (let i = 0; i < NAMES_EXPRESSION_FILE_.length; i++){
         const opt = document.createElement('option');
-        opt.value = i;
-        opt.innerHTML = "Expression file " + i;
+        opt.value = i+1; // Because PPIXpress_Tomcat name the output files from 1, 2, 3...
+        opt.innerHTML = NAMES_EXPRESSION_FILE_[i];
         NetworkSelection_Expression.appendChild(opt);
     }
 }

@@ -6,7 +6,7 @@
 <html lang="en">
 <head>
     <title>PPI Webserver</title>
-    <!-- <link rel="shortcut icon" href="resources/leaf.png"> // TODO -->
+    <link rel="shortcut icon" href="resources/PPIN_logo.png">
     <link rel="stylesheet" href="css/theme_blue.css">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">

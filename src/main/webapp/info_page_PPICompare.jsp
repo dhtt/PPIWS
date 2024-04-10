@@ -6,6 +6,7 @@
 <html lang="en">
 <head>
     <title>PPICompare</title>
+    <link rel="shortcut icon" href="resources/PPIN_logo.png">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -151,7 +152,7 @@
                         </span>
                     </div>
                     <div class="help-section-body">
-                        <span id="toMajorTranscriptData" class="level-1-heading">Major transcript files</span><br>
+                        <span id="toMajorTranscriptData" class="level-1-heading">Major transcript file</span><br>
                         The list of major transcript per protein in the condition-specific protein interaction network must be named 
                         <strong>*_major-transcripts.txt(.gz)</strong> and contain the tab-separated information as below:<br>
                         <span style="text-align: center">

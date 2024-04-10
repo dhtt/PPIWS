@@ -6,28 +6,24 @@
 <html lang="en">
 <head>
     <title>PPICompare</title>
-    <!-- <link rel="shortcut icon" href="resources/leaf.png"> // TODO -->
+    <link rel="shortcut icon" href="resources/PPIN_logo.png">
     <link rel="stylesheet" href="css/interface.css">
     <link rel="stylesheet" href="css/header-and-panel.css">
     <link rel="stylesheet" href="css/cytoscape-style.css">
     <link rel="stylesheet" href="css/animation.css">
     <link rel="stylesheet" href="css/select2_custom_style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"/> -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dom-to-image/2.6.0/dom-to-image.min.js"></script>
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cytoscape/3.21.0/cytoscape.min.js"> </script>
     <script src="webjars/cytoscape-cose-bilkent/4.0.0/cytoscape-cose-bilkent.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
-    <script type="module" src="js/cytoscape-expand-collapse.js"></script>
     <script type="module" src="js/jscolor.js"></script>
     <script type="module" src="js/functionality_PPICompare.js"></script>
     <script type="module" src="js/network_maker_PPICompare.js"></script>
-    <!-- <script type="module" src="js/jsTest.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"> </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -66,7 +62,10 @@
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
                 <p class="menu header">Step 1. Upload condition-specific<br>networks
-                    <button type="button" name="protein_network_example" id="protein_network_example" class="help" style="margin: auto 0.5em; scale: 0.85" title="Example input">?</button>
+                    <a href="./info_page_PPICompare.jsp#toCondPPINData" target="_blank"> 
+                        <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
+                    </a>
+                    
                 </p>
                 <div class="menu panel" style="text-align: center;">
                     <div style="text-align: center; margin: 0; display: flex; margin-bottom: 0.5em; padding: 0 0.5em">
@@ -108,7 +107,7 @@
 
             <div name="LeftPanel3" id="LeftPanel3" style="text-align: center">
                 <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium; ">Run PPICompare</button>
-                <button type="submit" name="Submit" id="RunExample" value="null" class="button try">or Try with example data!</button>
+                <button type="submit" name="Submit" id="RunExample" value="null" class="button try">Try with example data!</button>
             </div>
         </form>
     </div>
