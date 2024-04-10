@@ -28,15 +28,18 @@ public class Utils {
     public static void zip(String sourceDirPath_, String zipPath_) throws IOException {
         Files.deleteIfExists(Paths.get(zipPath_));
         Path zipFile = Files.createFile(Paths.get(zipPath_));
+        List<String> ignoreFiles = Arrays.asList("protein_list.txt", "ProteinList.txt", ".bk", ".zip");
 
         Path sourceDirPath = Paths.get(sourceDirPath_);
         try (
                 ZipOutputStream zipOutputStream = new ZipOutputStream(Files.newOutputStream(zipFile));
                 Stream<Path> paths = Files.walk(sourceDirPath)) {
-            paths
+                    paths
                     .filter(path -> !Files.isDirectory(path))
                     .forEach(path -> {
-                        if (path.toString().endsWith(".gz") || path.toString().endsWith(".txt")) {
+                        if (path.toString().endsWith(".gz") || path.toString().endsWith(".txt") &&
+                            !ignoreFiles.stream().anyMatch(suffix -> path.toString().endsWith(suffix))
+                            ) {
                             ZipEntry zipEntry = new ZipEntry(sourceDirPath.relativize(path).toString());
                             try {
                                 zipOutputStream.putNextEntry(zipEntry);

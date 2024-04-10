@@ -7,6 +7,7 @@ import org.junit.runners.JUnit4;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import org.json.JSONArray;
 
@@ -25,7 +26,14 @@ public class UtilsTest {
         // assertTrue(unzippedFile.equals(Utils.RemoveFileExtension(fileName)));
     }
 
-    // @Test
+    @Test
+    public void test_ZipFile() throws IOException{
+        String OUTPUT_PATH = "repository/example_run/PPIXpress/OUTPUT/";
+        String OUTPUT_FILENAME = "ResultFiles_test.zip";
+        Utils.zip(OUTPUT_PATH, OUTPUT_PATH + OUTPUT_FILENAME);
+    }
+
+    @Test
     public void test_filterProtein_PPICompare() {
         Map<String, String[]> proteinAttributeList = new HashMap<String, String[]>(); 
         String LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/example_run/PPICompare/OUTPUT/";
