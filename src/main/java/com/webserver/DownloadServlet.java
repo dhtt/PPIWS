@@ -88,6 +88,42 @@ public class DownloadServlet extends HttpServlet {
                         context.log(USER_ID + ": DownloadServlet: Fail to retrieve sample summary. ERROR:\n" + e.toString());
                     }
                     break;
+                
+                case "subgraph":
+                    out = response.getWriter();
+                    try {
+                        if (PROGRAM.equals("PPICompare")){
+                            String proteinQuery = request.getParameter("proteinQuery");
+                            context.log("proteinQuery: " + proteinQuery); 
+                            proteinAttributeList = new HashMap<String, String[]>(); 
+                            try {
+                                Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt"));
+
+                                while (s.hasNext()) {
+                                    String[] attributes = s.nextLine().split(" ");
+                                    String UniprotID = attributes[0];
+                                    proteinAttributeList.put(UniprotID, attributes);
+                                }
+                                s.close();
+                            } catch (Exception e) {
+                                context.log(USER_ID + ": DownloadServlet: Fail to retrieve protein attributes. ERROR:\n" + e.toString());
+                            }
+                            try {
+                                JSONArray subNetworkData = Utils.filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList, proteinQuery);
+
+                                // Write output to response
+                                out.println(subNetworkData);
+                                
+                            } catch (Exception e) {
+                                context.log(USER_ID + ": DownloadServlet: filterProtein_PPICompare. ERROR:\n" + e.toString());
+                            }
+                            
+                        } 
+                    } catch (Exception e) {
+                        context.log(USER_ID + ": DownloadServlet: Fail to retrieve data for subgraphs data. ERROR:\n" + e.toString());
+                        out.println("Fail to retrieve subgraphs data. Please contact authors using the ID:\n" + USER_ID);
+                    }     
+                    break;
 
                 case "graph":
                     // Retrieve graph data to display on NVContent_Graph
@@ -114,7 +150,7 @@ public class DownloadServlet extends HttpServlet {
                             }
                             s.close();
 
-                            JSONArray subNetworkData = Utils.filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList);
+                            JSONArray subNetworkData = Utils.filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList, "null");
 
                             // Write output to response
                             out.println(subNetworkData);
@@ -129,6 +165,8 @@ public class DownloadServlet extends HttpServlet {
                     // Retrieve the protein list for PPIXpress graph query or PPICompare protein highlight
                     out = response.getWriter();
                     proteinList = new ArrayList<String>();
+                    String line;
+                    int n_nodes = 0;
                     
                     // Define protein list source (the same as defined for sample_table in PPIXpress/PPICompare_Tomcat.java)
                     SAMPLE_FILENAME = PROGRAM.equals("PPIXpress") ? "ProteinList.txt" : PROGRAM.equals("PPICompare") ? "protein_attributes.txt" : null; 
@@ -143,16 +181,18 @@ public class DownloadServlet extends HttpServlet {
                             out.println(String.join("", proteinList));
                         }
                         else if (PROGRAM.equals("PPICompare")){
-                            while (br.ready()) {
-                                String UniprotID = br.readLine().split(" ")[0];
-                                proteinList.add(createElement("option", UniprotID));
+                            while ((line = br.readLine()) != null) {
+                                String UniprotID = line.split(" ")[0];
+                                if (!UniprotID.equals("UniProt_ACC")){
+                                    proteinList.add(createElement("option", UniprotID));
+                                    n_nodes ++;
+                                }
                             }
-                            out.println(String.join("", proteinList));
+                            out.println(String.join("", proteinList) + "n_nodes=" + n_nodes);
                         }
                     } catch (Exception e) {
                         context.log(USER_ID + ": DownloadServlet: Fail to retrieve protein list. ERROR:\n" + e.toString());
                     }
-
                     break;
                 }
             } catch(Exception e){

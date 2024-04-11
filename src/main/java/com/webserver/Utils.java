@@ -256,28 +256,47 @@ public class Utils {
     }
 
 
-    public static JSONArray filterProtein_PPICompare(String LOCAL_STORAGE_PATH, Map<String, String[]> proteinAttributeList) { 
+    public static JSONArray filterProtein_PPICompare(String LOCAL_STORAGE_PATH, Map<String, String[]> proteinAttributeList, String proteinQuery) { 
         JSONArray output = new JSONArray();  
         Set<String> partners = new HashSet<String>();
         File PPI_file = new File(LOCAL_STORAGE_PATH + "differential_network.txt");
+        List<Line> lines = new ArrayList<Line>();
+        
+        if (!proteinQuery.equals("null")){
+            lines = grep(Grep.Options.i, ".*?" + proteinQuery + ".*?", PPI_file).toLineList();
+        }
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(PPI_file));
-            br.readLine();
-            String line = null;
-            
-            while ((line = br.readLine()) != null) {
-                String[] PPIs = line.split(" ");
-                partners.addAll(List.of(Arrays.copyOfRange(PPIs, 0, 2)));
+            if (!lines.isEmpty()){
+                for (Line line : lines) {
+                    String[] PPIs = line.getContent().split(" ");
+                    partners.addAll(List.of(Arrays.copyOfRange(PPIs, 0, 2)));
 
-                //Convert +/- type interaction to 1/0 for cytoscape color mapping 
-                String type = PPIs[2].equals("+") ? "1.0":"0.0"; 
+                    //Convert +/- type interaction to 1/0 for cytoscape color mapping 
+                    String type = PPIs[2].equals("+") ? "1.0":"0.0"; 
+                    
+                    JSONObject PPI_Edge = new JSONObject();
+                    PPI_Edge = addEdge(PPIs[0], PPIs[1], type, "PPI_Edge");
+                    output.put(PPI_Edge);
+                }
+            } else {
+                BufferedReader br = new BufferedReader(new FileReader(PPI_file));
+                br.readLine();
+                String line = null;
                 
-                JSONObject PPI_Edge = new JSONObject();
-                PPI_Edge = addEdge(PPIs[0], PPIs[1], type, "PPI_Edge");
-                output.put(PPI_Edge);
+                while ((line = br.readLine()) != null) {
+                    String[] PPIs = line.split(" ");
+                    partners.addAll(List.of(Arrays.copyOfRange(PPIs, 0, 2)));
+
+                    //Convert +/- type interaction to 1/0 for cytoscape color mapping 
+                    String type = PPIs[2].equals("+") ? "1.0":"0.0"; 
+                    
+                    JSONObject PPI_Edge = new JSONObject();
+                    PPI_Edge = addEdge(PPIs[0], PPIs[1], type, "PPI_Edge");
+                    output.put(PPI_Edge);
+                }
+                br.close();
             }
-            br.close();
 
             // Create single nodes that linked to itself
             for (String node : partners) { 

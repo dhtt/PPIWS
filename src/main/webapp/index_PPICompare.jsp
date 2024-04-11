@@ -147,15 +147,29 @@
                     <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto;">
                         <div class="network-option panel" id="ShowNetworkOptions">Show / Collapse Options</div>
 
-                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <div class="star" name="Star" id="ShowSubnetwork_star"></div>
+                        <div class="network-option panel" name="NetworkOptions" id="ShowNetworkMain" style="text-align: center; border-radius: 1em">
+                            <div class="star" name="Star" id="ShowNetwork_star"></div>
                             <label style="font-weight: bold">Differential PPI network</label><br>
                             <!-- button-typed items are enabled when UPDATE_LONG_PROCESS_SIGNAL === true. Then, class 'upload' is added to style the buttons -->
-                            <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button graph-menu-button">Show</button>
-                            <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
+                            <button type="button" disabled id="ShowNetwork" value="null" class="button graph-menu-button">Show</button>
+                            <button type="button" disabled id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
 
-                        <div class="network-option panel" name="NetworkOptions" id="NetworkOptions" style="text-align: center; border-radius: 1em">
+                        <div class="network-option panel" name="NetworkOptions" id="ShowNetworkSub" style="text-align: center; border-radius: 1em">
+                            <label for="NetworkSelection_HighlightProtein" style="font-weight: bold">Show subnetwork</label><br>
+                            <select id="NetworkSelection_HighlightProtein" class="button upload" style="margin: 0.5em 0; width: min-content; font-size: smaller" data-placeholder="UniProt ID"></select><br>
+                            
+                            <div style="align-items: baseline;justify-content: space-evenly;display: flex;flex-direction: row">
+                                <!-- TODO: ShowSubnetwork class same or not? -->
+                                <button type="button" disabled id="ShowSubnetwork" value="null" class="button graph-menu-button" style="display: none">Show</button>
+                                <label for="NetworkSelection_HighlightProtein_All" class="button graph-menu-button radio-button disabled">Show<input type="radio" disabled="" name="NetworkSelection_HighlightProtein_Option" value="all" id="NetworkSelection_HighlightProtein_All" style="display: none;"></label>
+                                <label for="NetworkSelection_HighlightProtein_Focus" class="button graph-menu-button radio-button disabled">Focus<input type="radio" disabled="" name="NetworkSelection_HighlightProtein_Option" value="focus" id="NetworkSelection_HighlightProtein_Focus" style="display: none;"></label>
+                                <label for="NetworkSelection_UnhighlightProtein" class="reset" style="font-size: smaller;">Reset<input type="radio" disabled="" name="NetworkSelection_HighlightProtein_Option" value="reset" id="NetworkSelection_UnhighlightProtein" style="display: none;"></label>
+                            </div>
+                        </div>                            
+                        
+
+                        <div class="network-option panel" name="NetworkOptions" id="CustomizeNetworkOptions" style="text-align: center; border-radius: 1em">
                             <label style="font-weight: bold">Customize network display</label>
                             <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
                                 <div style="text-align: left; flex: auto">
@@ -198,16 +212,6 @@
                                 </div>
                             </div>
 
-                            <div>
-                                <label for="NetworkSelection_HighlightProtein" style="font-weight: bold; font-size: smaller">View a protein (UniProt ID)</label><br>
-                                <select id="NetworkSelection_HighlightProtein" class="button upload" style="margin: 0.5em 0; width: min-content; font-size: smaller" data-placeholder="UniProt ID"></select><br>
-                                
-                               
-                                <label for="NetworkSelection_HighlightProtein_All" class="button graph-menu-button radio-button disabled">Highlight<input type="radio" disabled name="NetworkSelection_HighlightProtein_Option" value="all" id="NetworkSelection_HighlightProtein_All" style="display: none;"></label>
-                                <label for="NetworkSelection_HighlightProtein_Focus" class="button graph-menu-button radio-button disabled">Focus<input type="radio" disabled name="NetworkSelection_HighlightProtein_Option" value="focus" id="NetworkSelection_HighlightProtein_Focus" style="display: none;"></label><br>
-                                <label for="NetworkSelection_UnhighlightProtein" class="button reset disabled" style="font-size: smaller;">Reset<input type="radio" disabled name="NetworkSelection_HighlightProtein_Option" value="reset" id="NetworkSelection_UnhighlightProtein" style="display: none;"></label>
-                            </div>                            
-                            
                             <div style="padding: 1em">
                                 <label style="font-weight: bold; font-size: smaller">Customize colors</label>
                                 <div style="display: flex; flex-direction: row; line-height: 2em">
@@ -234,7 +238,7 @@
                             <button type="button" name="ApplyGraphStyle" id="ApplyGraphColor" disabled value="null" class="button graph-menu-button">Apply color changes</button>
                         </div>
                     </div>
-                    <p id="WarningMessage" style="display: none; flex: 1 1 auto"></p>
+                    <p id="WarningMessage" class="warning" style="display: none; flex: 1 1 auto"></p>
                 </div>
             </div>
         </div>

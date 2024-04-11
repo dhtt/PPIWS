@@ -34,7 +34,9 @@ jQuery(document).ready(function() {
     window.sessionStorage.setItem('USER_ID', USER_ID);
 
     $("#NetworkSelection_HighlightProtein").select2({
-        placeholder: $( this ).data( 'placeholder' )
+        placeholder: $( this ).data( 'placeholder' ),
+        minimumInputLength: 3,
+        formatInputTooShort: "Please enter 3 or more characters. Only UniProt ID is accepted."
     });
 
     /**
@@ -83,7 +85,9 @@ jQuery(document).ready(function() {
     const leftDisplay = $('#LeftDisplay');
     const LeftPanel = $('#LeftPanel')
     const NetworkSelection_HighlightProtein = $('#NetworkSelection_HighlightProtein');
-    const ShowSubnetwork = $('#ShowSubnetwork')
+    const NetworkSelection_UnhighlightProtein = $('#NetworkSelection_UnhighlightProtein')
+    const NetworkSelection_HighlightProtein_All = $('#NetworkSelection_HighlightProtein_All')
+    const ShowNetwork = $('#ShowNetwork')
     const NetworkSelection_HighlightProtein_Option =  $("[name='NetworkSelection_HighlightProtein_Option']")
 
     $.fn.submit_form = function(submit_type_){
@@ -152,8 +156,6 @@ jQuery(document).ready(function() {
 
                                 $("#AfterRunOptions").show()
                                 $("[name='ScrollToTop']").show()
-                                switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
-                                StarContents.css({'display': 'inline-block'});
     
                                 // Display the sample protein list 
                                 fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
@@ -175,7 +177,8 @@ jQuery(document).ready(function() {
     }
 
     const NVContent_Graph = $('#NVContent_Graph')
-    const NetworkOptions = $('#NetworkOptions')
+    const CustomizeNetworkOptions = $('#CustomizeNetworkOptions')
+    const ShowNetworkMain = $('#ShowNetworkMain')
     const NVContent = $('#NVContent');
     let ApplyGraphStyle = $("[name='ApplyGraphStyle']")
     let StarContents = $("[name='Star'")
@@ -200,6 +203,10 @@ jQuery(document).ready(function() {
         // and at least 1 expression file
         if (PPIXpress_network_1.val() === "" || PPIXpress_network_2.val() === ""){
             alert('Missing input file(s)');
+            return false;
+        }
+        if (PPIXpress_network_1.val() === PPIXpress_network_2.val()){
+            alert('Please select two different files for comparison.');
             return false;
         }
 
@@ -229,21 +236,21 @@ jQuery(document).ready(function() {
     })
 
 
-    /***
-     * Continue running progress when user open a new window
-     */
-    $('#already_open_window_switch').on('click', function(){
-        already_open_window_popup.toggle()
-        disabling_window.toggle()
+    // /***
+    //  * Continue running progress when user open a new window
+    //  */
+    // $('#already_open_window_switch').on('click', function(){
+    //     already_open_window_popup.toggle()
+    //     disabling_window.toggle()
 
-        //Show current files and settings on the new tab
-        switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
-        Submit.prop('disabled', true)
-        loader.hide()
+    //     //Show current files and settings on the new tab
+    //     switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
+    //     Submit.prop('disabled', true)
+    //     loader.hide()
 
-        //Fetch current process on the new tab
-        updateLongRunningStatus("resultText", 1000)
-    })
+    //     //Fetch current process on the new tab
+    //     updateLongRunningStatus("resultText", 1000)
+    // })
 
 
     /**
@@ -267,6 +274,11 @@ jQuery(document).ready(function() {
         $("[name='ScrollToTop']").hide()
     }
 
+    function resetShowSubnetwork(){
+        NetworkSelection_UnhighlightProtein.prop('checked', true)
+        NetworkSelection_UnhighlightProtein.change()
+    }
+
     /**
      * Reset display with old output
      */
@@ -278,6 +290,10 @@ jQuery(document).ready(function() {
         // Before resubmit, clear existing graphs and graph options
         NVContent_Graph.html('')
         NetworkSelection_HighlightProtein.val('')
+        NetworkSelection_HighlightProtein.empty()
+        resetShowSubnetwork()
+        ShowSubnetwork.hide()
+        NetworkSelection_HighlightProtein_All.parent('label').show()
     }
 
     /**
@@ -313,12 +329,22 @@ jQuery(document).ready(function() {
     }
 
     /**
-     * Reset and enable/disable the modification of NetworkOptions
+     * Reset and enable/disable the modification of CustomizeNetworkOptions
      * @param {*} option_ 'off' or 'on' 
       */
-    function switchShowSubnetwork(option_){
-        if (option_ === 'off'){
+    function switchShowNetwork(option_){
+        if (option_ === 'on'){
+            switchButton(ApplyGraphStyle, 'on', ['upload'], 'addClasses')
+            NetworkSelection_HighlightProtein_Option.each(function(){
+                switchButton($(this), 'on', [''], 'addClasses')
+                $(this).parent('label').removeClass('disabled')
+            })
+
+            // In case changes have been made, reset all input fields but keep them modifiable
+            resetInputFields(CustomizeNetworkOptions, false, null)
+        } else if (option_ === 'off'){
                // Disable buttons in Customize network display   
+            switchButton(ShowNetwork, 'off', ['upload'], 'removeClasses')
             switchButton(ShowSubnetwork, 'off', ['upload'], 'removeClasses')
             switchButton(ApplyGraphStyle, 'off', ['upload'], 'removeClasses')
             StarContents.hide()
@@ -329,23 +355,14 @@ jQuery(document).ready(function() {
             })
 
             // In case changes have been made, reset all input fields and disable modification
-            resetInputFields(NetworkOptions, true, null)
-        } else if (option_ === 'on'){
-            switchButton(ApplyGraphStyle, 'on', ['upload'], 'addClasses')
-            NetworkSelection_HighlightProtein_Option.each(function(){
-                switchButton($(this), 'on', [''], 'addClasses')
-                $(this).parent('label').removeClass('disabled')
-            })
-
-            // In case changes have been made, reset all input fields but keep them modifiable
-            resetInputFields(NetworkOptions, false, null)
-        }
+            resetInputFields(CustomizeNetworkOptions, true, null)
+        } 
     }
 
     runNewAnalysis.on('click', function (){
         resetForm()
         resetDisplay()
-        switchShowSubnetwork('off')
+        switchShowNetwork('off')
         resetInputFields(LeftPanel, false, runNewAnalysis_popup)
         Submit.prop('disabled', false)
     })
@@ -421,6 +438,10 @@ jQuery(document).ready(function() {
             downloadData.append("PROGRAM", "PPICompare")
             downloadData.append("resultFileType", resultFileType)
 
+            if (resultFileType === "subgraph"){
+                downloadData.append("proteinQuery", NetworkSelection_HighlightProtein.val())
+            }
+
             let fetchData = fetch("DownloadServlet",
                 {
                     method: 'POST',
@@ -440,7 +461,17 @@ jQuery(document).ready(function() {
             else {
                 if (resultFileType === "graph"){
                     showWarningMessage(WarningMessage,
-                        "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
+                        "⏳ Please wait: Loading differential network... (Large networks may take a long time to render)",
+                        null)
+                    ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
+                    ProteinNetwork
+                        .then(cy => {
+                            WarningMessage.hide()
+                            return cy
+                        })
+                } else if (resultFileType === "subgraph"){
+                    showWarningMessage(WarningMessage,
+                        "⏳ Please wait: Loading differential subnetworks... (Large networks may take a long time to render)",
                         null)
                     ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
                     ProteinNetwork
@@ -452,7 +483,27 @@ jQuery(document).ready(function() {
                 else if (resultFileType === "protein_list"){
                     fetchData
                         .then(response => response.text())
-                        .then(text => target.innerHTML = text)
+                        .then(text =>{
+                            let proteinList = text.split("n_nodes=")
+                            target.innerHTML = proteinList[0] // Display protein list
+
+                            let n_nodes = proteinList[1] // Get number of proteins
+                            if (n_nodes >= 200){
+                                showWarningMessage(WarningMessage,
+                                    "❗️ Number of proteins in differential network exceeds 200. To visualize the full network, please download the network and visualize it in Cytoscape. To visualize a subnetwork, please select a protein from the list.",
+                                    null)
+
+                                switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
+                                ShowSubnetwork.show()
+                                NetworkSelection_HighlightProtein_All.parent('label').hide()
+                            } else {
+                                switchButton(ShowNetwork, 'on', ['upload'], 'addClasses')
+                                ShowSubnetwork.hide()
+                                NetworkSelection_HighlightProtein_All.parent('label').show()
+                            }
+                        })
+                    console.log(target);
+                    
                 }
             }
                 
@@ -467,7 +518,7 @@ jQuery(document).ready(function() {
         fetchResult(null,"output", "ResultFiles.zip", true);
     })
 
-    $('#DownloadSubnetwork').on("click", function(){
+    $('#DownloadNetwork').on("click", function(){
         domtoimage
             .toBlob(document.getElementById('NVContent_Graph_with_Legend'), {quality: 1})
             .then(blob => window.saveAs(blob, "PPICompareDifferentialNetwork.png"))
@@ -488,19 +539,32 @@ jQuery(document).ready(function() {
         animate: false
     }
 
+    ShowNetwork.on("click", function (){
+        // Fetch graph data, enable buttons in Customize network display   
+        fetchResult(null, "graph", null, false)
+        switchShowNetwork('on')
+        
+        // Reset NetworkSelection_HighlightProtein
+        resetShowSubnetwork()
+
+        activateNetwork(ProteinNetwork, WarningMessage)
+        changeNodeSize.val(colorOpts.nodeSize).change()
+    }) 
+
+    const ShowSubnetwork = $('#ShowSubnetwork')
     ShowSubnetwork.on("click", function (){
-            // Fetch graph data, enable buttons in Customize network display   
-            fetchResult(null, "graph", null, false)
-            switchShowSubnetwork('on')
-            
-            // Reset NetworkSelection_HighlightProtein
-            NetworkSelection_HighlightProtein_Option.value = 'reset'
-            NetworkSelection_HighlightProtein_Option.change()
+        // Fetch graph data, enable buttons in Customize network display   
+        fetchResult(null, "subgraph", null, false)
+        switchButton(ApplyGraphStyle, 'on', ['upload'], 'addClasses')
+        resetInputFields(CustomizeNetworkOptions, false, null)
 
-            activateNetwork(ProteinNetwork, WarningMessage)
-            changeNodeSize.val(colorOpts.nodeSize).change()
-      })
+        activateNetwork(ProteinNetwork, WarningMessage)
+        changeNodeSize.val(colorOpts.nodeSize).change()
+  })
 
+
+    
+     
 
     /****************************
      * **Graph customization ****
@@ -593,11 +657,13 @@ jQuery(document).ready(function() {
 
     // View a single protein
     let unhighlightProtein = function(){
-        ProteinNetwork
-            .then(cy => {
-                cy.nodes().removeClass('Node_highlight');
-                cy.nodes().removeClass('Node_hidden');
-            })
+        if (ProteinNetwork !== null){
+            ProteinNetwork
+                .then(cy => {
+                    cy.nodes().removeClass('Node_highlight');
+                    cy.nodes().removeClass('Node_hidden');
+                })
+        }
     }
     let highlightPPIN = function(proteinName){
         ProteinNetwork
@@ -608,10 +674,16 @@ jQuery(document).ready(function() {
             })
     }
 
+    NetworkSelection_HighlightProtein.on('change', function(){
+        resetShowSubnetwork()
+        NetworkSelection_HighlightProtein_All.trigger('click')
+    })
+
     NetworkSelection_HighlightProtein_Option.on('change', function(){
         NetworkSelection_HighlightProtein_Option.each(function(){
             if ($(this).prop('checked')){
                 let option = $(this).val()
+                console.log(option);
 
                 if (option === 'all' | option === 'focus'){
                     $(this).parent('label').addClass("button-active") // Only show Highlight/Focus button if selected, not Reset

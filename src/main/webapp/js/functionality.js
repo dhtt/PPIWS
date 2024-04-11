@@ -32,9 +32,10 @@ jQuery(document).ready(function() {
     let USER_ID = generateRandomString(12);
     window.sessionStorage.setItem('USER_ID', USER_ID);
 
-
-    $("#NetworkSelection_Protein").select2({
-        placeholder: $( this ).data( 'placeholder' )
+    $("#NetworkSelection_Protein").select2({ 
+        placeholder: $( this ).data( 'placeholder' ),
+        minimumInputLength: 3,
+        formatInputTooShort: "Please enter 3 or more characters. Only UniProt ID is accepted."
     });
 
     /**
@@ -255,7 +256,7 @@ jQuery(document).ready(function() {
                                 StarContents.css({'display': 'inline-block'});
     
                                 // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
-                                addNetworkExpressionSelection(NAMES_EXPRESSION_FILE, json.NO_EXPRESSION_FILE);
+                                addNetworkExpressionSelection(NAMES_EXPRESSION_FILE);
     
                                 // Display the sample summary table and then protein list
                                 // here a promise chain must be used because of concurrency/synchronous fetches
@@ -569,7 +570,21 @@ jQuery(document).ready(function() {
             // If downloadable is false, display the fetched response in target as container HTML element
             // Applied for resultFileType of graph, sample_summary
             else {
-                   if (resultFileType === "graph"){
+                if (resultFileType === "graph"){
+                    // TODO: check if the protein is in the list 
+                    // if (!NetworkSelection_Protein.options.includes(NetworkSelection_Protein.val())){
+                    //     alert("Protein not found. Please check if the UniProt ID is correct.")  
+                    // } else {
+                    //     showWarningMessage(WarningMessage,
+                    //         "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
+                    //         null)
+                    //     ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
+                    //     ProteinNetwork
+                    //         .then(cy => {
+                    //             WarningMessage.hide();
+                    //             return cy
+                    //         })
+                    // }
                     showWarningMessage(WarningMessage,
                         "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
                         null)
@@ -857,7 +872,7 @@ function activateNetwork (graph, warning, ShowSubnetworkOption){
  * based on the number of uploaded expression files
  * @param NO_EXPRESSION_FILE_ Number of expression file
  */
-function addNetworkExpressionSelection(NAMES_EXPRESSION_FILE_, NO_EXPRESSION_FILE_){
+function addNetworkExpressionSelection(NAMES_EXPRESSION_FILE_){
     const NetworkSelection_Expression = document.getElementById('NetworkSelection_Expression');
     NetworkSelection_Expression.innerHTML = '';
 

@@ -36,9 +36,9 @@ public class UtilsTest {
     @Test
     public void test_filterProtein_PPICompare() {
         Map<String, String[]> proteinAttributeList = new HashMap<String, String[]>(); 
-        String LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/example_run/PPICompare/OUTPUT/";
+        String OUTPUT_PATH = "/home/trang/PPIWS/repository/example_run/PPICompare/OUTPUT/";
         try {
-            Scanner s = new Scanner(new File(LOCAL_STORAGE_PATH + "protein_attributes.txt")); 
+            Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt")); 
             while (s.hasNext()) {
                 String[] attributes = s.nextLine().split(" ");
                 String UniprotID = attributes[0];
@@ -51,8 +51,30 @@ public class UtilsTest {
         assertTrue(proteinAttributeList.get("O15151")[1].equals("MDM4"));
         
         JSONArray output = new JSONArray();
-        output = Utils.filterProtein_PPICompare(LOCAL_STORAGE_PATH, proteinAttributeList);
+        output = Utils.filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList, "O15151");
         System.out.println(output);
+    }
+
+    @Test
+    public void test_filterProtein_PPICompare_query(){
+        String proteinQuery = "P01111";
+        Map<String, String[]> proteinAttributeList = new HashMap<String, String[]>(); 
+        String OUTPUT_PATH = "/home/trang/PPIWS/repository/example_run/PPICompare/OUTPUT/";
+        try{
+            Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt"));
+    
+            while (s.hasNext()) {
+                String[] attributes = s.nextLine().split(" ");
+                String UniprotID = attributes[0];
+                proteinAttributeList.put(UniprotID, attributes);
+            }
+            s.close();
+        } catch(Exception e){
+            e.printStackTrace();
+        }
+
+        JSONArray subNetworkData = Utils.filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList, proteinQuery);
+        System.out.println(subNetworkData);
     }
 
     @Test
