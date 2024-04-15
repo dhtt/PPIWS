@@ -33,15 +33,9 @@ jQuery(document).ready(function() {
     let USER_ID = generateRandomString(12);
     window.sessionStorage.setItem('USER_ID', USER_ID);
 
-    $("#NetworkSelection_HighlightProtein").select2({
-        placeholder: $( this ).data( 'placeholder' ),
-        minimumInputLength: 3,
-        formatInputTooShort: "Please enter 3 or more characters. Only UniProt ID is accepted."
-    });
-
     /**
      * Set options to default
-     */
+     */        
     let set_default = function () {
         $('#return_protein_attribute').prop('checked', true)
         $('#fdr').val(0.05)
@@ -84,11 +78,17 @@ jQuery(document).ready(function() {
     const loader = $('#Loader');
     const leftDisplay = $('#LeftDisplay');
     const LeftPanel = $('#LeftPanel')
-    const NetworkSelection_HighlightProtein = $('#NetworkSelection_HighlightProtein');
-    const NetworkSelection_UnhighlightProtein = $('#NetworkSelection_UnhighlightProtein')
-    const NetworkSelection_HighlightProtein_All = $('#NetworkSelection_HighlightProtein_All')
     const ShowNetwork = $('#ShowNetwork')
+    const NetworkSelection_HighlightProtein = $("#NetworkSelection_HighlightProtein")
+    const NetworkSelection_HighlightProtein_All = $('#NetworkSelection_HighlightProtein_All') 
+    const NetworkSelection_UnhighlightProtein = $('#NetworkSelection_UnhighlightProtein')
     const NetworkSelection_HighlightProtein_Option =  $("[name='NetworkSelection_HighlightProtein_Option']")
+
+    $("#NetworkSelection_HighlightProtein").select2({
+        placeholder: $( this ).data( 'placeholder' ),
+        minimumInputLength: 3,
+        formatInputTooShort: "Please enter 3 or more characters. Only UniProt ID is accepted."
+    });
 
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
@@ -561,10 +561,6 @@ jQuery(document).ready(function() {
         activateNetwork(ProteinNetwork, WarningMessage)
         changeNodeSize.val(colorOpts.nodeSize).change()
   })
-
-
-    
-     
 
     /****************************
      * **Graph customization ****

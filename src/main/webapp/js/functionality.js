@@ -32,11 +32,7 @@ jQuery(document).ready(function() {
     let USER_ID = generateRandomString(12);
     window.sessionStorage.setItem('USER_ID', USER_ID);
 
-    $("#NetworkSelection_Protein").select2({ 
-        placeholder: $( this ).data( 'placeholder' ),
-        minimumInputLength: 3,
-        formatInputTooShort: "Please enter 3 or more characters. Only UniProt ID is accepted."
-    });
+    // $('#Xpress2Compare').load('./html/Xpress2Compare.html')
 
     /**
      * Makes all checkboxes in the target array checked or unchecked based on the state of the source checkbox.
@@ -58,12 +54,15 @@ jQuery(document).ready(function() {
     })
     let PPICompareOptions = ['output_DDINs', 'output_major_transcripts']
     let usePPICompareOptions = $('#usePPICompareOptions')
-    usePPICompareOptions.on('click', function(){
+    usePPICompareOptions.on('change', function(){
         make_all_checked('usePPICompareOptions', PPICompareOptions);
         if ($(this).is(':checked') === true){
+            // Only enable toPPICompare when this option is selected
+            switchButton(toPPICompare, 'on', ['disabled'], 'removeClasses')
             $("[name='usePPICompareOptionsTag']").show()
             $("label[for='usePPICompareOptions']").html("Remove PPICompare-required options")
         } else{
+            switchButton(toPPICompare, 'off', ['disabled'], 'addClasses')
             $("[name='usePPICompareOptionsTag']").hide()
             $("label[for='usePPICompareOptions']").html("Include PPICompare-required options")
         }
@@ -157,7 +156,13 @@ jQuery(document).ready(function() {
     const NetworkSelection_Protein = $('#NetworkSelection_Protein');
     const NetworkSelection_Expression = $('#NetworkSelection_Expression');
     const ShowSubnetwork = $('#ShowSubnetwork')
+    let Xpress2Compare_SampleTable = $('#Xpress2Compare_SampleTable')
     
+    $("#NetworkSelection_Protein").select2({ 
+        placeholder: $( this ).data( 'placeholder' ),
+        minimumInputLength: 3,
+        formatInputTooShort: "Please enter 3 or more characters. Only UniProt ID is accepted."
+    });
 
     $.fn.submit_form = function(submit_type_){
         const form = $("form")[0];
@@ -213,6 +218,100 @@ jQuery(document).ready(function() {
         })
     }
 
+    const Xpress2Compare_popup = $('#Xpress2Compare_popup')
+    const toPPICompare = $('#toPPICompare')
+    // PPICompareGroups is group id that sample should be labeled by. 1 is group 1, 
+    const PPICompareGroups = ['group_1', 'group_2', 'none']
+    function createXpress2CompareSampleTable(NAMES_EXPRESSION_FILE_){
+        let target = Xpress2Compare_SampleTable[0]
+        while (target.firstChild) {
+            target.removeChild(target.firstChild);
+        }
+        
+        const sampleTable = document.createElement('table');
+        sampleTable.style.margin = "auto"
+
+        const tableHead = document.createElement("thead");
+        const tableBody = document.createElement("tbody");
+        
+        let headerText = ['Sample', 'Group 1', 'Group 2', 'Not selected']
+        let headerRow = document.createElement("tr");
+        for (let i = 0; i < 4; i++) {
+            let headerCell = document.createElement("td");
+            let headerContent = document.createTextNode(headerText[i])
+            headerCell.appendChild(headerContent)
+            headerRow.appendChild(headerCell);
+        }
+        tableHead.appendChild(headerRow);
+        sampleTable.appendChild(tableHead);
+
+        for (let i = 0; i < NAMES_EXPRESSION_FILE_.length; i++) {
+            let bodyRow = document.createElement("tr");
+            let bodyCell = document.createElement("th");
+            let bodyContent = document.createTextNode(NAMES_EXPRESSION_FILE_[i])
+            bodyCell.appendChild(bodyContent)
+            bodyRow.appendChild(bodyCell)
+
+            for (let j = 0; j < 3; j++){
+                let bodyCell_ = document.createElement("th");
+                let radioButton = document.createElement("input")
+                radioButton.type = 'radio'
+                radioButton.name = NAMES_EXPRESSION_FILE_[i] // index of file in NAMES_EXPRESSION_FILE_
+                radioButton.value = PPICompareGroups[j] 
+                if (PPICompareGroups[j] === 'none') {
+                    radioButton.checked = "checked"
+                }
+                bodyCell_.appendChild(radioButton)
+                bodyRow.appendChild(bodyCell_)
+            }
+
+            tableBody.appendChild(bodyRow)
+        }
+
+        tableHead.appendChild(headerRow);
+        sampleTable.appendChild(tableHead);
+        sampleTable.appendChild(tableBody);
+        
+        target.appendChild(sampleTable)
+    }
+
+    toPPICompare.on('click', function(){ Xpress2Compare_popup.toggle()})
+    var regex = new RegExp("^[0-9a-zA-Z\b]+$");
+    let Xpress2Compare_Label1 = $('#Xpress2Compare_Label1')
+    let Xpress2Compare_Label2 = $('#Xpress2Compare_Label2')
+    let Xpress2Compare_GroupLabels_description = $('#Xpress2Compare_GroupLabels_description')
+    let Xpress2Compare_SampleTable_description = $('#Xpress2Compare_SampleTable_description')
+    let Xpress2Compare_yes = $('#Xpress2Compare_yes')
+
+    Xpress2Compare_yes.on('click', function(){
+        if (Xpress2Compare_Label1.val() === Xpress2Compare_Label2.val() || !regex.test(Xpress2Compare_Label1.val()) || !regex.test(Xpress2Compare_Label2.val())){
+            Xpress2Compare_GroupLabels_description.show()
+        } else {
+            Xpress2Compare_GroupLabels_description.hide()
+        }
+
+        var groupedSample = {}
+        for (let i = 0; i < PPICompareGroups.length; i++){
+            groupedSample[PPICompareGroups[i]] = []
+        }
+
+        Xpress2Compare_popup.find(':input').each(function(){
+            let type = this.type
+            if (type === 'radio' && $(this).prop('checked')){
+                groupedSample[this.value].push(this.name)
+            }
+        })
+
+        if (groupedSample['group_1'].length === 0 || groupedSample['group_2'].length === 0){
+            Xpress2Compare_SampleTable_description.show()
+        } else {
+            Xpress2Compare_SampleTable_description.hide()
+        }
+
+        if (!Xpress2Compare_SampleTable_description[0].checkVisibility() && !Xpress2Compare_GroupLabels_description[0].checkVisibility()){
+            console.log(groupedSample);
+        }
+    })
 
     /**
      * Dynamically print PPIXpress progress run in PPIXpressServlet to RPContent
@@ -267,7 +366,8 @@ jQuery(document).ready(function() {
                                     }
                                 ).catch(err => {
                                     console.log("An error occur while fetching sample_summary/protein_list.")
-                                })               
+                                })          
+                                createXpress2CompareSampleTable(NAMES_EXPRESSION_FILE)       
                             }
 
                             // Update running progress to runningProgressContent
@@ -380,6 +480,10 @@ jQuery(document).ready(function() {
         $('#remove_decay_transcripts').prop('checked', true)
         $('#threshold').val(1.0)
         $('#percentile').val(0.0)
+
+        // Set usePPICompareOptions to false and trigger disabling toPPICompare
+        usePPICompareOptions.prop('checked', false)
+        usePPICompareOptions.change()
     }
     set_default()
 

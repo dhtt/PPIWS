@@ -214,9 +214,9 @@ footer{
     background-color: var(--mint);
 }
 .close{
-    display: inline-block;
+    display: block;
     background: white;
-    /* float: right; */
+    float: right;
     margin-right: 0.5em;
     margin-bottom: 0.5em;
 }

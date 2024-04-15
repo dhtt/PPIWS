@@ -127,6 +127,23 @@
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+.popup_content, .popup_content_row{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    font-weight: normal;
+    width: -webkit-fit-content;
+    padding: 1em;
+}
+
+.popup_content_row{
+    overflow: auto;
+    flex-direction: row;
+    justify-content: space-evenly;
+    width: -webkit-fill-available;
+}
 
 .disabled{
     color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));

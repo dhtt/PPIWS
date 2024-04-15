@@ -33,7 +33,7 @@
 
 <div class="disabling_layer" id="disabling_window"></div>
 <div id="already_open_window_popup" class="popup center-pop" style="display: none">
-    <div class="menu header" style="width: 400px; font-size: small; padding: 1em">
+    <div class="menu header popup_content" style="width: 400px;">
         PPIXpress is already open on another tab!
     </div>
     <p class="menu panel shadow" style="text-align: center; width: 400px; font-weight: normal; padding: 1em">
@@ -51,18 +51,43 @@
     <div class="menu header" style="width: fit-content;font-size: small;padding: 1em;min-width: 250px;">
         Run a new analysis
     </div>
-    <p class="menu panel shadow" style="text-align: center;width: fit-content;font-weight: normal;min-width: 250px;padding: 1em">
+    <div class="menu panel shadow popup_content" style="min-width: 250px;width: -webkit-fill-available;">
         <span>Do you wish to run a new analysis?<br>(All current results will be removed)<br><br></span>
-        <button type="button" id="runNewAnalysis_yes" class="button upload" style="width: fit-content; margin: 0 1em">Yes</button>
-        <button type="button" id="runNewAnalysis_no" class="button upload" style="width: fit-content; margin: 0 1em">No</button>
-    </p>
+        <div style="justify-content: space-evenly; display: flex; width: -webkit-fill-available;">   
+            <button type="button" id="runNewAnalysis_yes" class="button upload">Yes</button>
+            <button type="button" id="runNewAnalysis_no" class="button upload">No</button>
+        </div>
+    </div>
+</div>
+<div id="Xpress2Compare_popup" class="popup center-pop" style="display: none">
+    <div class="menu header" style="width: -webkit-fill-available; font-size: small; padding: 1em">
+        <button type="button" name="close" class="help close">x</button>
+        Differential protein interaction network<br>with PPICompare
+    </div>
+    <div class="menu panel shadow popup_content">
+        PPICompare identify the rewiring events in the protein interaction networks between two cell conditions. 
+        Please label the conditions and select at least 1 sample for each group:<br>
+        <div name="Xpress2Compare_GroupLabels" class="popup_content_row">
+            <label style="width: max-content; font-weight: bold">Group 1:</label><input name="Xpress2Compare_Label" id="Xpress2Compare_Label1" type="text"  class="input" style="height: 1.5em; width:max-content" placeholder="Label"><br><br>
+            <label style="width: max-content; font-weight: bold">Group 2:</label><input name="Xpress2Compare_Label" id="Xpress2Compare_Label2" type="text"  class="input" style="height: 1.5em; width:max-content" placeholder="Label"><br><br>
+        </div>
+        <p id="Xpress2Compare_GroupLabels_description" class="description-text" style="display: none; color: var(--deeppink);">Group labels must be different and contain no spaces/special characters.</p><br>
+
+        <div id="Xpress2Compare_SampleTable" class="popup_content_row" style="max-height: 11em;"></div>
+        <p id="Xpress2Compare_SampleTable_description" class="description-text" style="display: none; color: var(--deeppink);">Group 1 and 2 have to contain at least 1 sample.</p>
+
+        <div class="popup_content_row">   
+            <button type="button" name="close" id="Xpress2Compare_no" class="button upload">Cancel</button>
+            <button type="button" id="Xpress2Compare_yes" class="button upload">To PPICompare</button>
+        </div>
+    </div>
 </div>
 
 <div id="AllPanels" class="container-body">
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
             <div name="LeftPanel1" id="LeftPanel1">
-                <p class="menu header">Step 1. Load Protein Interactions Data</p>
+                <p class="menu header">Step 1. Load Protein Interactions</p>
                 <div class="menu panel">
                     <div style="text-align: center; margin: 0">
                         <label for="protein_network_file" class="button upload" title="Upload a protein network">From file</label>
@@ -80,9 +105,9 @@
                                 <button type="button" name="close" class="help close">x</button>
                                 Retrieve a network<br>from Mentha or IntAct database
                             </div>
-                            <p class="menu panel shadow" style="text-align: center; width: 300px; font-weight: normal">
+                            <p class="menu panel shadow popup_content" style="width: 300px">
                                 Please input an organism taxon.<br>e.g. Type 9606 for a human network.<br><br>
-                                <input type="text" name="protein_network_web" id="protein_network_web" class="input" style="height: 1.5em"><br><br>
+                                <input type="text" name="protein_network_web" id="protein_network_web" class="input" style="height: 1.5em"><br>
                                 <button type="button" id="protein_network_web_confirm" name="confirm" class="button upload" style="width: fit-content;">Enter</button>
                             </p>
                         </div>
@@ -203,7 +228,7 @@
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
                             <div class="star" name="Star" id="toNetworkVisualization_star"></div>
                             <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Condition-Specific Networks</button><br>
-                            <button type="button" name="transit" id="toPPICompare" value="null" class="button download">Build differential network (PPICompare)</button><br>
+                            <button type="button" name="transit" id="toPPICompare" value="null" disabled class="button download disabled" title="Required 'Output DDINs' and 'Output major transcripts'">Build differential network (PPICompare)</button><br>
                             <button type="button" name="transit" id="runNewAnalysis" value="null" class="button download">Run a new analysis</button><br>
                         </div>
                     </div>
