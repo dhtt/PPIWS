@@ -168,6 +168,41 @@ public class Utils {
             createUserDir(LocalStoragePath_);
         }
     }
+
+
+    /**
+     * Create working directory for user
+     * 
+     * @param LocalStoragePath_ Path to the user's local storage
+     */
+    // group_ids = ['g1:1,2,3','g2:5,6,7']
+    public static String copyPPIXpress2PPICompare(String Path_, String groupedID) throws IOException {
+        String PPIXpressOutputPath = Path_ + "/PPIXpress/OUTPUT/";
+        String PPICompareInputPath = Path_ + "/PPICompare/INPUT/";
+        String[] PPICompareRequiredFormat = new String[]{"ppin.txt", "ddin.txt", "major-transcripts.txt"};
+        String groupID = groupedID.split(":")[0]; // group_id = g1
+        String[] sampleIDs = groupedID.split(":")[1].split(","); // sample_ids = [1,2,3]
+
+        String targetDir = PPICompareInputPath + groupID + "/";
+
+        try {
+            for (String fileSuffix : PPICompareRequiredFormat) {
+                for (String ID : sampleIDs) {
+                    String fileName = ID + "_" + fileSuffix;
+                    String source = PPIXpressOutputPath + fileName; // /PPIXpress/OUTPUT/1_ppin.txt
+                    String target = targetDir + fileName;
+
+                    if (!Files.exists(Paths.get(targetDir))) {
+                        Files.createDirectories(Paths.get(targetDir));
+                    }
+                    Files.copy(Paths.get(source), Paths.get(target), StandardCopyOption.REPLACE_EXISTING);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return(targetDir);
+    }
     
 
     /**

@@ -57,6 +57,9 @@
     </p>
 </div>
 
+<jsp:include page="html/PPIXpress2PPICompare.html"/>
+
+
 <div id="AllPanels" class="container-body">
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
         <form name="form" id="form" enctype="multipart/form-data">
@@ -70,14 +73,26 @@
                 <div class="menu panel" style="text-align: center;">
                     <div style="text-align: center; margin: 0; display: flex; margin-bottom: 0.5em; padding: 0 0.5em">
                         <div style="flex: 0 0 50%; overflow:hidden"> 
+                            <!-- Input uploaded by user -->
                             <label for="PPIXpress_network_1" class="button upload" title="Control group">First group</label>
+                            <label for="PPIXpress_network_1" id="PPIXpress_network_1_description" class="description-text">&emsp;</label>
                             <input type="file" name="PPIXpress_network" id="PPIXpress_network_1" accept=".zip" style="display: none">
-                            <p id="PPIXpress_network_1_description" class="description-text">&emsp;</p>
+
+                            <!-- Input from PPIXpress -->
+                            <label for="PPIXpress_network_1_text" class="button upload" title="Control group" style="display: none;">First group</label>
+                            <label for="PPIXpress_network_1_text" id="PPIXpress_network_1_text_description" class="description-text" style="display: none;">&emsp;</label>
+                            <input type="text" name="PPIXpress_network_text" id="PPIXpress_network_1_text" style="display: none">
                         </div>
                         <div style="flex: 0 0 50%; overflow:hidden"> 
+                            <!-- Input uploaded by user -->
                             <label for="PPIXpress_network_2" class="button upload" title="Experiment group">Second group</label>
+                            <label for="PPIXpress_network_2" id="PPIXpress_network_2_description" class="description-text">&emsp;</label> 
                             <input type="file" name="PPIXpress_network" id="PPIXpress_network_2" accept=".zip" style="display: none">
-                            <p id="PPIXpress_network_2_description" class="description-text">&emsp;</p> 
+
+                            <!-- Input from PPIXpress -->
+                            <label for="PPIXpress_network_2_text" class="button upload" title="Control group" style="display: none;">Second group</label>
+                            <label for="PPIXpress_network_2_text" id="PPIXpress_network_2_text_description" class="description-text" style="display: none;">&emsp;</p></label>
+                            <input type="text" name="PPIXpress_network_text" id="PPIXpress_network_2_text" style="display: none">
                         </div>
                     </div>
                     <span style="display:flex; margin-top: -1em">

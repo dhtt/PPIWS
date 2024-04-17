@@ -8,6 +8,7 @@ import {gridLayoutOptions} from '../resources/PPIXpress/graph_properties.js';
 import {cosebilkentLayoutOptions} from '../resources/PPIXpress/graph_properties.js';
 import {colorOpts} from '../resources/PPIXpress/graph_properties.js';
 import {updateColorScheme} from './functionality_helper_functions.js';
+import {createXpress2CompareSampleTable} from './functionality_helper_functions.js';
 
 // /***
 //  * alert when new window is open
@@ -29,10 +30,10 @@ import {updateColorScheme} from './functionality_helper_functions.js';
 
 updateColorScheme('CSS_Style')
 jQuery(document).ready(function() {
+    $('#Xpress2Compare_popup_confirm').hide()
     let USER_ID = generateRandomString(12);
     window.sessionStorage.setItem('USER_ID', USER_ID);
 
-    // $('#Xpress2Compare').load('./html/Xpress2Compare.html')
 
     /**
      * Makes all checkboxes in the target array checked or unchecked based on the state of the source checkbox.
@@ -132,17 +133,17 @@ jQuery(document).ready(function() {
     })
 
 
-    //Close buttons
-    $("[name='close']").on("click", function(){
-        $(".popup").hide()
-    })
-
-
     $('#ExpressionLevelOption').on("change", function (){
         $('label[for="threshold"]').toggle()
         $('#threshold').toggle()
         $('label[for="percentile"]').toggle()
         $('#percentile').toggle()
+    })
+
+
+    //Close buttons
+    $("[name='close']").on("click", function(){
+        $(".popup").hide()
     })
 
 
@@ -218,101 +219,6 @@ jQuery(document).ready(function() {
         })
     }
 
-    const Xpress2Compare_popup = $('#Xpress2Compare_popup')
-    const toPPICompare = $('#toPPICompare')
-    // PPICompareGroups is group id that sample should be labeled by. 1 is group 1, 
-    const PPICompareGroups = ['group_1', 'group_2', 'none']
-    function createXpress2CompareSampleTable(NAMES_EXPRESSION_FILE_){
-        let target = Xpress2Compare_SampleTable[0]
-        while (target.firstChild) {
-            target.removeChild(target.firstChild);
-        }
-        
-        const sampleTable = document.createElement('table');
-        sampleTable.style.margin = "auto"
-
-        const tableHead = document.createElement("thead");
-        const tableBody = document.createElement("tbody");
-        
-        let headerText = ['Sample', 'Group 1', 'Group 2', 'Not selected']
-        let headerRow = document.createElement("tr");
-        for (let i = 0; i < 4; i++) {
-            let headerCell = document.createElement("td");
-            let headerContent = document.createTextNode(headerText[i])
-            headerCell.appendChild(headerContent)
-            headerRow.appendChild(headerCell);
-        }
-        tableHead.appendChild(headerRow);
-        sampleTable.appendChild(tableHead);
-
-        for (let i = 0; i < NAMES_EXPRESSION_FILE_.length; i++) {
-            let bodyRow = document.createElement("tr");
-            let bodyCell = document.createElement("th");
-            let bodyContent = document.createTextNode(NAMES_EXPRESSION_FILE_[i])
-            bodyCell.appendChild(bodyContent)
-            bodyRow.appendChild(bodyCell)
-
-            for (let j = 0; j < 3; j++){
-                let bodyCell_ = document.createElement("th");
-                let radioButton = document.createElement("input")
-                radioButton.type = 'radio'
-                radioButton.name = NAMES_EXPRESSION_FILE_[i] // index of file in NAMES_EXPRESSION_FILE_
-                radioButton.value = PPICompareGroups[j] 
-                if (PPICompareGroups[j] === 'none') {
-                    radioButton.checked = "checked"
-                }
-                bodyCell_.appendChild(radioButton)
-                bodyRow.appendChild(bodyCell_)
-            }
-
-            tableBody.appendChild(bodyRow)
-        }
-
-        tableHead.appendChild(headerRow);
-        sampleTable.appendChild(tableHead);
-        sampleTable.appendChild(tableBody);
-        
-        target.appendChild(sampleTable)
-    }
-
-    toPPICompare.on('click', function(){ Xpress2Compare_popup.toggle()})
-    var regex = new RegExp("^[0-9a-zA-Z\b]+$");
-    let Xpress2Compare_Label1 = $('#Xpress2Compare_Label1')
-    let Xpress2Compare_Label2 = $('#Xpress2Compare_Label2')
-    let Xpress2Compare_GroupLabels_description = $('#Xpress2Compare_GroupLabels_description')
-    let Xpress2Compare_SampleTable_description = $('#Xpress2Compare_SampleTable_description')
-    let Xpress2Compare_yes = $('#Xpress2Compare_yes')
-
-    Xpress2Compare_yes.on('click', function(){
-        if (Xpress2Compare_Label1.val() === Xpress2Compare_Label2.val() || !regex.test(Xpress2Compare_Label1.val()) || !regex.test(Xpress2Compare_Label2.val())){
-            Xpress2Compare_GroupLabels_description.show()
-        } else {
-            Xpress2Compare_GroupLabels_description.hide()
-        }
-
-        var groupedSample = {}
-        for (let i = 0; i < PPICompareGroups.length; i++){
-            groupedSample[PPICompareGroups[i]] = []
-        }
-
-        Xpress2Compare_popup.find(':input').each(function(){
-            let type = this.type
-            if (type === 'radio' && $(this).prop('checked')){
-                groupedSample[this.value].push(this.name)
-            }
-        })
-
-        if (groupedSample['group_1'].length === 0 || groupedSample['group_2'].length === 0){
-            Xpress2Compare_SampleTable_description.show()
-        } else {
-            Xpress2Compare_SampleTable_description.hide()
-        }
-
-        if (!Xpress2Compare_SampleTable_description[0].checkVisibility() && !Xpress2Compare_GroupLabels_description[0].checkVisibility()){
-            console.log(groupedSample);
-        }
-    })
-
     /**
      * Dynamically print PPIXpress progress run in PPIXpressServlet to RPContent
      * @param resultText Messages from PPIXpressServlet
@@ -367,7 +273,7 @@ jQuery(document).ready(function() {
                                 ).catch(err => {
                                     console.log("An error occur while fetching sample_summary/protein_list.")
                                 })          
-                                createXpress2CompareSampleTable(NAMES_EXPRESSION_FILE)       
+                                createXpress2CompareSampleTable(NAMES_EXPRESSION_FILE, Xpress2Compare_SampleTable[0])       
                             }
 
                             // Update running progress to runningProgressContent
@@ -434,6 +340,9 @@ jQuery(document).ready(function() {
         // cytoscape would not expand the nodes
         showDDIs = $('#output_DDINs').prop('checked')
 
+        //Do not enable toPPICompare when USER_ID is EXAMPLE_USER
+        switchButton(toPPICompare, 'off', ['disabled'], 'addClasses')
+
         Submit.prop('disabled', true)
         loader.show()
         $.fn.submit_form("RunExample")
@@ -468,6 +377,68 @@ jQuery(document).ready(function() {
     })
 
 
+    /**
+     * Forward PPIXpress results to PPICompare
+     */
+    const Xpress2Compare_popup = $('#Xpress2Compare_popup')
+    const toPPICompare = $('#toPPICompare')
+    const PPICompareGroups = ['group_1', 'group_2', 'none'] // PPICompareGroups is group id that sample should be labeled by
+    const Xpress2Compare_Label1 = $('#Xpress2Compare_Label1')
+    const Xpress2Compare_Label2 = $('#Xpress2Compare_Label2')
+    const Xpress2Compare_GroupLabels_description = $('#Xpress2Compare_GroupLabels_description')
+    const Xpress2Compare_SampleTable_description = $('#Xpress2Compare_SampleTable_description')
+    const Xpress2Compare_yes = $('#Xpress2Compare_yes')
+
+    var regex = new RegExp("^[0-9a-zA-Z\b]+$");
+
+    toPPICompare.on('click', function(){
+        Xpress2Compare_popup.toggle()
+    })
+
+    Xpress2Compare_yes.on('click', function(){
+        if (Xpress2Compare_Label1.val() === Xpress2Compare_Label2.val() || !regex.test(Xpress2Compare_Label1.val()) || !regex.test(Xpress2Compare_Label2.val())){
+            Xpress2Compare_GroupLabels_description.show()
+        } else {
+            Xpress2Compare_GroupLabels_description.hide()
+        }
+
+
+        // Save the chosen samples for each group by their matching output IDs in groupedSample and expression file names in groupedSampleName
+        var groupedSample = {}
+        var groupedSampleName = {}
+        for (let i = 0; i < PPICompareGroups.length; i++){
+            groupedSample[PPICompareGroups[i]] = []
+            groupedSampleName[PPICompareGroups[i]] = []
+        }
+
+        Xpress2Compare_popup.find(':input').each(function(){
+            let type = this.type
+            if (type === 'radio' && $(this).prop('checked')){
+                let sample_id = this.name.split(';')
+                groupedSample[this.value].push(sample_id[0])
+                groupedSampleName[this.value].push(sample_id[1])
+            }
+        })
+
+        if (groupedSample['group_1'].length === 0 || groupedSample['group_2'].length === 0){
+            Xpress2Compare_SampleTable_description.show()
+        } else {
+            Xpress2Compare_SampleTable_description.hide()
+        }
+
+        if (!Xpress2Compare_SampleTable_description[0].checkVisibility() && !Xpress2Compare_GroupLabels_description[0].checkVisibility()){
+            let TRANSFER_DATA = {}
+            TRANSFER_DATA['USER_ID'] = USER_ID
+            TRANSFER_DATA['Xpress2Compare_Label1'] = Xpress2Compare_Label1.val()
+            TRANSFER_DATA['Xpress2Compare_Label2'] = Xpress2Compare_Label2.val()
+            TRANSFER_DATA['groupedSample'] = groupedSample
+            TRANSFER_DATA['groupedSampleName'] = groupedSampleName
+            window.localStorage.setItem('TRANSFER_DATA', JSON.stringify(TRANSFER_DATA));
+        } else {
+            return false
+        }
+    })
+
     /* 
     ===================================================================================================================
     ================================================= Reset functions =================================================
@@ -476,7 +447,7 @@ jQuery(document).ready(function() {
     /**
      * Set options to default
      */
-    function set_default () {
+    function set_default() {
         $('#remove_decay_transcripts').prop('checked', true)
         $('#threshold').val(1.0)
         $('#percentile').val(0.0)
@@ -493,7 +464,8 @@ jQuery(document).ready(function() {
     function resetForm(){
         $("form")[0].reset(); // Reset the form fields
         $("[name='Reset']").click() // Set default settings for all option panels
-        $("[name='ScrollToTop']").hide()
+
+        window.localStorage.removeItem('TRANSFER_DATA');
     }
 
     /**
@@ -503,6 +475,7 @@ jQuery(document).ready(function() {
         // Reset display message (clear message from the previous run)
         $("#AfterRunOptions, #RightDisplay").css({'display': 'none'})
         runningProgressContent.html("")
+        $("[name='ScrollToTop']").hide()
 
         // Before resubmit, clear existing graphs and graph options
         NVContent_Graph.html('')

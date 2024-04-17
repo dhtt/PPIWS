@@ -1,0 +1,52 @@
+<head>
+    <script type="module" src="js/PPIXpress_PPICompare.js"></script>
+</head>
+
+<div id="Xpress2Compare_popup" class="popup center-pop" style="display: none">
+    <div class="menu header" style="width: -webkit-fill-available; font-size: small; padding: 1em">
+        <button type="button" name="close" class="help close">x</button>
+        Differential protein interaction network<br>with PPICompare
+    </div>
+    <div class="menu panel shadow popup_content" style="min-width: 500px;">
+        PPICompare identifies the rewiring events in the protein interaction networks between two cell conditions. 
+        Please label the conditions and select at least 1 sample for each group:<br>
+        <div id="Xpress2Compare_GroupLabels" class="popup_content_row">
+            <label style="width: max-content; font-weight: bold">Group 1:</label><input name="Xpress2Compare_Label" id="Xpress2Compare_Label1" type="text"  class="input" style="height: 1.5em; width:max-content" placeholder="Label"><br><br>
+            <label style="width: max-content; font-weight: bold">Group 2:</label><input name="Xpress2Compare_Label" id="Xpress2Compare_Label2" type="text"  class="input" style="height: 1.5em; width:max-content" placeholder="Label"><br><br>
+        </div>
+        <p id="Xpress2Compare_GroupLabels_description" class="description-text" style="display: none; color: var(--deeppink);">Group labels must be different and contain no spaces/special characters.</p><br>
+
+        <div id="Xpress2Compare_SampleTable" class="popup_content_row" style="max-height: 11em;"></div>
+        <p id="Xpress2Compare_SampleTable_description" class="description-text" style="display: none; color: var(--deeppink);">Group 1 and 2 have to contain at least 1 sample.</p>
+
+        <div class="popup_content_row">   
+            <button type="button" name="close" id="Xpress2Compare_no" class="button upload">Cancel</button>
+            <a href="./index_PPICompare.jsp" target="_blank" type="button" id="Xpress2Compare_yes" class="button upload">To PPICompare</a>
+        </div>
+    </div>
+</div>
+
+<div id="Xpress2Compare_popup_confirm" class="popup center-pop" style="display: none">
+    <div class="menu header" style="width: -webkit-fill-available; font-size: small; padding: 1em">
+        Differential protein interaction network<br>with PPICompare
+    </div>
+    <div class="menu panel shadow popup_content" style="min-width: 500px;">
+        PPICompare will compare the transcript rewiring events between two cell conditions:<br>
+        <div id="Xpress2Compare_GroupLabels_confirm" class="popup_content_row">
+            <div style="height: 6em;overflow-y: scroll;background: white;border-radius: 1em;width: 45%;padding: 0.5em;overflow-wrap: break-word;">
+                <span id="Xpress2Compare_Label1_confirm"></span>
+                <p id="Xpress2Compare_Sample1"></p> 
+            </div>
+            <div style="height: 6em;overflow-y: scroll;background: white;border-radius: 1em;width: 45%;padding: 0.5em;overflow-wrap: break-word;">
+                <span id="Xpress2Compare_Label2_confirm"></span>
+                <p id="Xpress2Compare_Sample2"></p> 
+            </div>
+        </div>
+
+        <!-- This will be shown in PPICompare -->
+        <div class="popup_content_row">   
+            <button type="button" name="close" id="Xpress2Compare_abort" class="button upload">Cancel</button>
+            <button type="button" id="Xpress2Compare_confirm" class="button upload">Confirm data</button>
+        </div>
+    </div>
+</div>

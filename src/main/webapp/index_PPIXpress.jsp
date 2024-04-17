@@ -59,29 +59,8 @@
         </div>
     </div>
 </div>
-<div id="Xpress2Compare_popup" class="popup center-pop" style="display: none">
-    <div class="menu header" style="width: -webkit-fill-available; font-size: small; padding: 1em">
-        <button type="button" name="close" class="help close">x</button>
-        Differential protein interaction network<br>with PPICompare
-    </div>
-    <div class="menu panel shadow popup_content">
-        PPICompare identify the rewiring events in the protein interaction networks between two cell conditions. 
-        Please label the conditions and select at least 1 sample for each group:<br>
-        <div name="Xpress2Compare_GroupLabels" class="popup_content_row">
-            <label style="width: max-content; font-weight: bold">Group 1:</label><input name="Xpress2Compare_Label" id="Xpress2Compare_Label1" type="text"  class="input" style="height: 1.5em; width:max-content" placeholder="Label"><br><br>
-            <label style="width: max-content; font-weight: bold">Group 2:</label><input name="Xpress2Compare_Label" id="Xpress2Compare_Label2" type="text"  class="input" style="height: 1.5em; width:max-content" placeholder="Label"><br><br>
-        </div>
-        <p id="Xpress2Compare_GroupLabels_description" class="description-text" style="display: none; color: var(--deeppink);">Group labels must be different and contain no spaces/special characters.</p><br>
 
-        <div id="Xpress2Compare_SampleTable" class="popup_content_row" style="max-height: 11em;"></div>
-        <p id="Xpress2Compare_SampleTable_description" class="description-text" style="display: none; color: var(--deeppink);">Group 1 and 2 have to contain at least 1 sample.</p>
-
-        <div class="popup_content_row">   
-            <button type="button" name="close" id="Xpress2Compare_no" class="button upload">Cancel</button>
-            <button type="button" id="Xpress2Compare_yes" class="button upload">To PPICompare</button>
-        </div>
-    </div>
-</div>
+<jsp:include page="html/PPIXpress2PPICompare.html"/>
 
 <div id="AllPanels" class="container-body">
     <div id="LeftPanel" style="flex: 0 0 280px; margin-left: 1em">
@@ -96,7 +75,6 @@
                         &nbsp;or&nbsp;
                         <label for="protein_network_web" class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
                         
-                        <!-- TODO: Open page to ProteinInteractionData section -->
                         <a href="./info_page.jsp#toProteinInteractionData" target="_blank"> 
                             <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
                         </a>
@@ -226,9 +204,9 @@
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
-                            <div class="star" name="Star" id="toNetworkVisualization_star"></div>
+                            <!-- <div class="star" name="Star" id="toNetworkVisualization_star"></div> -->
                             <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Condition-Specific Networks</button><br>
-                            <button type="button" name="transit" id="toPPICompare" value="null" disabled class="button download disabled" title="Required 'Output DDINs' and 'Output major transcripts'">Build differential network (PPICompare)</button><br>
+                            <button type="button" name="transit" id="toPPICompare" value="null" disabled class="button download disabled" title="Required 'Output DDINs' and 'Output major transcripts' with user uploaded data.">Build differential network (PPICompare)</button><br>
                             <button type="button" name="transit" id="runNewAnalysis" value="null" class="button download">Run a new analysis</button><br>
                         </div>
                     </div>
@@ -253,7 +231,7 @@
                         <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <div class="star" name="Star" id="ShowSubnetwork_star"></div>
+                            <!-- <div class="star" name="Star" id="ShowSubnetwork_star"></div> -->
                             
                             <!-- <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
                             <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="UniProt ID">

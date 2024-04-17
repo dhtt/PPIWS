@@ -132,6 +132,15 @@ public class PPICompareServlet extends HttpServlet {
                 allArgs.add("-fdr=0.05");
 
                 context.log(USER_ID + ": PPICompareServlet: Example process initiated from Servlet\n" + allArgs);
+
+                String GROUPED_ID = request.getParameter("PPIXPRESS_NETWORK_TEXT") == null ? "" : request.getParameter("PPIXPRESS_NETWORK_TEXT").toString();
+                context.log(USER_ID + ": PPICompareServlet: GROUPED_ID\n" + GROUPED_ID);
+                String[] GROUPED_IDs = GROUPED_ID.split("&");
+                for (String ID : GROUPED_IDs) {
+                    Utils.copyPPIXpress2PPICompare("/home/trang/PPIWS/repository/example_run/", ID);
+                }
+                
+
             }
             catch(Exception e){
                 context.log(USER_ID + ": PPICompareServlet: Fail to initiate example run\n" + e.toString());
@@ -148,28 +157,43 @@ public class PPICompareServlet extends HttpServlet {
                 OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
                 
 
-                // Add paths to expression data to argument list. Meanwhile, store user's PPI
-                // network (if uploaded) and expression data to a local storage on server
-                try {
-                    int group_i = 1;
-                    for (Part part : request.getParts()) {
-                        String fileType = part.getName();
-                        String fileName = part.getSubmittedFileName();
+                String PPIXPRESS_NETWORK_TEXT = request.getParameter("PPIXPRESS_NETWORK_TEXT").equals("&") ? "" : request.getParameter("PPIXPRESS_NETWORK_TEXT").toString();
 
-                        if (fileName != null && !fileName.equals("")) {
-                            if (fileType.startsWith("PPIXpress_network")) {
-                                String inputFilesPath = INPUT_PATH + fileName.substring(fileName.lastIndexOf("\\") + 1);
-                                UtilsServlet.writeOutputStream(part, inputFilesPath);
-                                inputFilesPath = Utils.UnzipFile(inputFilesPath, "group_" + group_i, ".") + '/'; //Extract zip file and remove extension
-                                allArgs.add("-group_" + group_i + "=" + inputFilesPath);
-                                group_i+=1;
+                if (!PPIXPRESS_NETWORK_TEXT.equals("")){
+                    try {
+                        String[] GROUPED_IDs = PPIXPRESS_NETWORK_TEXT.split("&");
+                        for (int i = 1; i <= GROUPED_IDs.length; i++) {
+                            String ID  = GROUPED_IDs[i-1];
+                            String inputFilesPath = Utils.copyPPIXpress2PPICompare("/home/trang/PPIWS/repository/uploads/" + USER_ID + "/", ID);
+                            allArgs.add("-group_" + i + "=" + inputFilesPath);
+                        }
+                    } catch(Exception e){
+                        context.log(USER_ID + ": PPICompareServlet: Fail to locate PPIXpress-forwarded networks. ERROR:\n" + e.toString());
+                    }
+                } else {
+                    // Add paths to expression data to argument list. Meanwhile, store user's PPI
+                    // network (if uploaded) and expression data to a local storage on server
+                    try {
+                        int group_i = 1;
+                        for (Part part : request.getParts()) {
+                            String fileType = part.getName();
+                            String fileName = part.getSubmittedFileName();
+
+                            if (fileName != null && !fileName.equals("")) {
+                                if (fileType.startsWith("PPIXpress_network")) {
+                                    String inputFilesPath = INPUT_PATH + fileName.substring(fileName.lastIndexOf("\\") + 1);
+                                    UtilsServlet.writeOutputStream(part, inputFilesPath);
+                                    inputFilesPath = Utils.UnzipFile(inputFilesPath, "group_" + group_i, ".") + '/'; //Extract zip file and remove extension
+                                    allArgs.add("-group_" + group_i + "=" + inputFilesPath);
+                                    group_i+=1;
+                                }
                             }
                         }
+                    } catch(Exception e){
+                        context.log(USER_ID + ": PPICompareServlet: Fail to retrieve uploaded PPIXpress networks. ERROR:\n" + e.toString());
                     }
                 }
-                catch(Exception e){
-                    context.log(USER_ID + ": PPICompareServlet: Fail to retrieve uploaded PPIXpress networks. ERROR:\n" + e.toString());
-                }
+                
                 // Add output path to arguments set
                 allArgs.add("-output=" + OUTPUT_PATH);
 
