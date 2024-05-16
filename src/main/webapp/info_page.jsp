@@ -32,6 +32,7 @@
                     <p name="HelpMenu" id="SampleSummaryFile" class="help-panel-sub">Sample summary file</p>
                     <p name="HelpMenu" id="PipelineLogFile" class="help-panel-sub">Pipeline log file</p>
                     <p name="HelpMenu" id="MainOutputFile" class="help-panel-sub">Main output file</p>
+                    <p name="HelpMenu" id="BuildDifferentialNetwork" class="help-panel-sub">Build differential network</p>
                     <p name="HelpMenu" id="SubnetworkVisualization" class="help-panel-sub">Subnetwork visualization</p>
                 </div>
                 <div>
@@ -48,15 +49,21 @@
             <div name="ScrollToTop" class=" reset" style="text-align: center; position: relative; padding: 0; border-radius: 1em; margin-top: 1em">Scroll to top</div>
         </div>
         <div id="RightPanel" class="middle-under-info-page" style="flex: 1; display: flex; flex-flow: column">
+            <!--------------------------->
+            <!-- SECTION toInstruction -->
+            <!--------------------------->
             <div id="toInstruction">
                 <p class="menu header help-section-title">Instruction</p>
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
-                        <span id="toProteinInteractionData" class="level-1-heading">Protein interaction data</span><br>
+                        <!----------------------------------------->
+                        <!-- SUBSECTION toProteinInteractionData -->
+                        <!----------------------------------------->
+                        <span id="toProteinInteractionData" class="level-1-heading">Protein interaction data</span>
                         <span>Generally, transcripts or genes in all files (with the exception of the TCGA formats) are assumed to be given as Ensembl identifiers. 
                             Proteins are assumed to be UniProt accessions or HGNC/Ensembl genes in the input network. 
                             Furthermore, compressed files should have the ending .gz.</span>
-                        <br><br>
+                        <br>
                         <ul>
                             <li>
                                 <span class="level-2-heading">From file<br></span>
@@ -109,38 +116,40 @@
                         </ul><br>
                     </div>
                     <div class="help-section-body">
-                        <span id="toExpressionData" class="level-1-heading">Expression data</span><br>
+                        <!--------------------------------->
+                        <!-- SUBSECTION toExpressionData -->
+                        <!--------------------------------->
+                        <span id="toExpressionData" class="level-1-heading">Expression data</span>
                         <ul>
                             <li>
-                                <span class="level-2-heading">Cufflinks (isoform/gene) FPKM tracking files<br></span>
-                                <span>
-                                    Cufflinks (V2.x) creates FPKM tracking files with annotations according to a specified genome-annotation GTF file.<br>
-                                    If Ensembl/GENCODE annotation is used, those files can be immediately used by PPIXpress.<br>
-                                    <strong>Example</strong>: A FPKM tracking file built from publicly available Illumina Human BodyMap 2.0 data 
-                                    <a href="./resources/PPIXpress/example_data/brain.fpkm_tracking.gz" class="href_to_section" download="brain.fpkm_tracking.gz">brain.fpkm_tracking.gz</a> 
-                                    with the format:<br>
-                                    <table id="Table-Cufflinks" class="table-2">
-                                        <thead>
-                                            <tr>
-                                                <td>tracking_id</td><td>class_code</td><td>nearest_ref_id</td><td>gene_id</td>
-                                                <td>gene_short_name</td><td>tss_id</td><td>locus</td><td>length</td>
-                                                <td>coverage</td><td>FPKM</td><td>FPKM_conf_lo</td><td>FPKM_conf_hi</td><td>FPKM_status</td>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <th>ENST00000368372</th><th>-</th><th>-</th><th>ENSG00000229631</th>
-                                                <th>AL603926.1</th><th>TSS84330</th><th>GL000223.1:149786-180454</th><th>1789</th>
-                                                <th>6.76132</th><th>0.67731</th><th>0.55584</th><th>0.798781</th><th>OK</th>
-                                            </tr>
-                                            <tr>
-                                                <th>...</th><th>...</th><th>...</th><th>...</th>
-                                                <th>...</th><th>...</th><th>...</th><th>...</th>
-                                                <th>...</th><th>...</th><th>...</th><th>...</th><th>...</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </span><br>
+                                <span class="level-2-heading">Cufflinks (isoform/gene) FPKM tracking files</span>
+                                Cufflinks (V2.x) creates FPKM tracking files with annotations according to a specified genome-annotation GTF file.<br>
+                                If Ensembl/GENCODE annotation is used, those files can be immediately used by PPIXpress.<br>
+                                <strong>Example</strong>: A FPKM tracking file built from publicly available Illumina Human BodyMap 2.0 data 
+                                <a href="./resources/PPIXpress/example_data/brain.fpkm_tracking.gz" class="href_to_section" download="brain.fpkm_tracking.gz">brain.fpkm_tracking.gz</a> 
+                                with the format:<br>
+                                <table id="Table-Cufflinks" class="table-2">
+                                    <thead>
+                                        <tr>
+                                            <td>tracking_id</td><td>class_code</td><td>nearest_ref_id</td><td>gene_id</td>
+                                            <td>gene_short_name</td><td>tss_id</td><td>locus</td><td>length</td>
+                                            <td>coverage</td><td>FPKM</td><td>FPKM_conf_lo</td><td>FPKM_conf_hi</td><td>FPKM_status</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>ENST00000368372</th><th>-</th><th>-</th><th>ENSG00000229631</th>
+                                            <th>AL603926.1</th><th>TSS84330</th><th>GL000223.1:149786-180454</th><th>1789</th>
+                                            <th>6.76132</th><th>0.67731</th><th>0.55584</th><th>0.798781</th><th>OK</th>
+                                        </tr>
+                                        <tr>
+                                            <th>...</th><th>...</th><th>...</th><th>...</th>
+                                            <th>...</th><th>...</th><th>...</th><th>...</th>
+                                            <th>...</th><th>...</th><th>...</th><th>...</th><th>...</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br>
                             </li>
                             <li>
                                 <span class="level-2-heading">GENCODE GTF (transcript/gene) files<br></span>
@@ -270,7 +279,10 @@
                         </ul><br>
                     </div>
                     <div class="help-section-body">
-                        <span id="toPPIXpressRunOptions" class="level-1-heading">PPIXpress run options</span><br>
+                        <!-------------------------------------->
+                        <!-- SUBSECTION toPPIXpressRunOptions -->
+                        <!-------------------------------------->
+                        <span id="toPPIXpressRunOptions" class="level-1-heading">PPIXpress run options</span>
                         <ul>
                             <li>
                                 <span class="level-2-heading">Protein Interaction Data Options<br></span>
@@ -358,13 +370,15 @@
                                 </ul>
                             </li>
                             <li>
-                                <span class="level-2-heading">Include PPICompare-required options: </span> Include options required for PPICompare (
-                                <span class="highlight"><strong>Output DDINs</strong> and <strong>Output major transcripts</strong></span>).
+                                <span class="level-2-heading">Include PPICompare-required options: </span> Include options required for PPICompare (<span class="highlight"><strong>Output DDINs</strong> and <strong>Output major transcripts</strong></span>).
                             </li>
                         </ul><br>
                     </div>
                     <div class="help-section-body">
-                        <span id="toExampleRunSetting" class="level-1-heading">Examples for run set-up</span><br>
+                        <!------------------------------------>
+                        <!-- SUBSECTION toExampleRunSetting -->
+                        <!------------------------------------>
+                        <span id="toExampleRunSetting" class="level-1-heading">Examples for run set-up</span>
                         <div style="display: flex; flex-direction: row; align-items: center">
                             <div style="flex: 1">
                                 <table name="TableExampleRunSetting" class="table-2">
@@ -384,7 +398,7 @@
                                 </table>
                             </div>
                             <div style="flex: 2.8">
-                                <span class="level-2-heading">EXAMPLE 1</span>(Try PPIXpress with this configuration on our main page!)<br>
+                                <span class="level-2-heading">EXAMPLE 1</span> (Try PPIXpress with this configuration on our main page!)<br>
                                 <ul>
                                     <li>PPIXpress will use the given human protein interaction network example_ppi_data.sif to build internal data structures. 
                                         This step is done with annotation from Ensembl (if available on the server) and current 3did data.</li>
@@ -425,15 +439,21 @@
                 </div>
             </div>
 
+            <!------------------------------->
+            <!-- SECTION toPPIXpressOutput -->
+            <!------------------------------->
             <div id="toPPIXpressOutput">
                 <p class="menu header help-section-title">PPIXpress Output</p>
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
-                        <span id="toSampleSummaryFile" class="level-1-heading">Sample summary file</span><br>
-                        <span>  
-                            Sample summary file can be viewed and downloaded from the window on the right side of <strong>Running Progress</strong> tab 
-                            once the PPIXpress run is finished. It gives an overview of the condition-specific protein networks built using each expression data.
-                        </span>
+                        <!------------------------------------>
+                        <!-- SUBSECTION toSampleSummaryFile -->
+                        <!------------------------------------>
+                        <span id="toSampleSummaryFile" class="level-1-heading">Sample summary file</span>
+                    
+                        Sample summary file can be viewed and downloaded from the window on the right side of <strong>Running Progress</strong> tab 
+                        once the PPIXpress run is finished. It gives an overview of the condition-specific protein networks built using each expression data.<br> 
+
                         <table style="width:auto; margin: 1em auto">
                             <thead>
                                 <tr><td>Sample</td><td>Matched output</td><td>#Proteins</td><td>#Interactions</td><td>Threshold</td></tr>
@@ -444,23 +464,30 @@
                             </tbody>
                         </table>
     
-                        <span>
-                            <ul>
-                                <li><strong>Sample</strong>: Name of the input expression data file</li>
-                                <li><strong>Matched output</strong>: Name of the output file containing the protein network specifically build using each expression data (<span class="highlight">Condition-specific protein network)</span></li>
-                                <li><strong>#Proteins</strong>: Number of proteins in the condition-specific protein network</li>
-                                <li><strong>#Interactions</strong>: Number of interactions in the condition-specific protein network</li>
-                                <li><strong>Threshold</strong>: Expression threshold used to filter the transcripts/genes expression</li>
-                            </ul> 
-                        </span><br>
+                        <ul>
+                            <li><strong>Sample</strong>: Name of the input expression data file</li>
+                            <li><strong>Matched output</strong>: Name of the output file containing the protein network specifically build using each expression data (<span class="highlight">Condition-specific protein network)</span></li>
+                            <li><strong>#Proteins</strong>: Number of proteins in the condition-specific protein network</li>
+                            <li><strong>#Interactions</strong>: Number of interactions in the condition-specific protein network</li>
+                            <li><strong>Threshold</strong>: Expression threshold used to filter the transcripts/genes expression</li>
+                        </ul> 
+                        <br>
 
                         <div id="AfterRunOptions_Example"></div><br>
 
-                        <span id="toPipelineLogFile" class="level-1-heading">Pipeline log file</span><br>
+                        <!---------------------------------->
+                        <!-- SUBSECTION toPipelineLogFile -->
+                        <!---------------------------------->
+                        <span id="toPipelineLogFile" class="level-1-heading">Pipeline log file</span>
+                        
                         Once the PPIXpress run is finished, select <strong>Download Log File</strong> on the left side of <strong>Running Progress</strong> tab to download the log containing
                         run configurations.<br><br>
             
-                        <span id="toMainOutputFile" class="level-1-heading">Main output file</span><br>
+                        <!--------------------------------->
+                        <!-- SUBSECTION toMainOutputFile -->
+                        <!--------------------------------->
+                        <span id="toMainOutputFile" class="level-1-heading">Main output file</span>
+                        
                         Select <strong>Download Result Files</strong> to download main output files, including:<br>
                         <ul>
                             <li><strong>*_ppin.txt</strong>: Condition-specific protein interaction network.</li>
@@ -483,11 +510,40 @@
                                 <span class="highlight"> - requires <strong>Output reference network</strong> and <strong>Output major transcripts</strong></span></li>
                         </ul><br>
             
-                        <span id="toSubnetworkVisualization" class="level-1-heading">Subnetwork visualization</span><br>
+                        <!------------------------------------------->
+                        <!-- SUBSECTION toBuildDifferentialNetwork -->
+                        <!------------------------------------------->
+                        <span id="toBuildDifferentialNetwork" class="level-1-heading">Build differential network (PPICompare)</span>
+
+                        This option is only available if users run the analysis with self-uploaded data and select
+                        <a href="./info_page.jsp#toPPIXpressRunOptions" class="href_to_section">PPICompare-required options</a>
+                        (<span class="highlight"><strong>Output DDINs</strong> and <strong>Output major transcripts</strong></span>).<br><br>
+
+                        PPICompare compare at least two PPIXpress-constructed PPINs belonging to two different sample types/conditions/contexts to build the differential network. 
+                        Therefore, users should upload at least two expression data files that represent two conditions to compare.<br><br>
+
+                        Users can assign the PPINs to each sample group and forward those to PPICompare to build the differential network between two groups.
+                        The PPINs marked with "Not selected" will not be included to PPICompare analysis.<br><br>
+                        
+                        <div id="toBuildDifferentialNetwork_Example" style="text-align: -webkit-center;"></div>
+                        <span><center>This dialog is shown when users select <strong>Build differential network</strong> on the left side of <strong>Running Progress</strong> tab. <br></center></span><br>
+                        In this example, the PPINs pruned using the transcription data for Th1 precursors (2 samples) or Th2 precursors (3 samples) will be forwarded to PPICompare. 
+                        The differential network between Th1 and Th2 precursors will be constructed in PPICompare.<br>
+
+                        <div style="display: flex; flex-direction: column; align-items: center; padding: 1em">
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/VumJvP242H0?si=ZCroIjcYJtvlETvU" title="Build Differential Network" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                        </div>
+                        <br>
+
+                        <!------------------------------------------>
+                        <!-- SUBSECTION toSubnetworkVisualization -->
+                        <!------------------------------------------>
+                        <span id="toSubnetworkVisualization" class="level-1-heading">Subnetwork visualization</span>
+                        
                         Select <strong>Visualize Condition-Specific Networks</strong> to open <strong>Network Visualization</strong> tab 
                         where user can select a protein and inspect the condition-specific network which the protein involves in.<br>
-                    
-                        <div id="ShowNetworkTopions_Example"></div>
+
+                        <div id="ShowNetworkOptions_Example"></div>
                         Once the PPI network is rendered and displayed, the queried protein will be shown in the center. User can toggle between network layouts,
                         customize the PPI network and expand the protein node to see its domains and DDI network. (Domains and DDI network display <span class="highlight">requires <strong>Output DDINs</strong></span>).
 
@@ -498,29 +554,46 @@
                 </div>
             </div>
 
+            <!--------------------------------------->
+            <!-- SECTION toPPIXpressStandaloneTool -->
+            <!--------------------------------------->
             <div id="toPPIXpressStandaloneTool">
                 <p class="menu header help-section-title">PPIXpress Standalone Tool</p>
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
-                        <span id="toDownload" class="level-1-heading">Download</span><br>
+                        <!--------------------------->
+                        <!-- SUBSECTION toDownload -->
+                        <!--------------------------->
+                        <span id="toDownload" class="level-1-heading">Download</span>
                         <span>The PPIXpress standalone version is available on <a href="https://sourceforge.net/projects/ppixpress/" class="href_to_section">SourceForge</a>.</span>
                         <br>
                     </div>
                     <div class="help-section-body">
-                        <span id="toDocumentation" class="level-1-heading">Documentation</span><br>
+                        <!-------------------------------->
+                        <!-- SUBSECTION toDocumentation -->
+                        <!-------------------------------->
+                        <span id="toDocumentation" class="level-1-heading">Documentation</span>
                         <span>The documentation to PPIXpress standalone version is available on <a href="https://sourceforge.net/projects/ppixpress/" class="href_to_section">SourceForge</a>.</span>
                     </div>
                 </div>
             </div>
+
+
+            <!---------------------------------->
+            <!-- SECTION toCitationAndContact -->
+            <!---------------------------------->
             <div id="toCitationAndContact">
                 <p class="menu header help-section-title">Citation & Contact</p>
                 <div class="menu panel" style="width: 100%">
                     <div class="help-section-body">
-                        <span id="toCitation" class="level-1-heading">Citation</span><br>
+                        <!--------------------------->
+                        <!-- SUBSECTION toCitation -->
+                        <!--------------------------->
+                        <span id="toCitation" class="level-1-heading">Citation</span>
                         <span>
                             <strong>Stand-alone software version</strong>: 
                             Will, T., & Helms, V. (2016). PPIXpress: construction of condition-specific protein interaction networks based on transcript expression. Bioinformatics, 32(4), 571-578.
-                            <a href="https://academic.oup.com/bioinformatics/article/32/4/571/1744136" target="_blank" class="href_to_section">[Link to paper]</a><br>
+                            <a href="https://academic.oup.com/bioinformatics/article/32/4/571/1744136" target="_blank" class="href_to_section">[Link to paper]</a><br>                        
                             <!-- TODO: Add citation -->
                             <strong>Webserver version</strong>:
                             Do, H.T.T., & Helms, V. (2024)
@@ -528,7 +601,10 @@
                         </span> 
                     </div>
                     <div class="help-section-body">
-                        <span id="toContact" class="level-1-heading">Contact</span><br>
+                        <!-------------------------->
+                        <!-- SUBSECTION toContact -->
+                        <!-------------------------->
+                        <span id="toContact" class="level-1-heading">Contact</span>
                         <span>
                             <strong>Webserver support</strong>: dhttrang[at]bioinformatik.uni-saarland.de<br>
                             <strong>Corresponding author</strong>: volkhard.helms[at]bioinformatik.uni-saarland.de

@@ -1,6 +1,7 @@
 jQuery(document).ready(function() {
-    $("#ShowNetworkTopions_Example").load('./html/ShowNetworkOptions_PPIXpress.html')
-    $("#AfterRunOptions_Example").load('./html/AfterRunOptions_PPIXpress.html')
+    $("#ShowNetworkTopions_Example").load('./html/examples/ShowNetworkOptions_PPIXpress.html')
+    $("#AfterRunOptions_Example").load('./html/examples/AfterRunOptions_PPIXpress.html')
+    $("#toBuildDifferentialNetwork_Example").load('./html/examples/BuildDifferentialNetwork_PPIXpress.html')
 
     $(".help-panel").on('click', function(){
         const neighbors = $('#MenuPanel').find('.help-panel')

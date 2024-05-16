@@ -1,0 +1,71 @@
+<div style="display:flex; flex-direction: column; align-items:center; min-width: 500px; width: 60%">
+    <div class="menu header" style="font-size: small; padding: 1em; width: -webkit-fill-available">
+        Differential protein interaction network with PPICompare
+    </div>
+    <div class="menu panel shadow popup_content">
+        PPICompare identifies the rewiring events in the protein interaction networks between two cell conditions. 
+        Please label the conditions and select at least 1 sample for each group:<br>
+        <div class="popup_content_row">
+            <label style="width: max-content; font-weight: bold">Group 1:</label><input disabled name="Xpress2Compare_Label" type="text" class="input" style="height: 1.5em; width:max-content; background:white" placeholder="Th1"><br><br>
+            <label style="width: max-content; font-weight: bold">Group 2:</label><input disabled name="Xpress2Compare_Label" type="text" class="input" style="height: 1.5em; width:max-content; background:white" placeholder="Th2"><br><br>
+        </div>
+        <p class="description-text" style="color: var(--deeppink);">Group labels must be different and contain no spaces/special characters.</p>
+
+        <div class="popup_content_row">
+            <table style="margin: auto; width: -webkit-fill-available;">
+                <thead>
+                    <tr>
+                        <td>Sample</td>
+                        <td>Group 1</td>
+                        <td>Group 2</td>
+                        <td>Not selected</td>
+                    </tr>
+                </thead> 
+                <tbody>
+                    <tr>
+                        <th>Th1_precursors_1001.txt</th>
+                        <th><input type="radio" name="1"checked></th>
+                        <th><input disabled type="radio" name="1"></th>
+                        <th><input disabled type="radio" name="1"></th>
+                    </tr>
+                    <tr>
+                        <th>Th1_precursors_1002.txt</th>
+                        <th><input type="radio" name="2"checked></th>
+                        <th><input disabled type="radio" name="2"></th>
+                        <th><input disabled type="radio" name="2"></th>
+                    </tr>
+                    <tr>
+                        <th>Th2_precursors_1001.txt</th>
+                        <th><input disabled type="radio" name="3"></th>
+                        <th><input type="radio" name="3"checked></th>
+                        <th><input disabled type="radio" name="3"></th>
+                    </tr>
+                    <tr>
+                        <th>Th2_precursors_1002.txt</th>
+                        <th><input disabled type="radio" name="4"></th>
+                        <th><input type="radio" name="4"checked></th>
+                        <th><input disabled type="radio" name="4"></th>
+                    </tr>
+                    <tr>
+                        <th>Th2_precursors_1003.txt</th>
+                        <th><input disabled type="radio" name="5"></th>
+                        <th><input type="radio" name="5"checked></th>
+                        <th><input disabled type="radio" name="5"></th>
+                    </tr>
+                    <tr>
+                        <th>B_cell_1001.txt</th>
+                        <th><input disabled type="radio" name="6"></th>
+                        <th><input disabled type="radio" name="6"></th>
+                        <th><input type="radio" name="6" checked></th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p class="description-text" style="color: var(--deeppink);">Group 1 and 2 have to contain at least 1 sample each.</p>
+
+        <div class="popup_content_row">   
+            <button disabled type="button" name="close" class="button upload">Cancel</button>
+            <a disabled type="button" class="button upload">To PPICompare</a>
+        </div>
+    </div>
+</div>

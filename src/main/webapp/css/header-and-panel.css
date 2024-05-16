@@ -146,8 +146,8 @@
 }
 
 .disabled{
-    color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3));
-    background: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3));
+    color: light-dark(rgba(16, 16, 16, 0.3), rgba(255, 255, 255, 0.3)) !important;
+    background: light-dark(rgba(239, 239, 239, 0.3), rgba(19, 1, 1, 0.3)) !important;
 }
 
 /*Info page style*/
@@ -163,7 +163,7 @@
     font-weight: bold;
 }
 .help-panel:hover, .help-panel-sub:hover{
-    color: var(--choco);
+    color: var(--choco) !important;
     background: var(--intensemint75);
     font-weight: bolder;
     letter-spacing: 0.1em;
@@ -193,9 +193,15 @@
     line-height: 2em;
 }
 .level-1-heading{
-    font-size: larger;
+    display: block;
     text-transform: uppercase;
-    color: var(--darkintensemint);
+    text-align: center;
+    border: 2px solid var(--intensemint50);
+    border-radius: 1em;
+    background: white;
+    color: var(--choco);
+    width: -webkit-fill-available;
+    margin: 0.5em auto;
 }
 .level-3-heading{
     line-height: 1em;
