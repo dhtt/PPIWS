@@ -56,16 +56,17 @@ jQuery(document).ready(function() {
     let PPICompareOptions = ['output_DDINs', 'output_major_transcripts']
     let usePPICompareOptions = $('#usePPICompareOptions')
     usePPICompareOptions.on('change', function(){
+        // TODO: Inspect (Aram's side does not show )
         make_all_checked('usePPICompareOptions', PPICompareOptions);
-        if ($(this).is(':checked') === true){
-            // Only enable toPPICompare when this option is selected
+        if ($(this).is(':checked') === true & NO_EXPRESSION_FILE > 3){
+            // Only enable toPPICompare when this option is selected and more than 3 expression files are uploaded
             switchButton(toPPICompare, 'on', ['disabled'], 'removeClasses')
             $("[name='usePPICompareOptionsTag']").show()
             $("label[for='usePPICompareOptions']").html("Remove PPICompare-required options")
         } else{
             switchButton(toPPICompare, 'off', ['disabled'], 'addClasses')
             $("[name='usePPICompareOptionsTag']").hide()
-            $("label[for='usePPICompareOptions']").html("Include PPICompare-required options")
+            $("label[for='usePPICompareOptions']").html("Use PPICompare-required options")
         }
     });
     
@@ -210,7 +211,7 @@ jQuery(document).ready(function() {
             contentType : false,
             dataType: "json",
             success: function (resultText) {            
-                updateLongRunningStatus(resultText, 1000)
+                updateLongRunningStatus(resultText, 2000)
             },
             error: function (e){
                 alert("An error occurred in PPIXpress Webserver, check console log!")
@@ -365,7 +366,7 @@ jQuery(document).ready(function() {
         loader.show()
 
         //Fetch current process on the new tab
-        updateLongRunningStatus("resultText", 1000)
+        updateLongRunningStatus("resultText", 2000)
     })
 
 
@@ -396,6 +397,7 @@ jQuery(document).ready(function() {
     })
 
     Xpress2Compare_yes.on('click', function(){
+        /// Check if the labels are the same or containing special characters
         if (Xpress2Compare_Label1.val() === Xpress2Compare_Label2.val() || !regex.test(Xpress2Compare_Label1.val()) || !regex.test(Xpress2Compare_Label2.val())){
             Xpress2Compare_GroupLabels_description.show()
         } else {
@@ -420,7 +422,8 @@ jQuery(document).ready(function() {
             }
         })
 
-        if (groupedSample['group_1'].length === 0 || groupedSample['group_2'].length === 0){
+        // Check if there is the number of samples in group_1 or group_2 is larger than 2
+        if (groupedSample['group_1'].length < 2 || groupedSample['group_2'].length < 2){
             Xpress2Compare_SampleTable_description.show()
         } else {
             Xpress2Compare_SampleTable_description.hide()

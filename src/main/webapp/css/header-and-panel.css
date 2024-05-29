@@ -196,10 +196,10 @@
     display: block;
     text-transform: uppercase;
     text-align: center;
-    border: 2px solid var(--intensemint50);
+    border: 2px solid #d44e29;
     border-radius: 1em;
     background: white;
-    color: var(--choco);
+    color: #d44e29;
     width: -webkit-fill-available;
     margin: 0.5em auto;
 }

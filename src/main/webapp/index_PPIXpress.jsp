@@ -175,12 +175,18 @@
                     <label>
                         <input type="checkbox" name="RunOptions" id="report_gene_abundance" value="-mg">Report gene abundance
                     </label><br>
+                    <label hidden>
+                        <input type="checkbox" name="RunOptions" id="compress_output" value="-c" checked hidden> Compress outputs
+                    </label>
                 </div>
             </div>
             
 
             <div name="LeftPanel4" id="LeftPanel4" style="text-align: center">
-                <label for="usePPICompareOptions" value="null" class="button submit" style="font-size: small;margin-bottom: 0.5em;background: var(--lightmintgrey);color: var(--choco);min-height: fit-content; height:2em;padding: 0.5em;">Include PPICompare-required options</label>
+                <div style="display: flex; flex-direction: row;">
+                    <label for="usePPICompareOptions" value="null" class="button submit" style="width: -webkit-fill-available; font-size: small; margin-bottom: 0.5em; background: var(--lightmintgrey);color: var(--choco); min-height: fit-content; height:2em; padding: 0.5em;">Use PPICompare-required options</label> 
+                    <a href="./info_page.jsp#toUsePPICompareOptions" target="_blank"><button type="button" name="protein_network_example" class="help">?</button></a>
+                </div>
                 <input type="checkbox" id="usePPICompareOptions" style="display: none;">
                 <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPIXpress</button>
                 <button type="submit" name="Submit" id="RunExample" value="null" class="button try">Try with example data!</button>

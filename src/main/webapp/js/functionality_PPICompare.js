@@ -564,6 +564,11 @@ jQuery(document).ready(function() {
                                 switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
                                 ShowSubnetwork.show()
                                 NetworkSelection_HighlightProtein_All.parent('label').hide()
+                            } else if (n_nodes == 0){
+                                showWarningMessage(WarningMessage,
+                                    "❗️ The differential network does not contain any proteins. Please check the input files and settings.",
+                                    null)
+
                             } else {
                                 switchButton(ShowNetwork, 'on', ['upload'], 'addClasses')
                                 ShowSubnetwork.hide()

@@ -289,22 +289,22 @@
                                 <ul>
                                     <li>
                                         <span class="level-3-heading">Add STRING weights: </span>
-                                        <span>Adds weights to the original network using <a href="http://string-db.org/" class="href_to_section">STRING v10</a> (STRING weights are probabilities of functional association). Interactions that are not in STRING are removed from the network.</span>
+                                        Adds weights to the original network using <a href="http://string-db.org/" class="href_to_section">STRING v10</a> (STRING weights are probabilities of functional association). Interactions that are not in STRING are removed from the network.
                                         <br>
                                     </li>
                                     <li>
                                         <span class="level-3-heading">Update UniProt accessions: </span>
-                                        <span>Update outdated UniProt accessions to their current primary accessions.</span>
+                                        Update outdated UniProt accessions to their current primary accessions.
                                         <br>
                                     </li>
                                     <li>
                                         <span class="level-3-heading">Only local DDI data: </span>
-                                        <span>Only use local domain interaction data, thus current 3did data is not retrieved and only the precompiled set from DOMINE/IDDI/iPfam is used.</span>
+                                        Only use local domain interaction data, thus current 3did data is not retrieved and only the precompiled set from DOMINE/IDDI/iPfam is used.
                                         <br>
                                     </li>
                                     <li>
                                         <span class="level-3-heading">Include ELM data: </span>
-                                        <span>Retrieve and integrate ELM motifs and interactions.</span>
+                                        Retrieve and integrate ELM motifs and interactions.
                                         <br>
                                     </li>
                                 </ul>
@@ -314,7 +314,7 @@
                                 <ul>
                                     <li>
                                         <span class="level-3-heading">Gene-level only: </span>
-                                        <span>Enforces gene-level processing even if transcript expression data is given.</span>
+                                        Enforces gene-level processing even if transcript expression data is given.
                                         <br>
                                     </li>
                                     <li>
@@ -327,13 +327,15 @@
                                         <ul>
                                             <li>
                                                 <span class="level-3-heading">Use threshold: </span>
-                                                <span>Changes the expression-level threshold to [threshold]. (default)</span>
-                                                <br>
+                                                Changes the expression-level threshold to [threshold] (default).<br>
+                                                Threshold is a positive number that defines the minimum expression value for a transcript to be considered as expressed.<br>
+                                                The higher the threshold is, the fewer significant protein interactions will be found.<br>
+                                                The default threshold is set to 1.0 (recommended)<br>
                                             </li>
                                             <li>
                                                 <span class="level-3-heading">Use percentage: </span>
-                                                <span>Changes the expression-level threshold to the [percentile]-th percentile of the expression data.</span>
-                                                <br>
+                                                Changes the expression-level threshold to the [percentile]-th percentile of the expression data.<br>
+                                                The default percentile is set to 0.<br>
                                             </li>
                                         </ul>
                                     </li>
@@ -370,7 +372,7 @@
                                 </ul>
                             </li>
                             <li>
-                                <span class="level-2-heading">Include PPICompare-required options: </span> Include options required for PPICompare (<span class="highlight"><strong>Output DDINs</strong> and <strong>Output major transcripts</strong></span>).
+                                <span id="toUsePPICompareOptions" class="level-2-heading">Use PPICompare-required options: </span> Include options required for PPICompare (<span class="highlight"><strong>Output DDINs</strong> and <strong>Output major transcripts</strong></span>).
                             </li>
                         </ul><br>
                     </div>
@@ -516,7 +518,7 @@
                         <span id="toBuildDifferentialNetwork" class="level-1-heading">Build differential network (PPICompare)</span>
 
                         This option is only available if users run the analysis with self-uploaded data and select
-                        <a href="./info_page.jsp#toPPIXpressRunOptions" class="href_to_section">PPICompare-required options</a>
+                        <a href="./info_page.jsp#toUsePPICompareOptions" class="href_to_section">PPICompare-required options</a>
                         (<span class="highlight"><strong>Output DDINs</strong> and <strong>Output major transcripts</strong></span>).<br><br>
 
                         PPICompare compare at least two PPIXpress-constructed PPINs belonging to two different sample types/conditions/contexts to build the differential network. 
