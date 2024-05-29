@@ -175,9 +175,9 @@
                     <label>
                         <input type="checkbox" name="RunOptions" id="report_gene_abundance" value="-mg">Report gene abundance
                     </label><br>
-                    <label hidden>
-                        <input type="checkbox" name="RunOptions" id="compress_output" value="-c" checked hidden> Compress outputs
-                    </label>
+                    <!-- <label hidden>
+                        <input type="checkbox" name="RunOptions" id="compress_output" value="-c" hidden> Compress outputs
+                    </label> -->
                 </div>
             </div>
             

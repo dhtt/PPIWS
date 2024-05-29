@@ -1,13 +1,33 @@
 import {styleSheet} from '../resources/PPIXpress/graph_properties.js';
 import {styleSheetLegend} from '../resources/PPIXpress/graph_properties.js';
+import {showWarningMessage} from './functionality_helper_functions.js'
 
 // colorOpts is defined in functionality.js
 export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
     // Make plot
+    let WarningMessage = $('#WarningMessage')
     var graph = fetchedData
         .then(res => res.json())
         .then(
-            data => window.NVContent_Graph = cytoscape({
+            data => {
+                let graph_type = data[0].graph_type
+                data.shift() // Remove the first element of the array which is the graph_type
+ 
+                if (graph_type === "none"){
+                    showWarningMessage(WarningMessage,
+                        "⚠️ This protein is not a part of a condition-specific network or a reference network. Please select a different protein, " +
+                        "or run the analysis again with the option 'Output reference network' (Step 3. Adjust Run Options) " +
+                        "if you wish to inspect this protein in the reference network.",
+                        null)
+                }
+                else if (graph_type === "reference_network"){
+                    showWarningMessage(WarningMessage,
+                        "⚠️ This protein is not a part of the condition-specific network for this expression data, " + 
+                        "but is found in the reference network. Here, the subgraph from the reference network is shown.",
+                        null)
+                }
+
+                window.NVContent_Graph = cytoscape({
                     container: $('#NVContent_Graph'),
                     elements: data,
                     boxSelectionEnabled: false,
@@ -30,10 +50,14 @@ export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
                         });
                         api.collapseAll();
                     },
-
+                    
                     style: styleSheet
                 })
+        
+                return window.NVContent_Graph;
+            }
         )
+        
 
     
     // Make legend for plot

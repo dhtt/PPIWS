@@ -65,6 +65,7 @@ public class DownloadServlet extends HttpServlet {
 
                     // Compress output
                     try {
+                        // TODO recursive zip faster? 
                         Utils.zip(OUTPUT_PATH, OUTPUT_PATH + OUTPUT_FILENAME);
                     } catch (IOException e) {
                         context.log(USER_ID + ": DownloadServlet: Fail to compress output. ERROR:\n" + e.toString());
@@ -135,8 +136,6 @@ public class DownloadServlet extends HttpServlet {
                             boolean showDDIs = Boolean.parseBoolean(request.getParameter("showDDIs"));
                             
                             JSONArray subNetworkData = Utils.filterProtein(OUTPUT_PATH, proteinQuery, expressionQuery, showDDIs);
-
-
                             // Write output to response
                             out.println(subNetworkData);                    
                         } else if (PROGRAM.equals("PPICompare")){

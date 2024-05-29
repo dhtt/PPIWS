@@ -99,7 +99,7 @@ public class Utils {
     }
 
     
-    public static String UnzipFile(String zipFilePath_, String prefix_, String sep_) {
+    public static String unzipFile(String zipFilePath_, String prefix_, String sep_) {
         // Define the directory where you want to extract the contents
         Path zipFilePath = Paths.get(RemoveFileExtension(zipFilePath_));
         try {
@@ -353,14 +353,34 @@ public class Utils {
 
     public static JSONArray filterProtein(String LOCAL_STORAGE_PATH, String proteinQuery, String expressionQuery, boolean showDDIs) {
         JSONArray output = new JSONArray();
-        File PPI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ppin.txt");
-        List<Line> lines = grep(Grep.Options.i, ".*?" + proteinQuery + ".*?", PPI_file).toLineList();
-        
+        JSONObject graph_type = new JSONObject();
+        List<Line> lines = new ArrayList<>();
         try {   
-            if (lines.isEmpty()) {
-                JSONObject emptyList = new JSONObject();
-                emptyList.put("Error", "Protein not found!");
-                output.put(emptyList);
+            File PPI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ppin.txt");
+
+            if (PPI_file.exists()){
+                lines = grep(Grep.Options.i, ".*?" + proteinQuery + ".*?", PPI_file).toLineList();
+
+                if (!lines.isEmpty()) {
+                    graph_type.put("graph_type", "condition_specific_network");
+                } else {
+                    PPI_file = new File(LOCAL_STORAGE_PATH + "reference_ppin.txt");
+                    if (PPI_file.exists()){
+                        lines = grep(Grep.Options.i, ".*?" + proteinQuery + ".*?", PPI_file).toLineList();
+
+                        graph_type.put("graph_type", !lines.isEmpty() ? "reference_network" : "none");
+                    } else {
+                        graph_type.put("graph_type",  "none");
+                    }
+                }
+            } else {
+                graph_type.put("graph_type",  "none");
+            }
+            output.put(graph_type); // Contain graph_type information in the first position
+
+            if (graph_type.get("graph_type") == "none") {
+                JSONObject Protein_Node = addNode(proteinQuery, proteinQuery, "", "Protein_Node");
+                output.put(Protein_Node);
             } else {
                 Set<String> partners = new HashSet<String>();
 
@@ -370,26 +390,27 @@ public class Utils {
                     JSONObject PPI_Edge = addEdge(PPIs[0], PPIs[1], PPIs[2], "PPI_Edge");
                     output.put(PPI_Edge);
                 }
-
+    
                 // Create single nodes that linked to itself
                 for (String node : partners) { 
                     JSONObject Protein_Node = addNode(node, node, "", "Protein_Node");
                     output.put(Protein_Node);
                 }
-
+    
                 if (showDDIs){
-                    File DDI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ddin.txt");
+                    File DDI_file = graph_type.get("graph_type").equals("condition_specific_network") ? 
+                        new File(LOCAL_STORAGE_PATH + expressionQuery + "_ddin.txt") : new File(LOCAL_STORAGE_PATH + "reference_ddin.txt");
                     List<Line> DDIs = grep(".*?" + String.join(".*?|.*?", partners) + ".*?", DDI_file).toLineList();
                     ArrayList<String> DomainList = new ArrayList<String>();
-
+    
                     for (Line line : DDIs) {
                         String[] PPIs = line.getContent().split(" ");
-
+    
                         if (PPIs[2].equals("pd")) {
                             String parent = PPIs[0];
                             String[] nodeLabels = PPIs[1].split("\\|");
                             String DDI_ID = nodeLabels[1] + "_" + nodeLabels[2];
-
+    
                             if (!DomainList.contains(DDI_ID)){ // Avoid adding duplicated nodes
                                 JSONObject Domain_Node = addNode(DDI_ID, nodeLabels[1], parent, "Domain_Node");
                                 output.put(Domain_Node);
@@ -401,10 +422,10 @@ public class Utils {
                             String DDI_ID1 = nodeLabel1[1] + "_" + nodeLabel1[2];
                             String[] nodeLabel2 = PPIs[1].split("\\|");
                             String DDI_ID2 = nodeLabel2[1] + "_" + nodeLabel2[2];
-
+    
                             if (!DomainList.contains(DDI_ID1 + DDI_ID2)){ // Avoid adding duplicated edges
                                 String proteinPair = nodeLabel1[2] + "_" + nodeLabel2[2];
-
+    
                                 if (proteinPair.matches("(?i).*" + proteinQuery + ".*" )){
                                     JSONObject DDI_Edge = addEdge(DDI_ID1, DDI_ID2, PPIs[3], "DDI_Edge");
                                     output.put(DDI_Edge);

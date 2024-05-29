@@ -87,6 +87,7 @@ jQuery(document).ready(function() {
         placeholder.find("#percentile").val(0.00)
         placeholder.find("#protein_network_web").val("")
         placeholder.find("#remove_decay_transcripts").prop('checked', true)
+        placeholder.find("#report_reference").prop('checked', true)
     })
 
     /**
@@ -454,6 +455,7 @@ jQuery(document).ready(function() {
         $('#remove_decay_transcripts').prop('checked', true)
         $('#threshold').val(1.0)
         $('#percentile').val(0.0)
+        $('#report_reference').prop('checked', true)
 
         // Set usePPICompareOptions to false and trigger disabling toPPICompare
         usePPICompareOptions.prop('checked', false)
@@ -664,7 +666,8 @@ jQuery(document).ready(function() {
                     //             WarningMessage.hide();
                     //             return cy
                     //         })
-                    // }
+                    // } 
+                    // TODO: How to not hide warning message when other graph_type is selected
                     showWarningMessage(WarningMessage,
                         "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
                         null)

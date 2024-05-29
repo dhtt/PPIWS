@@ -32,10 +32,10 @@ public class UtilsTest {
     public void test_unZipFile(){
         // Test with MPP.zip where all outputs are compressed. All outputs have .txt.gz extension
         String fileName = "/home/trang/PPIWS/repository/uploads/8de95199-5f2f-4a97-9a9e-971bbefed216/PPICompare/INPUT/MPP.zip";
-        Utils.UnzipFile(fileName, "group_1", ".");
+        Utils.unzipFile(fileName, "group_1", ".");
         // Test with MPP.zip where all outputs are not compressed. All outputs have .txt extension
         String fileName1 = "/home/trang/PPIWS/repository/uploads/5e6b7e4c-b312-4a59-884d-454dc473015e/PPICompare/INPUT/N1_PPIXpress_out.zip";
-        Utils.UnzipFile(fileName1, "group_1", ".");
+        Utils.unzipFile(fileName1, "group_1", ".");
         // assertTrue(unzippedFile.equals(Utils.RemoveFileExtension(fileName)));
     }
 
@@ -108,7 +108,7 @@ public class UtilsTest {
         }
         
         JSONArray output = new JSONArray();
-        output = Utils.filterProtein(OUTPUT_PATH, "Q9UKT8", "expression_1.txt", true);
+        output = Utils.filterProtein(OUTPUT_PATH, "Q11130", "1", true);
         System.out.println(output);
     }
 }
