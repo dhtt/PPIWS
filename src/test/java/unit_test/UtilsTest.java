@@ -16,6 +16,19 @@ import com.webserver.Utils;
 @RunWith(JUnit4.class)
 public class UtilsTest {
     @Test
+    public void test_copyPPIXpress2PPICompare(){
+        String LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/uploads/8OccrE351CwW";
+        String groupedID = "Ccell:3,4";
+        try {
+            String copyTarget = Utils.copyPPIXpress2PPICompare(LOCAL_STORAGE_PATH, groupedID);
+            assertTrue(copyTarget.equals(LOCAL_STORAGE_PATH + "/PPICompare/INPUT/" + groupedID.split(":")[0] + "/"));
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
     public void test_unZipFile(){
         // Test with MPP.zip where all outputs are compressed. All outputs have .txt.gz extension
         String fileName = "/home/trang/PPIWS/repository/uploads/8de95199-5f2f-4a97-9a9e-971bbefed216/PPICompare/INPUT/MPP.zip";

@@ -179,7 +179,7 @@ public class Utils {
     public static String copyPPIXpress2PPICompare(String Path_, String groupedID) throws IOException {
         String PPIXpressOutputPath = Path_ + "/PPIXpress/OUTPUT/";
         String PPICompareInputPath = Path_ + "/PPICompare/INPUT/";
-        String[] PPICompareRequiredFormat = new String[]{"ppin.txt", "ddin.txt", "major-transcripts.txt"};
+        String[] PPICompareRequiredFormat = new String[]{"ppin.txt", "ddin.txt", "major-transcripts.txt", "ppin.txt.gz", "ddin.txt.gz", "major-transcripts.txt.gz"};
         String groupID = groupedID.split(":")[0]; // group_id = g1
         String[] sampleIDs = groupedID.split(":")[1].split(","); // sample_ids = [1,2,3]
 
@@ -189,13 +189,18 @@ public class Utils {
             for (String fileSuffix : PPICompareRequiredFormat) {
                 for (String ID : sampleIDs) {
                     String fileName = ID + "_" + fileSuffix;
-                    String source = PPIXpressOutputPath + fileName; // /PPIXpress/OUTPUT/1_ppin.txt
-                    String target = targetDir + fileName;
+                    String source = PPIXpressOutputPath + fileName; // /PPIXpress/OUTPUT/1_ppin.txt or /PPIXpress/OUTPUT/1_ppin.txt.gz
+                    if (Files.exists(Paths.get(source))){
+                        String target = targetDir + fileName;
+    
+                        if (!Files.exists(Paths.get(targetDir))) {
+                            Files.createDirectories(Paths.get(targetDir));
+                        }
 
-                    if (!Files.exists(Paths.get(targetDir))) {
-                        Files.createDirectories(Paths.get(targetDir));
+                        Files.copy(Paths.get(source), Paths.get(target), StandardCopyOption.REPLACE_EXISTING);
+                    } else {
+                        continue;
                     }
-                    Files.copy(Paths.get(source), Paths.get(target), StandardCopyOption.REPLACE_EXISTING);
                 }
             }
         } catch (Exception e) {
