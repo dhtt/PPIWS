@@ -653,30 +653,7 @@ jQuery(document).ready(function() {
             // Applied for resultFileType of graph, sample_summary
             else {
                 if (resultFileType === "graph"){
-                    // TODO: check if the protein is in the list 
-                    // if (!NetworkSelection_Protein.options.includes(NetworkSelection_Protein.val())){
-                    //     alert("Protein not found. Please check if the UniProt ID is correct.")  
-                    // } else {
-                    //     showWarningMessage(WarningMessage,
-                    //         "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
-                    //         null)
-                    //     ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
-                    //     ProteinNetwork
-                    //         .then(cy => {
-                    //             WarningMessage.hide();
-                    //             return cy
-                    //         })
-                    // } 
-                    // TODO: How to not hide warning message when other graph_type is selected
-                    showWarningMessage(WarningMessage,
-                        "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
-                        null)
                     ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
-                    ProteinNetwork
-                        .then(cy => {
-                            WarningMessage.hide();
-                            return cy
-                        })
                 }
                 else if (resultFileType === "sample_summary" | resultFileType === "protein_list"){
                     fetchData

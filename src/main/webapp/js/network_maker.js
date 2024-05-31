@@ -6,6 +6,10 @@ import {showWarningMessage} from './functionality_helper_functions.js'
 export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
     // Make plot
     let WarningMessage = $('#WarningMessage')
+    showWarningMessage(WarningMessage,
+        "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
+        null)
+
     var graph = fetchedData
         .then(res => res.json())
         .then(
@@ -54,9 +58,13 @@ export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
                     style: styleSheet
                 })
         
+                window.NVContent_Graph.on('layoutstop', function(data){
+                    if (graph_type === "condition_specific_network"){
+                        WarningMessage.hide();
+                    }
+                })
                 return window.NVContent_Graph;
-            }
-        )
+            })
         
 
     
