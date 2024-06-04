@@ -65,7 +65,6 @@ export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
                 })
                 return window.NVContent_Graph;
             })
-        
 
     
     // Make legend for plot

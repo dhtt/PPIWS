@@ -481,6 +481,8 @@ jQuery(document).ready(function() {
         $("#AfterRunOptions, #RightDisplay").css({'display': 'none'})
         runningProgressContent.html("")
         $("[name='ScrollToTop']").hide()
+        $(".warning").hide()
+        
 
         // Before resubmit, clear existing graphs and graph options
         NVContent_Graph.html('')
@@ -835,7 +837,7 @@ jQuery(document).ready(function() {
         if (!showDDIs){
             showWarningMessage(WarningMessage,
                 '⚠️ Protein nodes are not expandable because "Output DDINs" options was not selected.',
-                3000)
+                10000)
         }
     })
     ToggleExpandCollapse.on('change', function(){
@@ -892,7 +894,7 @@ function activateNetwork (graph, warning, ShowSubnetworkOption){
                     if (!hasDDI){
                         showWarningMessage(warning,
                             '⚠️ Protein nodes are not expandable because "Output DDINs" options was not selected.',
-                            3000)
+                            10000)
                     }
 
                     const api = cy.expandCollapse('get');

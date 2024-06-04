@@ -37,7 +37,7 @@ jQuery(document).ready(function() {
         'DDIColor': CSS_Style_['--darkintensemint'],
         'parentNodeBackgroundColor': 'lightgray',
         'nodeSize': 15,
-        'opacity': 1
+        'nodeOpacity': 0.8
     }
 
     styleSheet =[
@@ -54,7 +54,8 @@ jQuery(document).ready(function() {
                 'line-height': 2,
                 'height': colorOpts.nodeSize,
                 'width': colorOpts.nodeSize,
-                'opacity': colorOpts.opacity
+                'opacity': colorOpts.opacity,
+                'text-opacity': 1
             }
         },
         { // Node properties for both protein ad domain node when dragged
@@ -126,6 +127,12 @@ jQuery(document).ready(function() {
             selector: ".Edge_highlight",
             style: {
                 'opacity': 1
+            }
+        },
+        { // Node properties for both protein ad domain node when dragged
+            selector: ".Node_hidden",
+            style: {
+                'display': 'none'
             }
         }
     ]

@@ -237,12 +237,6 @@
                         <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
 
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
-                            <!-- <div class="star" name="Star" id="ShowSubnetwork_star"></div> -->
-                            
-                            <!-- <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label>
-                            <input id="NetworkSelection_Protein" list="NetworkSelection_Protein_List" class="button upload" style="margin: 0.5em 0; width: 80%; font-size: smaller" placeholder="UniProt ID">
-                            <datalist id="NetworkSelection_Protein_List"></datalist><br>
-                             -->
                             <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label><br>
                             <select id="NetworkSelection_Protein" class="button upload" style="margin: 0.5em 0; width: min-content; font-size: smaller" data-placeholder="UniProt ID"></select><br>
                             

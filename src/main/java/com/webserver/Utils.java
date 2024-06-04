@@ -381,6 +381,9 @@ public class Utils {
             if (graph_type.get("graph_type") == "none") {
                 JSONObject Protein_Node = addNode(proteinQuery, proteinQuery, "", "Protein_Node");
                 output.put(Protein_Node);
+
+                JSONObject Domain_Node = addNode("domain", "domain", proteinQuery, "Node_hidden");
+                output.put(Domain_Node);
             } else {
                 Set<String> partners = new HashSet<String>();
 
