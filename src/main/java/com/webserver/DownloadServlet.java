@@ -3,6 +3,9 @@ package com.webserver;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
 
 import java.io.*;
@@ -22,24 +25,20 @@ public class DownloadServlet extends HttpServlet {
     protected String SAMPLE_FILENAME;
     protected String SUBMIT_TYPE;
     protected String resultFileType;
-    protected ServletContext context;
     protected ArrayList<String> proteinList;
     protected Map<String, String[]> proteinAttributeList;
     protected PrintWriter out;
+    protected static final Logger logger = LogManager.getLogger(DownloadServlet.class);
 
-    /**
-     * Initilize ServletContext log to localhost log files
-     */
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        context = getServletContext();
-    }
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
             // USER_ID and PROGRAM are retrieved from request parameter
             USER_ID = request.getParameter("USER_ID") == null ? "" : request.getParameter("USER_ID").toString();
+            // Set log file path
+            Utils.setLogFileName(USER_ID);
+            
             PROGRAM = request.getParameter("PROGRAM") == null ? "" : request.getParameter("PROGRAM").toString();
             resultFileType =  request.getParameter("resultFileType") == null ? "" : request.getParameter("resultFileType").toString();
             
@@ -50,7 +49,7 @@ public class DownloadServlet extends HttpServlet {
             OUTPUT_FILENAME = "ResultFiles.zip"; 
 
             // Internal log 
-            context.log(USER_ID + ": DownloadServlet: All info:" + 
+            logger.info(USER_ID + ": DownloadServlet: All info:" + 
                 "\n-PATH: " + LOCAL_STORAGE_PATH + 
                 "\n-PROGRAM: " + PROGRAM + 
                 "\n-RESULT FILE TYPE: " + resultFileType);
@@ -68,7 +67,7 @@ public class DownloadServlet extends HttpServlet {
                         // TODO recursive zip faster? 
                         Utils.zip(OUTPUT_PATH, OUTPUT_PATH + OUTPUT_FILENAME);
                     } catch (IOException e) {
-                        context.log(USER_ID + ": DownloadServlet: Fail to compress output. ERROR:\n" + e.toString());
+                        logger.error(USER_ID + ": DownloadServlet: Fail to compress output. ERROR:\n" + e.toString());
                     }
 
                     // Write output to response
@@ -86,7 +85,7 @@ public class DownloadServlet extends HttpServlet {
                             out.println(br.readLine());
                         }
                     } catch (Exception e) {
-                        context.log(USER_ID + ": DownloadServlet: Fail to retrieve sample summary. ERROR:\n" + e.toString());
+                        logger.error(USER_ID + ": DownloadServlet: Fail to retrieve sample summary. ERROR:\n" + e.toString());
                     }
                     break;
                 
@@ -95,7 +94,8 @@ public class DownloadServlet extends HttpServlet {
                     try {
                         if (PROGRAM.equals("PPICompare")){
                             String proteinQuery = request.getParameter("proteinQuery");
-                            context.log("proteinQuery: " + proteinQuery); 
+                            logger.info("Querying protein: " + proteinQuery); 
+                            
                             proteinAttributeList = new HashMap<String, String[]>(); 
                             try {
                                 Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt"));
@@ -107,7 +107,7 @@ public class DownloadServlet extends HttpServlet {
                                 }
                                 s.close();
                             } catch (Exception e) {
-                                context.log(USER_ID + ": DownloadServlet: Fail to retrieve protein attributes. ERROR:\n" + e.toString());
+                                logger.error(USER_ID + ": DownloadServlet: Fail to retrieve protein attributes. ERROR:\n" + e.toString());
                             }
                             try {
                                 JSONArray subNetworkData = Utils.filterProtein_PPICompare(OUTPUT_PATH, proteinAttributeList, proteinQuery);
@@ -116,12 +116,12 @@ public class DownloadServlet extends HttpServlet {
                                 out.println(subNetworkData);
                                 
                             } catch (Exception e) {
-                                context.log(USER_ID + ": DownloadServlet: filterProtein_PPICompare. ERROR:\n" + e.toString());
+                                logger.error(USER_ID + ": DownloadServlet: filterProtein_PPICompare. ERROR:\n" + e.toString());
                             }
                             
                         } 
                     } catch (Exception e) {
-                        context.log(USER_ID + ": DownloadServlet: Fail to retrieve data for subgraphs data. ERROR:\n" + e.toString());
+                        logger.error(USER_ID + ": DownloadServlet: Fail to retrieve data for subgraphs data. ERROR:\n" + e.toString());
                         out.println("Fail to retrieve subgraphs data. Please contact authors using the ID:\n" + USER_ID);
                     }     
                     break;
@@ -155,7 +155,7 @@ public class DownloadServlet extends HttpServlet {
                             out.println(subNetworkData);
                         }
                     } catch (Exception e) {
-                            context.log(USER_ID + ": DownloadServlet: Fail to retrieve data for graphs data. ERROR:\n" + e.toString());
+                            logger.error(USER_ID + ": DownloadServlet: Fail to retrieve data for graphs data. ERROR:\n" + e.toString());
                             out.println("Fail to retrieve graphs data. Please contact authors using the ID:\n" + USER_ID);
                     }
                     break;
@@ -190,12 +190,12 @@ public class DownloadServlet extends HttpServlet {
                             out.println(String.join("", proteinList) + "n_nodes=" + n_nodes);
                         }
                     } catch (Exception e) {
-                        context.log(USER_ID + ": DownloadServlet: Fail to retrieve protein list. ERROR:\n" + e.toString());
+                        logger.error(USER_ID + ": DownloadServlet: Fail to retrieve protein list. ERROR:\n" + e.toString());
                     }
                     break;
                 }
             } catch(Exception e){
-                context.log(USER_ID + ": DownloadServlet: Fail to retrieve session information. ERROR:\n" + e.toString());
+                logger.error(USER_ID + ": DownloadServlet: Fail to retrieve session information. ERROR:\n" + e.toString());
             }
         }
     }

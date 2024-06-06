@@ -144,7 +144,7 @@
                     </span>
                     <span class="subsection-text" style="flex:1; text-align: center">
                         <label for="threshold">Threshold</label>
-                        <input type="number" id="threshold" value="1.00" min="0" max="1.0" step="0.01">
+                        <input type="number" id="threshold" value="1.00" min="0" max="100" step="1">
                         <label for="percentile" style="display: none">Percentile</label>
                         <input type="number" id="percentile" value="0.00" min="0" max="100.0" step="1" style="display: none">
                     </span>
@@ -212,7 +212,7 @@
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
                             <!-- <div class="star" name="Star" id="toNetworkVisualization_star"></div> -->
                             <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Condition-Specific Networks</button><br>
-                            <button type="button" name="transit" id="toPPICompare" value="null" disabled class="button download disabled" title="Required 'Output DDINs' and 'Output major transcripts' with user uploaded data.">Build differential network (PPICompare)</button><br>
+                            <button type="button" name="transit" id="toPPICompare" value="null" disabled class="button download disabled" title="Required 'Output DDINs' and 'Output major transcripts' with at least 4 samples.">Build differential network (PPICompare)</button><br>
                             <button type="button" name="transit" id="runNewAnalysis" value="null" class="button download">Run a new analysis</button><br>
                         </div>
                     </div>

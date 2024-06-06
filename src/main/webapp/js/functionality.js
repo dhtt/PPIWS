@@ -56,7 +56,6 @@ jQuery(document).ready(function() {
     let PPICompareOptions = ['output_DDINs', 'output_major_transcripts']
     let usePPICompareOptions = $('#usePPICompareOptions')
     usePPICompareOptions.on('change', function(){
-        // TODO: Inspect (Aram's side does not show )
         make_all_checked('usePPICompareOptions', PPICompareOptions);
         if ($(this).is(':checked') === true & NO_EXPRESSION_FILE > 3){
             // Only enable toPPICompare when this option is selected and more than 3 expression files are uploaded
@@ -69,6 +68,7 @@ jQuery(document).ready(function() {
             $("label[for='usePPICompareOptions']").html("Use PPICompare-required options")
         }
     });
+
     
 
     // TODO might be integrated with reset fields below
@@ -261,6 +261,11 @@ jQuery(document).ready(function() {
                                 $("[name='ScrollToTop']").show()
                                 switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
                                 StarContents.css({'display': 'inline-block'});
+
+                                if (PPICompareOptions.every(option => $('#' + option).is(':checked'))) {
+                                    usePPICompareOptions.prop('checked', true);
+                                    usePPICompareOptions.change()
+                                }
     
                                 // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
                                 addNetworkExpressionSelection(NAMES_EXPRESSION_FILE);

@@ -4,6 +4,8 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 import org.json.JSONObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,16 +22,8 @@ public class ProgressReporter extends HttpServlet {
         protected String LOCAL_STORAGE_PATH;
         protected Boolean UPDATE_LONG_PROCESS_STOP_SIGNAL;
         protected int NO_EXPRESSION_FILE;
-        protected ServletContext context;
         protected JSONObject POSTData = new JSONObject();
-
-        /**
-         * Initilize ServletContext log to localhost log files
-         */
-        public void init(ServletConfig config) throws ServletException {
-                super.init(config);
-                context = getServletContext();
-        }
+        protected static final Logger logger = LogManager.getLogger(ProgressReporter.class);
 
         public void doPost(HttpServletRequest request, HttpServletResponse response)
                         throws ServletException, IOException {
@@ -39,7 +33,10 @@ public class ProgressReporter extends HttpServlet {
                 try {   
                         // USER_ID is retrieved from request parameter
                         USER_ID = request.getParameter("USER_ID") == null ? "" : request.getParameter("USER_ID").toString();
-                      
+                                
+                        // Set log file path
+                        Utils.setLogFileName(USER_ID);
+
                         // PROGRAM is retrieved from request parameter, indicating PPPXpress or PPICompare is making request
                         PROGRAM = request.getParameter("PROGRAM") == null ? "" : request.getParameter("PROGRAM").toString();
 
@@ -72,15 +69,12 @@ public class ProgressReporter extends HttpServlet {
                                 NO_EXPRESSION_FILE = request.getParameter("NO_EXPRESSION_FILE") == null ? 
                                         0 : Integer.parseInt(request.getParameter("NO_EXPRESSION_FILE"));
                         
-                                context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS:" +
-                                        "\n-PROGRAM: " + PROGRAM + 
-                                        "\n-PATH: " + LOCAL_STORAGE_PATH + 
-                                        "\n-NO_EXP_FILES: " + String.valueOf(NO_EXPRESSION_FILE) +
+                                logger.info(USER_ID + ": ProgressReporter: Transmitting: " +
+                                        "-PROGRAM: " + PROGRAM + 
                                         "\n-STOP_SIGNAL: " + UPDATE_LONG_PROCESS_STOP_SIGNAL);
                         } else if (PROGRAM.equals("PPICompare")){
-                                context.log(USER_ID + ": ProgressReporter SESSION PARAMETERS:" +
+                                logger.info(USER_ID + ": ProgressReporter: Transmitting: " +
                                         "\n-PROGRAM: " + PROGRAM + 
-                                        "\n-PATH: " + LOCAL_STORAGE_PATH +
                                         "\n-STOP_SIGNAL: " + UPDATE_LONG_PROCESS_STOP_SIGNAL);
                         }
                                 
@@ -99,7 +93,7 @@ public class ProgressReporter extends HttpServlet {
                 } catch (Exception e) {
                         // In case of error, stop updating progress
                         POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", true);
-                        context.log(USER_ID + ": ProgressReporter: ERROR:\n" + e.toString());
+                        logger.error(USER_ID + ": ProgressReporter: ERROR:\n" + e.toString());
                 }
         }
 }

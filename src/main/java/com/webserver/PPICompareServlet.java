@@ -8,6 +8,8 @@ import java.io.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.json.JSONObject;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import standalone_tools.PPICompare_Tomcat;
 
@@ -15,7 +17,7 @@ import standalone_tools.PPICompare_Tomcat;
 @MultipartConfig()
 
 public class PPICompareServlet extends HttpServlet {
-    protected static ServletContext context;
+    protected static final Logger logger = LogManager.getLogger(PPICompareServlet.class);
     protected String USER_ID;
     protected String LOCAL_STORAGE_PATH;
     protected String INPUT_PATH;
@@ -26,15 +28,6 @@ public class PPICompareServlet extends HttpServlet {
     ArrayList<String> allArgs;
     static AtomicBoolean STOP_SIGNAL = new AtomicBoolean(false);
     protected JSONObject POSTData = new JSONObject();
-
-
-    /**
-     * Initilize ServletContext log to localhost log files
-     */
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        context = getServletContext();
-    }
 
 
     /**
@@ -70,12 +63,12 @@ public class PPICompareServlet extends HttpServlet {
                 while (!stop) {
                     PPICompare_Tomcat.runAnalysis(this.argList, stopSignal);
                     if (stopSignal.get()) {
-                        context.log("PPICompare pipeline is finished!");
+                        logger.info("PPICompare pipeline is finished!");
                         setStop(true);
                     }
                 }
             } catch(Exception e){
-                context.log(e.toString());
+                logger.error(e.toString());
             }
         }
 
@@ -110,9 +103,11 @@ public class PPICompareServlet extends HttpServlet {
         // Store uploaded files outside webapp deploy folders (LOCAL_STORAGE_PATH) and
         // output.zip inside deploy folder (WEBAPP_PATH)
         USER_ID = request.getParameter("USER_ID");
-        allArgs = new ArrayList<String>();
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
+        allArgs = new ArrayList<String>();
         
+        // Set log file path
+        Utils.setLogFileName(USER_ID);
 
         if (SUBMIT_TYPE.equals("RunExample")) {
             try {
@@ -131,10 +126,10 @@ public class PPICompareServlet extends HttpServlet {
                 allArgs.add("-output=" + OUTPUT_PATH);
                 allArgs.add("-fdr=0.05");
 
-                context.log(USER_ID + ": PPICompareServlet: Example process initiated from Servlet\n" + allArgs);
+                logger.info(USER_ID + ": PPICompareServlet: Example process initiated from Servlet\n" + allArgs);
 
                 String GROUPED_ID = request.getParameter("PPIXPRESS_NETWORK_TEXT") == null ? "" : request.getParameter("PPIXPRESS_NETWORK_TEXT").toString();
-                context.log(USER_ID + ": PPICompareServlet: GROUPED_ID\n" + GROUPED_ID);
+                logger.info(USER_ID + ": PPICompareServlet: GROUPED_ID\n" + GROUPED_ID);
                 String[] GROUPED_IDs = GROUPED_ID.split("&");
                 for (String ID : GROUPED_IDs) {
                     Utils.copyPPIXpress2PPICompare("/home/trang/PPIWS/repository/example_run/", ID);
@@ -143,7 +138,7 @@ public class PPICompareServlet extends HttpServlet {
 
             }
             catch(Exception e){
-                context.log(USER_ID + ": PPICompareServlet: Fail to initiate example run\n" + e.toString());
+                logger.error(USER_ID + ": PPICompareServlet: Fail to initiate example run\n" + e.toString());
             }
         } 
         else if (SUBMIT_TYPE.equals("RunNormal")) {
@@ -168,7 +163,7 @@ public class PPICompareServlet extends HttpServlet {
                             allArgs.add("-group_" + i + "=" + inputFilesPath);
                         }
                     } catch(Exception e){
-                        context.log(USER_ID + ": PPICompareServlet: Fail to locate PPIXpress-forwarded networks. ERROR:\n" + e.toString());
+                        logger.error(USER_ID + ": PPICompareServlet: Fail to locate PPIXpress-forwarded networks. ERROR:\n" + e.toString());
                     }
                 } else {
                     // Add paths to expression data to argument list. Meanwhile, store user's PPI
@@ -190,7 +185,7 @@ public class PPICompareServlet extends HttpServlet {
                             }
                         }
                     } catch(Exception e){
-                        context.log(USER_ID + ": PPICompareServlet: Fail to retrieve uploaded PPIXpress networks. ERROR:\n" + e.toString());
+                        logger.error(USER_ID + ": PPICompareServlet: Fail to retrieve uploaded PPIXpress networks. ERROR:\n" + e.toString());
                     }
                 }
                 
@@ -203,11 +198,11 @@ public class PPICompareServlet extends HttpServlet {
                 allArgs.add(request.getParameter("fdr"));
                 allArgs.remove(null);
 
-                context.log(USER_ID + ": PPICompareServlet: User-defined process initiated from Servlet\n" + allArgs);
+                logger.info(USER_ID + ": PPICompareServlet: User-defined process initiated from Servlet\n" + allArgs);
 
             }
             catch(Exception e){
-                context.log(USER_ID + ": PPICompareServlet: Fail to initiate user-defined run\n" + e.toString());
+                logger.error(USER_ID + ": PPICompareServlet: Fail to initiate user-defined run\n" + e.toString());
             }  
         }
         try {
@@ -232,7 +227,7 @@ public class PPICompareServlet extends HttpServlet {
                 lrp.start();   
             }
         } catch (Exception e) {
-            context.log(USER_ID + ": PPICompareServlet: Fail to initialize PPICompare process.\n" + e.toString());
+            logger.error(USER_ID + ": PPICompareServlet: Fail to initialize PPICompare process.\n" + e.toString());
         }
     } 
 

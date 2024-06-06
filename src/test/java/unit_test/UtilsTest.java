@@ -111,4 +111,10 @@ public class UtilsTest {
         output = Utils.filterProtein(OUTPUT_PATH, "Q11130", "1", true);
         System.out.println(output);
     }
+
+
+    @Test
+    public void test_writeLog() {
+        Utils.writeLog();
+    }
 }
