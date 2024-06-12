@@ -91,6 +91,9 @@ jQuery(document).ready(function() {
         
         // Hide confirmation popup
         Xpress2Compare_popup_confirm.hide()
+
+        // Remove shared information so that the same input data is not used for the next run
+        window.localStorage.removeItem('TRANSFER_DATA')
     })
 
     $('#Xpress2Compare_abort').on('click', function(){
@@ -201,8 +204,7 @@ jQuery(document).ready(function() {
                     } 
                 },
                 error: function(e){
-                    alert("An error occurred in updateLongRunningStatus, check console log!")
-                    console.log(e)
+                    console.log("An error occurred in updateLongRunningStatus: " + e)
                 }
             })
         }, updateInterval);
@@ -222,6 +224,60 @@ jQuery(document).ready(function() {
      * Submit form and run analysis
      * @type {boolean}
      */
+
+
+    // var regex = new RegExp("^[0-9a-zA-Z\.\_\b]+$");
+
+    // let PPIXpress_network_1_filename = PPIXpress_network_1[0].files[0].name
+    // let PPIXpress_network_2_filename = PPIXpress_network_2[0].files[0].name
+    // console.log("CHECK 0: " + PPIXpress_network_1_filename + " " + PPIXpress_network_2_filename);
+    // console.log(regex.test(PPIXpress_network_1_filename));
+    // console.log(regex.test(PPIXpress_network_2_filename));
+    // console.log(!regex.test(PPIXpress_network_1_filename) || !regex.test(PPIXpress_network_2_filename))
+    // if (regex.test(PPIXpress_network_1_filename) || !regex.test(PPIXpress_network_2_filename)){
+    //     console.log("CHECK 1");
+    //     // Check if the same file is selected for comparison
+    //     if (PPIXpress_network_1_filename === PPIXpress_network_2_filename && PPIXpress_network_1_filename !== ""){
+    //         console.log("CHECK 2");
+    //         alert('Please select two different files for comparison.');
+    //         return false;
+
+    //     } else if (PPIXpress_network_1_filename === "" && PPIXpress_network_2_filename === "" ){
+    //         console.log("CHECK 3");
+    //         // Only submit form if user has selected 2 files for comparison. 
+    //         // If yes, use PPIXpress_network input and not PPIXpress_network_text
+    //         if (PPIXpress_network_1_filename === "" || PPIXpress_network_2_filename === ""){
+    //             console.log("CHECK 4");
+
+    //             // If more than 1 file is missing, check whether inputs from PPIXpress_network_text are set.
+    //             // If yes, use PPIXpress_network_text. Otherwise, alert user to upload missing files.
+    //             if (PPIXpress_network_1_filename === "" || PPIXpress_network_2_filename === ""){
+    //                 console.log("CHECK 5");
+    //                 alert('Missing input file(s)');
+    //                 return false;
+
+    //             } else {
+    //                 console.log("CHECK 6");
+    //                 // Clear PPIXpress_network input value
+    //                 PPIXpress_network.each(function(){ this.value = '' })
+    //             }
+    //         } else {
+    //             console.log("CHECK 7");
+    //             // Theorectically, this should not happen because if PPIXpress_network_text inputs are set, 
+    //             // new PPICompare window is opened from PPICompare and PPIXpress_network inputs are hidden 
+    //             // so user cannot upload files. If user click on Xpress2Compare_abort, the window is closed.
+    //             // This is just a double check.
+
+    //             // Clear PPIXpress_network_text input value
+    //             PPIXpress_network_text.each(function(){ this.value = '' })
+    //         }
+    //     } 
+    // } else {
+    //     console.log("CHECK 8");
+    //     alert('File names should end in .zip/.gz/.gzip and must not contain special characters other than "." and "_" (space, slash, comma, etc. are not allowed).')
+    //     return false;
+    // }
+
     $('#RunNormal').on('click', function (){
         // Reset displayed result from previous run
         resetDisplay()
@@ -236,23 +292,30 @@ jQuery(document).ready(function() {
                 alert('Missing input file(s)');
                 return false;
             } else {
-                // Clear PPIXpress_network input value
+                // Clear PPIXpress_network input value if PPIXpress_network_text inputs are set
+                // This is reversed for PPIXpress_network_text in the else statement
                 PPIXpress_network.each(function(){ this.value = '' })
             }
         } else {
-            // Theorectically, this should not happen because if PPIXpress_network_text inputs are set, 
-            // new PPICompare window is opened from PPICompare and PPIXpress_network inputs are hidden 
-            // so user cannot upload files. If user click on Xpress2Compare_abort, the window is closed.
-            // This is just a double check.
+            let PPIXpress_network_1_filename = PPIXpress_network_1[0].files[0].name
+            let PPIXpress_network_2_filename = PPIXpress_network_2[0].files[0].name
+            var filename_regex = new RegExp("^[0-9a-zA-Z\.\_\b]+$");
 
-            // Clear PPIXpress_network_text input value
+            // Check if the same file is selected for comparison
+            if (PPIXpress_network_1_filename === PPIXpress_network_2_filename && PPIXpress_network_1.val() !== ""){
+                alert('Please select two different files for comparison.');
+                return false;
+            }
+
+            // Check if filenames contain special characters
+            if (!filename_regex.test(PPIXpress_network_1_filename) || !filename_regex.test(PPIXpress_network_2_filename)){
+                alert('File names should end in .zip/.gz/.gzip and must not contain special characters other than "." and "_" (space, slash, comma, etc. are not allowed).')
+                return false;
+            }
+
+            // Clear PPIXpress_network_text input value if PPIXpress_network inputs are set
+            // This is reversed for PPIXpress_network in the main if statement
             PPIXpress_network_text.each(function(){ this.value = '' })
-        }
-
-        // Check if the same file is selected for comparison
-        if (PPIXpress_network_1.val() === PPIXpress_network_2.val() && PPIXpress_network_1.val() !== ""){
-            alert('Please select two different files for comparison.');
-            return false;
         }
 
         Submit.prop('disabled', true)
@@ -326,9 +389,15 @@ jQuery(document).ready(function() {
         placeholder.find("input[type='text']").val("")
         placeholder.find('.description-text').html("&emsp;") // A space is needed so that there is an empty line
 
-        // Specific settings for each datatype-panel
-        placeholder.find("#fdr").val(0.05)
-        placeholder.find("#return_protein_attribute").prop('checked', true)
+
+        if ($(this).attr('id') === 'ResetRunOptions'){
+            toggleInputLabel(PPIXpress_network, 'show')
+            toggleInputLabel(PPIXpress_network_text, 'hide')
+        } else if ($(this).attr('id') === 'ResetNetworkOptions'){    
+            // Specific settings for each datatype-panel 
+            $('#fdr').val(0.05)
+            $('#return_protein_attribute').prop('checked', true)
+        }
     })
 
     /**
@@ -427,6 +496,9 @@ jQuery(document).ready(function() {
     }
 
     runNewAnalysis.on('click', function (){
+        USER_ID = generateRandomString(12);
+        window.sessionStorage.setItem('USER_ID', USER_ID);
+
         resetForm()
         resetDisplay()
         switchShowNetwork('off')

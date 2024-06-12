@@ -57,13 +57,10 @@ jQuery(document).ready(function() {
     let usePPICompareOptions = $('#usePPICompareOptions')
     usePPICompareOptions.on('change', function(){
         make_all_checked('usePPICompareOptions', PPICompareOptions);
-        if ($(this).is(':checked') === true & NO_EXPRESSION_FILE > 3){
-            // Only enable toPPICompare when this option is selected and more than 3 expression files are uploaded
-            switchButton(toPPICompare, 'on', ['disabled'], 'removeClasses')
+        if ($(this).is(':checked') === true){
             $("[name='usePPICompareOptionsTag']").show()
             $("label[for='usePPICompareOptions']").html("Remove PPICompare-required options")
-        } else{
-            switchButton(toPPICompare, 'off', ['disabled'], 'addClasses')
+        } else {
             $("[name='usePPICompareOptionsTag']").hide()
             $("label[for='usePPICompareOptions']").html("Use PPICompare-required options")
         }
@@ -245,7 +242,6 @@ jQuery(document).ready(function() {
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.hide()
-                            // Submit.prop('disabled', false)
                         }
                         // If job is running on one more or tabs, the main tab (or new tabs)
                         // will all be updated with the process
@@ -262,11 +258,7 @@ jQuery(document).ready(function() {
                                 switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
                                 StarContents.css({'display': 'inline-block'});
 
-                                if (PPICompareOptions.every(option => $('#' + option).is(':checked'))) {
-                                    usePPICompareOptions.prop('checked', true);
-                                    usePPICompareOptions.change()
-                                }
-    
+                                
                                 // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
                                 addNetworkExpressionSelection(NAMES_EXPRESSION_FILE);
     
@@ -291,8 +283,12 @@ jQuery(document).ready(function() {
                     }
                 },
                 error: function(e){
-                    alert("An error occurred in updateLongRunningStatus, check console log!")
-                    console.log(e)
+                    console.log("An error occurred in updateLongRunningStatus:" + e)
+                },
+                stop: function(){
+                    // Clear json updated content so that progress will not show in the next run
+                    json = {}
+                    res = {}
                 }
             })
         }, updateInterval);
@@ -320,6 +316,15 @@ jQuery(document).ready(function() {
         // showDDIs is the switch to enable expanding nodes for cytoscape. js. Without this, even when #output_DDINs is checked, 
         // cytoscape would not expand the nodes
         showDDIs = $('#output_DDINs').prop('checked')
+
+        if ((usePPICompareOptions.is(':checked') === true || PPICompareOptions.every(input => $('#' + input).is(':checked') === true)) & 
+            NO_EXPRESSION_FILE > 3){
+            // Only enable toPPICompare when this option is selected or all PPICompareOptions are checked and more than 3 expression files are uploaded
+            switchButton(toPPICompare, 'on', ['disabled'], 'removeClasses')
+        } else{
+            switchButton(toPPICompare, 'off', ['disabled'], 'addClasses')
+        }
+
 
         // Only submit form if user has chosen a protein network file/taxon for protein network retrieval
         // and at least 1 expression file
@@ -551,6 +556,9 @@ jQuery(document).ready(function() {
     }
 
     runNewAnalysis.on('click', function (){
+        USER_ID = generateRandomString(12);
+        window.sessionStorage.setItem('USER_ID', USER_ID);
+        
         resetForm()
         resetDisplay()
         switchShowSubnetwork('off')

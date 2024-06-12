@@ -55,7 +55,7 @@
                     <div class="help-section-body">
                         <span id="toCondPPINData" class="level-1-heading">Condition-specific networks interaction data</span><br>
                     
-                        The mandatory input consists of <strong>two</strong> groups of networks constructed with PPIXpress in zipped format (.gz/.gzip).
+                        The mandatory input consists of <strong>two</strong> groups of networks constructed with PPIXpress in zipped format (.zip/.gz/.gzip).
                         The PPIXpress output data needs to comprise the according 
                         <a href="./info_page_PPICompare.jsp#toCondPPINData" class="href_to_section">protein-protein interaction networks</a>, 
                         <a href="./info_page_PPICompare.jsp#toCondDDINData" class="href_to_section">domain-domain interaction networks</a>, and the
