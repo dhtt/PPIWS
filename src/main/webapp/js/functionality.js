@@ -224,7 +224,7 @@ jQuery(document).ready(function() {
      * @param updateInterval Update interval in millisecond
      */
     let updateLongRunningStatus = function (res, updateInterval) {
-        const interval = setInterval(function (json) {
+        let interval = setTimeout(function nestedUpdate() {
             $.ajax({
                 type: "POST",
                 url: 'ProgressReporter',
@@ -235,50 +235,39 @@ jQuery(document).ready(function() {
                     if (json.USER_ID === res.USER_ID){
                         allPanel.css({'cursor': 'progress'})
 
-                        // When new tab is open but no job is currently running for this user
-                        // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from ProgressReporter.java
-                        if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
-                            // Stop updateLongRunningStatus & make allPanel cursor default
-                            clearInterval(interval)
+                        if (Boolean(json.UPDATE_LONG_PROCESS_STOP_SIGNAL) === true) {
+                            // Stop updateLongRunningStatus & return to default setting
+                            clearTimeout(interval)
                             allPanel.css({'cursor': 'default'})
-                            loader.hide()
+                            loader.hide()  
+
+                            $("#AfterRunOptions, #RightDisplay").show()
+                            $("[name='ScrollToTop']").show()
+                            switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
+                            StarContents.css({'display': 'inline-block'});
+
+                            
+                            // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
+                            addNetworkExpressionSelection(NAMES_EXPRESSION_FILE);
+
+                            // Display the sample summary table and then protein list
+                            // here a promise chain must be used because of concurrency/synchronous fetches
+                            fetchResult(null, "sample_summary", SampleSummaryTable[0], false).then(
+                                response => {
+                                    // Display the sample protein list
+                                    return fetchResult(null, "protein_list", NetworkSelection_Protein[0], false) 
+                                }
+                            ).catch(err => {
+                                console.log("An error occur while fetching sample_summary/protein_list.")
+                            })          
+                            createXpress2CompareSampleTable(NAMES_EXPRESSION_FILE, Xpress2Compare_SampleTable[0])       
+                        } else {
+                            interval = setTimeout(nestedUpdate, updateInterval)
                         }
-                        // If job is running on one more or tabs, the main tab (or new tabs)
-                        // will all be updated with the process
-                        // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
-                        else {
-                            if (Boolean(json.UPDATE_LONG_PROCESS_STOP_SIGNAL) === true) {
-                                // Stop updateLongRunningStatus & return to default setting
-                                clearInterval(interval)
-                                allPanel.css({'cursor': 'default'})
-                                loader.hide()  
 
-                                $("#AfterRunOptions, #RightDisplay").show()
-                                $("[name='ScrollToTop']").show()
-                                switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
-                                StarContents.css({'display': 'inline-block'});
-
-                                
-                                // json.NO_EXPRESSION_FILE is retrieved from ProgressReporter.java
-                                addNetworkExpressionSelection(NAMES_EXPRESSION_FILE);
-    
-                                // Display the sample summary table and then protein list
-                                // here a promise chain must be used because of concurrency/synchronous fetches
-                                fetchResult(null, "sample_summary", SampleSummaryTable[0], false).then(
-                                    response => {
-                                        // Display the sample protein list
-                                        return fetchResult(null, "protein_list", NetworkSelection_Protein[0], false) 
-                                    }
-                                ).catch(err => {
-                                    console.log("An error occur while fetching sample_summary/protein_list.")
-                                })          
-                                createXpress2CompareSampleTable(NAMES_EXPRESSION_FILE, Xpress2Compare_SampleTable[0])       
-                            }
-
-                            // Update running progress to runningProgressContent
-                            runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
-                            leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
-                        }
+                        // Update running progress to runningProgressContent
+                        runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
+                        leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
                         res = json
                     }
                 },

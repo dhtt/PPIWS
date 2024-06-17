@@ -159,7 +159,7 @@ jQuery(document).ready(function() {
      * @param updateInterval Update interval in millisecond
      */
     let updateLongRunningStatus = function (res, updateInterval) {
-        const interval = setInterval(function () {
+        let interval = setTimeout(function nestedUpdate() {
             $.ajax({
                 type: "POST",
                 url: 'ProgressReporter',
@@ -172,7 +172,7 @@ jQuery(document).ready(function() {
     
                         if (Boolean(json.UPDATE_LONG_PROCESS_STOP_SIGNAL) === true) {
                             // Stop updateLongRunningStatus & return to default setting
-                            clearInterval(interval)
+                            clearTimeout(interval)
                             allPanel.css({'cursor': 'default'})
                             loader.hide() 
 
@@ -181,7 +181,9 @@ jQuery(document).ready(function() {
 
                             // Display the sample protein list 
                             fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
-                        } 
+                        } else {
+                            interval = setTimeout(nestedUpdate, updateInterval)
+                        }
                         // Update running progress to runningProgressContent
                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
@@ -190,6 +192,11 @@ jQuery(document).ready(function() {
                 },
                 error: function(e){
                     console.log("An error occurred in updateLongRunningStatus: " + e)
+                },
+                stop: function(){
+                    // Clear json updated content so that progress will not show in the next run
+                    json = {}
+                    res = {}
                 }
             })
         }, updateInterval);
