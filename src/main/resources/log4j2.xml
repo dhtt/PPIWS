@@ -7,7 +7,7 @@
   </Properties>
 
   <Appenders>
-    <RollingFile name="RollingFile" fileName="${PPIWS_logs}/PPIWS.log"
+    <RollingFile name="RollingFile" fileName="${logdir}/PPIWS.log"
       filePattern="${PPIWS_logs}/PPIWS.%d{dd-MM-yyyy}.log.gz">
       <PatternLayout pattern="${layout}"></PatternLayout>  
       <Policies>

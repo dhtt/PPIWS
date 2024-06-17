@@ -59,6 +59,8 @@ public class ProgressReporter extends HttpServlet {
                         
                         if (Files.exists(LOG_FILE)){
                                 RUN_PROGRESS_LOG = Files.readString(LOG_FILE);
+                        } else {
+                                RUN_PROGRESS_LOG = "";
                         }
 
                         // Internal progress log

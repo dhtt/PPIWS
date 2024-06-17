@@ -105,7 +105,6 @@ public class PPICompareServlet extends HttpServlet {
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
         allArgs = new ArrayList<String>();
 
-
         if (SUBMIT_TYPE.equals("RunExample")) {
             try {
                 // Define a data local storage on the local server
