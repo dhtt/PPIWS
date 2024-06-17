@@ -29,7 +29,6 @@ public class PPICompareServlet extends HttpServlet {
     static AtomicBoolean STOP_SIGNAL = new AtomicBoolean(false);
     protected JSONObject POSTData = new JSONObject();
 
-
     /**
      * A long-running process that runs the analysis pipeline in a separate thread.
      */
@@ -105,9 +104,7 @@ public class PPICompareServlet extends HttpServlet {
         USER_ID = request.getParameter("USER_ID");
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
         allArgs = new ArrayList<String>();
-        
-        // Set log file path
-        Utils.setLogFileName(USER_ID);
+
 
         if (SUBMIT_TYPE.equals("RunExample")) {
             try {
@@ -126,10 +123,11 @@ public class PPICompareServlet extends HttpServlet {
                 allArgs.add("-output=" + OUTPUT_PATH);
                 allArgs.add("-fdr=0.05");
 
-                logger.info(USER_ID + ": PPICompareServlet: Example process initiated from Servlet\n" + allArgs);
+                logger.info("Example process initiated from Servlet: " + String.join("|", 
+                    "USER_ID:" + USER_ID, 
+                    "Arguments:" + allArgs));
 
                 String GROUPED_ID = request.getParameter("PPIXPRESS_NETWORK_TEXT") == null ? "" : request.getParameter("PPIXPRESS_NETWORK_TEXT").toString();
-                logger.info(USER_ID + ": PPICompareServlet: GROUPED_ID\n" + GROUPED_ID);
                 String[] GROUPED_IDs = GROUPED_ID.split("&");
                 for (String ID : GROUPED_IDs) {
                     Utils.copyPPIXpress2PPICompare("/home/trang/PPIWS/repository/example_run/", ID);
@@ -138,7 +136,7 @@ public class PPICompareServlet extends HttpServlet {
 
             }
             catch(Exception e){
-                logger.error(USER_ID + ": PPICompareServlet: Fail to initiate example run\n" + e.toString());
+                logger.error(USER_ID + ": Fail to initiate example run:\n" + e.toString());
             }
         } 
         else if (SUBMIT_TYPE.equals("RunNormal")) {
@@ -163,7 +161,7 @@ public class PPICompareServlet extends HttpServlet {
                             allArgs.add("-group_" + i + "=" + inputFilesPath);
                         }
                     } catch(Exception e){
-                        logger.error(USER_ID + ": PPICompareServlet: Fail to locate PPIXpress-forwarded networks. ERROR:\n" + e.toString());
+                        logger.error(USER_ID + ": Fail to locate PPIXpress-forwarded networks:\n" + e.toString());
                     }
                 } else {
                     // Add paths to expression data to argument list. Meanwhile, store user's PPI
@@ -185,7 +183,7 @@ public class PPICompareServlet extends HttpServlet {
                             }
                         }
                     } catch(Exception e){
-                        logger.error(USER_ID + ": PPICompareServlet: Fail to retrieve uploaded PPIXpress networks. ERROR:\n" + e.toString());
+                        logger.error(USER_ID + ": Fail to retrieve uploaded PPIXpress networks:\n" + e.toString());
                     }
                 }
                 
@@ -198,11 +196,13 @@ public class PPICompareServlet extends HttpServlet {
                 allArgs.add(request.getParameter("fdr"));
                 allArgs.remove(null);
 
-                logger.info(USER_ID + ": PPICompareServlet: User-defined process initiated from Servlet\n" + allArgs);
+                logger.info("User-defined process initiated from Servlet: " + String.join("|", 
+                    "USER_ID:" + USER_ID, 
+                    "Arguments:" + allArgs));
 
             }
             catch(Exception e){
-                logger.error(USER_ID + ": PPICompareServlet: Fail to initiate user-defined run\n" + e.toString());
+                logger.error(USER_ID + ": Fail to initiate user-defined run:\n" + e.toString());
             }  
         }
         try {
@@ -227,7 +227,7 @@ public class PPICompareServlet extends HttpServlet {
                 lrp.start();   
             }
         } catch (Exception e) {
-            logger.error(USER_ID + ": PPICompareServlet: Fail to initialize PPICompare process.\n" + e.toString());
+            logger.error(USER_ID + ": Fail to initialize PPICompare process:\n" + e.toString());
         }
     } 
 

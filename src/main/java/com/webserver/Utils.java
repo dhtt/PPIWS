@@ -12,17 +12,10 @@ import java.nio.file.*;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 import java.util.zip.ZipEntry;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import static org.unix4j.Unix4j.grep;
 
 
 public class Utils {
-    public static void setLogFileName(String name) {
-        System.setProperty("logFilename", "/home/trang/PPIWS_logs/" + name + ".log");
-    }
-
     /**
      * Zip output files in the result folder
      * 
@@ -449,16 +442,6 @@ public class Utils {
             e.printStackTrace();
         }
         return output;
-    }
-
-    public static void writeLog() {
-        setLogFileName("test_writeLog");
-        final Logger logger = LogManager.getLogger(Utils.class);
-  
-        logger.trace("Hello");
-        logger.info("Hello");
-        logger.error("Hello");
-        logger.warn("Hello");
     }
 
 

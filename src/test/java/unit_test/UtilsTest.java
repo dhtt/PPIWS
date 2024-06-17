@@ -115,6 +115,9 @@ public class UtilsTest {
 
     @Test
     public void test_writeLog() {
-        Utils.writeLog();
+        // Utils.setLogFileName("El5Rpmfa8uWF");
+        // Utils.setLogFileName("El5Rpmfa8uWF");
+        // Utils.writeLog();
     }
+
 }

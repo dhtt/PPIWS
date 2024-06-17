@@ -159,7 +159,7 @@ jQuery(document).ready(function() {
      * @param updateInterval Update interval in millisecond
      */
     let updateLongRunningStatus = function (res, updateInterval) {
-        const interval = setInterval(function (json) {
+        const interval = setInterval(function () {
             $.ajax({
                 type: "POST",
                 url: 'ProgressReporter',
@@ -170,36 +170,21 @@ jQuery(document).ready(function() {
                     if (json.USER_ID === res.USER_ID){
                         allPanel.css({'cursor': 'progress'})
     
-                        // When new tab is open but no job is currently running for this user
-                        // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from ProgressReporter.java
-                        if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
-                            // Stop updateLongRunningStatus & make allPanel cursor default
+                        if (Boolean(json.UPDATE_LONG_PROCESS_STOP_SIGNAL) === true) {
+                            // Stop updateLongRunningStatus & return to default setting
                             clearInterval(interval)
                             allPanel.css({'cursor': 'default'})
-                            loader.hide()
-                            // Submit.prop('disabled', false)
-                        }
-                        // If job is running on one more or tabs, the main tab (or new tabs)
-                        // will all be updated with the process
-                        // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
-                        else {
-                            if (Boolean(json.UPDATE_LONG_PROCESS_STOP_SIGNAL) === true) {
-                                // Stop updateLongRunningStatus & return to default setting
-                                clearInterval(interval)
-                                allPanel.css({'cursor': 'default'})
-                                loader.hide() 
+                            loader.hide() 
 
-                                $("#AfterRunOptions").show()
-                                $("[name='ScrollToTop']").show()
-    
-                                // Display the sample protein list 
-                                fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
-                            }
-                            
-                            // Update running progress to runningProgressContent
-                            runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
-                            leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
-                        }
+                            $("#AfterRunOptions").show()
+                            $("[name='ScrollToTop']").show()
+
+                            // Display the sample protein list 
+                            fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
+                        } 
+                        // Update running progress to runningProgressContent
+                        runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
+                        leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
                         res = json
                     } 
                 },
@@ -209,7 +194,58 @@ jQuery(document).ready(function() {
             })
         }, updateInterval);
     }
+    // let updateLongRunningStatus = function (res, updateInterval) {
+    //     const interval = setInterval(function (json) {
+    //         $.ajax({
+    //             type: "POST",
+    //             url: 'ProgressReporter',
+    //             cache: false,
+    //             dataType: "json",
+    //             data: res,
+    //             success: function (json) {
+    //                 if (json.USER_ID === res.USER_ID){
+    //                     allPanel.css({'cursor': 'progress'})
+    
+    //                     // When new tab is open but no job is currently running for this user
+    //                     // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from ProgressReporter.java
+    //                     if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
+    //                         // Stop updateLongRunningStatus & make allPanel cursor default
+    //                         // clearInterval(interval)
+    //                         // allPanel.css({'cursor': 'default'})
+    //                         // loader.hide()
+    //                         // Submit.prop('disabled', false)
+    //                         const  pass = "pass"
+    //                     }
+    //                     // If job is running on one more or tabs, the main tab (or new tabs)
+    //                     // will all be updated with the process
+    //                     // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
+    //                     else {
+    //                         if (Boolean(json.UPDATE_LONG_PROCESS_STOP_SIGNAL) === true) {
+    //                             // Stop updateLongRunningStatus & return to default setting
+    //                             clearInterval(interval)
+    //                             allPanel.css({'cursor': 'default'})
+    //                             loader.hide() 
 
+    //                             $("#AfterRunOptions").show()
+    //                             $("[name='ScrollToTop']").show()
+    
+    //                             // Display the sample protein list 
+    //                             fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
+    //                         }
+                            
+    //                         // Update running progress to runningProgressContent
+    //                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
+    //                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
+    //                     }
+    //                     res = json
+    //                 } 
+    //             },
+    //             error: function(e){
+    //                 console.log("An error occurred in updateLongRunningStatus: " + e)
+    //             }
+    //         })
+    //     }, updateInterval);
+    // }
     const NVContent_Graph = $('#NVContent_Graph')
     const CustomizeNetworkOptions = $('#CustomizeNetworkOptions')
     const ShowNetworkMain = $('#ShowNetworkMain')

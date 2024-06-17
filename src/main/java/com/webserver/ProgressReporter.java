@@ -34,9 +34,6 @@ public class ProgressReporter extends HttpServlet {
                         // USER_ID is retrieved from request parameter
                         USER_ID = request.getParameter("USER_ID") == null ? "" : request.getParameter("USER_ID").toString();
                                 
-                        // Set log file path
-                        Utils.setLogFileName(USER_ID);
-
                         // PROGRAM is retrieved from request parameter, indicating PPPXpress or PPICompare is making request
                         PROGRAM = request.getParameter("PROGRAM") == null ? "" : request.getParameter("PROGRAM").toString();
 
@@ -69,19 +66,22 @@ public class ProgressReporter extends HttpServlet {
                                 NO_EXPRESSION_FILE = request.getParameter("NO_EXPRESSION_FILE") == null ? 
                                         0 : Integer.parseInt(request.getParameter("NO_EXPRESSION_FILE"));
                         
-                                logger.info(USER_ID + ": ProgressReporter: Transmitting: " +
-                                        "-PROGRAM: " + PROGRAM + 
-                                        "\n-STOP_SIGNAL: " + UPDATE_LONG_PROCESS_STOP_SIGNAL);
+                                logger.info("Response: " + String.join("|", 
+                                        "USER_ID:" + USER_ID, 
+                                        "PROGRAM:" + PROGRAM, 
+                                        "UPDATE_LONG_PROCESS_STOP_SIGNAL:" + UPDATE_LONG_PROCESS_STOP_SIGNAL.toString(), 
+                                        "NO_EXPRESSION_FILE:" + String.valueOf(NO_EXPRESSION_FILE)) );
                         } else if (PROGRAM.equals("PPICompare")){
-                                logger.info(USER_ID + ": ProgressReporter: Transmitting: " +
-                                        "\n-PROGRAM: " + PROGRAM + 
-                                        "\n-STOP_SIGNAL: " + UPDATE_LONG_PROCESS_STOP_SIGNAL);
+                                logger.info("Response: " + String.join("|", 
+                                        "USER_ID:" + USER_ID, 
+                                        "PROGRAM:" + PROGRAM, 
+                                        "UPDATE_LONG_PROCESS_STOP_SIGNAL:" + UPDATE_LONG_PROCESS_STOP_SIGNAL.toString()));
                         }
                                 
                         // Send progress as response to functionality.js/PPICompare_functionality:updateLongRunningStatus 
                         POSTData.put("USER_ID", USER_ID);
-                        POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", RUN_PROGRESS_LOG);
                         POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", UPDATE_LONG_PROCESS_STOP_SIGNAL);
+                        POSTData.put("UPDATE_LONG_PROCESS_MESSAGE", RUN_PROGRESS_LOG);
                         if (PROGRAM.equals("PPIXpress")){
                                 POSTData.put("PROGRAM", "PPIXpress");
                                 POSTData.put("NO_EXPRESSION_FILE", NO_EXPRESSION_FILE);
@@ -93,7 +93,7 @@ public class ProgressReporter extends HttpServlet {
                 } catch (Exception e) {
                         // In case of error, stop updating progress
                         POSTData.put("UPDATE_LONG_PROCESS_STOP_SIGNAL", true);
-                        logger.error(USER_ID + ": ProgressReporter: ERROR:\n" + e.toString());
+                        logger.error(USER_ID  + ": " + e.toString());
                 }
         }
 }

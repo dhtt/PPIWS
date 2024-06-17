@@ -21,11 +21,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
-    <script type="module" src="js/jscolor.js"></script>
+    <script nonce="abc123def456"  type="module" src="js/jscolor.js"></script>
     <script type="module" src="js/functionality_PPICompare.js"></script>
     <script type="module" src="js/network_maker_PPICompare.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"> </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'nonce-'" /> -->
 </head>
 <body>
 <jsp:include page="html/header_PPICompare.html"/>

@@ -105,9 +105,6 @@ public class PPIXpressServlet extends HttpServlet {
         SUBMIT_TYPE = request.getParameter("SUBMIT_TYPE");
         allArgs = new ArrayList<String>();
 
-        // Set log file path
-        Utils.setLogFileName(USER_ID);
-        
         if (SUBMIT_TYPE.equals("RunExample")) {
             try {
                 // Define a data local storage on the local server
@@ -139,10 +136,13 @@ public class PPIXpressServlet extends HttpServlet {
                 } catch (Exception e) {
                     logger.error(USER_ID + ": PPIXpressServlet: Fail to retrieve example expression files. ERROR:\n" + e.toString());
                 }
-
-                logger.info(USER_ID + ": PPIXpressServlet: Example process initiated from Servlet\n" + allArgs);
+                
+                logger.info("Example process initiated from Servlet: " + String.join("|", 
+                    "USER_ID:" + USER_ID, 
+                    "Arguments:" + allArgs));
+                    
             } catch(Exception e){
-                logger.error(USER_ID + ": PPIXpressServlet: Fail to initiate example run\n" + e.toString());
+                logger.error(USER_ID + ": Fail to initiate example run:\n" + e.toString());
              }
         } 
         else if (SUBMIT_TYPE.equals("RunNormal")) {
@@ -187,7 +187,7 @@ public class PPIXpressServlet extends HttpServlet {
                         }
                     }
                 } catch(Exception e){
-                    logger.error(USER_ID + ": PPIXpressServlet: Fail to retrieve uploaded expression files. ERROR:\n" + e.toString());
+                    logger.error(USER_ID + ": Fail to retrieve uploaded expression files:\n" + e.toString());
                 }
                 
                 // Set number of expression files
@@ -201,9 +201,13 @@ public class PPIXpressServlet extends HttpServlet {
                 allArgs.add(request.getParameter("percentile"));
                 allArgs.removeIf(n -> (n.equals("null")));
 
-                logger.info(USER_ID + ": PPIXpressServlet: User-defined process initiated from Servlet\n" + allArgs);
+
+                logger.info("User-defined process initiated from Servlet: " + String.join("|", 
+                    "USER_ID:" + USER_ID, 
+                    "Arguments:" + allArgs));
+
             } catch(Exception e){
-                logger.error(USER_ID + ": PPIXpressServlet: Fail to initiate user-defined run\n" + e.toString());
+                logger.error(USER_ID + ": Fail to initiate user-defined run:\n" + e.toString());
             }
         }
         try {
@@ -229,7 +233,7 @@ public class PPIXpressServlet extends HttpServlet {
                 lrp.start();   
             }
         } catch (Exception e) {
-            logger.error(USER_ID + ": PPIXpressServlet: Fail to initialize PPICompare process.\n" + e.toString());
+            logger.error(USER_ID + ": Fail to initialize PPIXpress process:\n" + e.toString());
         }
 
 

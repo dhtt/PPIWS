@@ -3,18 +3,21 @@
 <Configuration status="warn" name="MyApp">
   <Properties>
     <Property name="logdir">/home/trang/PPIWS_logs</Property>
-    <Property name="layout">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %style{%-10.10C{1.}}{cyan} %highlight{ %-5level: %msg%n%throwable}{FATAL=bright_red, ERROR=red, WARN=bg_#5792e6 fg_#eef26b bold, INFO=green, DEBUG=#3fe0a8, TRACE=white}</Property>
+    <Property name="layout">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %style{%C}{cyan} %highlight{ %-5level: %msg%n%throwable}{FATAL=bright_red, ERROR=red, WARN=bg_#5792e6 fg_#eef26b bold, INFO=green, DEBUG=#3fe0a8, TRACE=white}</Property>
   </Properties>
 
   <Appenders>
-    <File name="MyFile" 
-      fileName="${sys:logFilename}">
-      <PatternLayout pattern="${layout}"></PatternLayout>
-    </File>
+    <RollingFile name="RollingFile" fileName="${PPIWS_logs}/PPIWS.log"
+      filePattern="${PPIWS_logs}/PPIWS.%d{dd-MM-yyyy}.log.gz">
+      <PatternLayout pattern="${layout}"></PatternLayout>  
+      <Policies>
+        <TimeBasedTriggeringPolicy interval="1"/>
+      </Policies>                          
+    </RollingFile>
   </Appenders>
   <Loggers>
     <Root level="trace">
-      <AppenderRef ref="MyFile"/>
+      <AppenderRef ref="RollingFile"/>
     </Root>
   </Loggers>
 </Configuration>
