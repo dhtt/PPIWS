@@ -8,7 +8,7 @@
 
   <Appenders>
     <RollingFile name="RollingFile" fileName="${logdir}/PPIWS.log"
-      filePattern="${PPIWS_logs}/PPIWS.%d{dd-MM-yyyy}.log.gz">
+      filePattern="${logdir}/PPIWS.%d{dd-MM-yyyy}.log.gz">
       <PatternLayout pattern="${layout}"></PatternLayout>  
       <Policies>
         <TimeBasedTriggeringPolicy interval="1"/>
