@@ -731,20 +731,23 @@ jQuery(document).ready(function() {
     let changeLayout = $('#changeLayout')
     changeLayout.on('change', function(){
         if (ProteinNetwork !== null){
-            ProteinNetwork
-                .then(cy => {
+            ProteinNetwork.then(cy => {
+                if (cy !== null){
                     const newLayout = {
                         name: changeLayout.val(),
                         animate: true,
                         randomize: false,
                         fit: true
                     }
-                    const api = cy.expandCollapse({
+                    cy.expandCollapse({
                         layoutBy: newLayout
                     })
                     cy.$('node').eq(0).trigger('tap')
                     return cy
-                })
+                } else {
+                    return null
+                }
+            })
         }
     })
 
@@ -754,16 +757,19 @@ jQuery(document).ready(function() {
     changeNodeSize.on('change', function(){
         let nodeSize = changeNodeSize.val()
         if (ProteinNetwork !== null){
-            ProteinNetwork
-            .then(cy => {
-                cy.style()
-                    .selector('node')
-                    .style({
-                        'height':  nodeSize,
-                        'width': nodeSize,
-                    })
-                    .update()
-                return cy
+            ProteinNetwork.then(cy => {
+                if (cy !== null){
+                    cy.style()
+                        .selector('node')
+                        .style({
+                            'height':  nodeSize,
+                            'width': nodeSize,
+                        })
+                        .update()
+                    return cy
+                } else {
+                    return null
+                }
             })
         }
     })
@@ -846,25 +852,29 @@ jQuery(document).ready(function() {
         if (ProteinNetwork !== null){
             ProteinNetwork
                 .then(cy => {
-                    // Toggle while keeping current layout
-                    const newLayout = {
-                        name: changeLayout.val(),
-                        animate: true,
-                        randomize: false,
-                        fit: true
+                    if (cy !== null){
+                        // Toggle while keeping current layout
+                        const newLayout = {
+                            name: changeLayout.val(),
+                            animate: true,
+                            randomize: false,
+                            fit: true
+                        }
+                        const api = cy.expandCollapse({layoutBy: newLayout});
+                        if (ToggleExpandCollapse.val() === "expandAll"){
+                            api.expandAll()
+                            cy.$('.DDI_Edge').addClass('DDI_Edge_active')
+                            cy.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
+                        }
+                        else {
+                            api.collapseAll()
+                            cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
+                            cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
+                        }
+                        return cy
+                    } else {
+                        return null
                     }
-                    const api = cy.expandCollapse({layoutBy: newLayout});
-                    if (ToggleExpandCollapse.val() === "expandAll"){
-                        api.expandAll()
-                        cy.$('.DDI_Edge').addClass('DDI_Edge_active')
-                        cy.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
-                    }
-                    else {
-                        api.collapseAll()
-                        cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
-                        cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
-                    }
-                    return cy
                 })
         }
     })
@@ -876,8 +886,8 @@ function activateNetwork (graph, warning, ShowSubnetworkOption){
     let options = ShowSubnetworkOption['options']
 
     if (graph !== null){
-        graph
-            .then(cy => {
+        graph.then(cy => { 
+            if (cy !== null){
                 cy.unbind("grab"); // unbind event to prevent possible mishaps with firing too many events
                 cy.$('node').bind('grab', function(node) { // bind with .bind() (synonym to .on() but more intuitive
                     const ele = node.target;
@@ -926,7 +936,10 @@ function activateNetwork (graph, warning, ShowSubnetworkOption){
                     }
                 })
                 return cy
-            })
+            } else {
+                return null
+            }
+        })
     }
  
 }

@@ -165,7 +165,7 @@
 
                         <div class="network-option panel" name="NetworkOptions" id="ShowNetworkMain" style="text-align: center; border-radius: 1em">
                             <div class="star" name="Star" id="ShowNetwork_star"></div>
-                            <label style="font-weight: bold">Differential PPI network</label><br>
+                            <span style="font-weight: bold">Differential PPI network</span><br>
                             <!-- button-typed items are enabled when UPDATE_LONG_PROCESS_SIGNAL === true. Then, class 'upload' is added to style the buttons -->
                             <button type="button" disabled id="ShowNetwork" value="null" class="button graph-menu-button">Show</button>
                             <button type="button" disabled id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
@@ -186,7 +186,7 @@
                         
 
                         <div class="network-option panel" name="NetworkOptions" id="CustomizeNetworkOptions" style="text-align: center; border-radius: 1em">
-                            <label style="font-weight: bold">Customize network display</label>
+                            <span style="font-weight: bold">Customize network display</span>
                             <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
                                 <div style="text-align: left; flex: auto">
                                     <label for="ToggleProteinID" style="font-weight: bold; font-size: smaller">Protein ID</label><br>
@@ -229,7 +229,7 @@
                             </div>
 
                             <div style="padding: 1em">
-                                <label style="font-weight: bold; font-size: smaller">Customize colors</label>
+                                <span style="font-weight: bold; font-size: smaller">Customize colors</span>
                                 <div style="display: flex; flex-direction: row; line-height: 2em">
                                     <div style="text-align: left; flex: auto">
                                         <label for="ToggleBackgroundColor" style="font-size: smaller">Background color</label><br>

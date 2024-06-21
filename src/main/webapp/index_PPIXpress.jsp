@@ -248,7 +248,7 @@
                         </div>
 
                         <div class="network-option panel" name="NetworkOptions" id="CustomizeNetworkOptions" style="text-align: center; border-radius: 1em">
-                            <label style="font-weight: bold">Customize network display</label>
+                            <span style="font-weight: bold">Customize network display</span>
 
                             <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
                                 <div style="text-align: left; flex: auto">
@@ -270,18 +270,18 @@
                                 </div>
                             </div>
 
-                            <label style="font-weight: bold; font-size: smaller">Customize colors</label>
+                            <span style="font-weight: bold; font-size: smaller">Customize colors</span>
                             <div style="display: flex; flex-direction: row; padding: 0 1em 1em 1em">
                                 <div style="flex-basis: 50%; text-align: right">
-                                    <label style="font-size: smaller">Protein </label>
+                                    <label for="ProteinColor" style="font-size: smaller">Protein </label>
                                     <button name="changeGraphColor" id="ProteinColor" data-jscolor="{valueElement: '#--deeppink'}"></button><br>
-                                    <label style="font-size: smaller">PPI </label>
+                                    <label for="PPIColor" style="font-size: smaller">PPI </label>
                                     <button name="changeGraphColor" id="PPIColor" data-jscolor="{valueElement: '#--darkdeeppink'}"></button><br>
                                 </div>
                                 <div style="flex-basis: 50%; text-align: right">
-                                    <label style="font-size: smaller">Domains </label>
+                                    <label for="DomainColor" style="font-size: smaller">Domains </label>
                                     <button name="changeGraphColor" id="DomainColor" data-jscolor="{valueElement: '#--mint'}"></button><br>
-                                    <label style="font-size: smaller">DDI </label>
+                                    <label for="DDIColor" style="font-size: smaller">DDI </label>
                                     <button name="changeGraphColor" id="DDIColor" data-jscolor="{valueElement: '#--darkintensemint'}"></button><br>
                                 </div>
                             </div>

@@ -7,7 +7,7 @@ export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
     // Make plot
     let WarningMessage = $('#WarningMessage')
     showWarningMessage(WarningMessage,
-        "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render)",
+        "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render).",
         null)
 
     var graph = fetchedData
@@ -16,54 +16,60 @@ export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
             data => {
                 let graph_type = data[0].graph_type
                 data.shift() // Remove the first element of the array which is the graph_type
- 
-                if (graph_type === "none"){
+                let n_nodes = data.filter((node) => node.group === "nodes").length
+                if (n_nodes >= 500){
                     showWarningMessage(WarningMessage,
-                        "⚠️ This protein is not a part of a condition-specific network or a reference network. Please select a different protein, " +
-                        "or run the analysis again with the option 'Output reference network' (Step 3. Adjust Run Options) " +
-                        "if you wish to inspect this protein in the reference network.",
+                        "⚠️ This network contains more than 500 nodes and will take a long time to render. Please use Cytoscape desktop to view the network.",
                         null)
-                }
-                else if (graph_type === "reference_network"){
-                    showWarningMessage(WarningMessage,
-                        "⚠️ This protein is not a part of the condition-specific network for this expression data, " + 
-                        "but is found in the reference network. Here, the subgraph from the reference network is shown.",
-                        null)
-                }
-
-                window.NVContent_Graph = cytoscape({
-                    container: $('#NVContent_Graph'),
-                    elements: data,
-                    boxSelectionEnabled: false,
-                    autounselectify: true,
-                    minZoom: 0.1,
-
-                    ready: function () {
-                        this.layout(graphLayoutOptions).run();
-                        const api = this.expandCollapse({
-                            layoutBy: {
-                                name: "cose-bilkent",
-                                animate: false,
-                                randomize: false,
-                                fit: true,
-                                animationDuration: 200,
-                            },
-                            fisheye: true,
-                            animate: false,
-                            undoable: false
-                        });
-                        api.collapseAll();
-                    },
-                    
-                    style: styleSheet
-                })
-        
-                window.NVContent_Graph.on('layoutstop', function(data){
-                    if (graph_type === "condition_specific_network"){
-                        WarningMessage.hide();
+                    return null
+                } else {                
+                    if (graph_type === "none"){
+                        showWarningMessage(WarningMessage,
+                            "⚠️ This protein is not a part of a condition-specific network or a reference network. Please select a different protein, " +
+                            "or run the analysis again with the option 'Output reference network' (Step 3. Adjust Run Options) " +
+                            "if you wish to inspect this protein in the reference network.",
+                            null)
                     }
-                })
-                return window.NVContent_Graph;
+                    else if (graph_type === "reference_network"){
+                        showWarningMessage(WarningMessage,
+                            "⚠️ This protein is not a part of the condition-specific network for this expression data, " + 
+                            "but is found in the reference network. Here, the subgraph from the reference network is shown.",
+                            null)
+                    }
+    
+                    window.NVContent_Graph = cytoscape({
+                        container: $('#NVContent_Graph'),
+                        elements: data,
+                        boxSelectionEnabled: false,
+                        autounselectify: true,
+                        minZoom: 0.1,
+    
+                        ready: function () {
+                            this.layout(graphLayoutOptions).run();
+                            this.expandCollapse({
+                                layoutBy: {
+                                    name: "cose-bilkent",
+                                    animate: false,
+                                    randomize: false,
+                                    fit: true,
+                                    animationDuration: 50,
+                                },
+                                fisheye: true,
+                                animate: false,
+                                undoable: false
+                            });
+                        },
+                        
+                        style: styleSheet
+                    })
+            
+                    window.NVContent_Graph.on('layoutstop', function(data){
+                        if (graph_type === "condition_specific_network"){
+                            WarningMessage.hide();
+                        }
+                    })
+                    return window.NVContent_Graph;
+                }
             })
 
     
