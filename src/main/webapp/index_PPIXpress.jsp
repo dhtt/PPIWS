@@ -83,7 +83,7 @@
                                 <button type="button" name="close" class="help close">x</button>
                                 Retrieve a network<br>from Mentha or IntAct database
                             </div>
-                            <p class="menu panel shadow popup_content" style="width: 300px">
+                            <p class="menu panel shadow popup_content" style="width: auto">
                                 Please input an organism taxon.<br>e.g. Type 9606 for a human network.<br><br>
                                 <input type="text" name="protein_network_web" id="protein_network_web" class="input" style="height: 1.5em"><br>
                                 <button type="button" id="protein_network_web_confirm" name="confirm" class="button upload" style="width: fit-content;">Enter</button>
@@ -106,7 +106,7 @@
                     </label><br>
                     <label>
                         <input type="checkbox" name="PPIOptions" id="include_ELM" value="-elm">Include ELM data
-                    </label><br>
+                    </label><br> 
                 </div>
             </div>
 

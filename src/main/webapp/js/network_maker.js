@@ -17,9 +17,9 @@ export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
                 let graph_type = data[0].graph_type
                 data.shift() // Remove the first element of the array which is the graph_type
                 let n_nodes = data.filter((node) => node.group === "nodes").length
-                if (n_nodes >= 500){
+                if (n_nodes >= 10000){
                     showWarningMessage(WarningMessage,
-                        "⚠️ This network contains more than 500 nodes and will take a long time to render. Please use Cytoscape desktop to view the network.",
+                        "⚠️ This network contains more than 10000 nodes and will take a long time to render. Please use Cytoscape desktop to view the network.",
                         null)
                     return null
                 } else {                

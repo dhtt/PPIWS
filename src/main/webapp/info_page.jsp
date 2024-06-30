@@ -304,7 +304,7 @@
                                     </li>
                                     <li>
                                         <span class="level-3-heading">Include ELM data: </span>
-                                        Retrieve and integrate ELM motifs and interactions.
+                                        Retrieve and integrate ELM motifs and interactions. The retrieval of ELM data might increase PPIXpress runtime significantly and will slow down network visualization.
                                         <br>
                                     </li>
                                 </ul>
