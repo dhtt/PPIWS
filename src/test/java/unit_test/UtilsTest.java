@@ -90,13 +90,8 @@ public class UtilsTest {
         System.out.println(subNetworkData);
     }
 
-    @Test
-    public void test_filterProtein_PPIXpress() {
-        String OUTPUT_PATH = "/home/trang/PPIWS/repository/example_run/PPIXpress/OUTPUT/";
+    public ArrayList<String> scanProteinList(String OUTPUT_PATH){
         ArrayList<String> proteinList = new ArrayList<String>();
-        System.out.println(": DownloadServlet: CHECK\n" + OUTPUT_PATH + "ProteinList.txt");
-
-
         try {
             Scanner s = new Scanner(new File(OUTPUT_PATH + "ProteinList.txt"));
             while (s.hasNext()) {
@@ -106,11 +101,28 @@ public class UtilsTest {
         } catch(Exception e){
             e.printStackTrace();
         }
-        
+        return proteinList;
+    }
+
+    public void queryProtein(String OUTPUT_PATH_, String proteinQuery_, String expressionQuery_, boolean showDDIs_){
         JSONArray output = new JSONArray();
-        output = Utils.filterProtein(OUTPUT_PATH, "Q11130", "1", true);
+        output = Utils.filterProtein(OUTPUT_PATH_, proteinQuery_, expressionQuery_, showDDIs_);
         System.out.println(output);
     }
 
+    @Test
+    public void test_filterProtein_PPIXpress() {
+        String OUTPUT_PATH = "/home/trang/PPIWS/repository/uploads/dTXAlj1UmCzQ/PPIXpress/OUTPUT/";
+        System.out.println(": DownloadServlet: CHECK\n" + OUTPUT_PATH + "ProteinList.txt");
+        Long now = System.currentTimeMillis();
+        System.out.println(now);
 
+        scanProteinList(OUTPUT_PATH);
+        System.out.println("scanProteinList: " + (System.currentTimeMillis() - now));
+        now = System.currentTimeMillis();
+
+        queryProtein(OUTPUT_PATH, "Q9UL59", "test", true);
+        System.out.println("scanProteinList: " + (System.currentTimeMillis() - now));
+        now = System.currentTimeMillis();
+    }
 }
