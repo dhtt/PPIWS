@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import standalone_tools.PPIXpress_Tomcat;
+import java.util.concurrent.ConcurrentHashMap;
 
 @WebServlet(name = "PPIXpress", value = "/PPIXpress")
 @MultipartConfig()
@@ -29,7 +30,7 @@ public class PPIXpressServlet extends HttpServlet {
     ArrayList<String> allArgs;
     static AtomicBoolean STOP_SIGNAL = new AtomicBoolean(false);
     protected JSONObject POSTData = new JSONObject();
-
+    static ConcurrentHashMap<String, AtomicBoolean> storedJobs = new ConcurrentHashMap<String, AtomicBoolean>();
 
     /**
      * A long-running process that runs the analysis pipeline in a separate thread.
@@ -214,6 +215,7 @@ public class PPIXpressServlet extends HttpServlet {
             // Create and execute PPIXpress and update progress periodically to screen
             // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
             STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
+            storedJobs.putIfAbsent(USER_ID, STOP_SIGNAL);
 
             // Send Servlet response to functionality.js:$.fn.submit_form. This response is used as request for 
             // ProgressReporter.java in functionality.js:updateLongRunningStatus.

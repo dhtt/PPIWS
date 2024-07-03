@@ -17,13 +17,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(JUnit4.class)
 public class PPIXpressTomcatTest {
-
     public ArrayList<Object> test_pipeline(){
         PPIXpress_Tomcat pipeline = new PPIXpress_Tomcat();
         List<String> args_list = new ArrayList<>();
-        String INPUT_PATH = "repository/example_run/PPIXpress/INPUT/example_ppi_data.sif";
-        String OUTPUT_PATH = "repository/example_run/PPIXpress/OUTPUT/";
-        String ORIGINAL_NETWORK_PATH = "repository/example_run/PPIXpress/INPUT/expression_1.txt";
+        String INPUT_PATH = "repository/example_upload/PPIXpress/INPUT/Bulk_B_1003.txt";
+        String OUTPUT_PATH = "repository/example_upload/PPIXpress/OUTPUT/";
+        String ORIGINAL_NETWORK_PATH = "repository/example_upload/PPIXpress/INPUT/ppi_data.sif";
 
         args_list.add(INPUT_PATH);
         args_list.add("-output=" + OUTPUT_PATH);
@@ -37,13 +36,13 @@ public class PPIXpressTomcatTest {
         ArrayList<Object> result_list = new ArrayList<Object>();
         result_list.add(pipeline);
         result_list.add(stop_signal);
-        result_list.add(OUTPUT_PATH + "/PPIXpress_log.html");
+        result_list.add(OUTPUT_PATH + "PPIXpress_log.html");
         return result_list;
     }
 
     ArrayList<Object> pipeline_result = test_pipeline();
     
-    // @Test
+    @Test
     public void test_finished_process(){
         AtomicBoolean stop_signal = (AtomicBoolean) pipeline_result.get(1);
         assertTrue(stop_signal.get());
@@ -56,7 +55,7 @@ public class PPIXpressTomcatTest {
         assertTrue(file.exists());
     }
 
-    @Test
+    // @Test
     public void testWatchService(){
           // Create a watch event for log file
 

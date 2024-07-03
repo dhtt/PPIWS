@@ -41,9 +41,13 @@ public class ProgressReporter extends HttpServlet {
                         // "true" will stop sending request to update PPI-Servelets and vice versa. 
                         // At the end of the process or in case of error, UPDATE_LONG_PROCESS_STOP_SIGNAL is switched to "true"
                         if (PROGRAM.equals("PPIXpress")){   
-                                UPDATE_LONG_PROCESS_STOP_SIGNAL = PPIXpressServlet.STOP_SIGNAL.get();
+                                UPDATE_LONG_PROCESS_STOP_SIGNAL = PPIXpressServlet.storedJobs.get(USER_ID).get();
                         } else if (PROGRAM.equals("PPICompare")){
-                                UPDATE_LONG_PROCESS_STOP_SIGNAL = PPICompareServlet.STOP_SIGNAL.get();
+                                UPDATE_LONG_PROCESS_STOP_SIGNAL = PPICompareServlet.storedJobs.get(USER_ID).get();
+                        }
+
+                        for (String key : PPIXpressServlet.storedJobs.keySet()){
+                            logger.trace("STORED JOBS: "+ key + " " + PPIXpressServlet.storedJobs.get(key));
                         }
 
                         // LOCAL_STORAGE_PATH is the path to the folder where INPUT and OUTPUT are stored for each user/example run
