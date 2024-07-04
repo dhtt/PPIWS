@@ -46,10 +46,6 @@ public class ProgressReporter extends HttpServlet {
                                 UPDATE_LONG_PROCESS_STOP_SIGNAL = PPICompareServlet.storedJobs.get(USER_ID).get();
                         }
 
-                        for (String key : PPIXpressServlet.storedJobs.keySet()){
-                            logger.trace("STORED JOBS: "+ key + " " + PPIXpressServlet.storedJobs.get(key));
-                        }
-
                         // LOCAL_STORAGE_PATH is the path to the folder where INPUT and OUTPUT are stored for each user/example run
                         LOCAL_STORAGE_PATH = USER_ID.equals("EXAMPLE_USER") ? 
                                 "/home/trang/PPIWS/repository/example_run/" + PROGRAM + "/" : 

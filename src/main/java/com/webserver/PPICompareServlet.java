@@ -36,7 +36,7 @@ public class PPICompareServlet extends HttpServlet {
      */
     public static class LongRunningProcess implements Runnable {
         private AtomicBoolean stopSignal;
-        // private final PPICompare_Tomcat pipeline = new PPICompare_Tomcat();
+        private final PPICompare_Tomcat pipeline = new PPICompare_Tomcat();
         private volatile boolean stop;
         private List<String> argList;
 
@@ -62,7 +62,7 @@ public class PPICompareServlet extends HttpServlet {
         public void run() {
             try {
                 while (!stop) {
-                    PPICompare_Tomcat.runAnalysis(this.argList, stopSignal);
+                    pipeline.runAnalysis(this.argList, stopSignal);
                     if (stopSignal.get()) {
                         logger.info("PPICompare pipeline is finished!");
                         setStop(true);
