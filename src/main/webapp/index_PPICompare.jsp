@@ -26,7 +26,6 @@
     <script type="module" src="js/network_maker_PPICompare.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"> </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <meta http-equiv="Content-Security-Policy" content="script-src 'nonce-'" /> -->
 </head>
 <body>
 <jsp:include page="html/header_PPICompare.html"/>
@@ -110,9 +109,9 @@
                         <span name="Reset" id="ResetRunOptions" class="subsection-text reset" style="flex:1;">Reset</span><br>
                     </span>
 
-                    <label>
-                        <input type="checkbox" name="RunOptions" id="return_protein_attribute" value="-x">Return protein attribute table 
-                    </label><br><br>
+                    <label style="display: none;">
+                        <input checked type="checkbox" name="RunOptions" id="return_protein_attribute" value="-x">Return protein attribute table 
+                    </label>
 
                     <span class="subsection-text" style="flex:1; text-align: center">
                         <label for="fdr">FDR</label>

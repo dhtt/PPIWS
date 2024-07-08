@@ -30,7 +30,8 @@ public class PPICompareTomcatTest {
         args_list.add("-group_2=" + GROUP2_PATH);
 
         AtomicBoolean stop_signal = new AtomicBoolean(false);
-        PPICompare_Tomcat.runAnalysis(args_list, stop_signal);
+        PPICompare_Tomcat pipeline = new PPICompare_Tomcat();
+        pipeline.runAnalysis(args_list, stop_signal);
         ArrayList<Object> result_list = new ArrayList<Object>();
         result_list.add(stop_signal);
         result_list.add(OUTPUT_PATH + "LogFile.html");

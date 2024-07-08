@@ -12,6 +12,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import standalone_tools.PPICompare_Tomcat;
+import java.util.concurrent.ConcurrentHashMap;
 
 @WebServlet(name = "PPICompare", value = "/PPICompare")
 @MultipartConfig()
@@ -28,13 +29,14 @@ public class PPICompareServlet extends HttpServlet {
     ArrayList<String> allArgs;
     static AtomicBoolean STOP_SIGNAL = new AtomicBoolean(false);
     protected JSONObject POSTData = new JSONObject();
+    static ConcurrentHashMap<String, AtomicBoolean> storedJobs = new ConcurrentHashMap<String, AtomicBoolean>();
 
     /**
      * A long-running process that runs the analysis pipeline in a separate thread.
      */
     public static class LongRunningProcess implements Runnable {
         private AtomicBoolean stopSignal;
-        // private final PPICompare_Tomcat pipeline = new PPICompare_Tomcat();
+        private final PPICompare_Tomcat pipeline = new PPICompare_Tomcat();
         private volatile boolean stop;
         private List<String> argList;
 
@@ -60,7 +62,7 @@ public class PPICompareServlet extends HttpServlet {
         public void run() {
             try {
                 while (!stop) {
-                    PPICompare_Tomcat.runAnalysis(this.argList, stopSignal);
+                    pipeline.runAnalysis(this.argList, stopSignal);
                     if (stopSignal.get()) {
                         logger.info("PPICompare pipeline is finished!");
                         setStop(true);
@@ -208,6 +210,7 @@ public class PPICompareServlet extends HttpServlet {
             // Create and execute PPICompare and update progress periodically to screen
             // If run example, STOP_SIGNAL is set to true so that no process is initiated. The outcome has been pre-analyzed
             STOP_SIGNAL = SUBMIT_TYPE.equals("RunNormal") ? new AtomicBoolean(false) : new AtomicBoolean(true);
+            storedJobs.putIfAbsent(USER_ID, STOP_SIGNAL);
             
             // Send Servlet response to PPICompare_functionality.js:$.fn.submit_form. This response is used as request for 
             // ProgressReporter.java in PPICompare_functionality.js:updateLongRunningStatus.

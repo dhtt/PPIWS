@@ -98,14 +98,17 @@ public class DownloadServlet extends HttpServlet {
                             
                             proteinAttributeList = new HashMap<String, String[]>(); 
                             try {
-                                Scanner s = new Scanner(new File(OUTPUT_PATH + "protein_attributes.txt"));
+                                File attributeFile = new File(OUTPUT_PATH + "protein_attributes.txt");
+                                if (attributeFile.exists()){
+                                    Scanner s = new Scanner(attributeFile);
 
-                                while (s.hasNext()) {
-                                    String[] attributes = s.nextLine().split(" ");
-                                    String UniprotID = attributes[0];
-                                    proteinAttributeList.put(UniprotID, attributes);
+                                    while (s.hasNext()) {
+                                        String[] attributes = s.nextLine().split(" ");
+                                        String UniprotID = attributes[0];
+                                        proteinAttributeList.put(UniprotID, attributes);
+                                    }
+                                    s.close();
                                 }
-                                s.close();
                             } catch (Exception e) {
                                 logger.error(USER_ID + ": Fail to retrieve protein attributes:\n" + e.toString());
                             }
