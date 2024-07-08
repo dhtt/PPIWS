@@ -200,7 +200,7 @@
                                     <tr><th>&emsp;- <a href="./resources/PPICompare/MPP.zip" download="MPP.zip" class="href_to_section">MPP.zip</a></th></tr>
                                     <tr><th style="font-weight: bold">Group 2</th></tr>
                                     <tr><th>&emsp;- <a href="./resources/PPICompare/HSC.zip" download="HSC.zip" class="href_to_section">HSC.zip</a></th></tr>
-                                    <tr><th class="level-3-heading">Return protein attribute table</th></tr>
+                                    <!-- <tr><th class="level-3-heading">Return protein attribute table</th></tr> -->
                                     <tr><th class="level-3-heading">FDR: 0.05</th></tr>
                                     </tbody>
                                 </table>

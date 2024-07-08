@@ -133,6 +133,7 @@ jQuery(document).ready(function() {
         data.append('SUBMIT_TYPE', submit_type_);
         data.append('fdr', "-fdr=" + $('#fdr').val());
         data.append('PPIXPRESS_NETWORK_TEXT', PPIXpress_network_1_text.val() + "&" + PPIXpress_network_2_text.val())
+        data.append('RunOptions', 'null')
 
         $.ajax({
             url: "PPICompare",
@@ -201,58 +202,8 @@ jQuery(document).ready(function() {
             })
         }, updateInterval);
     }
-    // let updateLongRunningStatus = function (res, updateInterval) {
-    //     const interval = setInterval(function (json) {
-    //         $.ajax({
-    //             type: "POST",
-    //             url: 'ProgressReporter',
-    //             cache: false,
-    //             dataType: "json",
-    //             data: res,
-    //             success: function (json) {
-    //                 if (json.USER_ID === res.USER_ID){
-    //                     allPanel.css({'cursor': 'progress'})
-    
-    //                     // When new tab is open but no job is currently running for this user
-    //                     // json.UPDATE_LONG_PROCESS_MESSAGE is retrieved from ProgressReporter.java
-    //                     if (json.UPDATE_LONG_PROCESS_MESSAGE === ""){
-    //                         // Stop updateLongRunningStatus & make allPanel cursor default
-    //                         // clearInterval(interval)
-    //                         // allPanel.css({'cursor': 'default'})
-    //                         // loader.hide()
-    //                         // Submit.prop('disabled', false)
-    //                         const  pass = "pass"
-    //                     }
-    //                     // If job is running on one more or tabs, the main tab (or new tabs)
-    //                     // will all be updated with the process
-    //                     // json.UPDATE_LONG_PROCESS_STOP_SIGNAL is retrieved from ProgressReporter.java
-    //                     else {
-    //                         if (Boolean(json.UPDATE_LONG_PROCESS_STOP_SIGNAL) === true) {
-    //                             // Stop updateLongRunningStatus & return to default setting
-    //                             clearInterval(interval)
-    //                             allPanel.css({'cursor': 'default'})
-    //                             loader.hide() 
 
-    //                             $("#AfterRunOptions").show()
-    //                             $("[name='ScrollToTop']").show()
-    
-    //                             // Display the sample protein list 
-    //                             fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
-    //                         }
-                            
-    //                         // Update running progress to runningProgressContent
-    //                         runningProgressContent.html(json.UPDATE_LONG_PROCESS_MESSAGE)
-    //                         leftDisplay[0].scrollTop = leftDisplay[0].scrollHeight
-    //                     }
-    //                     res = json
-    //                 } 
-    //             },
-    //             error: function(e){
-    //                 console.log("An error occurred in updateLongRunningStatus: " + e)
-    //             }
-    //         })
-    //     }, updateInterval);
-    // }
+
     const NVContent_Graph = $('#NVContent_Graph')
     const CustomizeNetworkOptions = $('#CustomizeNetworkOptions')
     const ShowNetworkMain = $('#ShowNetworkMain')
@@ -262,64 +213,6 @@ jQuery(document).ready(function() {
     let Submit = $("[name='Submit']")
     let runNewAnalysis = $('#runNewAnalysis')
     let runNewAnalysis_popup = $('#runNewAnalysis_popup')
-
-    /***
-     * Submit form and run analysis
-     * @type {boolean}
-     */
-
-
-    // var regex = new RegExp("^[0-9a-zA-Z\.\_\b]+$");
-
-    // let PPIXpress_network_1_filename = PPIXpress_network_1[0].files[0].name
-    // let PPIXpress_network_2_filename = PPIXpress_network_2[0].files[0].name
-    // console.log("CHECK 0: " + PPIXpress_network_1_filename + " " + PPIXpress_network_2_filename);
-    // console.log(regex.test(PPIXpress_network_1_filename));
-    // console.log(regex.test(PPIXpress_network_2_filename));
-    // console.log(!regex.test(PPIXpress_network_1_filename) || !regex.test(PPIXpress_network_2_filename))
-    // if (regex.test(PPIXpress_network_1_filename) || !regex.test(PPIXpress_network_2_filename)){
-    //     console.log("CHECK 1");
-    //     // Check if the same file is selected for comparison
-    //     if (PPIXpress_network_1_filename === PPIXpress_network_2_filename && PPIXpress_network_1_filename !== ""){
-    //         console.log("CHECK 2");
-    //         alert('Please select two different files for comparison.');
-    //         return false;
-
-    //     } else if (PPIXpress_network_1_filename === "" && PPIXpress_network_2_filename === "" ){
-    //         console.log("CHECK 3");
-    //         // Only submit form if user has selected 2 files for comparison. 
-    //         // If yes, use PPIXpress_network input and not PPIXpress_network_text
-    //         if (PPIXpress_network_1_filename === "" || PPIXpress_network_2_filename === ""){
-    //             console.log("CHECK 4");
-
-    //             // If more than 1 file is missing, check whether inputs from PPIXpress_network_text are set.
-    //             // If yes, use PPIXpress_network_text. Otherwise, alert user to upload missing files.
-    //             if (PPIXpress_network_1_filename === "" || PPIXpress_network_2_filename === ""){
-    //                 console.log("CHECK 5");
-    //                 alert('Missing input file(s)');
-    //                 return false;
-
-    //             } else {
-    //                 console.log("CHECK 6");
-    //                 // Clear PPIXpress_network input value
-    //                 PPIXpress_network.each(function(){ this.value = '' })
-    //             }
-    //         } else {
-    //             console.log("CHECK 7");
-    //             // Theorectically, this should not happen because if PPIXpress_network_text inputs are set, 
-    //             // new PPICompare window is opened from PPICompare and PPIXpress_network inputs are hidden 
-    //             // so user cannot upload files. If user click on Xpress2Compare_abort, the window is closed.
-    //             // This is just a double check.
-
-    //             // Clear PPIXpress_network_text input value
-    //             PPIXpress_network_text.each(function(){ this.value = '' })
-    //         }
-    //     } 
-    // } else {
-    //     console.log("CHECK 8");
-    //     alert('File names should end in .zip/.gz/.gzip and must not contain special characters other than "." and "_" (space, slash, comma, etc. are not allowed).')
-    //     return false;
-    // }
 
     $('#RunNormal').on('click', function (){
         // Reset displayed result from previous run
@@ -413,8 +306,9 @@ jQuery(document).ready(function() {
     /**
      * Set options to default
      */        
+    let return_protein_attribute = $('#return_protein_attribute')
     let set_default = function () {
-        $('#return_protein_attribute').prop('checked', true)
+        return_protein_attribute.prop('checked', true)
         $('#fdr').val(0.05)
 
         toggleInputLabel(PPIXpress_network, 'show')
@@ -439,7 +333,7 @@ jQuery(document).ready(function() {
         } else if ($(this).attr('id') === 'ResetNetworkOptions'){    
             // Specific settings for each datatype-panel 
             $('#fdr').val(0.05)
-            $('#return_protein_attribute').prop('checked', true)
+            return_protein_attribute.prop('checked', true)
         }
     })
 
