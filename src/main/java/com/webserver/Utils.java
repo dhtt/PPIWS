@@ -175,20 +175,18 @@ public class Utils {
      * @param LocalStoragePath_ Path to the user's local storage
      */
     // group_ids = ['g1:1,2,3','g2:5,6,7']
-    public static String copyPPIXpress2PPICompare(String Path_, String groupedID) throws IOException {
-        String PPIXpressOutputPath = Path_ + "/PPIXpress/OUTPUT/";
-        String PPICompareInputPath = Path_ + "/PPICompare/INPUT/";
+    public static String copyPPIXpress2PPICompare(String PPIXpressOutputPath_, String PPICompareInputPath_, String groupedID) throws IOException {
         String[] PPICompareRequiredFormat = new String[]{"ppin.txt", "ddin.txt", "major-transcripts.txt", "ppin.txt.gz", "ddin.txt.gz", "major-transcripts.txt.gz"};
         String groupID = groupedID.split(":")[0]; // group_id = g1
         String[] sampleIDs = groupedID.split(":")[1].split(","); // sample_ids = [1,2,3]
 
-        String targetDir = PPICompareInputPath + groupID + "/";
+        String targetDir = PPICompareInputPath_ + groupID + "/";
 
         try {
             for (String fileSuffix : PPICompareRequiredFormat) {
                 for (String ID : sampleIDs) {
                     String fileName = ID + "_" + fileSuffix;
-                    String source = PPIXpressOutputPath + fileName; // /PPIXpress/OUTPUT/1_ppin.txt or /PPIXpress/OUTPUT/1_ppin.txt.gz
+                    String source = PPIXpressOutputPath_ + fileName; // /PPIXpress/OUTPUT/1_ppin.txt or /PPIXpress/OUTPUT/1_ppin.txt.gz
                     if (Files.exists(Paths.get(source))){
                         String target = targetDir + fileName;
     

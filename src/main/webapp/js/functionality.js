@@ -389,7 +389,7 @@ jQuery(document).ready(function() {
     const Xpress2Compare_GroupLabels_description = $('#Xpress2Compare_GroupLabels_description')
     const Xpress2Compare_SampleTable_description = $('#Xpress2Compare_SampleTable_description')
     const Xpress2Compare_yes = $('#Xpress2Compare_yes')
-
+    var TRANSFER_NO = 0;
     var regex = new RegExp("^[0-9a-zA-Z\b]+$");
 
     toPPICompare.on('click', function(){
@@ -432,11 +432,13 @@ jQuery(document).ready(function() {
         if (!Xpress2Compare_SampleTable_description[0].checkVisibility() && !Xpress2Compare_GroupLabels_description[0].checkVisibility()){
             let TRANSFER_DATA = {}
             TRANSFER_DATA['USER_ID'] = USER_ID
+            TRANSFER_DATA['TRANSFER_NO'] = TRANSFER_NO
             TRANSFER_DATA['Xpress2Compare_Label1'] = Xpress2Compare_Label1.val()
             TRANSFER_DATA['Xpress2Compare_Label2'] = Xpress2Compare_Label2.val()
             TRANSFER_DATA['groupedSample'] = groupedSample
             TRANSFER_DATA['groupedSampleName'] = groupedSampleName
             window.localStorage.setItem('TRANSFER_DATA', JSON.stringify(TRANSFER_DATA));
+            TRANSFER_NO += 1
         } else {
             return false
         }

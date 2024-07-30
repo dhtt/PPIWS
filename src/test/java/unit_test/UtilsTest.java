@@ -17,11 +17,12 @@ import com.webserver.Utils;
 public class UtilsTest {
     @Test
     public void test_copyPPIXpress2PPICompare(){
-        String LOCAL_STORAGE_PATH = "/home/trang/PPIWS/repository/uploads/8OccrE351CwW";
         String groupedID = "Ccell:3,4";
+        String IN = "/home/trang/PPIWS/repository/uploads/pxziRBfrPEyo/PPIXpress/OUTPUT/";
+        String OUT = "/home/trang/PPIWS/repository/uploads/pxziRBfrPEyo_0_Xpress2Compare/PPICompare/INPUT/";
         try {
-            String copyTarget = Utils.copyPPIXpress2PPICompare(LOCAL_STORAGE_PATH, groupedID);
-            assertTrue(copyTarget.equals(LOCAL_STORAGE_PATH + "/PPICompare/INPUT/" + groupedID.split(":")[0] + "/"));
+            String copyTarget = Utils.copyPPIXpress2PPICompare(IN, OUT, groupedID);
+            assertTrue(copyTarget.equals(OUT+ groupedID.split(":")[0] + "/"));
         }
         catch (IOException e) {
             e.printStackTrace();

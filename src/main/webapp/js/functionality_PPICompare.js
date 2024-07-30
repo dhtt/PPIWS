@@ -41,7 +41,7 @@ jQuery(document).ready(function() {
     let TRANSFER_DATA = JSON.parse(window.localStorage.getItem('TRANSFER_DATA'))
     let USER_ID = null
     if (TRANSFER_DATA !== null){
-        USER_ID = TRANSFER_DATA['USER_ID']
+        USER_ID = TRANSFER_DATA['USER_ID'] + "_" + TRANSFER_DATA['TRANSFER_NO'] + "_Xpress2Compare"
 
         // Show the selected samples for Xpress2Compare
         Xpress2Compare_Label1_confirm[0].innerHTML = '<strong>' + TRANSFER_DATA['Xpress2Compare_Label1'] + '</strong><br>'

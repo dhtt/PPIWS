@@ -25,6 +25,7 @@ public class PPICompareServlet extends HttpServlet {
     protected String OUTPUT_PATH;
     protected String GROUP1_PATH;
     protected String GROUP2_PATH;
+    protected String SOURCE_USER_ID = null;
     String SUBMIT_TYPE;
     ArrayList<String> allArgs;
     static AtomicBoolean STOP_SIGNAL = new AtomicBoolean(false);
@@ -131,7 +132,10 @@ public class PPICompareServlet extends HttpServlet {
                 String GROUPED_ID = request.getParameter("PPIXPRESS_NETWORK_TEXT") == null ? "" : request.getParameter("PPIXPRESS_NETWORK_TEXT").toString();
                 String[] GROUPED_IDs = GROUPED_ID.split("&");
                 for (String ID : GROUPED_IDs) {
-                    Utils.copyPPIXpress2PPICompare("/home/trang/PPIWS/repository/example_run/", ID);
+                    Utils.copyPPIXpress2PPICompare(
+                        "/home/trang/PPIWS/repository/example_run/PPIXpress/OUTPUT/", 
+                        "/home/trang/PPIWS/repository/example_run/PPICompare/INPUT/",
+                        ID);
                 }
                 
 
@@ -155,10 +159,17 @@ public class PPICompareServlet extends HttpServlet {
 
                 if (!PPIXPRESS_NETWORK_TEXT.equals("")){
                     try {
+                        // If input is from Xpress2Compare, remove the suffix "Xpress2Compare"
+                        String[] USER_ID_split = USER_ID.split("_");
+                        SOURCE_USER_ID = USER_ID_split[2].equals("Xpress2Compare") ? USER_ID_split[0] : SOURCE_USER_ID;
+                        
                         String[] GROUPED_IDs = PPIXPRESS_NETWORK_TEXT.split("&");
                         for (int i = 1; i <= GROUPED_IDs.length; i++) {
                             String ID  = GROUPED_IDs[i-1];
-                            String inputFilesPath = Utils.copyPPIXpress2PPICompare("/home/trang/PPIWS/repository/uploads/" + USER_ID + "/", ID);
+                            String inputFilesPath = Utils.copyPPIXpress2PPICompare(
+                                "/home/trang/PPIWS/repository/uploads/" + SOURCE_USER_ID + "/PPIXpress/OUTPUT/", 
+                                "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/PPICompare/INPUT/",
+                                ID);
                             allArgs.add("-group_" + i + "=" + inputFilesPath);
                         }
                     } catch(Exception e){
