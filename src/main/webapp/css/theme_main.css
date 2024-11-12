@@ -1,0 +1,24 @@
+:root{
+    --mint: #d44e29;
+    --darkmint: #d44e29;
+    --intensemint30:#c2c2c28a;
+    --intensemint50:#c2c2c28a;
+    --intensemint75:#c2c2c28a;
+    --choco: rgb(67, 60, 57);
+    --lightmintgrey: #f4f4f4;
+    --intensemint: #d44e29;
+    --darkintensemint: #d44e29;
+    --ultradarkmint: #d44e29;
+    --shadow: rgba(50, 50, 93, 0.25) 0 6px 12px -2px, rgba(0, 0, 0, 0.3) 0 3px 7px -3px;
+    --textshadow: 1px 1px 4px var(--darkintensemint);
+    --warning: #ffed25;
+    --warning_close: red;
+    --nodecolor: #2a036b;
+    --deeppink: #FF1493;
+    --darkdeeppink: #a4268f;
+    --lightblue: #f7fafc;
+    --protein: #a0aade;
+    --lostedge: #d44e29;
+    --gainededge: #9ab337;
+    --highlightedprotein: #FF1493;
+}

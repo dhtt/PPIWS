@@ -162,14 +162,15 @@
                     <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto;">
                         <div class="network-option panel" id="ShowNetworkOptions">Show / Collapse Options</div>
 
+                        <div class="star2" name="Star" id="ShowNetworkMain_star" style="left: 0"></div>
                         <div class="network-option panel" name="NetworkOptions" id="ShowNetworkMain" style="text-align: center; border-radius: 1em">
-                            <div class="star" name="Star" id="ShowNetwork_star"></div>
                             <span style="font-weight: bold">Differential PPI network</span><br>
                             <!-- button-typed items are enabled when UPDATE_LONG_PROCESS_SIGNAL === true. Then, class 'upload' is added to style the buttons -->
                             <button type="button" disabled id="ShowNetwork" value="null" class="button graph-menu-button">Show</button>
                             <button type="button" disabled id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
                         </div>
 
+                        <div class="star2" name="Star" id="ShowNetworkSub_star"></div>
                         <div class="network-option panel" name="NetworkOptions" id="ShowNetworkSub" style="text-align: center; border-radius: 1em">
                             <label for="NetworkSelection_HighlightProtein" style="font-weight: bold">Show subnetwork</label><br>
                             <select id="NetworkSelection_HighlightProtein" class="button upload" style="margin: 0.5em 0; width: min-content; font-size: smaller" data-placeholder="UniProt ID"></select><br>
@@ -258,10 +259,8 @@
             </div>
         </div>
     </div>
-</div><br>
-<footer>
-    Hoang Thu Trang Do & Volkhard Helms. Chair of Computational Biology
-</footer>
+</div>
+<jsp:include page="html/footer.html"/>
 </body>
 </html>
 

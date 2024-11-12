@@ -140,7 +140,7 @@ footer{
 .download{
     font-size: small;
     margin: 0;
-    padding: 0;
+    padding: 0 0.5em;
     color: var(--choco);
     border: white 2px solid;
     min-width: 80%;

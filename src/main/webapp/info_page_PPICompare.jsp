@@ -46,7 +46,7 @@
                     <p name="HelpMenu" id="Contact" class="help-panel-sub" style="border-radius: 0 0 1em 1em;">Contact</p>
                 </div>
             </div>
-            <div name="ScrollToTop" class=" reset" style="text-align: center; position: relative; padding: 0; border-radius: 1em; margin-top: 1em">Scroll to top</div>
+            <div name="ScrollToTop" class="reset" style="text-align: center; position: relative; padding: 0; border-radius: 1em; margin-top: 1em">Scroll to top</div>
         </div>
         <div id="RightPanel" class="middle-under-info-page" style="flex: 1; display: flex; flex-flow: column">
             <div id="toInstruction">
@@ -287,7 +287,7 @@
                             <strong>Stand-alone software version</strong>: 
                             Will, T., & Helms, V. (2017). Rewiring of the inferred protein interactome during blood development studied with the tool PPICompare. BMC Systems Biology, 11, 1-19.
                             <a href="https://bmcsystbiol.biomedcentral.com/articles/10.1186/s12918-017-0400-x" target="_blank" class="href_to_section">[Link to paper]</a><br>
-                            <!-- TODO: Add citation -->
+
                             <strong>Webserver version</strong>:
                             Do, H.T.T., & Helms, V. (2024)
                             <a href="" target="_blank" class="href_to_section">[Link to paper]</a><br>
@@ -302,8 +302,19 @@
                     </div>
                 </div>
             </div>
+            <div id="toCredits">
+                <p class="menu header help-section-title">Notes and Credits</p>
+                <div class="menu panel" style="width: 100%">
+                    <div class="help-section-body">
+                        <span>Icons and animated icons created by Freepik - Flaticon:</span>
+                        <a href="https://www.flaticon.com/free-animated-icons/athlete" title="1" class="href_to_section">1 </a>
+                        <a href="https://www.flaticon.com/free-icons/neural-network"title="2" class="href_to_section">2</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<jsp:include page="html/footer.html"/>
 </body>
 </html>

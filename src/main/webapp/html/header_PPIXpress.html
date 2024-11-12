@@ -1,26 +1,24 @@
 <!DOCTYPE html>
 <head>
-    <title>PPI Webserver</title>
-    <link rel="shortcut icon" href="resources/PPIN_logo.png">
-    <link rel="stylesheet" href="css/theme_main.css">
-    <link rel="stylesheet" href="css/interface.css">
-    <link rel="stylesheet" href="css/header-and-panel.css">
-    <link rel="stylesheet" href="css/cytoscape-style.css">
-    <link rel="stylesheet" href="css/animation.css">
-    <link rel="stylesheet" href="css/select2_custom_style.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>header</title>
+    <meta name="PPIXpress" content="Authors: Hoang Thu Trang Do, Thorsten Will, Volkhard Helms, Organization: Center for Bioinformatics, Saarbrücken, Germany">
+    <link rel="stylesheet" href="css/theme_mint.css">
 </head>
 
 <div class="container-header" style="min-height: 70px">
-    <div style="flex: 0 400px;background-color: var(--lostedge);border-radius: 0 0 2em 2em;margin-left: 1em">
-        <h1 class="left vcenter">PPI-Webserver</h1>
+    <div style="flex: 0 0 280px; background-color: #68d3aa; border-radius: 0 0 2em 2em; margin-left: 1em">
+        <h1 class="left vcenter">PPIXpress</h1>
     </div>
-
-    <div style="flex: 1; display: none;">
-        <h2 class="middle">Description</h2>
+    <div style="flex: 1">
+        <h2 class="middle">Construction of condition-specific Protein Interaction Networks<br>based on Transcript Expression</h2>
     </div>
-<!-- TODO: add https://www-cbi.cs.uni-saarland.de and https://zbi-www.bioinf.uni-sb.de/en/  -->
+    <div class="right center" style="flex: 0 0 200px">
+        <a href="./info_page_PPIXpress.jsp" target="_blank" rel="noopener noreferer" class="href_to_section">Help</a>&nbsp;/&nbsp;
+        <a href="./FAQs.jsp#toPPIXpressFAQs" target="_blank" rel="noopener noreferer" class="href_to_section">FAQs</a><br>
+        <a href="./info_page_PPIXpress.jsp#toPPIXpressOutput" target="_blank" rel="noopener noreferer" class="href_to_section">PPIXpress Outputs</a><br>
+        <a href="./info_page_PPIXpress.jsp#toPPIXpressStandaloneTool" target="_blank" rel="noopener noreferer" class="href_to_section">Download Standalone Tool</a><br>
+        <a href="./info_page_PPIXpress.jsp#toCitation" target="_blank" rel="noopener noreferer" class="href_to_section">Citation</a>
+    </div>
 </div>
 
 <div style="display: none">
@@ -40,3 +38,4 @@
     <button name="CSS_Style" id="--textshadow" style="color: var(--textshadow)"></button>
     <button name="CSS_Style" id="--warning" style="color: var(--warning)"></button>
 </div>
+

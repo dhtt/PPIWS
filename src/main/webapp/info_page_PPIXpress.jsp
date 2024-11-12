@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="html/header.html"/>
+<jsp:include page="html/header_PPIXpress.html"/>
 <div>
     <div id="AllPanels" class="container-body">
         <div style="flex: 0 0 280px; margin-left: 1em; position: fixed">
@@ -46,7 +46,7 @@
                     <p name="HelpMenu" id="Contact" class="help-panel-sub" style="border-radius: 0 0 1em 1em;">Contact</p>
                 </div>
             </div>
-            <div name="ScrollToTop" class=" reset" style="text-align: center; position: relative; padding: 0; border-radius: 1em; margin-top: 1em">Scroll to top</div>
+            <div name="ScrollToTop" class="reset" style="text-align: center; position: relative; padding: 0; border-radius: 1em; margin-top: 1em">Scroll to top</div>
         </div>
         <div id="RightPanel" class="middle-under-info-page" style="flex: 1; display: flex; flex-flow: column">
             <!--------------------------->
@@ -614,8 +614,20 @@
                     </div>
                 </div>
             </div>
+
+            <div id="toCredits">
+                <p class="menu header help-section-title">Notes and Credits</p>
+                <div class="menu panel" style="width: 100%">
+                    <div class="help-section-body">
+                        <span>Icons and animated icons created by Freepik - Flaticon:</span>
+                        <a href="https://www.flaticon.com/free-animated-icons/athlete" title="1" class="href_to_section">1 </a>
+                        <a href="https://www.flaticon.com/free-icons/neural-network"title="2" class="href_to_section">2</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+<jsp:include page="html/footer.html"/>
 </body>
 </html>

@@ -179,6 +179,7 @@ jQuery(document).ready(function() {
 
                             $("#AfterRunOptions").show()
                             $("[name='ScrollToTop']").show()
+                            $('#toNetworkVisualization_star').css({'display': 'inline-block'});
 
                             // Display the sample protein list 
                             fetchResult(null, "protein_list", NetworkSelection_HighlightProtein[0], false); 
@@ -565,6 +566,8 @@ jQuery(document).ready(function() {
                             target.innerHTML = proteinList[0] // Display protein list
 
                             let n_nodes = proteinList[1] // Get number of proteins
+
+                            // ShowSubnetwork if number of proteins exceeds 1000
                             if (n_nodes >= 1000){
                                 showWarningMessage(WarningMessage,
                                     "❗️ Number of proteins in differential network exceeds 1000. To visualize the full network, please download the network and visualize it in Cytoscape. To visualize a subnetwork, please select a protein from the list.",
@@ -572,6 +575,7 @@ jQuery(document).ready(function() {
 
                                 switchButton(ShowSubnetwork, 'on', ['upload'], 'addClasses')
                                 ShowSubnetwork.show()
+                                $('#ShowNetworkSub_star').css({'display': 'inline-block'});
                                 NetworkSelection_HighlightProtein_All.parent('label').hide()
                             } else if (n_nodes == 0){
                                 showWarningMessage(WarningMessage,
@@ -581,6 +585,7 @@ jQuery(document).ready(function() {
                             } else {
                                 switchButton(ShowNetwork, 'on', ['upload'], 'addClasses')
                                 ShowSubnetwork.hide()
+                                $('#ShowNetworkMain_star').css({'display': 'inline-block'});
                                 NetworkSelection_HighlightProtein_All.parent('label').show()
                             }
                         })

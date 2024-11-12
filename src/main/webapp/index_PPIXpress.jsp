@@ -29,7 +29,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
-<jsp:include page="html/header.html"/>
+<jsp:include page="html/header_PPIXpress.html"/>
 
 <div class="disabling_layer" id="disabling_window"></div>
 <div id="already_open_window_popup" class="popup center-pop" style="display: none">
@@ -75,7 +75,7 @@
                         &nbsp;or&nbsp;
                         <label for="protein_network_web" class="button upload" title="Use protein interaction network from Mentha or IntAct">From web</label>
                         
-                        <a href="./info_page.jsp#toProteinInteractionData" target="_blank"> 
+                        <a href="./info_page_PPIXpress.jsp#toProteinInteractionData" target="_blank"> 
                             <button type="button" name="protein_network_example" id="protein_network_example" class="help" title="Example input">?</button>
                         </a>
                         <div id="protein_network_web_popup" class="popup center-pop" style="display: none">
@@ -118,7 +118,7 @@
                         <input type="file" name="expression_file" id="expression_file" accept=".txt,.gz" style="display: none" multiple>
 
                         <!-- TODO: Open page to ExpressionData section -->
-                        <a href="./info_page.jsp#toExpressionData" target="_blank"> 
+                        <a href="./info_page_PPIXpress.jsp#toExpressionData" target="_blank"> 
                             <button type="button" name="expression_example" id="expression_example" class="help" title="Example input">?</button>
                         </a>
                     </p>
@@ -185,7 +185,7 @@
             <div name="LeftPanel4" id="LeftPanel4" style="text-align: center">
                 <div style="display: flex; flex-direction: row;">
                     <label for="usePPICompareOptions" value="null" class="button submit" style="width: -webkit-fill-available; font-size: small; margin-bottom: 0.5em; background: var(--lightmintgrey);color: var(--choco); min-height: fit-content; height:2em; padding: 0.5em;">Use PPICompare-required options</label> 
-                    <a href="./info_page.jsp#toUsePPICompareOptions" target="_blank"><button type="button" name="protein_network_example" class="help">?</button></a>
+                    <a href="./info_page_PPIXpress.jsp#toUsePPICompareOptions" target="_blank"><button type="button" name="protein_network_example" class="help">?</button></a>
                 </div>
                 <input type="checkbox" id="usePPICompareOptions" style="display: none;">
                 <button type="submit" name="Submit" id="RunNormal" value="null" class="button submit" style="font-size: medium">Run PPIXpress</button>
@@ -210,7 +210,7 @@
                         <div class="panel" style="background: white; text-align: center">
                             <button type="button" name="transit" id="downloadLogFile" value="null" class="button download">Download Log File</button><br>
                             <button type="button" name="transit" id="downloadResultFiles" value="null" class="button download">Download Result Files</button><br>
-                            <!-- <div class="star" name="Star" id="toNetworkVisualization_star"></div> -->
+                            <div class="star" name="Star" id="toNetworkVisualization_star"></div>
                             <button type="button" name="transit" id="toNetworkVisualization" value="null" class="button download">Visualize Condition-Specific Networks</button><br>
                             <button type="button" name="transit" id="toPPICompare" value="null" disabled class="button download disabled" title="Required 'Output DDINs' and 'Output major transcripts' with at least 4 samples.">Build differential network (PPICompare)</button><br>
                             <button type="button" name="transit" id="runNewAnalysis" value="null" class="button download">Run a new analysis</button><br>
@@ -236,6 +236,7 @@
                     <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
                         <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
 
+                        <div class="star2" name="Star" id="NetworkOptions_star"></div>
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
                             <label for="NetworkSelection_Protein" style="font-weight: bold">Select a protein</label><br>
                             <select id="NetworkSelection_Protein" class="button upload" style="margin: 0.5em 0; width: min-content; font-size: smaller" data-placeholder="UniProt ID"></select><br>
@@ -293,10 +294,8 @@
             </div>
         </div>
     </div>
-</div><br>
-<footer>
-    Hoang Thu Trang Do & Volkhard Helms. Chair of Computational Biology
-</footer>
+</div>
+<jsp:include page="html/footer.html"/>
 </body>
 </html>
 
