@@ -25,6 +25,7 @@
     <script type="module" src="js/jscolor.js"></script>
     <script type="module" src="js/functionality.js"></script>
     <script type="module" src="js/network_maker.js"></script>
+    <script type="module" src="js/PantherDB_prepper.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.0/FileSaver.min.js"> </script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
@@ -58,6 +59,13 @@
             <button type="button" id="runNewAnalysis_no" class="button upload">No</button>
         </div>
     </div>
+</div>
+
+<!-- TODO: taxonSelect_popup replace protein_network_web -->
+<div name="taxonSelect_popup" style="display: block">
+    <div id="taxonSelect" class="popup_content_row" style="max-height: 11em;"></div>
+    <p id="taxonSelect_description" class="description-text" style="display: none; color: var(--deeppink);">Group 1 and 2 have to contain at least 2 samples each.</p>
+    <div id="annotSelect"></div>
 </div>
 
 <jsp:include page="html/PPIXpress2PPICompare.html"/>
@@ -246,6 +254,7 @@
                             <select id="NetworkSelection_Expression" class="button upload" style="margin: 0.5em 0"></select><br>
                             <button type="button" disabled name="ShowSubnetwork" id="ShowSubnetwork" value="null" class="button graph-menu-button">Show</button>
                             <button type="button" disabled name="ApplyGraphStyle" id="DownloadSubnetwork" value="null" class="button graph-menu-button">Download</button>
+                            <button type="button" disabled name="ApplyGraphStyle" id="GOAnnotSubnetwork" value="null" class="button graph-menu-button">Gene enrichment analysis</button>
                         </div>
 
                         <div class="network-option panel" name="NetworkOptions" id="CustomizeNetworkOptions" style="text-align: center; border-radius: 1em">

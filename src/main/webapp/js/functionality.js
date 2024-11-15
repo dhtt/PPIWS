@@ -880,6 +880,32 @@ jQuery(document).ready(function() {
                 })
         }
     })
+
+    let GOAnnotSubnetwork = $('#GOAnnotSubnetwork')
+    let taxonSelect = $('taxonSelect')
+    GOAnnotSubnetwork.on('click', function(){
+        let geneInputList = null;
+        let backgroundNodes = null;
+
+        ProteinNetwork.then(cy => {
+            // 1. Fetch gene list, should be proteins in subnetwork
+            geneInputList = cy.filter('.Protein_Node').map(x => x.id());
+            // console.log(geneInputList);
+
+            // 3. Derive organism
+            let taxon = $("input[name='selectedTaxon']:checked").val();
+            // console.log(taxon);
+            
+            // 2. Fetch background, should be all avail proteins
+            refInputList = NetworkSelection_Protein[0].innerText;
+            // console.log(refInputList);
+            
+            // 3. Fetch GO annotations
+            // 4. Display GO annotations
+
+            return(cy)
+        })
+    })
 })
 
 

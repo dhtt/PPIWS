@@ -132,7 +132,7 @@ export function createXpress2CompareSampleTable(NAMES_EXPRESSION_FILE_, target_)
     const headerText = ['Sample', 'Group 1', 'Group 2', 'Not selected']
     const PPICompareGroups = ['group_1', 'group_2', 'none'] // PPICompareGroups is group id that sample should be labeled by
     let headerRow = document.createElement("tr");
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < headerText.length; i++) {
         let headerCell = document.createElement("td");
         let headerContent = document.createTextNode(headerText[i])
         headerCell.appendChild(headerContent)
