@@ -184,3 +184,22 @@ export function toggleInputLabel(input_name, option_){
         input_name.each(function(){ this.labels.forEach(function(label){ label.style.display = "none" }) })
     }
 }
+
+ /**
+  * Check if a div contain a cytoscape network object
+  * @param {jQuery} container_div 
+  * @returns boolean 
+  */
+export function checkIfCytoscapeNetwork(container_div){
+    return container_div.hasClass('__________cytoscape_container') ? true : false 
+}
+
+
+ /**
+  * Get a cytoscape network object from container
+  * @param {jQuery} container_div 
+  * @returns cytoscape network object
+  */
+export function getCytoscapeNetwork(container_div){
+    return container_div[0]._cyreg.cy
+}

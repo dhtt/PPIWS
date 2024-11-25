@@ -19,12 +19,16 @@
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/main/java/com/webserver/Utils.java" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="222" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/test/java/com/webserver/UtilsTest.java" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
           <option name="caretOffset" value="225" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/test/java/unit_test/UtilsTest.java" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="293" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/main/java/com/webserver/GOAnnotationServlet.java" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="0" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/test/java/unit_test/GOAnnotationServletTest.java" />
         </OpenedFileInfo>
       </list>
     </option>

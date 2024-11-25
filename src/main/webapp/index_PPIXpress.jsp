@@ -62,10 +62,13 @@
 </div>
 
 <!-- TODO: taxonSelect_popup replace protein_network_web -->
-<div name="taxonSelect_popup" style="display: block">
+<div name="annotGO_popup" id="annotGO_popup" class="popup center-pop" style="display: block; min-width: 500px">
     <div id="taxonSelect" class="popup_content_row" style="max-height: 11em;"></div>
-    <p id="taxonSelect_description" class="description-text" style="display: none; color: var(--deeppink);">Group 1 and 2 have to contain at least 2 samples each.</p>
-    <div id="annotSelect"></div>
+    <p id="taxonSelect_description" class="description-text" style="display: none; color: var(--deeppink);">An organism must be selected</p>
+    <div id="annotSelect"></div> 
+    <p id="annotSelect_description" class="description-text" style="display: none; color: var(--deeppink);">A type of gene ontology enrichemnt analysis must be selected</p>
+    <button type="button" id="annotGO_yes" class="button upload">Analyze with PantherDB</button>
+    <button type="button" id="annotGO_no" class="button upload">Cancel</button>
 </div>
 
 <jsp:include page="html/PPIXpress2PPICompare.html"/>
