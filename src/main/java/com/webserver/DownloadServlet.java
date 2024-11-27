@@ -4,10 +4,15 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONArray;
-
+import org.json.JSONObject;
+import java.net.URL;
+import java.net.URLConnection;
 import java.io.*;
 import java.util.*;
 
@@ -30,7 +35,6 @@ public class DownloadServlet extends HttpServlet {
     protected PrintWriter out;
     protected static final Logger logger = LogManager.getLogger(DownloadServlet.class);
 
-
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
@@ -44,7 +48,6 @@ public class DownloadServlet extends HttpServlet {
             LOCAL_STORAGE_PATH = USER_ID.equals("EXAMPLE_USER") ? 
                 "/home/trang/PPIWS/repository/example_run/" + PROGRAM + "/" : "/home/trang/PPIWS/repository/uploads/" + USER_ID + "/" + PROGRAM + "/"; 
             OUTPUT_PATH = LOCAL_STORAGE_PATH + "OUTPUT/";
-            OUTPUT_FILENAME = "ResultFiles.zip"; 
 
             // Internal log 
 
@@ -56,6 +59,8 @@ public class DownloadServlet extends HttpServlet {
 
             switch (resultFileType) {
                 case "output":
+                    OUTPUT_FILENAME = "ResultFiles.zip"; 
+                    
                     //  Download the zipped output file
                     response.setHeader("Content-Disposition", "attachment; filename=\"" + OUTPUT_FILENAME + "\"");
                     response.setContentType("application/zip");
@@ -196,6 +201,72 @@ public class DownloadServlet extends HttpServlet {
                         logger.error(USER_ID + ": Fail to retrieve protein list:\n" + e.toString());
                     }
                     break;
+
+                    case "GO_plot":
+                        out = response.getWriter();
+                        URLConnection connection = null;
+                        String GO_OUTPUT_FILENAME = OUTPUT_PATH + "GO_annot.json";
+                        String TEMP_DF_FILENAME = OUTPUT_PATH + "GO_df.temp.json";
+                        try {
+                            // 1. Query Protein from PantherDB API for overrepresentation analysis
+                            // TODO: Replace PantherDB API by R/Python script?
+                            String proteinQuery = request.getParameter("stringQuery");
+                            String sort_by = request.getParameter("sort_by");
+                            String color_by = request.getParameter("color_by");
+
+                            URL server = new URL(proteinQuery);
+                            connection = server.openConnection();
+
+                            InputStream inputStream = connection.getInputStream();
+                            BufferedReader bR = new BufferedReader(  new InputStreamReader(inputStream) );
+                            
+                            StringBuilder responseStrBuilder = new StringBuilder();
+                            String newLine = "";
+                            while((newLine =  bR.readLine()) != null){
+                                responseStrBuilder.append(newLine);
+                            }
+                            inputStream.close();
+
+                            // 2. Write output to OUTPUT folder
+                            JSONObject result = new JSONObject(responseStrBuilder.toString());
+                            FileWriter file = new FileWriter(GO_OUTPUT_FILENAME);
+                            file.write(result.toString());
+                            file.flush();
+                            file.close();
+
+                            // 3. Parse GO analysis result and create plot using Python script
+                            try {
+                                String commandLine = "python3.12 /home/trang/PPIWS/src/main/webapp/js/interactive_GO.py" + 
+                                    " --input_file " + GO_OUTPUT_FILENAME + " --output_file " + TEMP_DF_FILENAME + 
+                                    " --sort_by " + sort_by + " --color_by " + color_by;
+
+                                CommandLine cmdLine = CommandLine.parse(commandLine);
+                                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                                PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream);
+                                
+                                DefaultExecutor executor = new DefaultExecutor();
+                                executor.setStreamHandler(streamHandler);
+                                executor.execute(cmdLine);
+
+                            } catch (Exception e) {
+                                logger.error(USER_ID + ": Fail to create GO plot:\n" + e.toString());
+                            }
+
+                            // 4. Write plot to response
+                            try (BufferedReader br = new BufferedReader(new FileReader(TEMP_DF_FILENAME))) {
+                                while (br.ready()) {
+                                    out.println(br.readLine());
+                                }
+                            } catch (Exception e) {
+                                logger.error(USER_ID + ": Fail to retrieve GO plot:\n" + e.toString());
+                            }
+
+                        } catch (Exception e) {
+                            logger.error(USER_ID + ": Fail to query Panther:\n" + e.toString());
+                            out.println("Fail to connect to PantherDB API.");
+                        }     
+                    
+                        break;
                 }
             } catch(Exception e){
                 logger.error(USER_ID + ": Fail to retrieve session information:\n" + e.toString());

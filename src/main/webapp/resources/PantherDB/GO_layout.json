@@ -1,0 +1,50 @@
+{
+    "main_layout": {
+        "title": {
+            "text": "Gene Ontology Overrepresentation Test\n(PantherDB)",
+            "x": 0.5,
+            "xanchor": "center",
+            "yanchor": "top",
+            "font": {
+                "weight": "bold"
+            }
+        },
+        "xaxis": {
+            "title": {
+                "standoff": 15
+            },
+            "automargin": true
+        },
+        "yaxis": {
+            "title": {
+                "text": "GO terms",
+                "standoff": 25
+            },
+            "automargin": true,
+            "categoryorder": "total ascending"
+        },
+        "font": {
+            "family": "sans-serif"
+        },
+        "coloraxis" : {
+            "colorbar": {
+                "title": {
+                    "text": ""            
+                }
+            }
+        },
+        "showlegend": false,
+        "showscale": true
+    },
+    "config": {
+        "responsive": true,
+        "toImageButtonOptions": {
+            "format": "svg",
+            "filename": "GO_plot.svg",
+            "height": 500,
+            "width": 700,
+            "scale": 1 
+        },
+        "displayModeBar": true
+    }
+}

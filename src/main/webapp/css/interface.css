@@ -270,6 +270,10 @@ footer{
     font-weight: bold;
     margin: 1em 1em 0.5em 1em;
 }
+.subsubsection-text{
+    font-size: smaller;
+    font-weight: bold;
+}
 .description-text{
     font-size: x-small;
     color: var(--deeppink);
@@ -433,7 +437,7 @@ input[type="range"]::-webkit-slider-runnable-track  {
     text-align: center;
 }
 
-#ShowNetworkOptions{
+.ShowNetworkOptions{
     border-radius: 0 0 1em 1em; 
     background: var(--deeppink); 
     color: white; 
@@ -540,4 +544,9 @@ li li::marker {
     height: -moz-available;          /* WebKit-based browsers will ignore this. */
     height: -webkit-fill-available;  /* Mozilla-based browsers will ignore this. */
     height: fill-available;
+}
+
+.js-plotly-plot .plotly .modebar {
+    left: 50%;
+    transform: translateX(-50%);
 }

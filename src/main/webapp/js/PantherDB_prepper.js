@@ -1,10 +1,6 @@
-import {checkIfCytoscapeNetwork} from './functionality_helper_functions.js'
-import {getCytoscapeNetwork} from './functionality_helper_functions.js'
-
 jQuery(document).ready(function() {
+    // Create GO Annotation analysis request form interface
     let GOAnnotSubnetwork = $('#GOAnnotSubnetwork')
-    let taxonSelect = $('taxonSelect')
-    let annotSelect = $('annotSelect')
     let annotGO_popup = $('#annotGO_popup')
 
     $.ajax({
@@ -81,6 +77,7 @@ jQuery(document).ready(function() {
                     
                     $('#annotSelect').append(radioButton)
                     $('#annotSelect').append(label)
+                    $('#annotSelect').append("<br>")
                 }
             })
         },
@@ -94,63 +91,53 @@ jQuery(document).ready(function() {
         annotGO_popup.toggle()
     })
     
-    $('#annotGO_yes').on('click', function() {
-        let geneInputList = null;
-        let refInputList = null;
-        let taxon = null;
-        let annot = null;
-        let ProteinNetwork = $('#NVContent_Graph')
-        
-        if (checkIfCytoscapeNetwork(ProteinNetwork)){
-            // 1. Fetch gene list, should be proteins in subnetwork
-            geneInputList = String(getCytoscapeNetwork(ProteinNetwork).filter('.Protein_Node').map(x => x.id()).join(','));
 
-            // 2. Fetch background, should be all avail proteins 
-            // (not included right now because of large header)
-            refInputList = Array.from(document.getElementById("NetworkSelection_Protein").options).map(x => x.innerText).join(',');
+    // Create GO Annotation analysis result interface
+    const labels = ['FDR', 'p-value', 'Fold enrichment']
+    const params = ['FDR', 'p_value', 'fold_enrichment']
+    
+    // Make sort_by radio buttons
+    
+    var option;
+    for (let i = 0; i < params.length; i++) {
+        option = document.createElement('option');
+        option.value = params[i];
+        option.textContent = labels[i];
+        $('#sort_by').append( option );
+    }
+    $('#sort_by').val("p_value").change();
 
-            // 3. Derive organism
-            taxon = String($("input[name='selectedTaxon']:checked").val());
-            
-            // 4. Select annotation type
-            annot = String($("input[name='selectedAnnot']:checked").val());
-            
-            // 5. Fetch GO annotations
-            if (geneInputList && refInputList && taxon && annot) {
-                var overrepForm = new URLSearchParams();
-                overrepForm.append('geneInputList', geneInputList);
-                overrepForm.append('organism', taxon); 
-                // overrepForm.append('refInputList', refInputList);
-                // overrepForm.append('refOrganism', taxon); 
-                overrepForm.append('annotDataSet', annot);
-                overrepForm.append('enrichmentTestType', "FISHER");
-                overrepForm.append('correction', "FDR");
+    for (let i = 0; i < params.length; i++) {
+        option = document.createElement('option');
+        option.value = params[i];
+        option.textContent = labels[i];
+        $('#color_by').append( option );
+    }
+    $('#color_by').val("fold_enrichment").change();
 
-                let result = fetch("https://pantherdb.org/services/oai/pantherdb/enrich/overrep?" + 
-                    new URLSearchParams(overrepForm).toString(), {
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json;charset=UTF-8',
-                    }
-                })
-                .then(response => response.json())
-                .then(
-                    data => {
-                        annotation = response.json()
-                        fetch("./js/example.py" + 
-                            new URLSearchParams(overrepForm).toString(), {
-                            method: "POST",
-                            headers: {
-                                'Content-Type': 'application/json;charset=UTF-8',
-                            }, 
-                            body: JSON.stringify(data)
-                        })
-                    }   
-                )
-                console.log(result);
-                
-            }           
-        }
+    // Make color_scheme options  
+    const color_schemes = ['Viridis', 'Blues','Greens','Greys','YlGnBu', 'YlOrRd', 'Earth', 'Jet']
+    color_schemes.forEach(item => {
+        option = document.createElement('option');
+        option.value = option.textContent = item;
+        $('#color_scheme').append( option );
     })
+    $('#color_scheme').val("Viridis").change();
 
+    // Make color_scheme_reverse radio buttons
+    const reverse = ["True", "False"]
+    reverse.forEach(item => {
+        option = document.createElement('option');
+        option.value = option.textContent = item;
+        $('#color_scheme_reverse').append( option );
+    })
+    $('#color_scheme_reverse').val("False").change();
+
+    // Make show_significance radio buttons
+    reverse.forEach(item => {
+        option = document.createElement('option');
+        option.value = option.textContent = item;
+        $('#show_sig_cutoff').append( option );
+    })
+    $('#show_sig_cutoff').val("True").change();
 })

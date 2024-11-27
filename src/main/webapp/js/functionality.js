@@ -9,6 +9,10 @@ import {cosebilkentLayoutOptions} from '../resources/PPIXpress/graph_properties.
 import {colorOpts} from '../resources/PPIXpress/graph_properties.js';
 import {updateColorScheme} from './functionality_helper_functions.js';
 import {createXpress2CompareSampleTable} from './functionality_helper_functions.js';
+import {checkIfCytoscapeNetwork} from './functionality_helper_functions.js'
+import {checkIfGOPlot} from './functionality_helper_functions.js'
+import {getCytoscapeNetwork} from './functionality_helper_functions.js'
+import {makeGOPlot} from './GO_plot_maker.js'
 
 // /***
 //  * alert when new window is open
@@ -579,7 +583,7 @@ jQuery(document).ready(function() {
     })
 
 
-    $("#ShowNetworkOptions").on("click", function (){
+    $("[name='ShowNetworkOptions']").on("click", function (){
         NetworkOptions.toggle()
     })
 
@@ -633,6 +637,11 @@ jQuery(document).ready(function() {
                 downloadData.append("proteinQuery", NetworkSelection_Protein.val())
                 downloadData.append("expressionQuery", NetworkSelection_Expression.val())
                 downloadData.append("showDDIs", showDDIs)
+            } else if (resultFileType === "GO_plot"){
+                downloadData.append("stringQuery", 
+                    "https://pantherdb.org/services/oai/pantherdb/enrich/overrep?" + sessionStorage.getItem('overrepForm'))
+                downloadData.append("sort_by", $("#sort_by").val())
+                downloadData.append("color_by", $("#color_by").val())
             }
             
             let fetchData = fetch("DownloadServlet",
@@ -661,10 +670,13 @@ jQuery(document).ready(function() {
                 if (resultFileType === "graph"){
                     ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
                 }
-                else if (resultFileType === "sample_summary" | resultFileType === "protein_list"){
+                else if (resultFileType === "sample_summary" | resultFileType === "protein_list" ){
                     fetchData
                         .then(response => response.text())
                         .then(text => target.innerHTML = text)
+                } else if (resultFileType === "GO_plot") {
+                    makeGOPlot(fetchData, target)
+                    $('#GOAnnotationAnalysis').trigger('click')
                 }
             }
 
@@ -692,6 +704,106 @@ jQuery(document).ready(function() {
             .toBlob(document.getElementById('NVContent_Graph_with_Legend'), {quality: 1})
             .then(blob => window.saveAs(blob, fileName))
     })
+
+
+    let annotGO_popup = $('#annotGO_popup') 
+    $('#annotGO_yes').on('click', function() {
+        let geneInputList = null;
+        let refInputList = null;
+        let taxon = null;
+        let annot = null;
+        let ProteinNetwork = $('#NVContent_Graph')
+        
+        if (checkIfCytoscapeNetwork(ProteinNetwork)){
+            // 1. Fetch gene list, should be proteins in subnetwork
+            geneInputList = String(getCytoscapeNetwork(ProteinNetwork).filter('.Protein_Node').map(x => x.id()).join(','));
+
+            // 2. Fetch background, should be all avail proteins 
+            // (not included right now because of large header)
+            // refInputList = Array.from(document.getElementById("NetworkSelection_Protein").options).map(x => x.innerText).join(',');
+
+            // 3. Derive organism
+            taxon = String($("input[name='selectedTaxon']:checked").val());
+            
+            // 4. Select annotation type
+            annot = String($("input[name='selectedAnnot']:checked").val());
+            
+            // 5. Fetch GO annotations
+            if (geneInputList && taxon && annot) {
+                var overrepForm = new URLSearchParams();
+                overrepForm.append('geneInputList', geneInputList);
+                overrepForm.append('organism', taxon); 
+                // overrepForm.append('refInputList', refInputList);
+                // overrepForm.append('refOrganism', taxon); 
+                overrepForm.append('annotDataSet', annot);
+                overrepForm.append('enrichmentTestType', "FISHER");
+                overrepForm.append('correction', "FDR");
+                sessionStorage.setItem('overrepForm', overrepForm.toString());
+
+                // fetchResult(null, "GO_plot", "ResultFiles.html", true);
+                fetchResult(null, "GO_plot", 'GO_plot_holder', false)
+                
+            }           
+        }
+
+        annotGO_popup.hide()
+    })
+
+    $('#annotGO_no').on('click', function(){
+        annotGO_popup.hide()
+    })
+
+    // Update GO plot on changes
+    let GO_plot_holder = $('#GO_plot_holder')
+    let sig_cutoff = $('#sig_cutoff')
+    $("#sort_by").on("change", function(){
+        if (checkIfGOPlot($('#GO_plot_holder')) & sessionStorage.getItem('overrepForm') !== null){
+            fetchResult(null, "GO_plot", 'GO_plot_holder', false)
+        }
+    })
+    $("#color_by").on("change", function(){
+        if (checkIfGOPlot($('#GO_plot_holder')) & sessionStorage.getItem('overrepForm') !== null){
+            fetchResult(null, "GO_plot", 'GO_plot_holder', false)
+        }
+    })
+
+    $("#color_scheme").on('change', function(){
+        if (GO_plot_holder.hasClass('js-plotly-plot')){
+            Plotly.restyle('GO_plot_holder', {'marker.colorscale': $("#color_scheme").val()})
+        }
+    })
+
+    $("#color_scheme_reverse").on('change', function(){
+        if (GO_plot_holder.hasClass('js-plotly-plot')){
+            Plotly.restyle('GO_plot_holder', {'marker.reversescale': $("#color_scheme_reverse").val() === 'False' ? false : true})
+        }
+    })
+
+    sig_cutoff.on('change', function(){
+        var new_sig_cutoff = sig_cutoff.val()
+        $('#sig_cutoff_val').text(new_sig_cutoff)
+
+        if (GO_plot_holder.hasClass('js-plotly-plot')){
+            Plotly.relayout('GO_plot_holder', 
+                {'shapes': [{type: 'line', xref: 'x', x0: -Math.log(new_sig_cutoff), x1: -Math.log(new_sig_cutoff), 
+                    yref: 'paper', y0: 0, y1: 1, line:{color: 'red', width: 2, dash:'dot'}}]}
+            )
+        }
+    })
+
+    $("#show_sig_cutoff").on('change', function(){
+        if (GO_plot_holder.hasClass('js-plotly-plot')){
+            if ($("#show_sig_cutoff").val() === 'True'){
+                Plotly.relayout('GO_plot_holder', 
+                    {'shapes': [{type: 'line', xref: 'x', x0: -Math.log(sig_cutoff.val()), x1: -Math.log(sig_cutoff.val()), 
+                        yref: 'paper', y0: 0, y1: 1, line:{color: 'red', width: 2, dash:'dot'}}]}
+                )
+            } else {
+                Plotly.relayout('GO_plot_holder', {'shapes': []})
+            }
+        }
+    })
+
 
     $('#toNetworkVisualization').on("click", function (){
         $('#NetworkVisualization').trigger("click");

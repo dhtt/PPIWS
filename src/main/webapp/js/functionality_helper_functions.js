@@ -194,6 +194,15 @@ export function checkIfCytoscapeNetwork(container_div){
     return container_div.hasClass('__________cytoscape_container') ? true : false 
 }
 
+/**
+ * Check if a div contain a cytoscape network object
+ * @param {jQuery} container_div 
+ * @returns boolean 
+ */
+ export function checkIfGOPlot(container_div){
+    return container_div.hasClass('js-plotly-plot') ? true : false 
+}
+
 
  /**
   * Get a cytoscape network object from container

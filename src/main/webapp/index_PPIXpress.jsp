@@ -21,6 +21,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.full.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
     <script type="module" src="js/cytoscape-expand-collapse.js"></script>
     <script type="module" src="js/jscolor.js"></script>
     <script type="module" src="js/functionality.js"></script>
@@ -61,14 +62,25 @@
     </div>
 </div>
 
-<!-- TODO: taxonSelect_popup replace protein_network_web -->
+
 <div name="annotGO_popup" id="annotGO_popup" class="popup center-pop" style="display: block; min-width: 500px">
-    <div id="taxonSelect" class="popup_content_row" style="max-height: 11em;"></div>
-    <p id="taxonSelect_description" class="description-text" style="display: none; color: var(--deeppink);">An organism must be selected</p>
-    <div id="annotSelect"></div> 
-    <p id="annotSelect_description" class="description-text" style="display: none; color: var(--deeppink);">A type of gene ontology enrichemnt analysis must be selected</p>
-    <button type="button" id="annotGO_yes" class="button upload">Analyze with PantherDB</button>
-    <button type="button" id="annotGO_no" class="button upload">Cancel</button>
+    <div class="menu header" style="font-size: small; width: auto">
+        Gene Ontology Overrepresentation Analysis
+    </div>
+    <div class="menu panel shadow popup_content" style="width: auto;">
+        <span style="font-weight: bold;">Select species</span>
+        <div id="taxonSelect" class="popup_content_row" style="max-height: 11em;"></div>
+        <p id="taxonSelect_description" class="description-text" style="display: none; color: var(--deeppink);">An organism must be selected</p>
+        <br>
+        <span style="font-weight: bold;">Select ontology aspect</span><br>
+        <div id="annotSelect" style="display: flex; flex-direction: row;"></div> 
+        <p id="annotSelect_description" class="description-text" style="display: none; color: var(--deeppink);">A type of gene ontology enrichemnt analysis must be selected</p>
+        <br>
+        <div style="display: flex;flex-direction: row;justify-content: space-around;width: -webkit-fill-available;">
+            <button type="button" id="annotGO_yes" class="button upload">Analyze with PantherDB</button>
+            <button type="button" id="annotGO_no" class="button upload">Cancel</button>
+        </div>
+    </div>
 </div>
 
 <jsp:include page="html/PPIXpress2PPICompare.html"/>
@@ -206,9 +218,10 @@
     </div>
 
     <div id="RightPanel" class="middle-under" style="flex: 1; display: flex; flex-flow: column;">
-        <div id="DisplayTabs" class="tabs" style="flex: 0 1 auto; width: 50%">
+        <div id="DisplayTabs" class="tabs" style="flex: 0 1 auto; width: 75%">
             <button type="button" name="DisplayTab" id="RunningProgress" value="RunningProgress" class="header button-tab tab-active" >Running Progress</button>
             <button type="button" name="DisplayTab" id="NetworkVisualization" value="NetworkVisualization" class="header button-tab">Network Visualization</button>
+            <button type="button" name="DisplayTab" id="GOAnnotationAnalysis" value="GOAnnotationAnalysis" class="header button-tab">GO  Analysis</button>
         </div>
         <div id="Display" class="display" style="flex: 1 1 auto; position: relative">
             <div id="RunningProgressContent" name="Display" class="display-content" style="display: flex; flex-direction: row">
@@ -245,7 +258,7 @@
                     </div>
 
                     <div id="NVOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
-                        <div class="network-option panel" id="ShowNetworkOptions" style="text-align: center; border-radius: 0 0 1em 1em; background: var(--deeppink); color: white; text-shadow: 0 0.1em 0.15em rgb(0 0 0 / 40%); padding: 0.5em 0">Show / Collapse Options</div>
+                        <div class="network-option panel ShowNetworkOptions" name="ShowNetworkOptions">Show / Collapse Options</div>
 
                         <div class="star2" name="Star" id="NetworkOptions_star"></div>
                         <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
@@ -265,9 +278,9 @@
 
                             <div style="display: flex; flex-direction: row; padding: 1em; line-height: 2em">
                                 <div style="text-align: left; flex: auto">
-                                    <label for="ToggleExpandCollapse" style="font-weight: bold; font-size: smaller">Display mode</label><br>
-                                    <label for="changeLayout" style="font-weight: bold; font-size: smaller">Graph layout</label><br>
-                                    <label for="changeNodeSize" style="font-weight: bold; font-size: smaller">Node size</label>
+                                    <label for="ToggleExpandCollapse" class="subsubsection-text">Display mode</label><br>
+                                    <label for="changeLayout" class="subsubsection-text">Graph layout</label><br>
+                                    <label for="changeNodeSize" class="subsubsection-text">Node size</label>
                                 </div>
 
                                 <div style="text-align: right; width: min-content">
@@ -283,7 +296,7 @@
                                 </div>
                             </div>
 
-                            <span style="font-weight: bold; font-size: smaller">Customize colors</span>
+                            <span class="subsection-text">Customize colors</span>
                             <div style="display: flex; flex-direction: row; padding: 0 1em 1em 1em">
                                 <div style="flex-basis: 50%; text-align: right">
                                     <label for="ProteinColor" style="font-size: smaller">Protein </label>
@@ -304,6 +317,45 @@
                     <p id="WarningMessage" class="warning" style="display: none; flex: 1 1 auto"></p>
                 </div>
             </div>
+
+            <div id="GOAnnotationAnalysisContent" name="Display" class="display-content non-display" style="display: flex; flex-direction: column">
+                <div id="GOAAContent" style="display: flex; flex-direction: column; flex: 1 1 auto">
+                    <div id="GO_plot_holder" style="flex: 1 1 auto; width: 80%; height: 80%; z-index: 0"></div>
+
+                    <div id="GOAAOptions" class="align_box_right" style="flex: 1 1 auto; text-align: center">
+                        <div class="network-option panel ShowNetworkOptions" name="ShowNetworkOptions">Show / Collapse Options</div>
+
+                        <div class="network-option panel" name="NetworkOptions" style="text-align: center; border-radius: 1em">
+                            <span style="font-weight: bold">Customize plot</span>
+                            <div style="display: flex; flex-direction: column; padding: 1em; align-items: center;">
+                                    <label for="sort_by" class="subsubsection-text">Sort terms by</label>
+                                    <select name="ApplyGraphStyle" id="sort_by" disabled></select><br>
+
+                                    <label for="color_by" class="subsubsection-text">Color by</label>
+                                    <select name="ApplyGraphStyle" id="color_by" disabled></select><br>
+                                    
+                                    <label for="color_scheme" class="subsubsection-text">Color palette</label>
+                                    <select name="ApplyGraphStyle" id="color_scheme" disabled></select><br>
+                                    
+                                    <label for="color_scheme_reverse" class="subsubsection-text">Reverse color palette</label>
+                                    <select name="ApplyGraphStyle" id="color_scheme_reverse" disabled></select><br>
+                                    
+                                    <label for="sig_cutoff" class="subsubsection-text">Significance threshold</label>
+                                    <span style="display: flex;flex-direction: row;align-items: center;column-gap: 0.5em;">
+                                        <input type="range" name="ApplyGraphStyle" id="sig_cutoff" disabled value="0.05" min="0.01" max="0.05" step="0.01" style="width: 110px; height: 0.5em">
+                                        <output id="sig_cutoff_val" for="sig_cutoff">0.05</output><br>
+                                    </span><br>
+
+                                    <label for="show_sig_cutoff" class="subsubsection-text">Show significance threshold</label>
+                                    <select name="ApplyGraphStyle" id="show_sig_cutoff" disabled></select><br>
+                                    
+                            </div>
+                        </div>
+                    </div>
+                    <p id="WarningMessage" class="warning" style="display: none; flex: 1 1 auto"></p>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
