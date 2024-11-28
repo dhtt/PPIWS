@@ -706,6 +706,11 @@ jQuery(document).ready(function() {
     })
 
 
+    $('#downloadGOFile').on("click", function(){
+        let fileName = NetworkSelection_Protein.val() + "_" + NetworkSelection_Expression.val() + "_GO_annotation.json"
+        fetchResult(null, "GO_output", fileName, true);
+    })
+
     let annotGO_popup = $('#annotGO_popup') 
     $('#annotGO_yes').on('click', function() {
         let geneInputList = null;

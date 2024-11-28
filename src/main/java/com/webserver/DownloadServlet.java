@@ -30,6 +30,7 @@ public class DownloadServlet extends HttpServlet {
     protected String SAMPLE_FILENAME;
     protected String SUBMIT_TYPE;
     protected String resultFileType;
+    protected String GO_OUTPUT_FILENAME;
     protected ArrayList<String> proteinList;
     protected Map<String, String[]> proteinAttributeList;
     protected PrintWriter out;
@@ -205,7 +206,7 @@ public class DownloadServlet extends HttpServlet {
                     case "GO_plot":
                         out = response.getWriter();
                         URLConnection connection = null;
-                        String GO_OUTPUT_FILENAME = OUTPUT_PATH + "GO_annot.json";
+                        GO_OUTPUT_FILENAME = OUTPUT_PATH + "GO_annot.json";
                         String TEMP_DF_FILENAME = OUTPUT_PATH + "GO_df.temp.json";
                         try {
                             // 1. Query Protein from PantherDB API for overrepresentation analysis
@@ -266,6 +267,25 @@ public class DownloadServlet extends HttpServlet {
                             out.println("Fail to connect to PantherDB API.");
                         }     
                     
+                        break;
+
+                    case "GO_output":
+                        out = response.getWriter();
+                        GO_OUTPUT_FILENAME = OUTPUT_PATH + "GO_annot.json";
+                        File GO_OUTPUT_FILE = new File(GO_OUTPUT_FILENAME);
+
+                        if (GO_OUTPUT_FILE.exists()){
+                            // Write plot to response
+                            try (BufferedReader br = new BufferedReader(new FileReader(GO_OUTPUT_FILENAME))) {
+                                while (br.ready()) {
+                                    out.println(br.readLine());
+                                }
+                            } catch (Exception e) {
+                                logger.error(USER_ID + ": Fail to retrieve GO file:\n" + e.toString());
+                            }
+                        } else {
+                            out.println("No GO analysis result found.");
+                        }
                         break;
                 }
             } catch(Exception e){

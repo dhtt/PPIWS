@@ -63,16 +63,16 @@
 </div>
 
 
-<div name="annotGO_popup" id="annotGO_popup" class="popup center-pop" style="display: block; min-width: 500px">
+<div name="annotGO_popup" id="annotGO_popup" class="popup center-pop" style="display: none; min-width: 500px">
     <div class="menu header" style="font-size: small; width: auto">
         Gene Ontology Overrepresentation Analysis
     </div>
     <div class="menu panel shadow popup_content" style="width: auto;">
-        <span style="font-weight: bold;">Select species</span>
+        <span style="font-weight: bold;">1. Select species</span>
         <div id="taxonSelect" class="popup_content_row" style="max-height: 11em;"></div>
         <p id="taxonSelect_description" class="description-text" style="display: none; color: var(--deeppink);">An organism must be selected</p>
         <br>
-        <span style="font-weight: bold;">Select ontology aspect</span><br>
+        <span style="font-weight: bold;">2. Select ontology aspect</span><br>
         <div id="annotSelect" style="display: flex; flex-direction: row;"></div> 
         <p id="annotSelect_description" class="description-text" style="display: none; color: var(--deeppink);">A type of gene ontology enrichemnt analysis must be selected</p>
         <br>
@@ -348,7 +348,8 @@
 
                                     <label for="show_sig_cutoff" class="subsubsection-text">Show significance threshold</label>
                                     <select name="ApplyGraphStyle" id="show_sig_cutoff" disabled></select><br>
-                                    
+
+                                    <button type="button" disabled="" name="ApplyGraphStyle" id="downloadGOFile" value="null" class="button graph-menu-button">Download GO analysis result</button>
                             </div>
                         </div>
                     </div>
