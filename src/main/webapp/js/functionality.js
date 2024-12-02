@@ -619,6 +619,8 @@ jQuery(document).ready(function() {
      */
     let ProteinNetwork = null;
     let WarningMessage_RunningProgressContent = $('#WarningMessage_RunningProgressContent')
+    let WarningMessage_GOAAContent = $('#WarningMessage_GOAAContent')
+    var WarningMessage_ = null
     function fetchResult(pureText, resultFileType, target, downloadable){
         if (pureText !== null){
             let blob = new Blob([pureText])
@@ -637,13 +639,22 @@ jQuery(document).ready(function() {
                 downloadData.append("proteinQuery", NetworkSelection_Protein.val())
                 downloadData.append("expressionQuery", NetworkSelection_Expression.val())
                 downloadData.append("showDDIs", showDDIs)
+
+                WarningMessage_ = WarningMessage
+                showWarningMessage(WarningMessage,
+                    "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render).",
+                    null)
+
             } else if (resultFileType === "GO_plot"){
                 downloadData.append("stringQuery", 
                     "https://pantherdb.org/services/oai/pantherdb/enrich/overrep?" + sessionStorage.getItem('overrepForm'))
                 downloadData.append("sort_by", $("#sort_by").val())
                 downloadData.append("color_by", $("#color_by").val())
+
+                WarningMessage_ = WarningMessage_GOAAContent
+                showWarningMessage(WarningMessage_, "⏳ Please wait: Rendering GO plot...", null)    
             }
-            
+
             let fetchData = fetch("DownloadServlet",
                 {
                     method: 'POST',
@@ -651,24 +662,24 @@ jQuery(document).ready(function() {
                 })
 
             // If downloadable is true, download file from fetched response under target as filename.
-            // Applied for resultFileType of log, sample_summary, output
+            // Applied for resultFileType of log, sample_summary, output, GO_output
             if (downloadable){
                 if (resultFileType === "output"){
-                    showWarningMessage(WarningMessage_RunningProgressContent,
-                        "⏳ Please wait: Compressing files for download...",
-                        null)
+                    WarningMessage_ = WarningMessage_RunningProgressContent
+                    showWarningMessage(WarningMessage_RunningProgressContent, "⏳ Please wait: Compressing files for download...", null)
                     }
                 fetchData
                     .then(response => response.blob())
                     .then(blob => createDownloadLink(blob, target))
-                    .finally(() => {WarningMessage_RunningProgressContent.hide()})
+                    .finally(() => {WarningMessage_.hide()})
                 }
 
             // If downloadable is false, display the fetched response in target as container HTML element
-            // Applied for resultFileType of graph, sample_summary
+            // Applied for resultFileType of graph, sample_summary, GO_plot
             else {
                 if (resultFileType === "graph"){
                     ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
+                    fetchData.finally(() => {WarningMessage_.hide()})
                 }
                 else if (resultFileType === "sample_summary" | resultFileType === "protein_list" ){
                     fetchData
@@ -677,6 +688,7 @@ jQuery(document).ready(function() {
                 } else if (resultFileType === "GO_plot") {
                     makeGOPlot(fetchData, target)
                     $('#GOAnnotationAnalysis').trigger('click')
+                    fetchData.finally(() => {WarningMessage_.hide()})
                 }
             }
 

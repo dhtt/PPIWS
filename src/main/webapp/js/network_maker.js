@@ -2,13 +2,13 @@ import {styleSheet} from '../resources/PPIXpress/graph_properties.js';
 import {styleSheetLegend} from '../resources/PPIXpress/graph_properties.js';
 import {showWarningMessage} from './functionality_helper_functions.js'
 
+export function get_graph_type(fetchedData){
+
+}
 // colorOpts is defined in functionality.js
 export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
     // Make plot
     let WarningMessage = $('#WarningMessage')
-    showWarningMessage(WarningMessage,
-        "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render).",
-        null)
 
     var graph = fetchedData
         .then(res => res.json())
@@ -25,7 +25,7 @@ export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
                 } else {                
                     if (graph_type === "none"){
                         showWarningMessage(WarningMessage,
-                            "⚠️ This protein is not a part of a condition-specific network or a reference network. Please select a different protein, " +
+                            "⚠️ This protein is not a part of this condition-specific network or a reference network. Please select a different protein, " +
                             "or run the analysis again with the option 'Output reference network' (Step 3. Adjust Run Options) " +
                             "if you wish to inspect this protein in the reference network.",
                             null)

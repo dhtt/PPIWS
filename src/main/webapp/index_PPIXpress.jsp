@@ -353,7 +353,7 @@
                             </div>
                         </div>
                     </div>
-                    <p id="WarningMessage" class="warning" style="display: none; flex: 1 1 auto"></p>
+                    <p id="WarningMessage_GOAAContent" class="warning" style="display: none; flex: 1 1 auto"></p>
                 </div>
             </div>
 

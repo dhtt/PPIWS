@@ -300,6 +300,7 @@ footer{
     line-height: normal;
 }
 input[type="checkbox"]{
+    accent-color: var(--deeppink);
     vertical-align: middle;
     position: relative;
     bottom: 1px;
@@ -528,7 +529,10 @@ li::marker{
 li li::marker {
     color: #46b088;
 }
-
+li.question {
+    font-weight: bold;
+    margin: 1em 0 0 0;
+}
 /* .input{
 
 } */
