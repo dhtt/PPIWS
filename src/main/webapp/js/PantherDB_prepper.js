@@ -1,4 +1,8 @@
 jQuery(document).ready(function() {
+    // Create GO Annotation analysis request form interface
+    let GOAnnotSubnetwork = $('#GOAnnotSubnetwork')
+    let annotGO_popup = $('#annotGO_popup')
+
     $.ajax({
         url: "./resources/PantherDB/supportedgenomes.json",
         success: function (json) {
@@ -25,8 +29,8 @@ jQuery(document).ready(function() {
                 let taxon_id = genome.taxon_id;
                 let version = genome.version;
 
-                let allow_taxons = [9606, 10090]
-                if (allow_taxons.includes(taxon_id)) {
+                let allowed_taxons = [9606, 10090]
+                if (allowed_taxons.includes(taxon_id)) {
                     let radioButton = document.createElement("input")
                     radioButton.type = 'radio'
                     radioButton.name = 'selectedTaxon'
@@ -45,7 +49,7 @@ jQuery(document).ready(function() {
             sampleTable.appendChild(tableHead);
             sampleTable.appendChild(tableBody);
 
-            $('#taxonSelect')[0].appendChild(sampleTable)
+            $('#taxonSelect')[0].append(sampleTable)
         },
         error: function (e){
             alert("Cannot retrieve taxons from PantherDB")
@@ -58,18 +62,23 @@ jQuery(document).ready(function() {
         url: "./resources/PantherDB/supportedannotdatasets.json",
         success: function (json) {
             json.search.annotation_data_sets.annotation_data_type.map(annot => {
-                let radioButton = document.createElement("input")
-                radioButton.type = 'radio'
-                radioButton.name = 'selectedTaxon'
-                radioButton.value = annot.id
-                radioButton.id = annot.id
+                let allowed_annot = ["GO:0003674", "GO:0008150", "GO:0005575"]
 
-                let label = document.createElement("label")
-                label.htmlFor = annot.id
-                label.innerHTML =  annot.label.split('_').join(' ').toUpperCase()
-                
-                $('#annotSelect')[0].appendChild(radioButton)
-                $('#annotSelect')[0].appendChild(label)
+                if (allowed_annot.includes(annot.id)) {
+                    let radioButton = document.createElement("input")
+                    radioButton.type = 'radio'
+                    radioButton.name = 'selectedAnnot'
+                    radioButton.value = annot.id
+                    radioButton.id = annot.id
+    
+                    let label = document.createElement("label")
+                    label.htmlFor = annot.id
+                    label.innerHTML =  annot.label.split('_').join(' ').toUpperCase()
+                    
+                    $('#annotSelect').append(radioButton)
+                    $('#annotSelect').append(label)
+                    $('#annotSelect').append("<br>")
+                }
             })
         },
         error: function (e){
@@ -77,4 +86,58 @@ jQuery(document).ready(function() {
             console.log(e)
         }
     })
+
+    GOAnnotSubnetwork.on('click', function(){
+        annotGO_popup.toggle()
+    })
+    
+
+    // Create GO Annotation analysis result interface
+    const labels = ['FDR', 'p-value', 'Fold enrichment']
+    const params = ['FDR', 'p_value', 'fold_enrichment']
+    
+    // Make sort_by radio buttons
+    
+    var option;
+    for (let i = 0; i < params.length; i++) {
+        option = document.createElement('option');
+        option.value = params[i];
+        option.textContent = labels[i];
+        $('#sort_by').append( option );
+    }
+    $('#sort_by').val("p_value").change();
+
+    for (let i = 0; i < params.length; i++) {
+        option = document.createElement('option');
+        option.value = params[i];
+        option.textContent = labels[i];
+        $('#color_by').append( option );
+    }
+    $('#color_by').val("fold_enrichment").change();
+
+    // Make color_scheme options  
+    const color_schemes = ['Viridis', 'Blues','Greens','Greys','YlGnBu', 'YlOrRd', 'Earth', 'Jet']
+    color_schemes.forEach(item => {
+        option = document.createElement('option');
+        option.value = option.textContent = item;
+        $('#color_scheme').append( option );
+    })
+    $('#color_scheme').val("Viridis").change();
+
+    // Make color_scheme_reverse radio buttons
+    const reverse = ["True", "False"]
+    reverse.forEach(item => {
+        option = document.createElement('option');
+        option.value = option.textContent = item;
+        $('#color_scheme_reverse').append( option );
+    })
+    $('#color_scheme_reverse').val("False").change();
+
+    // Make show_significance radio buttons
+    reverse.forEach(item => {
+        option = document.createElement('option');
+        option.value = option.textContent = item;
+        $('#show_sig_cutoff').append( option );
+    })
+    $('#show_sig_cutoff').val("True").change();
 })

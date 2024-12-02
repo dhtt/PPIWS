@@ -9,6 +9,10 @@ import {cosebilkentLayoutOptions} from '../resources/PPIXpress/graph_properties.
 import {colorOpts} from '../resources/PPIXpress/graph_properties.js';
 import {updateColorScheme} from './functionality_helper_functions.js';
 import {createXpress2CompareSampleTable} from './functionality_helper_functions.js';
+import {checkIfCytoscapeNetwork} from './functionality_helper_functions.js'
+import {checkIfGOPlot} from './functionality_helper_functions.js'
+import {getCytoscapeNetwork} from './functionality_helper_functions.js'
+import {makeGOPlot} from './GO_plot_maker.js'
 
 // /***
 //  * alert when new window is open
@@ -579,7 +583,7 @@ jQuery(document).ready(function() {
     })
 
 
-    $("#ShowNetworkOptions").on("click", function (){
+    $("[name='ShowNetworkOptions']").on("click", function (){
         NetworkOptions.toggle()
     })
 
@@ -613,9 +617,12 @@ jQuery(document).ready(function() {
      * @param target Name of downloaded file or HTML element that will carry the resulted text
      * @param downloadable true or false
      */
-    let ProteinNetwork = null;
+    let ProteinNetwork_ = null;
     let WarningMessage_RunningProgressContent = $('#WarningMessage_RunningProgressContent')
+    let WarningMessage_GOAAContent = $('#WarningMessage_GOAAContent')
+    var WarningMessage_ = null
     function fetchResult(pureText, resultFileType, target, downloadable){
+        var fetchSignal = null;
         if (pureText !== null){
             let blob = new Blob([pureText])
             createDownloadLink(blob, target)
@@ -633,43 +640,71 @@ jQuery(document).ready(function() {
                 downloadData.append("proteinQuery", NetworkSelection_Protein.val())
                 downloadData.append("expressionQuery", NetworkSelection_Expression.val())
                 downloadData.append("showDDIs", showDDIs)
+
+                WarningMessage_ = WarningMessage
+                showWarningMessage(WarningMessage,
+                    "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render).",
+                    null)
+            } else if (resultFileType === "GO_plot"){
+                downloadData.append("stringQuery", 
+                    "https://pantherdb.org/services/oai/pantherdb/enrich/overrep?" + sessionStorage.getItem('overrepForm'))
+                downloadData.append("sort_by", $("#sort_by").val())
+                downloadData.append("color_by", $("#color_by").val())
+
+                fetchSignal = AbortSignal.timeout(5000)
+                WarningMessage_ = WarningMessage_GOAAContent
+                showWarningMessage(WarningMessage_, "⏳ Please wait: Retrieving results for GO overrepresentation test from PantherDB...", null)    
             }
-            
+
             let fetchData = fetch("DownloadServlet",
                 {
                     method: 'POST',
-                    body: downloadData
+                    body: downloadData,
+                    signal: fetchSignal
                 })
+                .catch(err => {
+                    if (err.name === "TimeoutError") {
+                        showWarningMessage(WarningMessage_, 
+                            "⚠️ Timeout: It took more than 60 seconds to get the result. Please try again later.", 
+                            null)
+                    }
+                })
+                
 
             // If downloadable is true, download file from fetched response under target as filename.
-            // Applied for resultFileType of log, sample_summary, output
+            // Applied for resultFileType of log, sample_summary, output, GO_output
             if (downloadable){
                 if (resultFileType === "output"){
-                    showWarningMessage(WarningMessage_RunningProgressContent,
-                        "⏳ Please wait: Compressing files for download...",
-                        null)
+                    WarningMessage_ = WarningMessage_RunningProgressContent
+                    showWarningMessage(WarningMessage_RunningProgressContent, "⏳ Please wait: Compressing files for download...", null)
                     }
                 fetchData
                     .then(response => response.blob())
                     .then(blob => createDownloadLink(blob, target))
-                    .finally(() => {WarningMessage_RunningProgressContent.hide()})
+                    .finally(() => {WarningMessage_.hide()})
                 }
 
             // If downloadable is false, display the fetched response in target as container HTML element
-            // Applied for resultFileType of graph, sample_summary
+            // Applied for resultFileType of graph, sample_summary, GO_plot
             else {
                 if (resultFileType === "graph"){
-                    ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
+                    ProteinNetwork_ = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
                 }
-                else if (resultFileType === "sample_summary" | resultFileType === "protein_list"){
+                else if (resultFileType === "sample_summary" | resultFileType === "protein_list" ){
                     fetchData
                         .then(response => response.text())
                         .then(text => target.innerHTML = text)
+                } else if (resultFileType === "GO_plot") {
+                    $('#GOAnnotationAnalysis').trigger('click')
+                    let plot_ = makeGOPlot(fetchData, target)
+                    plot_.then(data => {
+                        if (data !== null){ WarningMessage_.hide()}
+                    })
                 }
             }
 
             return fetchData
-        }
+        } 
     }
 
     $('#downloadLogFile').on("click", function(){
@@ -692,6 +727,111 @@ jQuery(document).ready(function() {
             .toBlob(document.getElementById('NVContent_Graph_with_Legend'), {quality: 1})
             .then(blob => window.saveAs(blob, fileName))
     })
+
+
+    $('#downloadGOFile').on("click", function(){
+        let fileName = NetworkSelection_Protein.val() + "_" + NetworkSelection_Expression.val() + "_GO_annotation.json"
+        fetchResult(null, "GO_output", fileName, true);
+    })
+
+    let annotGO_popup = $('#annotGO_popup') 
+    $('#annotGO_yes').on('click', function() {
+        let geneInputList = null;
+        let refInputList = null;
+        let taxon = null;
+        let annot = null;
+        let ProteinNetwork = $('#NVContent_Graph')
+        
+        if (checkIfCytoscapeNetwork(ProteinNetwork)){
+            // 1. Fetch gene list, should be proteins in subnetwork
+            geneInputList = String(getCytoscapeNetwork(ProteinNetwork).filter('.Protein_Node').map(x => x.id()).join(','));
+
+            // 2. Fetch background, should be all avail proteins 
+            // (not included right now because of large header)
+            // refInputList = Array.from(document.getElementById("NetworkSelection_Protein").options).map(x => x.innerText).join(',');
+
+            // 3. Derive organism
+            taxon = String($("input[name='selectedTaxon']:checked").val());
+            
+            // 4. Select annotation type
+            annot = String($("input[name='selectedAnnot']:checked").val());
+            
+            // 5. Fetch GO annotations
+            if (geneInputList && taxon && annot) {
+                var overrepForm = new URLSearchParams();
+                overrepForm.append('geneInputList', geneInputList);
+                overrepForm.append('organism', taxon); 
+                // overrepForm.append('refInputList', refInputList);
+                // overrepForm.append('refOrganism', taxon); 
+                overrepForm.append('annotDataSet', annot);
+                overrepForm.append('enrichmentTestType', "FISHER");
+                overrepForm.append('correction', "FDR");
+                sessionStorage.setItem('overrepForm', overrepForm.toString());
+
+                // fetchResult(null, "GO_plot", "ResultFiles.html", true);
+                fetchResult(null, "GO_plot", 'GO_plot_holder', false)
+                
+            }           
+        }
+
+        annotGO_popup.hide()
+    })
+
+    $('#annotGO_no').on('click', function(){
+        annotGO_popup.hide()
+    })
+
+    // Update GO plot on changes
+    let GO_plot_holder = $('#GO_plot_holder')
+    let sig_cutoff = $('#sig_cutoff')
+    $("#sort_by").on("change", function(){
+        if (checkIfGOPlot($('#GO_plot_holder')) & sessionStorage.getItem('overrepForm') !== null){
+            fetchResult(null, "GO_plot", 'GO_plot_holder', false)
+        }
+    })
+    $("#color_by").on("change", function(){
+        if (checkIfGOPlot($('#GO_plot_holder')) & sessionStorage.getItem('overrepForm') !== null){
+            fetchResult(null, "GO_plot", 'GO_plot_holder', false)
+        }
+    })
+
+    $("#color_scheme").on('change', function(){
+        if (GO_plot_holder.hasClass('js-plotly-plot')){
+            Plotly.restyle('GO_plot_holder', {'marker.colorscale': $("#color_scheme").val()})
+        }
+    })
+
+    $("#color_scheme_reverse").on('change', function(){
+        if (GO_plot_holder.hasClass('js-plotly-plot')){
+            Plotly.restyle('GO_plot_holder', {'marker.reversescale': $("#color_scheme_reverse").val() === 'False' ? false : true})
+        }
+    })
+
+    sig_cutoff.on('change', function(){
+        var new_sig_cutoff = sig_cutoff.val()
+        $('#sig_cutoff_val').text(new_sig_cutoff)
+
+        if (GO_plot_holder.hasClass('js-plotly-plot')){
+            Plotly.relayout('GO_plot_holder', 
+                {'shapes': [{type: 'line', xref: 'x', x0: -Math.log(new_sig_cutoff), x1: -Math.log(new_sig_cutoff), 
+                    yref: 'paper', y0: 0, y1: 1, line:{color: 'red', width: 2, dash:'dot'}}]}
+            )
+        }
+    })
+
+    $("#show_sig_cutoff").on('change', function(){
+        if (GO_plot_holder.hasClass('js-plotly-plot')){
+            if ($("#show_sig_cutoff").val() === 'True'){
+                Plotly.relayout('GO_plot_holder', 
+                    {'shapes': [{type: 'line', xref: 'x', x0: -Math.log(sig_cutoff.val()), x1: -Math.log(sig_cutoff.val()), 
+                        yref: 'paper', y0: 0, y1: 1, line:{color: 'red', width: 2, dash:'dot'}}]}
+                )
+            } else {
+                Plotly.relayout('GO_plot_holder', {'shapes': []})
+            }
+        }
+    })
+
 
     $('#toNetworkVisualization').on("click", function (){
         $('#NetworkVisualization').trigger("click");
@@ -717,7 +857,7 @@ jQuery(document).ready(function() {
                 'expandCollapseOptions': cyOpts,
                 'showDDIs': showDDIs
             }
-            activateNetwork(ProteinNetwork, WarningMessage, ShowSubnetworkOption)
+            activateNetwork(ProteinNetwork_, WarningMessage, ShowSubnetworkOption)
             CustomizeNetworkOptions.find('select').prop('selectedIndex', 0).change()
             changeNodeSize.val(15).change()
         } else {
@@ -732,25 +872,22 @@ jQuery(document).ready(function() {
     // Change graph layout
     let changeLayout = $('#changeLayout')
     changeLayout.on('change', function(){
-        if (ProteinNetwork !== null){
-            ProteinNetwork.then(cy => {
-                if (cy !== null){
-                    const newLayout = {
-                        name: changeLayout.val(),
-                        animate: true,
-                        randomize: false,
-                        fit: true
-                    }
-                    cy.expandCollapse({
-                        layoutBy: newLayout
-                    })
-                    cy.$('node').eq(0).trigger('tap')
-                    return cy
-                } else {
-                    return null
+        if (checkIfCytoscapeNetwork(NVContent_Graph) === true){
+            let graph_ = getCytoscapeNetwork(NVContent_Graph)
+                const newLayout = {
+                    name: changeLayout.val(),
+                    animate: true,
+                    randomize: false,
+                    fit: true
                 }
-            })
-        }
+                graph_.expandCollapse({
+                    layoutBy: newLayout
+                })
+                graph_.$('node').eq(0).trigger('tap')
+                return graph_
+            } else {
+                return null
+            }
     })
 
 
@@ -758,21 +895,17 @@ jQuery(document).ready(function() {
     let changeNodeSize = $('#changeNodeSize')
     changeNodeSize.on('change', function(){
         let nodeSize = changeNodeSize.val()
-        if (ProteinNetwork !== null){
-            ProteinNetwork.then(cy => {
-                if (cy !== null){
-                    cy.style()
-                        .selector('node')
-                        .style({
-                            'height':  nodeSize,
-                            'width': nodeSize,
-                        })
-                        .update()
-                    return cy
-                } else {
-                    return null
-                }
+
+        if (checkIfCytoscapeNetwork(NVContent_Graph) === true){
+            let graph_ = getCytoscapeNetwork(NVContent_Graph)
+            graph_.style()
+            .selector('node')
+            .style({
+                'height':  nodeSize,
+                'width': nodeSize,
             })
+            .update()
+        return graph_
         }
     })
 
@@ -782,10 +915,9 @@ jQuery(document).ready(function() {
     const PPIColor = $('#PPIColor')[0]
     const DDIColor = $('#DDIColor')[0]
     $('#ApplyGraphColor').on('click', function(){
-        if (ProteinNetwork !== null){
-            ProteinNetwork
-                .then(cy => {
-                    cy.style()
+        if (checkIfCytoscapeNetwork(NVContent_Graph) === true){
+            let graph_ = getCytoscapeNetwork(NVContent_Graph)
+            graph_.style()
                         .selector('node')
                         .style({
                             'background-color': ProteinColor.getAttribute('data-current-color'),
@@ -809,10 +941,8 @@ jQuery(document).ready(function() {
                             'background-color': colorOpts.parentNodeBackgroundColor,
                         })
                         .update()
-                    return cy
-                })
+                    return graph_
         }
-       
         
         window.NVContent_Legend.style()
             .selector('node')
@@ -850,62 +980,34 @@ jQuery(document).ready(function() {
                 10000)
         }
     })
+
     ToggleExpandCollapse.on('change', function(){
-        if (ProteinNetwork !== null){
-            ProteinNetwork
-                .then(cy => {
-                    if (cy !== null){
-                        // Toggle while keeping current layout
-                        const newLayout = {
-                            name: changeLayout.val(),
-                            animate: true,
-                            randomize: false,
-                            fit: true
-                        }
-                        const api = cy.expandCollapse({layoutBy: newLayout});
-                        if (ToggleExpandCollapse.val() === "expandAll"){
-                            api.expandAll()
-                            cy.$('.DDI_Edge').addClass('DDI_Edge_active')
-                            cy.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
-                        }
-                        else {
-                            api.collapseAll()
-                            cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
-                            cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
-                        }
-                        return cy
-                    } else {
-                        return null
-                    }
-                })
+        if (checkIfCytoscapeNetwork(NVContent_Graph) === true){
+            let graph_ = getCytoscapeNetwork(NVContent_Graph)
+            
+             // Toggle while keeping current layout
+             const newLayout = {
+                name: changeLayout.val(),
+                animate: true,
+                randomize: false,
+                fit: true
+            }
+            const api = graph_.expandCollapse({layoutBy: newLayout});
+            
+            if (ToggleExpandCollapse.val() === "expandAll"){
+                api.expandAll()
+                graph_.$('.DDI_Edge').addClass('DDI_Edge_active')
+                graph_.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
+            }
+            else {
+                api.collapseAll()
+                graph_.$('.DDI_Edge').removeClass('DDI_Edge_active')
+                graph_.$('.DDI_Edge').addClass('DDI_Edge_inactive')
+            }
+            return graph_
         }
     })
 
-    let GOAnnotSubnetwork = $('#GOAnnotSubnetwork')
-    let taxonSelect = $('taxonSelect')
-    GOAnnotSubnetwork.on('click', function(){
-        let geneInputList = null;
-        let backgroundNodes = null;
-
-        ProteinNetwork.then(cy => {
-            // 1. Fetch gene list, should be proteins in subnetwork
-            geneInputList = cy.filter('.Protein_Node').map(x => x.id());
-            // console.log(geneInputList);
-
-            // 3. Derive organism
-            let taxon = $("input[name='selectedTaxon']:checked").val();
-            // console.log(taxon);
-            
-            // 2. Fetch background, should be all avail proteins
-            refInputList = NetworkSelection_Protein[0].innerText;
-            // console.log(refInputList);
-            
-            // 3. Fetch GO annotations
-            // 4. Display GO annotations
-
-            return(cy)
-        })
-    })
 })
 
 
@@ -963,13 +1065,14 @@ function activateNetwork (graph, warning, ShowSubnetworkOption){
                         }
                     }
                 })
+
+                cy.expandCollapse('get').collapseAll()
                 return cy
             } else {
                 return null
             }
         })
     }
- 
 }
 
 /**
