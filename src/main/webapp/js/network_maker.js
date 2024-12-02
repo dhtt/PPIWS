@@ -2,9 +2,6 @@ import {styleSheet} from '../resources/PPIXpress/graph_properties.js';
 import {styleSheetLegend} from '../resources/PPIXpress/graph_properties.js';
 import {showWarningMessage} from './functionality_helper_functions.js'
 
-export function get_graph_type(fetchedData){
-
-}
 // colorOpts is defined in functionality.js
 export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
     // Make plot

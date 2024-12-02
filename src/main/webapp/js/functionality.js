@@ -617,11 +617,12 @@ jQuery(document).ready(function() {
      * @param target Name of downloaded file or HTML element that will carry the resulted text
      * @param downloadable true or false
      */
-    let ProteinNetwork = null;
+    let ProteinNetwork_ = null;
     let WarningMessage_RunningProgressContent = $('#WarningMessage_RunningProgressContent')
     let WarningMessage_GOAAContent = $('#WarningMessage_GOAAContent')
     var WarningMessage_ = null
     function fetchResult(pureText, resultFileType, target, downloadable){
+        var fetchSignal = null;
         if (pureText !== null){
             let blob = new Blob([pureText])
             createDownloadLink(blob, target)
@@ -650,6 +651,7 @@ jQuery(document).ready(function() {
                 downloadData.append("sort_by", $("#sort_by").val())
                 downloadData.append("color_by", $("#color_by").val())
 
+                fetchSignal = AbortSignal.timeout(5000)
                 WarningMessage_ = WarningMessage_GOAAContent
                 showWarningMessage(WarningMessage_, "⏳ Please wait: Retrieving results for GO overrepresentation test from PantherDB...", null)    
             }
@@ -657,8 +659,17 @@ jQuery(document).ready(function() {
             let fetchData = fetch("DownloadServlet",
                 {
                     method: 'POST',
-                    body: downloadData
+                    body: downloadData,
+                    signal: fetchSignal
                 })
+                .catch(err => {
+                    if (err.name === "TimeoutError") {
+                        showWarningMessage(WarningMessage_, 
+                            "⚠️ Timeout: It took more than 60 seconds to get the result. Please try again later.", 
+                            null)
+                    }
+                })
+                
 
             // If downloadable is true, download file from fetched response under target as filename.
             // Applied for resultFileType of log, sample_summary, output, GO_output
@@ -677,22 +688,23 @@ jQuery(document).ready(function() {
             // Applied for resultFileType of graph, sample_summary, GO_plot
             else {
                 if (resultFileType === "graph"){
-                    ProteinNetwork = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
-                    fetchData.finally(() => {WarningMessage_.hide()})
+                    ProteinNetwork_ = makePlot(fetchData, cosebilkentLayoutOptions, gridLayoutOptions);
                 }
                 else if (resultFileType === "sample_summary" | resultFileType === "protein_list" ){
                     fetchData
                         .then(response => response.text())
                         .then(text => target.innerHTML = text)
                 } else if (resultFileType === "GO_plot") {
-                    makeGOPlot(fetchData, target)
                     $('#GOAnnotationAnalysis').trigger('click')
-                    fetchData.finally(() => {WarningMessage_.hide()})
+                    let plot_ = makeGOPlot(fetchData, target)
+                    plot_.then(data => {
+                        if (data !== null){ WarningMessage_.hide()}
+                    })
                 }
             }
 
             return fetchData
-        }
+        } 
     }
 
     $('#downloadLogFile').on("click", function(){
@@ -845,7 +857,7 @@ jQuery(document).ready(function() {
                 'expandCollapseOptions': cyOpts,
                 'showDDIs': showDDIs
             }
-            activateNetwork(ProteinNetwork, WarningMessage, ShowSubnetworkOption)
+            activateNetwork(ProteinNetwork_, WarningMessage, ShowSubnetworkOption)
             CustomizeNetworkOptions.find('select').prop('selectedIndex', 0).change()
             changeNodeSize.val(15).change()
         } else {
@@ -860,25 +872,22 @@ jQuery(document).ready(function() {
     // Change graph layout
     let changeLayout = $('#changeLayout')
     changeLayout.on('change', function(){
-        if (ProteinNetwork !== null){
-            ProteinNetwork.then(cy => {
-                if (cy !== null){
-                    const newLayout = {
-                        name: changeLayout.val(),
-                        animate: true,
-                        randomize: false,
-                        fit: true
-                    }
-                    cy.expandCollapse({
-                        layoutBy: newLayout
-                    })
-                    cy.$('node').eq(0).trigger('tap')
-                    return cy
-                } else {
-                    return null
+        if (checkIfCytoscapeNetwork(NVContent_Graph) === true){
+            let graph_ = getCytoscapeNetwork(NVContent_Graph)
+                const newLayout = {
+                    name: changeLayout.val(),
+                    animate: true,
+                    randomize: false,
+                    fit: true
                 }
-            })
-        }
+                graph_.expandCollapse({
+                    layoutBy: newLayout
+                })
+                graph_.$('node').eq(0).trigger('tap')
+                return graph_
+            } else {
+                return null
+            }
     })
 
 
@@ -886,21 +895,17 @@ jQuery(document).ready(function() {
     let changeNodeSize = $('#changeNodeSize')
     changeNodeSize.on('change', function(){
         let nodeSize = changeNodeSize.val()
-        if (ProteinNetwork !== null){
-            ProteinNetwork.then(cy => {
-                if (cy !== null){
-                    cy.style()
-                        .selector('node')
-                        .style({
-                            'height':  nodeSize,
-                            'width': nodeSize,
-                        })
-                        .update()
-                    return cy
-                } else {
-                    return null
-                }
+
+        if (checkIfCytoscapeNetwork(NVContent_Graph) === true){
+            let graph_ = getCytoscapeNetwork(NVContent_Graph)
+            graph_.style()
+            .selector('node')
+            .style({
+                'height':  nodeSize,
+                'width': nodeSize,
             })
+            .update()
+        return graph_
         }
     })
 
@@ -910,10 +915,9 @@ jQuery(document).ready(function() {
     const PPIColor = $('#PPIColor')[0]
     const DDIColor = $('#DDIColor')[0]
     $('#ApplyGraphColor').on('click', function(){
-        if (ProteinNetwork !== null){
-            ProteinNetwork
-                .then(cy => {
-                    cy.style()
+        if (checkIfCytoscapeNetwork(NVContent_Graph) === true){
+            let graph_ = getCytoscapeNetwork(NVContent_Graph)
+            graph_.style()
                         .selector('node')
                         .style({
                             'background-color': ProteinColor.getAttribute('data-current-color'),
@@ -937,10 +941,8 @@ jQuery(document).ready(function() {
                             'background-color': colorOpts.parentNodeBackgroundColor,
                         })
                         .update()
-                    return cy
-                })
+                    return graph_
         }
-       
         
         window.NVContent_Legend.style()
             .selector('node')
@@ -978,34 +980,31 @@ jQuery(document).ready(function() {
                 10000)
         }
     })
+
     ToggleExpandCollapse.on('change', function(){
-        if (ProteinNetwork !== null){
-            ProteinNetwork
-                .then(cy => {
-                    if (cy !== null){
-                        // Toggle while keeping current layout
-                        const newLayout = {
-                            name: changeLayout.val(),
-                            animate: true,
-                            randomize: false,
-                            fit: true
-                        }
-                        const api = cy.expandCollapse({layoutBy: newLayout});
-                        if (ToggleExpandCollapse.val() === "expandAll"){
-                            api.expandAll()
-                            cy.$('.DDI_Edge').addClass('DDI_Edge_active')
-                            cy.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
-                        }
-                        else {
-                            api.collapseAll()
-                            cy.$('.DDI_Edge').removeClass('DDI_Edge_active')
-                            cy.$('.DDI_Edge').addClass('DDI_Edge_inactive')
-                        }
-                        return cy
-                    } else {
-                        return null
-                    }
-                })
+        if (checkIfCytoscapeNetwork(NVContent_Graph) === true){
+            let graph_ = getCytoscapeNetwork(NVContent_Graph)
+            
+             // Toggle while keeping current layout
+             const newLayout = {
+                name: changeLayout.val(),
+                animate: true,
+                randomize: false,
+                fit: true
+            }
+            const api = graph_.expandCollapse({layoutBy: newLayout});
+            
+            if (ToggleExpandCollapse.val() === "expandAll"){
+                api.expandAll()
+                graph_.$('.DDI_Edge').addClass('DDI_Edge_active')
+                graph_.$('.DDI_Edge').removeClass('DDI_Edge_inactive')
+            }
+            else {
+                api.collapseAll()
+                graph_.$('.DDI_Edge').removeClass('DDI_Edge_active')
+                graph_.$('.DDI_Edge').addClass('DDI_Edge_inactive')
+            }
+            return graph_
         }
     })
 
@@ -1066,13 +1065,14 @@ function activateNetwork (graph, warning, ShowSubnetworkOption){
                         }
                     }
                 })
+
+                cy.expandCollapse('get').collapseAll()
                 return cy
             } else {
                 return null
             }
         })
     }
- 
 }
 
 /**

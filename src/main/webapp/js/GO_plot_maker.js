@@ -67,7 +67,10 @@ export function makeGOPlot(fetchedData, divID_holder){
                 Plotly.newPlot(divID_holder, plot_data, layout.main_layout, layout.config);
             })
         })
-            return graph;
+        .catch(error => {
+            return null;
+        })
+    return graph;
 }
 
 jQuery(document).ready(function(){
