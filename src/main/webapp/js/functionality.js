@@ -644,7 +644,6 @@ jQuery(document).ready(function() {
                 showWarningMessage(WarningMessage,
                     "⏳ Please wait: Loading subnetworks... (Large networks may take a long time to render).",
                     null)
-
             } else if (resultFileType === "GO_plot"){
                 downloadData.append("stringQuery", 
                     "https://pantherdb.org/services/oai/pantherdb/enrich/overrep?" + sessionStorage.getItem('overrepForm'))
@@ -652,7 +651,7 @@ jQuery(document).ready(function() {
                 downloadData.append("color_by", $("#color_by").val())
 
                 WarningMessage_ = WarningMessage_GOAAContent
-                showWarningMessage(WarningMessage_, "⏳ Please wait: Rendering GO plot...", null)    
+                showWarningMessage(WarningMessage_, "⏳ Please wait: Retrieving results for GO overrepresentation test from PantherDB...", null)    
             }
 
             let fetchData = fetch("DownloadServlet",

@@ -113,16 +113,16 @@ public class UtilsTest {
 
     @Test
     public void test_filterProtein_PPIXpress() {
-        String OUTPUT_PATH = "/home/trang/PPIWS/repository/uploads/dTXAlj1UmCzQ/PPIXpress/OUTPUT/";
+        String OUTPUT_PATH = "/home/trang/PPIWS/repository/uploads/QXyBvZUwFmLH/PPIXpress/OUTPUT/";
         System.out.println(": DownloadServlet: CHECK\n" + OUTPUT_PATH + "ProteinList.txt");
         Long now = System.currentTimeMillis();
         System.out.println(now);
 
-        scanProteinList(OUTPUT_PATH);
-        System.out.println("scanProteinList: " + (System.currentTimeMillis() - now));
-        now = System.currentTimeMillis();
+        // scanProteinList(OUTPUT_PATH);
+        // System.out.println("scanProteinList: " + (System.currentTimeMillis() - now));
+        // now = System.currentTimeMillis();
 
-        queryProtein(OUTPUT_PATH, "Q9UL59", "test", true);
+        queryProtein(OUTPUT_PATH, "P27708", "1", true);
         System.out.println("scanProteinList: " + (System.currentTimeMillis() - now));
         now = System.currentTimeMillis();
     }

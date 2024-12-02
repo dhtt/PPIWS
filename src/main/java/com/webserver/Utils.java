@@ -14,6 +14,10 @@ import java.util.zip.ZipOutputStream;
 import java.util.zip.ZipEntry;
 import static org.unix4j.Unix4j.grep;
 
+import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.PumpStreamHandler;
+
 
 public class Utils {
     /**
@@ -346,105 +350,144 @@ public class Utils {
 
         return output;
     }
-    
+
+    public static int checkOccurence(File PPI_file, String proteinQuery) throws IOException {
+        int occurrence_ = 0;
+        CommandLine cmdLine = new CommandLine("grep");
+        cmdLine.addArgument("-c");
+        cmdLine.addArgument("-i");
+        cmdLine.addArgument(proteinQuery);
+        cmdLine.addArgument(PPI_file.getAbsolutePath());
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        PumpStreamHandler streamHandler = new PumpStreamHandler(outputStream);
+        
+        DefaultExecutor executor = new DefaultExecutor();
+        executor.setStreamHandler(streamHandler);
+        try {
+            executor.execute(cmdLine);
+            occurrence_ = outputStream.toString().isEmpty() ? 0 : Integer.parseInt(outputStream.toString().trim());
+        } catch (Exception e) {
+            // Do nothing
+        }
+        return occurrence_;
+    }
+
+    public static String getGraphType(File PPI_file_, String proteinQuery_){
+        String graph_type = "none"; 
+        try {
+            if (PPI_file_.exists()){
+                int occurrenceInPPIN = checkOccurence(PPI_file_, proteinQuery_);
+
+                if (occurrenceInPPIN > 0){
+                    graph_type = "condition_specific_network";
+                } else {
+                    File referencePPINFile = new File(PPI_file_.getParent() + "/reference_ppin.txt");
+                    if (referencePPINFile.exists()){
+                        int occurrenceInReferencePPIN = checkOccurence(referencePPINFile, proteinQuery_);
+
+                        if (occurrenceInReferencePPIN > 0){
+                            graph_type = "reference_network";
+                        } 
+                    } 
+                }
+            }
+        } catch (Exception e) {
+            // Do nothing
+        }
+        return(graph_type);
+    }
 
     public static JSONArray filterProtein(String LOCAL_STORAGE_PATH, String proteinQuery, String expressionQuery, boolean showDDIs) {
         JSONArray output = new JSONArray();
         JSONObject graph_type = new JSONObject();
         List<Line> lines = new ArrayList<>();
+        JSONObject Protein_Node = null;
+        JSONObject Domain_Node = null;
+        File PPI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ppin.txt");
+
         try {   
-            // Determine graph type: If the protein is found in the PPIN file, return a condition specific network. Otherwise, returns
-            // a reference network or the protein does not belong to any network
-            File PPI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ppin.txt");
+            // Determine graph type: If the protein is found in the PPIN file, return a condition specific network. Otherwise, returns a reference network or the protein does not belong to any network
+            String graphType = getGraphType(PPI_file, proteinQuery);
+            graph_type.put("graph_type", graphType);
+            output.put(graph_type);
 
-            if (PPI_file.exists()){
-                lines = grep(Grep.Options.i, ".*?" + proteinQuery + ".*?", PPI_file).toLineList();
-
-                if (!lines.isEmpty()) {
-                    graph_type.put("graph_type", "condition_specific_network");
-                } else {
-                    PPI_file = new File(LOCAL_STORAGE_PATH + "reference_ppin.txt");
-                    if (PPI_file.exists()){
-                        lines = grep(Grep.Options.i, ".*?" + proteinQuery + ".*?", PPI_file).toLineList();
-
-                        graph_type.put("graph_type", !lines.isEmpty() ? "reference_network" : "none");
-                    } else {
-                        graph_type.put("graph_type",  "none");
-                    }
-                }
-            } else {
-                graph_type.put("graph_type",  "none");
-            }
-            output.put(graph_type); // Contain graph_type information in the first position
-
-            if (graph_type.get("graph_type") == "none") {
-                JSONObject Protein_Node = addNode(proteinQuery, proteinQuery, "", "Protein_Node");
-                output.put(Protein_Node);
-
-                JSONObject Domain_Node = addNode("domain", "domain", proteinQuery, "Node_hidden");
-                output.put(Domain_Node);
-            } else {
-                Set<String> partners = new HashSet<String>();
-
-                for (Line line : lines) {
-                    String[] PPIs = line.getContent().split(" ");
-                    partners.addAll(List.of(Arrays.copyOfRange(PPIs, 0, 2)));
-                    JSONObject PPI_Edge = addEdge(PPIs[0], PPIs[1], PPIs[2], "PPI_Edge");
-                    output.put(PPI_Edge);
-                }
-    
-                // Create single nodes that linked to itself
-                for (String node : partners) { 
-                    JSONObject Protein_Node = addNode(node, node, "", "Protein_Node");
+            switch (graphType) {
+                // For "none" and "reference_network" graph type, only create a single node for the protein
+                case "none":
+                case "reference_network":
+                    Protein_Node = addNode(proteinQuery, proteinQuery, "", "Protein_Node");
                     output.put(Protein_Node);
-                }
-    
-                if (showDDIs){
-                    File DDI_file = graph_type.get("graph_type").equals("condition_specific_network") ? 
-                        new File(LOCAL_STORAGE_PATH + expressionQuery + "_ddin.txt") : new File(LOCAL_STORAGE_PATH + "reference_ddin.txt");
-                    List<Line> DDIs = grep(".*?" + String.join(".*?|.*?", partners) + ".*?", DDI_file).toLineList();
-    
-                    String lastNode = "";
-                    for (Line line : DDIs) {
+                    Domain_Node = addNode("domain", "domain", proteinQuery, "Node_hidden");
+                    output.put(Domain_Node);
+                    break;
+
+                // For "condition_specific_network" graph type, create nodes for the protein and its partners
+                case "condition_specific_network":
+                    lines = grep(Grep.Options.i, ".*?" + proteinQuery + ".*?", PPI_file).toLineList();
+
+                    Set<String> partners = new HashSet<String>();
+
+                    for (Line line : lines) {
                         String[] PPIs = line.getContent().split(" ");
-                        
-                        if (PPIs[2].equals("pd")) {
-                            String[] nodeLabels = PPIs[1].split("\\|");
-                            String DDI_ID = nodeLabels[1] + "_" + nodeLabels[2];
-
-                            // If this node is the same as the previous node, skip adding it
-                            if (lastNode.equals(DDI_ID)){
-                                continue;
-                            } else {
-                                JSONObject Domain_Node = addNode(DDI_ID, nodeLabels[1], PPIs[0], "Domain_Node");
-                                output.put(Domain_Node);
-
-                                lastNode = DDI_ID;
-                            } 
-                        }
-                        else if (PPIs[2].equals("dd")) {
-                            String[] nodeLabel1 = PPIs[0].split("\\|");
-                            String DDI_ID1 = nodeLabel1[1] + "_" + nodeLabel1[2];
-                            String[] nodeLabel2 = PPIs[1].split("\\|");
-                            String DDI_ID2 = nodeLabel2[1] + "_" + nodeLabel2[2];
-    
-                            // If this node is the same as the previous node, skip adding it
-                            if (lastNode.equals(DDI_ID1 + DDI_ID2)){
-                                continue;
-                            } else {
-                                String proteinPair = nodeLabel1[2] + "_" + nodeLabel2[2];
+                        partners.addAll(List.of(Arrays.copyOfRange(PPIs, 0, 2)));
+                        JSONObject PPI_Edge = addEdge(PPIs[0], PPIs[1], PPIs[2], "PPI_Edge");
+                        output.put(PPI_Edge);
+                    }
         
-                                if (proteinPair.matches("(?i).*" + proteinQuery + ".*" )){
-                                    JSONObject DDI_Edge = addEdge(DDI_ID1, DDI_ID2, PPIs[3], "DDI_Edge");
-                                    output.put(DDI_Edge);
-                                }
+                    // Create single nodes that linked to itself
+                    for (String node : partners) { 
+                        Protein_Node = addNode(node, node, "", "Protein_Node");
+                        output.put(Protein_Node);
+                    }
+        
+                    if (showDDIs){
+                        File DDI_file = new File(LOCAL_STORAGE_PATH + expressionQuery + "_ddin.txt");
+                        List<Line> DDIs = grep(".*?" + String.join(".*?|.*?", partners) + ".*?", DDI_file).toLineList();
+        
+                        String lastNode = "";
+                        for (Line line : DDIs) {
+                            String[] PPIs = line.getContent().split(" ");
+                            
+                            if (PPIs[2].equals("pd")) {
+                                String[] nodeLabels = PPIs[1].split("\\|");
+                                String DDI_ID = nodeLabels[1] + "_" + nodeLabels[2];
 
-                                lastNode = DDI_ID1 + DDI_ID2;
+                                // If this node is the same as the previous node, skip adding it
+                                if (lastNode.equals(DDI_ID)){
+                                    continue;
+                                } else {
+                                    Domain_Node = addNode(DDI_ID, nodeLabels[1], PPIs[0], "Domain_Node");
+                                    output.put(Domain_Node);
+
+                                    lastNode = DDI_ID;
+                                } 
+                            }
+                            else if (PPIs[2].equals("dd")) {
+                                String[] nodeLabel1 = PPIs[0].split("\\|");
+                                String DDI_ID1 = nodeLabel1[1] + "_" + nodeLabel1[2];
+                                String[] nodeLabel2 = PPIs[1].split("\\|");
+                                String DDI_ID2 = nodeLabel2[1] + "_" + nodeLabel2[2];
+        
+                                // If this node is the same as the previous node, skip adding it
+                                if (lastNode.equals(DDI_ID1 + DDI_ID2)){
+                                    continue;
+                                } else {
+                                    String proteinPair = nodeLabel1[2] + "_" + nodeLabel2[2];
+            
+                                    if (proteinPair.matches("(?i).*" + proteinQuery + ".*" )){
+                                        JSONObject DDI_Edge = addEdge(DDI_ID1, DDI_ID2, PPIs[3], "DDI_Edge");
+                                        output.put(DDI_Edge);
+                                    }
+
+                                    lastNode = DDI_ID1 + DDI_ID2;
+                                }
                             }
                         }
                     }
-                }
+                
+                    break;
             }
+        
         } catch(Exception e){
             e.printStackTrace();
         }

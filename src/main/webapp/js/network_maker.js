@@ -33,7 +33,7 @@ export function makePlot(fetchedData, graphLayoutOptions, legendLayoutOptions){
                     else if (graph_type === "reference_network"){
                         showWarningMessage(WarningMessage,
                             "⚠️ This protein is not a part of the condition-specific network for this expression data, " + 
-                            "but is found in the reference network. Here, the subgraph from the reference network is shown.",
+                            "but is found in the reference network. Please select a different protein or expression data." ,
                             null)
                     }
     
