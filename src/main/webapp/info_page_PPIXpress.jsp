@@ -529,11 +529,11 @@
                         
                         <div id="toBuildDifferentialNetwork_Example" style="text-align: -webkit-center;"></div>
                         <span><center>This dialog is shown when users select <strong>Build differential network</strong> on the left side of <strong>Running Progress</strong> tab. <br></center></span><br>
-                        In this example, the PPINs pruned using the transcription data for Th1 precursors (2 samples) or Th2 precursors (3 samples) will be forwarded to PPICompare. 
-                        The differential network between Th1 and Th2 precursors will be constructed in PPICompare.<br>
+                        In this example, the PPINs pruned using the transcription data for Bulk B cells (4 samples) and CD8 T cells (4 samples) will be forwarded to PPICompare. 
+                        The differential network between B cells and T cells will be constructed in PPICompare.<br>
 
                         <div style="display: flex; flex-direction: column; align-items: center; padding: 1em">
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/VumJvP242H0?si=ZCroIjcYJtvlETvU" title="Build Differential Network" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <iframe width="800" height="450" src="https://www.youtube.com/embed/7-8T7B2R6fc?si=J5heCtHwNlaybkCV" title="Build Differential Network in PPIComapre from PPIXpress" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
                         <br>
 
@@ -550,7 +550,7 @@
                         customize the PPI network and expand the protein node to see its domains and DDI network. (Domains and DDI network display <span class="highlight">requires <strong>Output DDINs</strong></span>).
 
                         <div style="display: flex; flex-direction: column; align-items: center; padding: 1em">
-                            <iframe width="560" height="315" src="https://www.youtube.com/embed/VumJvP242H0?si=ZCroIjcYJtvlETvU" title="Network Visualization in PPIXpress" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                            <iframe width="800" height="450" src="https://www.youtube.com/embed/VumJvP242H0?si=ZCroIjcYJtvlETvU" title="Network Visualization in PPIXpress" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture;" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
                     </div><br>
                 </div>
@@ -628,6 +628,5 @@
         </div>
     </div>
 </div>
-<jsp:include page="html/footer.html"/>
 </body>
 </html>

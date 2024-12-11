@@ -651,7 +651,7 @@ jQuery(document).ready(function() {
                 downloadData.append("sort_by", $("#sort_by").val())
                 downloadData.append("color_by", $("#color_by").val())
 
-                fetchSignal = AbortSignal.timeout(5000)
+                fetchSignal = AbortSignal.timeout(60000)
                 WarningMessage_ = WarningMessage_GOAAContent
                 showWarningMessage(WarningMessage_, "⏳ Please wait: Retrieving results for GO overrepresentation test from PantherDB...", null)    
             }
